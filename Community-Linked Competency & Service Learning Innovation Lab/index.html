@@ -1,0 +1,2026 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<meta name="theme-color" content="#1a3a6e"/>
+<meta name="description" content="Community-Linked Competency & Service Learning Innovation Lab - NEP 2020 Aligned"/>
+<link rel="manifest" href="manifest.json"/>
+<title>Community-Linked Competency & Service Learning Innovation Lab</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Source+Sans+3:wght@300;400;600;700&display=swap');
+
+:root {
+  --navy: #0a1628;
+  --blue: #1a3a6e;
+  --mid-blue: #2563a8;
+  --light-blue: #3b82c4;
+  --accent-green: #10b981;
+  --light-green: #34d399;
+  --gold: #f59e0b;
+  --white: #f8fafc;
+  --gray: #94a3b8;
+  --light-gray: #e2e8f0;
+  --card-bg: #111e36;
+  --card-border: rgba(59,130,196,0.25);
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: 'Source Sans 3', sans-serif;
+  background: var(--navy);
+  color: var(--white);
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* ============ SCREENS ============ */
+.screen { display: none; min-height: 100vh; }
+.screen.active { display: block; }
+
+/* ============ TITLE SCREEN ============ */
+#screen-home {
+  background: linear-gradient(135deg, #040d1a 0%, #0a1628 40%, #0f2347 70%, #0a1628 100%);
+  position: relative;
+  overflow: hidden;
+}
+
+#screen-home::before {
+  content: '';
+  position: fixed;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(ellipse at 30% 40%, rgba(16,185,129,0.06) 0%, transparent 50%),
+              radial-gradient(ellipse at 70% 60%, rgba(37,99,168,0.12) 0%, transparent 50%);
+  animation: bgPulse 8s ease-in-out infinite alternate;
+  pointer-events: none;
+}
+
+@keyframes bgPulse {
+  0% { transform: scale(1) rotate(0deg); }
+  100% { transform: scale(1.05) rotate(2deg); }
+}
+
+.home-container {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 40px 20px 60px;
+  position: relative;
+  z-index: 1;
+}
+
+.home-badge {
+  display: inline-block;
+  background: linear-gradient(90deg, rgba(16,185,129,0.2), rgba(37,99,168,0.2));
+  border: 1px solid rgba(16,185,129,0.4);
+  color: var(--light-green);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  padding: 6px 18px;
+  border-radius: 20px;
+  margin-bottom: 24px;
+}
+
+.home-title {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(24px, 5vw, 48px);
+  font-weight: 900;
+  line-height: 1.15;
+  color: var(--white);
+  margin-bottom: 8px;
+}
+
+.home-title span { color: var(--accent-green); }
+
+.home-subtitle {
+  font-size: clamp(13px, 2.5vw, 18px);
+  color: var(--gray);
+  font-weight: 300;
+  margin-bottom: 6px;
+}
+
+.home-author {
+  font-size: 14px;
+  color: var(--light-green);
+  font-weight: 600;
+  margin-bottom: 32px;
+}
+
+.author-section {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  background: var(--card-bg);
+  border: 1px solid var(--card-border);
+  border-radius: 16px;
+  padding: 20px;
+  margin-bottom: 36px;
+}
+
+.author-img {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 3px solid var(--accent-green);
+  flex-shrink: 0;
+}
+
+.author-info h3 { font-size: 16px; font-weight: 700; margin-bottom: 4px; }
+.author-info p { font-size: 13px; color: var(--gray); line-height: 1.5; }
+
+.nep-badge {
+  display: inline-block;
+  background: linear-gradient(90deg, var(--accent-green), var(--mid-blue));
+  color: #fff;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  padding: 4px 12px;
+  border-radius: 12px;
+  margin-top: 6px;
+}
+
+.home-nav {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+  margin-bottom: 32px;
+}
+
+.nav-btn {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: var(--card-bg);
+  border: 1px solid var(--card-border);
+  border-radius: 14px;
+  padding: 18px 16px;
+  color: var(--white);
+  cursor: pointer;
+  transition: all 0.3s;
+  text-align: left;
+}
+
+.nav-btn:hover {
+  border-color: var(--accent-green);
+  background: rgba(16,185,129,0.08);
+  transform: translateY(-2px);
+}
+
+.nav-btn .icon { font-size: 28px; flex-shrink: 0; }
+.nav-btn .btn-text { flex: 1; }
+.nav-btn .btn-title { font-size: 13px; font-weight: 700; display: block; margin-bottom: 3px; }
+.nav-btn .btn-desc { font-size: 11px; color: var(--gray); display: block; }
+
+.section-divider {
+  border: none;
+  border-top: 1px solid rgba(255,255,255,0.08);
+  margin: 28px 0;
+}
+
+.home-section-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 18px;
+  color: var(--light-green);
+  margin-bottom: 14px;
+  font-weight: 700;
+}
+
+/* Quick stats */
+.stats-row {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+  margin-bottom: 24px;
+}
+
+.stat-card {
+  background: var(--card-bg);
+  border: 1px solid var(--card-border);
+  border-radius: 12px;
+  padding: 14px 10px;
+  text-align: center;
+}
+
+.stat-num { font-size: 22px; font-weight: 700; color: var(--accent-green); display: block; }
+.stat-label { font-size: 10px; color: var(--gray); text-transform: uppercase; letter-spacing: 1px; }
+
+/* ============ INNER PAGE LAYOUT ============ */
+.page-header {
+  background: linear-gradient(180deg, var(--blue) 0%, var(--navy) 100%);
+  padding: 20px;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  border-bottom: 1px solid var(--card-border);
+}
+
+.page-header-inner {
+  max-width: 900px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.back-btn {
+  background: rgba(255,255,255,0.1);
+  border: 1px solid rgba(255,255,255,0.15);
+  color: var(--white);
+  border-radius: 10px;
+  padding: 8px 14px;
+  font-size: 13px;
+  cursor: pointer;
+  transition: all 0.2s;
+  flex-shrink: 0;
+}
+
+.back-btn:hover { background: rgba(255,255,255,0.18); }
+
+.page-header h1 { font-family: 'Playfair Display', serif; font-size: clamp(14px, 3vw, 20px); font-weight: 700; }
+
+.page-content {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 24px 20px 60px;
+}
+
+/* ============ CARDS ============ */
+.card {
+  background: var(--card-bg);
+  border: 1px solid var(--card-border);
+  border-radius: 16px;
+  padding: 22px;
+  margin-bottom: 16px;
+}
+
+.card-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--accent-green);
+  margin-bottom: 14px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.card p { font-size: 14px; line-height: 1.8; color: #cbd5e1; margin-bottom: 12px; }
+.card p:last-child { margin-bottom: 0; }
+
+/* ============ TABS ============ */
+.tabs {
+  display: flex;
+  gap: 8px;
+  overflow-x: auto;
+  margin-bottom: 20px;
+  padding-bottom: 4px;
+}
+
+.tab {
+  flex-shrink: 0;
+  background: var(--card-bg);
+  border: 1px solid var(--card-border);
+  color: var(--gray);
+  border-radius: 8px;
+  padding: 8px 16px;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.tab.active, .tab:hover {
+  background: var(--mid-blue);
+  border-color: var(--mid-blue);
+  color: var(--white);
+}
+
+.tab-content { display: none; }
+.tab-content.active { display: block; }
+
+/* ============ FORMS ============ */
+.form-group { margin-bottom: 18px; }
+
+label {
+  display: block;
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: var(--gray);
+  margin-bottom: 8px;
+}
+
+select, input, textarea {
+  width: 100%;
+  background: rgba(255,255,255,0.05);
+  border: 1px solid var(--card-border);
+  border-radius: 10px;
+  padding: 12px 14px;
+  color: var(--white);
+  font-size: 14px;
+  font-family: 'Source Sans 3', sans-serif;
+  transition: border-color 0.2s;
+  appearance: none;
+}
+
+select:focus, input:focus, textarea:focus {
+  outline: none;
+  border-color: var(--accent-green);
+}
+
+textarea { resize: vertical; min-height: 80px; }
+
+.btn-primary {
+  display: block;
+  width: 100%;
+  background: linear-gradient(90deg, var(--accent-green), var(--mid-blue));
+  color: #fff;
+  border: none;
+  border-radius: 12px;
+  padding: 14px;
+  font-size: 15px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.3s;
+  letter-spacing: 0.5px;
+}
+
+.btn-primary:hover { opacity: 0.9; transform: translateY(-1px); }
+
+.btn-secondary {
+  display: inline-block;
+  background: transparent;
+  border: 1px solid var(--accent-green);
+  color: var(--accent-green);
+  border-radius: 10px;
+  padding: 10px 18px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.btn-secondary:hover { background: rgba(16,185,129,0.1); }
+
+/* ============ RESULT BOXES ============ */
+.result-box {
+  display: none;
+  background: linear-gradient(135deg, rgba(16,185,129,0.08), rgba(37,99,168,0.08));
+  border: 1px solid rgba(16,185,129,0.3);
+  border-radius: 16px;
+  padding: 22px;
+  margin-top: 20px;
+  animation: fadeUp 0.4s ease;
+}
+
+.result-box.show { display: block; }
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(12px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.result-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--accent-green);
+  margin-bottom: 14px;
+}
+
+.result-section { margin-bottom: 16px; }
+.result-section h4 { font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; color: var(--light-blue); margin-bottom: 8px; }
+.result-section p, .result-section li { font-size: 13px; color: #cbd5e1; line-height: 1.7; }
+.result-section ul { padding-left: 18px; }
+.result-section li { margin-bottom: 4px; }
+
+/* ============ SCORE BARS ============ */
+.score-row { margin-bottom: 14px; }
+.score-label { display: flex; justify-content: space-between; font-size: 13px; margin-bottom: 5px; }
+.score-val { color: var(--accent-green); font-weight: 700; }
+.score-bar-bg { background: rgba(255,255,255,0.08); border-radius: 8px; height: 8px; overflow: hidden; }
+.score-bar { height: 100%; border-radius: 8px; background: linear-gradient(90deg, var(--accent-green), var(--mid-blue)); transition: width 0.8s ease; }
+
+/* ============ FOUNDATION PAGES ============ */
+.foundations-list { display: flex; flex-direction: column; gap: 10px; margin-bottom: 24px; }
+
+.foundation-item {
+  background: var(--card-bg);
+  border: 1px solid var(--card-border);
+  border-radius: 12px;
+  padding: 16px 20px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.foundation-item:hover { border-color: var(--accent-green); background: rgba(16,185,129,0.06); }
+.foundation-num { font-size: 22px; font-weight: 900; color: var(--accent-green); font-family: 'Playfair Display', serif; width: 36px; flex-shrink: 0; }
+.foundation-text h4 { font-size: 14px; font-weight: 700; margin-bottom: 3px; }
+.foundation-text p { font-size: 12px; color: var(--gray); }
+
+.foundation-page {
+  display: none;
+  animation: fadeUp 0.4s ease;
+}
+.foundation-page.show { display: block; }
+
+.foundation-page h2 { font-family: 'Playfair Display', serif; font-size: 24px; font-weight: 900; color: var(--accent-green); margin-bottom: 6px; }
+.foundation-page .page-meta { font-size: 12px; color: var(--gray); margin-bottom: 20px; }
+.foundation-page h3 { font-family: 'Playfair Display', serif; font-size: 17px; font-weight: 700; color: var(--light-blue); margin: 18px 0 8px; }
+.foundation-page p { font-size: 14px; line-height: 1.85; color: #cbd5e1; margin-bottom: 12px; }
+
+.prompt-box {
+  background: linear-gradient(135deg, rgba(16,185,129,0.1), rgba(37,99,168,0.1));
+  border-left: 4px solid var(--accent-green);
+  border-radius: 0 10px 10px 0;
+  padding: 14px 16px;
+  margin: 16px 0;
+}
+.prompt-box strong { display: block; font-size: 11px; text-transform: uppercase; letter-spacing: 1px; color: var(--accent-green); margin-bottom: 6px; }
+.prompt-box p { font-size: 13px; color: #cbd5e1; margin: 0; }
+
+.impl-box {
+  background: rgba(37,99,168,0.12);
+  border: 1px solid rgba(37,99,168,0.3);
+  border-radius: 10px;
+  padding: 14px 16px;
+  margin: 14px 0;
+}
+.impl-box strong { font-size: 11px; text-transform: uppercase; letter-spacing: 1px; color: var(--light-blue); display: block; margin-bottom: 8px; }
+.impl-box ul { padding-left: 16px; }
+.impl-box li { font-size: 13px; color: #cbd5e1; line-height: 1.7; margin-bottom: 4px; }
+
+/* ============ DASHBOARD ============ */
+.dashboard-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+.dash-card {
+  background: var(--card-bg);
+  border: 1px solid var(--card-border);
+  border-radius: 14px;
+  padding: 18px 14px;
+  text-align: center;
+}
+
+.dash-num { font-size: 32px; font-weight: 900; font-family: 'Playfair Display', serif; color: var(--accent-green); }
+.dash-label { font-size: 11px; color: var(--gray); text-transform: uppercase; letter-spacing: 1px; margin-top: 4px; }
+
+/* ============ CHART ============ */
+.chart-container { margin: 20px 0; position: relative; }
+.bar-chart { display: flex; align-items: flex-end; gap: 8px; height: 160px; padding: 0 0 10px; }
+.bar-item { flex: 1; display: flex; flex-direction: column; align-items: center; gap: 6px; height: 100%; }
+.bar { width: 100%; border-radius: 6px 6px 0 0; background: linear-gradient(180deg, var(--accent-green), var(--mid-blue)); transition: height 0.8s ease; min-height: 4px; }
+.bar-label { font-size: 10px; color: var(--gray); text-align: center; }
+.bar-val { font-size: 11px; font-weight: 700; color: var(--accent-green); }
+
+/* ============ REFLECTION FORM ============ */
+.reflection-prompts { display: flex; flex-direction: column; gap: 14px; margin-bottom: 20px; }
+.refl-q { font-size: 13px; font-weight: 600; color: var(--light-blue); margin-bottom: 6px; display: block; }
+
+/* ============ COMPETENCY GRID ============ */
+.competency-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; margin: 14px 0; }
+.comp-item {
+  background: rgba(37,99,168,0.12);
+  border: 1px solid rgba(37,99,168,0.25);
+  border-radius: 10px;
+  padding: 12px 14px;
+}
+.comp-name { font-size: 12px; font-weight: 700; color: var(--white); margin-bottom: 4px; }
+.comp-score { font-size: 20px; font-weight: 900; color: var(--accent-green); }
+.comp-desc { font-size: 11px; color: var(--gray); }
+
+/* ============ TRANSFORMATION TIMELINE ============ */
+.timeline { position: relative; padding-left: 32px; }
+.timeline::before {
+  content: '';
+  position: absolute;
+  left: 12px;
+  top: 0; bottom: 0;
+  width: 2px;
+  background: linear-gradient(180deg, var(--accent-green), var(--mid-blue));
+}
+.tl-item { position: relative; margin-bottom: 22px; }
+.tl-dot {
+  position: absolute;
+  left: -26px;
+  top: 4px;
+  width: 16px; height: 16px;
+  border-radius: 50%;
+  background: var(--accent-green);
+  border: 3px solid var(--navy);
+}
+.tl-year { font-size: 11px; font-weight: 700; color: var(--accent-green); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 4px; }
+.tl-title { font-size: 15px; font-weight: 700; margin-bottom: 6px; }
+.tl-desc { font-size: 13px; color: #94a3b8; line-height: 1.6; }
+
+/* ============ VOCATIONAL ============ */
+.skill-domains { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; margin: 14px 0; }
+.skill-dom {
+  border: 1px solid var(--card-border);
+  border-radius: 10px;
+  padding: 12px 14px;
+  cursor: pointer;
+  transition: all 0.2s;
+  text-align: center;
+}
+.skill-dom:hover, .skill-dom.selected { border-color: var(--accent-green); background: rgba(16,185,129,0.08); }
+.skill-dom .dom-icon { font-size: 24px; display: block; margin-bottom: 6px; }
+.skill-dom .dom-name { font-size: 12px; font-weight: 700; }
+
+/* ============ REPORT ============ */
+.report-output {
+  background: #fff;
+  color: #1a1a2e;
+  border-radius: 12px;
+  padding: 28px;
+  display: none;
+}
+.report-output.show { display: block; }
+.report-output h1 { font-family: 'Playfair Display', serif; font-size: 18px; color: #1a3a6e; margin-bottom: 4px; }
+.report-output h2 { font-size: 14px; font-weight: 700; color: #1a3a6e; border-bottom: 2px solid #10b981; padding-bottom: 4px; margin: 16px 0 8px; }
+.report-output p { font-size: 13px; line-height: 1.7; color: #334155; margin-bottom: 8px; }
+.report-output .report-meta { font-size: 11px; color: #64748b; margin-bottom: 16px; }
+.report-output table { width: 100%; border-collapse: collapse; margin: 10px 0; font-size: 12px; }
+.report-output th { background: #1a3a6e; color: #fff; padding: 8px 10px; text-align: left; }
+.report-output td { padding: 7px 10px; border-bottom: 1px solid #e2e8f0; color: #334155; }
+
+/* ============ BOTTOM NAV ============ */
+.bottom-nav {
+  position: fixed;
+  bottom: 0; left: 0; right: 0;
+  background: rgba(10,22,40,0.97);
+  border-top: 1px solid var(--card-border);
+  display: flex;
+  justify-content: space-around;
+  padding: 8px 0;
+  z-index: 200;
+  backdrop-filter: blur(10px);
+}
+
+.bnav-btn {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3px;
+  padding: 6px 4px;
+  cursor: pointer;
+  background: none;
+  border: none;
+  color: var(--gray);
+  transition: color 0.2s;
+  font-size: 10px;
+}
+
+.bnav-btn:hover, .bnav-btn.active { color: var(--accent-green); }
+.bnav-btn .bicon { font-size: 20px; }
+
+/* ============ PILL TAGS ============ */
+.tag {
+  display: inline-block;
+  background: rgba(16,185,129,0.15);
+  border: 1px solid rgba(16,185,129,0.3);
+  color: var(--light-green);
+  font-size: 11px;
+  font-weight: 600;
+  padding: 3px 10px;
+  border-radius: 20px;
+  margin: 3px 3px 3px 0;
+}
+
+/* ============ PRINT ============ */
+@media print {
+  .bottom-nav, .page-header, .back-btn { display: none !important; }
+  body { background: #fff; color: #000; }
+  .report-output { display: block !important; box-shadow: none; }
+}
+
+/* ============ SCROLLBAR ============ */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: var(--navy); }
+::-webkit-scrollbar-thumb { background: var(--blue); border-radius: 3px; }
+
+/* ============ UTILITY ============ */
+.mt-16 { margin-top: 16px; }
+.mt-24 { margin-top: 24px; }
+.mb-16 { margin-bottom: 16px; }
+.text-center { text-align: center; }
+.text-green { color: var(--accent-green); }
+.text-gray { color: var(--gray); }
+.hidden { display: none; }
+.gap-8 { gap: 8px; }
+.flex { display: flex; }
+.flex-wrap { flex-wrap: wrap; }
+</style>
+</head>
+<body>
+
+<!-- ===================== HOME SCREEN ===================== -->
+<div id="screen-home" class="screen active">
+  <div class="home-container">
+    <div class="home-badge">🌿 NEP 2020 Aligned | Offline PWA</div>
+    <h1 class="home-title">Community-Linked<br><span>Competency & Service</span><br>Learning Innovation Lab</h1>
+    <p class="home-subtitle">Experiential Learning · Civic Growth · Social Impact</p>
+    <p class="home-author">Developed by Mateen Yousuf · School Education Department, Kashmir</p>
+
+    <div class="author-section">
+      <img src="author.jpg" alt="Mateen Yousuf" class="author-img" onerror="this.style.display='none'"/>
+      <div class="author-info">
+        <h3>Mateen Yousuf</h3>
+        <p>Teacher, School Education Department Kashmir<br>NEP 2020 Experiential & Competency-Based Learning Specialist</p>
+        <span class="nep-badge">Aligned with NEP 2020 | Experiential & Competency-Based Learning</span>
+      </div>
+    </div>
+
+    <div id="home-stats" class="stats-row">
+      <div class="stat-card">
+        <span class="stat-num" id="stat-projects">0</span>
+        <span class="stat-label">Projects</span>
+      </div>
+      <div class="stat-card">
+        <span class="stat-num" id="stat-reflections">0</span>
+        <span class="stat-label">Reflections</span>
+      </div>
+      <div class="stat-card">
+        <span class="stat-num" id="stat-impact">0</span>
+        <span class="stat-label">Avg Impact</span>
+      </div>
+    </div>
+
+    <div class="home-nav">
+      <button class="nav-btn" onclick="showScreen('screen-design')">
+        <span class="icon">🏗️</span>
+        <span class="btn-text">
+          <span class="btn-title">Design Community Project</span>
+          <span class="btn-desc">Blueprint & Assessment Rubric</span>
+        </span>
+      </button>
+      <button class="nav-btn" onclick="showScreen('screen-competency')">
+        <span class="icon">🧩</span>
+        <span class="btn-text">
+          <span class="btn-title">Competency Mapping Studio</span>
+          <span class="btn-desc">Skills & Index Generator</span>
+        </span>
+      </button>
+      <button class="nav-btn" onclick="showScreen('screen-impact')">
+        <span class="icon">📊</span>
+        <span class="btn-text">
+          <span class="btn-title">Impact Projection Dashboard</span>
+          <span class="btn-desc">Scores & Analytics</span>
+        </span>
+      </button>
+      <button class="nav-btn" onclick="showScreen('screen-foundations')">
+        <span class="icon">📚</span>
+        <span class="btn-text">
+          <span class="btn-title">Framework & Theory</span>
+          <span class="btn-desc">20 Foundation Pages</span>
+        </span>
+      </button>
+      <button class="nav-btn" onclick="showScreen('screen-reflection')">
+        <span class="icon">🪞</span>
+        <span class="btn-text">
+          <span class="btn-title">Reflection & Portfolio</span>
+          <span class="btn-desc">Learning Journal Builder</span>
+        </span>
+      </button>
+      <button class="nav-btn" onclick="showScreen('screen-vocational')">
+        <span class="icon">🔧</span>
+        <span class="btn-text">
+          <span class="btn-title">Vocational & Skills</span>
+          <span class="btn-desc">Readiness & Employability</span>
+        </span>
+      </button>
+      <button class="nav-btn" onclick="showScreen('screen-transformation')">
+        <span class="icon">🌱</span>
+        <span class="btn-text">
+          <span class="btn-title">Community Transformation</span>
+          <span class="btn-desc">Multi-Year Simulator</span>
+        </span>
+      </button>
+      <button class="nav-btn" onclick="showScreen('screen-report')">
+        <span class="icon">📄</span>
+        <span class="btn-text">
+          <span class="btn-title">Report Generator</span>
+          <span class="btn-desc">Export PDF Summary</span>
+        </span>
+      </button>
+    </div>
+
+    <hr class="section-divider"/>
+    <div class="text-center" style="color:var(--gray);font-size:12px;padding-bottom:80px;">
+      🔒 Fully Offline · No Login · Data Saved Locally · PWA Installable
+    </div>
+  </div>
+</div>
+
+<!-- ===================== FOUNDATIONS SCREEN ===================== -->
+<div id="screen-foundations" class="screen">
+  <div class="page-header">
+    <div class="page-header-inner">
+      <button class="back-btn" onclick="showScreen('screen-home')">← Home</button>
+      <h1>📚 Foundations of Service Learning</h1>
+    </div>
+  </div>
+  <div class="page-content" style="padding-bottom:80px;">
+    <div id="foundations-list-view">
+      <div class="card" style="margin-bottom:20px;">
+        <p>Explore 20 comprehensive pages covering the theory and practice of service learning, experiential education, and community-linked competency development aligned with NEP 2020.</p>
+      </div>
+      <div class="foundations-list" id="foundations-list"></div>
+    </div>
+    <div id="foundation-detail"></div>
+  </div>
+</div>
+
+<!-- ===================== PROJECT DESIGN SCREEN ===================== -->
+<div id="screen-design" class="screen">
+  <div class="page-header">
+    <div class="page-header-inner">
+      <button class="back-btn" onclick="showScreen('screen-home')">← Home</button>
+      <h1>🏗️ Community Project Design Studio</h1>
+    </div>
+  </div>
+  <div class="page-content" style="padding-bottom:80px;">
+    <div class="card">
+      <div class="card-title">🎯 Define Your Project</div>
+      <div class="form-group">
+        <label>Project Type</label>
+        <select id="proj-type">
+          <option value="">— Select Type —</option>
+          <option value="Environmental">🌿 Environmental</option>
+          <option value="Health Awareness">🏥 Health Awareness</option>
+          <option value="Literacy Support">📖 Literacy Support</option>
+          <option value="Digital Awareness">💻 Digital Awareness</option>
+          <option value="Local Heritage Documentation">🏛️ Local Heritage Documentation</option>
+          <option value="Entrepreneurship">💡 Entrepreneurship</option>
+          <option value="Skill Training">🔧 Skill Training</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Target Community</label>
+        <input type="text" id="proj-community" placeholder="e.g., Rural village, Urban slum, School neighbourhood"/>
+      </div>
+      <div class="form-group">
+        <label>Project Duration (weeks)</label>
+        <input type="number" id="proj-duration" min="1" max="52" value="8"/>
+      </div>
+      <div class="form-group">
+        <label>Student Group Size</label>
+        <input type="number" id="proj-size" min="1" max="200" value="25"/>
+      </div>
+      <div class="form-group">
+        <label>Expected Outcome</label>
+        <textarea id="proj-outcome" placeholder="Describe what change or impact you expect this project to create in the community..."></textarea>
+      </div>
+      <button class="btn-primary" onclick="generateProjectBlueprint()">🚀 Generate Project Blueprint</button>
+    </div>
+
+    <div class="result-box" id="blueprint-result">
+      <div class="result-title" id="blueprint-title"></div>
+      <div id="blueprint-content"></div>
+      <div style="margin-top:16px;display:flex;gap:10px;flex-wrap:wrap;">
+        <button class="btn-secondary" onclick="saveProject()">💾 Save Project</button>
+        <button class="btn-secondary" onclick="showScreen('screen-competency')">→ Map Competencies</button>
+      </div>
+    </div>
+
+    <div class="card mt-24">
+      <div class="card-title">📁 Saved Projects</div>
+      <div id="saved-projects-list"><p style="color:var(--gray);font-size:13px;">No projects saved yet.</p></div>
+    </div>
+  </div>
+</div>
+
+<!-- ===================== COMPETENCY SCREEN ===================== -->
+<div id="screen-competency" class="screen">
+  <div class="page-header">
+    <div class="page-header-inner">
+      <button class="back-btn" onclick="showScreen('screen-home')">← Home</button>
+      <h1>🧩 Competency Mapping Studio</h1>
+    </div>
+  </div>
+  <div class="page-content" style="padding-bottom:80px;">
+    <div class="card">
+      <div class="card-title">📐 Competency Mapping Engine</div>
+      <div class="form-group">
+        <label>Select Project Domain</label>
+        <select id="comp-domain">
+          <option value="">— Select Domain —</option>
+          <option value="Environmental">Environmental</option>
+          <option value="Health Awareness">Health Awareness</option>
+          <option value="Literacy Support">Literacy Support</option>
+          <option value="Digital Awareness">Digital Awareness</option>
+          <option value="Local Heritage Documentation">Local Heritage Documentation</option>
+          <option value="Entrepreneurship">Entrepreneurship</option>
+          <option value="Skill Training">Skill Training</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Activity Complexity (1–10)</label>
+        <input type="range" id="comp-complexity" min="1" max="10" value="6" oninput="document.getElementById('comp-complexity-val').textContent=this.value" style="padding:0;height:auto;background:transparent;border:none;cursor:pointer;"/>
+        <span id="comp-complexity-val" style="color:var(--accent-green);font-weight:700;">6</span>
+      </div>
+      <div class="form-group">
+        <label>Team Collaboration Level</label>
+        <select id="comp-collab">
+          <option value="1">Individual Tasks</option>
+          <option value="2" selected>Small Groups (2–5)</option>
+          <option value="3">Large Teams (6+)</option>
+          <option value="4">Cross-School Collaboration</option>
+        </select>
+      </div>
+      <button class="btn-primary" onclick="generateCompetencyMap()">🧩 Generate Competency Map</button>
+    </div>
+
+    <div class="result-box" id="competency-result">
+      <div class="result-title">Competency Application Matrix</div>
+      <div class="competency-grid" id="competency-grid"></div>
+      <div id="competency-index" style="margin-top:14px;"></div>
+      <div style="margin-top:14px;font-size:12px;color:var(--gray);">
+        📌 Scores are deterministically calculated based on project domain, complexity, and collaboration level.
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===================== IMPACT SCREEN ===================== -->
+<div id="screen-impact" class="screen">
+  <div class="page-header">
+    <div class="page-header-inner">
+      <button class="back-btn" onclick="showScreen('screen-home')">← Home</button>
+      <h1>📊 Impact Projection Dashboard</h1>
+    </div>
+  </div>
+  <div class="page-content" style="padding-bottom:80px;">
+
+    <div class="card">
+      <div class="card-title">🔢 Input Parameters</div>
+      <div class="form-group">
+        <label>Community Size (people)</label>
+        <input type="number" id="imp-community" value="500" min="10" max="100000"/>
+      </div>
+      <div class="form-group">
+        <label>Participation Rate (%)</label>
+        <input type="range" id="imp-participation" min="5" max="100" value="35" oninput="document.getElementById('imp-participation-val').textContent=this.value+'%'"/>
+        <span id="imp-participation-val" style="color:var(--accent-green);font-weight:700;">35%</span>
+      </div>
+      <div class="form-group">
+        <label>Project Intensity (1–10)</label>
+        <input type="range" id="imp-intensity" min="1" max="10" value="7" oninput="document.getElementById('imp-intensity-val').textContent=this.value"/>
+        <span id="imp-intensity-val" style="color:var(--accent-green);font-weight:700;">7</span>
+      </div>
+      <div class="form-group">
+        <label>Resource Allocation (%)</label>
+        <input type="range" id="imp-resources" min="10" max="100" value="60" oninput="document.getElementById('imp-resources-val').textContent=this.value+'%'"/>
+        <span id="imp-resources-val" style="color:var(--accent-green);font-weight:700;">60%</span>
+      </div>
+      <button class="btn-primary" onclick="calculateImpact()">📊 Calculate Impact Scores</button>
+    </div>
+
+    <div class="result-box" id="impact-result">
+      <div class="result-title">Impact Projection Results</div>
+      <div id="impact-scores"></div>
+      <div class="chart-container mt-16">
+        <div class="bar-chart" id="impact-chart"></div>
+      </div>
+      <div style="margin-top:14px;font-size:12px;color:var(--gray);">
+        🔬 Formulas: CIS = (P×I×R)/10 | SGP = (I×C×0.8) | SEI = (P×R/100×I) | SP = (R×I×0.7)/10
+      </div>
+    </div>
+
+    <div class="card mt-24">
+      <div class="card-title">📈 School–Community Linkage Summary</div>
+      <div id="dashboard-summary">
+        <div class="dashboard-grid">
+          <div class="dash-card"><div class="dash-num" id="ds-projects">—</div><div class="dash-label">Total Projects</div></div>
+          <div class="dash-card"><div class="dash-num" id="ds-reflections">—</div><div class="dash-label">Reflections</div></div>
+          <div class="dash-card"><div class="dash-num" id="ds-impact">—</div><div class="dash-label">Avg Impact Score</div></div>
+          <div class="dash-card"><div class="dash-num" id="ds-civic">—</div><div class="dash-label">Civic Index</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===================== REFLECTION SCREEN ===================== -->
+<div id="screen-reflection" class="screen">
+  <div class="page-header">
+    <div class="page-header-inner">
+      <button class="back-btn" onclick="showScreen('screen-home')">← Home</button>
+      <h1>🪞 Reflection & Portfolio Builder</h1>
+    </div>
+  </div>
+  <div class="page-content" style="padding-bottom:80px;">
+    <div class="card">
+      <div class="card-title">✍️ Student Reflection Journal</div>
+      <div class="form-group">
+        <label>Student Name</label>
+        <input type="text" id="refl-name" placeholder="Enter student name or ID"/>
+      </div>
+      <div class="form-group">
+        <label>Project / Activity</label>
+        <input type="text" id="refl-project" placeholder="Which project are you reflecting on?"/>
+      </div>
+      <div class="reflection-prompts">
+        <div class="form-group">
+          <span class="refl-q">1. What community problem did we address?</span>
+          <textarea id="refl-q1" placeholder="Describe the problem and its context..."></textarea>
+        </div>
+        <div class="form-group">
+          <span class="refl-q">2. What did I learn from this experience?</span>
+          <textarea id="refl-q2" placeholder="Academic, social, and personal learnings..."></textarea>
+        </div>
+        <div class="form-group">
+          <span class="refl-q">3. What challenges arose and how did we overcome them?</span>
+          <textarea id="refl-q3" placeholder="Describe obstacles and your problem-solving approach..."></textarea>
+        </div>
+        <div class="form-group">
+          <span class="refl-q">4. What ethical dilemmas appeared during this project?</span>
+          <textarea id="refl-q4" placeholder="Discuss moral questions, tensions, and decisions made..."></textarea>
+        </div>
+        <div class="form-group">
+          <span class="refl-q">5. How did this project change my understanding of civic responsibility?</span>
+          <textarea id="refl-q5" placeholder="Reflect on your growth as an active citizen..."></textarea>
+        </div>
+      </div>
+      <button class="btn-primary" onclick="generateReflection()">🪞 Generate Reflection Report</button>
+    </div>
+
+    <div class="result-box" id="reflection-result">
+      <div class="result-title">Reflection Analysis</div>
+      <div id="reflection-scores"></div>
+      <div id="portfolio-entry" style="margin-top:16px;"></div>
+      <div style="margin-top:14px;display:flex;gap:10px;flex-wrap:wrap;">
+        <button class="btn-secondary" onclick="saveReflection()">💾 Add to Portfolio</button>
+      </div>
+    </div>
+
+    <div class="card mt-24">
+      <div class="card-title">📂 Portfolio Entries</div>
+      <div id="portfolio-list"><p style="color:var(--gray);font-size:13px;">No portfolio entries yet.</p></div>
+    </div>
+  </div>
+</div>
+
+<!-- ===================== VOCATIONAL SCREEN ===================== -->
+<div id="screen-vocational" class="screen">
+  <div class="page-header">
+    <div class="page-header-inner">
+      <button class="back-btn" onclick="showScreen('screen-home')">← Home</button>
+      <h1>🔧 Vocational & Skill Integration</h1>
+    </div>
+  </div>
+  <div class="page-content" style="padding-bottom:80px;">
+    <div class="card">
+      <div class="card-title">🎓 Skill Domain Assessment</div>
+      <div class="form-group">
+        <label>Select Skill Domain</label>
+        <div class="skill-domains" id="skill-domains-grid">
+          <div class="skill-dom" onclick="selectDomain(this,'Agriculture & Food')" data-domain="Agriculture & Food"><span class="dom-icon">🌾</span><span class="dom-name">Agriculture & Food</span></div>
+          <div class="skill-dom" onclick="selectDomain(this,'Healthcare & Hygiene')" data-domain="Healthcare & Hygiene"><span class="dom-icon">🏥</span><span class="dom-name">Healthcare & Hygiene</span></div>
+          <div class="skill-dom" onclick="selectDomain(this,'Digital Literacy')" data-domain="Digital Literacy"><span class="dom-icon">💻</span><span class="dom-name">Digital Literacy</span></div>
+          <div class="skill-dom" onclick="selectDomain(this,'Handicrafts & Art')" data-domain="Handicrafts & Art"><span class="dom-icon">🎨</span><span class="dom-name">Handicrafts & Art</span></div>
+          <div class="skill-dom" onclick="selectDomain(this,'Construction & Repair')" data-domain="Construction & Repair"><span class="dom-icon">🔨</span><span class="dom-name">Construction & Repair</span></div>
+          <div class="skill-dom" onclick="selectDomain(this,'Business & Commerce')" data-domain="Business & Commerce"><span class="dom-icon">💼</span><span class="dom-name">Business & Commerce</span></div>
+        </div>
+      </div>
+      <div class="form-group">
+        <label>Industry Exposure Type</label>
+        <select id="voc-exposure">
+          <option value="1">Classroom simulation</option>
+          <option value="2" selected>Field visit / industry tour</option>
+          <option value="3">Mentorship / apprenticeship</option>
+          <option value="4">Live project / internship</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Practical Hours Completed</label>
+        <input type="number" id="voc-hours" value="20" min="1" max="500"/>
+      </div>
+      <button class="btn-primary" onclick="calculateVocational()">🔧 Calculate Skill Scores</button>
+    </div>
+
+    <div class="result-box" id="vocational-result">
+      <div class="result-title">Vocational Readiness Profile</div>
+      <div id="vocational-scores"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ===================== TRANSFORMATION SCREEN ===================== -->
+<div id="screen-transformation" class="screen">
+  <div class="page-header">
+    <div class="page-header-inner">
+      <button class="back-btn" onclick="showScreen('screen-home')">← Home</button>
+      <h1>🌱 Community Transformation Simulator</h1>
+    </div>
+  </div>
+  <div class="page-content" style="padding-bottom:80px;">
+    <div class="card">
+      <div class="card-title">⏳ Multi-Year Simulation Setup</div>
+      <div class="form-group">
+        <label>Initial Community Readiness (1–10)</label>
+        <input type="range" id="trans-readiness" min="1" max="10" value="4" oninput="document.getElementById('trans-readiness-val').textContent=this.value"/>
+        <span id="trans-readiness-val" style="color:var(--accent-green);font-weight:700;">4</span>
+      </div>
+      <div class="form-group">
+        <label>School Leadership Strength (1–10)</label>
+        <input type="range" id="trans-leadership" min="1" max="10" value="6" oninput="document.getElementById('trans-leadership-val').textContent=this.value"/>
+        <span id="trans-leadership-val" style="color:var(--accent-green);font-weight:700;">6</span>
+      </div>
+      <div class="form-group">
+        <label>Number of Annual Projects</label>
+        <input type="number" id="trans-projects-per-year" value="3" min="1" max="20"/>
+      </div>
+      <button class="btn-primary" onclick="runTransformationSimulation()">🌱 Run 5-Year Simulation</button>
+    </div>
+
+    <div class="result-box" id="transformation-result">
+      <div class="result-title">Community Transformation Projection</div>
+      <div class="timeline" id="transformation-timeline"></div>
+      <div id="transformation-indicators" style="margin-top:20px;"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ===================== REPORT SCREEN ===================== -->
+<div id="screen-report" class="screen">
+  <div class="page-header">
+    <div class="page-header-inner">
+      <button class="back-btn" onclick="showScreen('screen-home')">← Home</button>
+      <h1>📄 Service Learning Report Generator</h1>
+    </div>
+  </div>
+  <div class="page-content" style="padding-bottom:80px;">
+    <div class="card">
+      <div class="card-title">📋 Report Configuration</div>
+      <div class="form-group">
+        <label>School Name</label>
+        <input type="text" id="rep-school" placeholder="Enter school name"/>
+      </div>
+      <div class="form-group">
+        <label>Academic Year</label>
+        <input type="text" id="rep-year" placeholder="e.g., 2025–26" value="2025–26"/>
+      </div>
+      <div class="form-group">
+        <label>Report Prepared By</label>
+        <input type="text" id="rep-teacher" placeholder="Teacher / coordinator name"/>
+      </div>
+      <div class="form-group">
+        <label>Include Sections</label>
+        <div style="display:flex;flex-direction:column;gap:8px;margin-top:8px;">
+          <label style="text-transform:none;font-size:13px;font-weight:400;display:flex;align-items:center;gap:8px;"><input type="checkbox" id="rep-include-projects" checked style="width:auto;border-radius:4px;"/> Project Summary</label>
+          <label style="text-transform:none;font-size:13px;font-weight:400;display:flex;align-items:center;gap:8px;"><input type="checkbox" id="rep-include-competency" checked style="width:auto;border-radius:4px;"/> Competency Mapping</label>
+          <label style="text-transform:none;font-size:13px;font-weight:400;display:flex;align-items:center;gap:8px;"><input type="checkbox" id="rep-include-impact" checked style="width:auto;border-radius:4px;"/> Impact Analysis</label>
+          <label style="text-transform:none;font-size:13px;font-weight:400;display:flex;align-items:center;gap:8px;"><input type="checkbox" id="rep-include-reflection" checked style="width:auto;border-radius:4px;"/> Reflection Synthesis</label>
+          <label style="text-transform:none;font-size:13px;font-weight:400;display:flex;align-items:center;gap:8px;"><input type="checkbox" id="rep-include-roadmap" checked style="width:auto;border-radius:4px;"/> Sustainability Roadmap</label>
+        </div>
+      </div>
+      <button class="btn-primary" onclick="generateReport()">📄 Generate Report</button>
+    </div>
+
+    <div class="report-output" id="report-output"></div>
+
+    <div id="report-actions" class="hidden" style="margin-top:14px;display:flex;gap:10px;flex-wrap:wrap;">
+      <button class="btn-secondary" onclick="window.print()">🖨️ Print Report</button>
+      <button class="btn-secondary" onclick="saveReportData()">💾 Save Report Data</button>
+    </div>
+  </div>
+</div>
+
+<!-- ===================== BOTTOM NAV ===================== -->
+<div class="bottom-nav">
+  <button class="bnav-btn active" id="bn-home" onclick="showScreen('screen-home');setActive('bn-home')">
+    <span class="bicon">🏠</span>Home
+  </button>
+  <button class="bnav-btn" id="bn-design" onclick="showScreen('screen-design');setActive('bn-design')">
+    <span class="bicon">🏗️</span>Design
+  </button>
+  <button class="bnav-btn" id="bn-impact" onclick="showScreen('screen-impact');setActive('bn-impact')">
+    <span class="bicon">📊</span>Impact
+  </button>
+  <button class="bnav-btn" id="bn-reflect" onclick="showScreen('screen-reflection');setActive('bn-reflect')">
+    <span class="bicon">🪞</span>Reflect
+  </button>
+  <button class="bnav-btn" id="bn-report" onclick="showScreen('screen-report');setActive('bn-report')">
+    <span class="bicon">📄</span>Report
+  </button>
+</div>
+
+<script>
+// ============================================================
+// DATA: Foundation Pages (20 pages, each with rich content)
+// ============================================================
+const FOUNDATIONS = [
+  {
+    num: 1, title: "What is Service Learning?",
+    tagline: "Linking classroom knowledge to community action",
+    content: `<h3>Defining Service Learning</h3>
+<p>Service learning is a pedagogical approach that integrates meaningful community service with academic instruction and critical reflection. Unlike voluntary community service or traditional classroom learning, service learning creates a purposeful partnership between students' academic goals and real community needs. It is a structured experience where students engage in organized service activities that directly address community issues while simultaneously developing academically and personally.</p>
+<p>The National Youth Leadership Council defines service learning as "a philosophy, pedagogy, and model for community development that is used as an instructional strategy to meet learning goals and/or content standards." This definition highlights three essential dimensions: it is a philosophy of education grounded in respect for others; a teaching and learning methodology; and a means of community development that creates mutually beneficial relationships between schools and communities.</p>
+<h3>Historical Roots</h3>
+<p>Service learning as a formal educational concept emerged in the United States during the 1960s under the influence of John Dewey's experiential learning philosophy. Dewey argued that education is fundamentally a social process and that schools must connect students to real-world experiences to be meaningful. The term "service learning" itself was first used in 1967 by Robert Sigmon and William Ramsey to describe a project in which Tennessee Valley Authority employees combined work in local schools with experiential learning. Over the following decades, institutions and governments worldwide began formalizing service learning as a distinct approach, leading to its inclusion in national education frameworks including India's NEP 2020.</p>
+<h3>Core Principles</h3>
+<p>Effective service learning rests on several non-negotiable principles. First, it must meet a genuine community need—not one perceived by outsiders but one identified collaboratively with community members. Second, it must be integrated with academic learning objectives, so service activities reinforce and deepen subject knowledge. Third, it must include structured reflection, allowing students to process their experiences and draw meaningful connections. Fourth, it must be reciprocal, creating value for both students and the community rather than positioning students as helpers and community members as passive recipients.</p>
+<h3>Service Learning vs. Volunteerism</h3>
+<p>Many confuse service learning with volunteerism or community service. While all three involve helping communities, they differ fundamentally in purpose and structure. Volunteerism is primarily community-focused, with student learning as a secondary benefit. Community service involves service without structured reflection or academic connection. Service learning uniquely places equal weight on both learning and service, requires reflection and integration with curriculum, and demands that community voice drives the design of activities. This distinction is critical for school administrators and teachers when designing programs.</p>
+<div class="prompt-box"><strong>Reflection Prompt</strong><p>Think of a community problem you observe near your school. How might students meaningfully address this problem while simultaneously learning academic content? What would make this genuine service learning rather than just volunteerism?</p></div>
+<div class="impl-box"><strong>Implementation Guidelines for Schools</strong><ul><li>Begin with a needs assessment conducted with community stakeholders, not just school staff</li><li>Align every service activity with at least two curriculum learning outcomes</li><li>Schedule regular reflection sessions—at least one per two weeks of project work</li><li>Establish a formal partnership agreement with at least one community organization before starting</li><li>Document all activities and reflections for assessment and institutional memory</li></ul></div>
+<h3>NEP 2020 Alignment</h3>
+<p>India's National Education Policy 2020 places service learning at the heart of its vision for holistic education. NEP 2020 specifically calls for "integration of vocational education with mainstream education from Grade 6 onwards," "community engagement and social responsibility," and the cultivation of "civic responsibility, democratic participation, and service values." Service learning is the most effective pedagogical approach to realize these aspirations because it provides structured, academically linked, community-embedded experiences that develop the whole child—intellectually, emotionally, socially, and civically.</p>
+<div class="prompt-box"><strong>School Leadership Note</strong><p>Service learning requires institutional commitment. It cannot be successfully implemented by individual enthusiastic teachers alone. School leadership must allocate time in the timetable, provide resources for community visits, train teachers in reflective facilitation, and build relationships with community organizations. The returns—in student engagement, community goodwill, and holistic development—far exceed the investment.</p></div>`
+  },
+  {
+    num: 2, title: "Experiential Learning Theory",
+    tagline: "Kolb's cycle and learning by doing",
+    content: `<h3>The Foundations of Experiential Learning</h3>
+<p>Experiential learning theory, most comprehensively articulated by David Kolb in 1984, proposes that knowledge is created through the transformation of experience. Unlike traditional educational theories that treat knowledge as fixed content to be transmitted, experiential learning theory views knowledge as continuously constructed through active engagement with the world. Kolb drew on the earlier work of John Dewey, Kurt Lewin, and Jean Piaget to develop a holistic model of learning that integrates experience, reflection, abstraction, and action.</p>
+<p>For Kolb, learning is not the acquisition of information but a process of creating knowledge. This process requires four adaptive learning modes: concrete experience, reflective observation, abstract conceptualization, and active experimentation. These four modes form the famous Experiential Learning Cycle, which remains the most widely used framework for designing experiential education programs worldwide.</p>
+<h3>The Kolb Learning Cycle</h3>
+<p>The four stages of Kolb's cycle work as follows. In <strong>Concrete Experience</strong>, the learner engages in a specific, real-world activity—planting trees in a deforested area, teaching younger children, or conducting a health survey. This stage prioritizes feeling and sensing over thinking. In <strong>Reflective Observation</strong>, learners step back and observe what happened—they journal, discuss, and question. In <strong>Abstract Conceptualization</strong>, learners develop theories to explain their observations, connecting experience to academic concepts. Finally, in <strong>Active Experimentation</strong>, learners test their theories by planning and executing new actions, completing the cycle and beginning a new one.</p>
+<h3>Learning Styles and the Cycle</h3>
+<p>Kolb identified four learning styles based on where learners prefer to enter and remain in the cycle: Divergers (prefer concrete experience and reflection), Assimilators (prefer abstract conceptualization and reflection), Convergers (prefer abstract conceptualization and experimentation), and Accommodators (prefer concrete experience and experimentation). Effective service learning programs create opportunities for all four learning styles by ensuring the program moves through all stages of the cycle rather than dwelling in any single stage.</p>
+<h3>Piaget and Constructivism</h3>
+<p>Jean Piaget's constructivist theory supports experiential learning by demonstrating that children build mental schemas through interaction with the environment. New experiences are either assimilated into existing schemas or cause accommodation—the restructuring of schemas to incorporate new information. This process of cognitive construction is deeply experiential and cannot be replicated through passive instruction. Service learning activities naturally trigger both assimilation and accommodation, creating rich cognitive development opportunities that traditional classroom teaching rarely achieves.</p>
+<div class="prompt-box"><strong>Reflection Prompt</strong><p>Recall a time you learned something deeply through experience rather than instruction. Which stage of Kolb's cycle was most powerful for you—the experience itself, the reflection, the abstraction, or the new action? What does this tell you about how to design service learning activities?</p></div>
+<div class="impl-box"><strong>Implementation Guidelines</strong><ul><li>Design each service learning project to deliberately pass through all four stages of Kolb's cycle</li><li>Allow at least 20% of total project time for reflective observation activities</li><li>Connect the Abstract Conceptualization stage explicitly to textbook concepts</li><li>Use diverse reflection formats: journals, group discussions, drawings, presentations</li><li>Plan the Active Experimentation stage before the project begins, not after</li></ul></div>
+<h3>Vygotsky and Social Learning</h3>
+<p>Lev Vygotsky's sociocultural theory adds a critical dimension to experiential learning: the role of social interaction and cultural context. Vygotsky argued that learning occurs first through social interaction and then becomes internalized. His concept of the Zone of Proximal Development (ZPD) describes the space between what a learner can do independently and what they can achieve with guidance. Service learning is ideally positioned to operate within students' ZPDs, with community members, teachers, and peers all serving as more knowledgeable others who scaffold student learning.</p>
+<div class="prompt-box"><strong>School Leadership Note</strong><p>When teachers understand experiential learning theory, they design better service projects. Professional development sessions on Kolb's cycle pay dividends immediately. Teachers who grasp the importance of the reflection stage stop skipping it under time pressure, and students' learning deepens significantly as a result.</p></div>`
+  },
+  {
+    num: 3, title: "Competency-Based Real-World Application",
+    tagline: "From abstract skills to demonstrated performance",
+    content: `<h3>What is Competency-Based Education?</h3>
+<p>Competency-based education (CBE) is an approach to teaching and learning that focuses on demonstrating mastery of specific, measurable skills and knowledge rather than on completing courses or accumulating time in class. In CBE, students advance by showing what they can do—not by how long they have sat in a classroom. This fundamental shift from time-based to mastery-based learning has profound implications for how schools assess students and how teachers design instruction.</p>
+<p>A competency is more than a skill or a piece of knowledge. It integrates knowledge, skills, attitudes, and values in the performance of a meaningful task. A student who can explain photosynthesis knows a fact; a student who can design a school garden that optimizes sunlight for plant growth has demonstrated a competency. This distinction drives the design of service learning activities, which are uniquely suited to developing and assessing competencies because they require students to apply knowledge in authentic, complex, real-world contexts.</p>
+<h3>The Competency Framework for Service Learning</h3>
+<p>NEP 2020 identifies several core competencies that schools must develop: critical and creative thinking, communication and collaboration, problem-solving, digital literacy, emotional intelligence, and civic and cultural engagement. Service learning is particularly powerful for developing these competencies because it places students in situations where they must apply all of them simultaneously. A student running a health awareness campaign must research health information (critical thinking), design materials (creativity), present to community members (communication), work with team members (collaboration), and navigate community sensitivities (emotional intelligence and civic awareness).</p>
+<h3>Assessing Competencies in Service Learning</h3>
+<p>Traditional tests and examinations are poorly suited to assessing competencies developed through service learning. Performance-based assessments are essential: rubrics that evaluate the quality of project planning, execution, and reflection; portfolios that document the development of competencies over time; presentations to authentic audiences; and peer and community evaluations. These assessment methods require more teacher time and judgment than traditional tests, but they capture dimensions of learning that examinations simply cannot.</p>
+<div class="prompt-box"><strong>Reflection Prompt</strong><p>Identify five competencies you believe every student should possess by the time they finish school. For each competency, describe one service learning activity that would both develop and provide evidence of that competency. How would you assess whether the student has genuinely mastered it?</p></div>
+<div class="impl-box"><strong>Implementation Guidelines</strong><ul><li>Identify 3–5 key competencies for each service learning project before it begins</li><li>Create a competency rubric with four levels of performance for each competency</li><li>Share the rubric with students at the start of the project so they know what mastery looks like</li><li>Include self-assessment and peer assessment alongside teacher assessment</li><li>Invite community partners to contribute to competency assessment where appropriate</li></ul></div>
+<h3>Transferability of Competencies</h3>
+<p>A critical advantage of competencies developed through service learning is their transferability. Skills learned in decontextualized classroom exercises often remain anchored to their original context and fail to transfer to new situations. Competencies developed through authentic, complex service experiences are inherently more transferable because they were learned in complex, real-world conditions. Research consistently shows that students who participate in quality service learning programs demonstrate significantly higher transfer of learning—applying school-acquired knowledge and skills in community, family, and eventual workplace contexts.</p>`
+  },
+  {
+    num: 4, title: "School as Community Hub",
+    tagline: "Transforming institutions into centres of civic life",
+    content: `<h3>Rethinking the School's Role</h3>
+<p>The traditional conception of the school as a building where children go to receive instruction is increasingly inadequate in a world that demands active, engaged, socially responsible citizens. A growing body of educational research and policy, including NEP 2020, advocates for reconceiving the school as a community hub—an institution that not only serves the children within its walls but actively contributes to the life, development, and wellbeing of the surrounding community.</p>
+<p>When a school becomes a community hub, several transformations occur simultaneously. The school's physical space is used for community meetings, skill development workshops, health camps, and cultural events beyond school hours. Teachers become community resources, sharing their expertise with parents and community members. Students engage in projects that address real community needs. Community members become partners in education, bringing their knowledge, experience, and perspectives into classrooms. The boundary between "school" and "community" becomes permeable and productive.</p>
+<h3>The Community Hub Model in Practice</h3>
+<p>Schools functioning as community hubs around the world have demonstrated remarkable outcomes for both students and communities. In Kerala, India, the Kudumbashree programme has demonstrated how school-community linkages can accelerate both educational outcomes and community development. Schools that host community libraries, health screening camps, adult literacy classes, and farmer knowledge-sharing sessions report higher student engagement, better attendance, stronger community support for education, and measurable improvements in community wellbeing indicators.</p>
+<div class="prompt-box"><strong>Reflection Prompt</strong><p>Walk around your school and identify three spaces that could serve community purposes outside school hours without disrupting educational activities. What activities could happen in each space? Who would need to be involved to make this happen?</p></div>
+<div class="impl-box"><strong>Implementation Guidelines</strong><ul><li>Begin with a community asset mapping exercise to identify what the community can offer the school and what the school can offer the community</li><li>Establish a School-Community Advisory Committee with genuine community representation</li><li>Open school facilities for at least one community use per month to begin with</li><li>Invite community experts—farmers, artisans, healthcare workers, entrepreneurs—to share knowledge with students regularly</li><li>Create a visible school newsletter or notice board that serves both school and community information needs</li></ul></div>
+<h3>Benefits for Student Learning</h3>
+<p>When schools function as community hubs, students benefit enormously. They see their teachers as respected community figures, not just classroom instructors. They encounter a wider range of adult role models from diverse backgrounds. They have opportunities to observe and participate in community decision-making processes. They develop a sense of pride and ownership in their school as a valued community institution. And they develop social capital—relationships and networks that research shows are strongly associated with future educational and economic success.</p>`
+  },
+  {
+    num: 5, title: "Civic Responsibility in Education",
+    tagline: "Developing active, informed democratic citizens",
+    content: `<h3>The Civic Purpose of Education</h3>
+<p>Education has always served multiple purposes: developing individuals' cognitive capabilities, transmitting cultural knowledge and values, preparing people for economic participation, and—perhaps most fundamentally—developing citizens capable of democratic participation. The civic purpose of education is not an add-on or extracurricular concern; it is central to the very justification for public education systems. Democratic societies depend on citizens who are informed, engaged, and capable of collective self-governance. Schools are the primary institution through which societies develop these civic capacities.</p>
+<p>Civic responsibility encompasses a broad range of attitudes, knowledge, and skills: understanding democratic institutions and processes; recognizing and exercising rights and responsibilities; engaging in civil discourse and productive disagreement; contributing to community wellbeing; and taking informed action on issues of public concern. These capacities are not innate—they must be deliberately cultivated through education. Service learning is among the most effective approaches to civic education because it provides authentic civic experience rather than merely teaching civic content.</p>
+<h3>Active Citizenship vs. Passive Civics</h3>
+<p>Traditional civics education often focuses on knowledge about democratic systems—how governments work, what rights citizens have, how laws are made—without developing students' capacity or disposition to act civically. This produces passive civic knowledge rather than active citizenship. Service learning shifts from the passive to the active mode by engaging students as genuine civic actors: identifying community needs, collaborating with stakeholders, advocating for change, and evaluating the impact of their actions. Students who engage in service learning consistently score higher on measures of civic efficacy—the belief that one can make a difference in the community.</p>
+<div class="prompt-box"><strong>Reflection Prompt</strong><p>Reflect on your own civic development. When did you first feel like an active citizen rather than a passive observer of civic life? What experience triggered this shift? How can service learning create similar experiences for students earlier in their development?</p></div>
+<div class="impl-box"><strong>Implementation Guidelines</strong><ul><li>Explicitly discuss civic concepts—rights, responsibilities, justice, equity—during service learning reflection sessions</li><li>Connect service activities to relevant government policies, laws, and programs</li><li>Invite local government officials, NGO workers, and community leaders as guest speakers</li><li>Help students understand the systemic causes of the community needs they are addressing</li><li>Celebrate civic action—when students advocate successfully for a community improvement, acknowledge it publicly</li></ul></div>`
+  },
+  {
+    num: 6, title: "Project-Based Learning Framework",
+    tagline: "Driving learning through complex, real-world challenges",
+    content: `<h3>Project-Based Learning Defined</h3>
+<p>Project-Based Learning (PBL) is a dynamic classroom approach in which students actively explore real-world problems and challenges, gaining deeper knowledge and skills. Unlike traditional instruction where a teacher presents content and students practice applying it, PBL begins with a driving question—a meaningful, complex question that frames a student investigation—and unfolds through extended inquiry over days, weeks, or months. Students produce authentic products or performances that demonstrate their learning to real audiences.</p>
+<p>The Buck Institute for Education, a leading PBL research organization, identifies seven essential project design elements: a challenging problem or question, sustained inquiry, authenticity, student voice and choice, reflection, critique and revision, and a public product. Service learning projects that incorporate all seven elements represent the gold standard of PBL because they combine academic rigor with genuine community impact and authentic audience engagement.</p>
+<h3>Driving Questions in Service Learning</h3>
+<p>The driving question is the heart of any PBL unit. Good driving questions are open-ended (cannot be answered with a simple fact), challenging (require research, inquiry, and problem-solving), meaningful (connect to real community needs), and aligned with learning objectives. Examples for service learning contexts include: "How can our school help reduce plastic waste in our neighbourhood?" "What information do elderly community members need to access government health schemes, and how can we help them?" "How can we document our village's endangered traditional knowledge before it disappears?" These questions are simultaneously academically rich and community relevant.</p>
+<div class="prompt-box"><strong>Reflection Prompt</strong><p>Develop a driving question for a service learning project in your school context. Test it against the criteria: Is it open-ended? Does it require sustained inquiry? Is it connected to a genuine community need? Is it aligned with curriculum objectives? Refine it until it meets all criteria.</p></div>
+<div class="impl-box"><strong>Implementation Guidelines</strong><ul><li>Develop the driving question collaboratively with students—their ownership increases engagement significantly</li><li>Post the driving question prominently in your classroom throughout the project</li><li>Return to the driving question at each stage of the project to maintain focus</li><li>Include a milestone check at the halfway point to assess progress toward answering the question</li><li>The final product should clearly demonstrate how students have answered the driving question</li></ul></div>`
+  },
+  {
+    num: 7, title: "Reflection as Learning Multiplier",
+    tagline: "Turning experience into deep, lasting knowledge",
+    content: `<h3>Why Reflection is Non-Negotiable</h3>
+<p>Among all the components of service learning, reflection is the one most frequently omitted and the one most essential to learning. Without structured reflection, service learning is merely community service—students gain experience but do not necessarily learn from it. Reflection is the mechanism through which experience is transformed into knowledge. It is the bridge between what students do and what they understand. John Dewey captured this succinctly: "We do not learn from experience. We learn from reflecting on experience."</p>
+<p>Research consistently demonstrates that the quality and quantity of reflection in service learning programs directly predicts the quality of learning outcomes. Programs with robust, frequent, and well-facilitated reflection produce greater academic gains, more significant civic development, stronger community outcomes, and higher levels of student satisfaction than programs that treat reflection as an afterthought or box-checking exercise.</p>
+<h3>Types of Reflection Activities</h3>
+<p>Effective service learning reflection uses multiple modalities to reach learners with different strengths and preferences. Written reflection includes journals, exit tickets, letters to future students, and analytic essays. Verbal reflection includes Socratic seminars, fishbowl discussions, storytelling circles, and formal debriefs. Creative reflection includes drawings, photographs, videos, and poems that capture the essence of an experience. Community reflection involves presenting learning back to community partners and inviting their response. Digital reflection tools—blogs, shared documents, audio recordings—can capture reflection in formats that become portfolio artifacts.</p>
+<div class="prompt-box"><strong>Reflection Prompt</strong><p>Design a five-minute reflection activity you could use at the end of every service learning session. It should be quick enough to fit in a busy schedule but substantive enough to promote genuine learning. How would you ensure that students take it seriously rather than treating it as a routine exercise?</p></div>
+<div class="impl-box"><strong>Implementation Guidelines</strong><ul><li>Schedule reflection time before, during, and after service activities—not only at the end</li><li>Use the "4 Cs" framework: What did I Confirm? What did I Contradict my assumptions? What Challenged me? What will I Change?</li><li>Avoid generic reflection prompts—always connect them to specific experiences and academic concepts</li><li>Create a safe, non-judgmental space where students can reflect honestly including on failures and discomforts</li><li>Read and respond to student reflections—students must see that reflection is taken seriously</li></ul></div>`
+  },
+  {
+    num: 8, title: "Assessment of Experiential Projects",
+    tagline: "Measuring holistic learning with authentic tools",
+    content: `<h3>The Assessment Challenge</h3>
+<p>Assessing experiential and service learning projects presents challenges that traditional testing cannot address. When students plant trees, teach literacy, document heritage, or run health camps, their learning is multidimensional, process-oriented, and partially invisible. A single test cannot capture the development of communication skills, civic values, collaborative capacity, and real-world problem-solving that characterize high-quality service learning. Schools must develop assessment systems that are as rich and multidimensional as the learning itself.</p>
+<h3>Performance-Based Assessment</h3>
+<p>Performance-based assessment evaluates students' ability to apply knowledge and skills in complex, authentic tasks rather than in isolated test items. In service learning, performance assessments include: community presentations evaluated by both teachers and community members; product evaluations (the quality of a health brochure, a documentary film, a literacy booklet); process portfolios documenting planning, challenges, and decision-making; and oral defenses where students explain and justify their project decisions.</p>
+<h3>Rubric Design for Service Learning</h3>
+<p>Well-designed rubrics are essential for fair, consistent, and informative assessment of service learning. Effective rubrics describe performance at four levels (Beginning, Developing, Proficient, Advanced) across multiple dimensions that align with project learning objectives. For a health awareness campaign, dimensions might include: accuracy of health information presented, clarity and appropriateness of communication materials, depth of community needs analysis, quality of reflection, and evidence of collaborative skills. Rubrics should be shared with students at the start of the project as a learning guide, not only revealed at assessment time.</p>
+<div class="prompt-box"><strong>Reflection Prompt</strong><p>Imagine you must explain a student's service learning achievement to their parent in five minutes. What evidence would you show them? What would you say the student has learned? This exercise helps clarify what should be assessed in service learning.</p></div>
+<div class="impl-box"><strong>Implementation Guidelines</strong><ul><li>Use a minimum of three assessment methods per service learning project: process, product, and reflection assessments</li><li>Include self-assessment and peer assessment as components of the final grade</li><li>Invite community partners to contribute qualitative feedback to assessments</li><li>Use formative checkpoints throughout the project, not only a final summative assessment</li><li>Document your assessment data to improve future project design and demonstrate program effectiveness</li></ul></div>`
+  },
+  {
+    num: 9, title: "Vocational Integration at School Level",
+    tagline: "Connecting education to real economic skills",
+    content: `<h3>The Vocational Imperative in NEP 2020</h3>
+<p>NEP 2020 represents a landmark shift in India's approach to vocational education. Rather than treating vocational training as a separate, stigmatized stream for students who cannot succeed academically, NEP 2020 integrates vocational exposure across all grades and all students. The policy mandates that all students from Grade 6 onwards receive exposure to vocational skills through bag-less days, internships with local artisans and businesses, and integration of vocational content across subjects. Service learning is an ideal vehicle for this integration.</p>
+<p>Vocational integration in service learning occurs when service projects address real economic needs and require students to develop and apply practical skills. A digital awareness campaign develops technology skills. A school garden project develops agricultural knowledge. A heritage documentation project develops research, archiving, and interviewing skills. An entrepreneurship project develops business planning, marketing, and financial management competencies. In each case, students develop vocational skills in the context of genuine community service, creating a powerful synthesis of academic, civic, and vocational learning.</p>
+<div class="prompt-box"><strong>Reflection Prompt</strong><p>Survey the local economy around your school. What industries or occupations are most significant? What skills do local employers and self-employed community members most need? How could service learning projects both address community needs and develop these economically relevant skills in students?</p></div>
+<div class="impl-box"><strong>Implementation Guidelines</strong><ul><li>Map the local economy before designing vocational service learning projects</li><li>Partner with local businesses, cooperatives, and self-help groups for vocational mentorship</li><li>Implement bag-less days as required by NEP 2020, using them for vocational service learning activities</li><li>Document vocational skills developed through service learning in student portfolios</li><li>Invite local employers to evaluate students' vocational competency demonstrations</li></ul></div>`
+  },
+  {
+    num: 10, title: "Interdisciplinary Project Design",
+    tagline: "Breaking subject silos for holistic learning",
+    content: `<h3>The Case for Interdisciplinarity</h3>
+<p>Real-world problems do not organize themselves according to school subject boundaries. Pollution in a local river involves chemistry (water quality), biology (ecosystem impact), geography (watershed systems), economics (cost of pollution and remediation), social science (community impact and governance), mathematics (measuring and analyzing data), and language arts (communicating findings). When students engage with this problem through service learning, they have an authentic opportunity to learn across disciplines in an integrated way that mirrors how knowledge actually works in the world.</p>
+<p>NEP 2020 strongly emphasizes multidisciplinary education, calling for the elimination of "hard separations between arts, humanities, sciences, vocational, and academic streams" and for the "integration of humanistic perspectives across disciplines." Interdisciplinary service learning projects are among the most effective tools for realizing this vision because they naturally require the synthesis of knowledge from multiple subject areas.</p>
+<h3>Designing Interdisciplinary Projects</h3>
+<p>Designing effective interdisciplinary service learning requires coordination among teachers from different subjects—something that demands institutional support and time. The process begins with identifying a community need or driving question that genuinely spans multiple disciplines. Teachers then map which subjects can contribute meaningfully and plan their contributions collaboratively. A single project can generate distinct assessment tasks in each subject while sharing a common community focus and reflection framework.</p>
+<div class="prompt-box"><strong>Reflection Prompt</strong><p>Select one community problem and map at least five school subjects that could contribute to investigating and addressing it. What would each subject contribute? How would you coordinate teachers and timetables to make a genuinely integrated project possible?</p></div>
+<div class="impl-box"><strong>Implementation Guidelines</strong><ul><li>Identify at least three subjects for integration in every service learning project</li><li>Hold a cross-subject teacher planning meeting at the start of each project</li><li>Create a shared project timeline that coordinates contributions from different subjects</li><li>Develop a shared assessment framework with each subject contributing distinct evaluation criteria</li><li>Share student work across subjects so each teacher sees the full scope of learning</li></ul></div>`
+  },
+  {
+    num: 11, title: "Measuring Social Impact",
+    tagline: "Evidence-based approaches to community change",
+    content: `<h3>Why Measure Social Impact?</h3>
+<p>Schools engaging in service learning have a responsibility to ensure that their community activities create genuine positive impact—not merely the appearance of impact. Without measurement, schools cannot distinguish between activities that actually improve community wellbeing and those that merely make students feel good or keep them busy. Impact measurement also enables schools to learn from experience, improving project design over time, and to demonstrate their value to communities, governments, and funders.</p>
+<h3>Social Impact Measurement Frameworks</h3>
+<p>Social Return on Investment (SROI) is a framework that assigns monetary values to social outcomes, allowing organizations to calculate a ratio of social value created per unit of resources invested. While full SROI calculations require significant expertise and data, the SROI framework provides a useful conceptual structure for thinking about service learning impact: inputs (time, money, materials), outputs (activities and direct products), outcomes (changes in knowledge, attitudes, or behaviours), and impact (lasting change in community wellbeing attributable to the project).</p>
+<div class="prompt-box"><strong>Reflection Prompt</strong><p>For a service learning project you are familiar with, trace the logic model: What inputs were used? What outputs were produced? What outcomes resulted? What impact occurred? At which level do you have the strongest evidence? What evidence would you need to collect differently next time?</p></div>
+<div class="impl-box"><strong>Implementation Guidelines</strong><ul><li>Develop a simple theory of change for each service learning project: "We will do X, which will lead to Y, which will result in Z"</li><li>Collect baseline data about the community need before the project begins</li><li>Collect endline data after the project to measure change</li><li>Use a mix of quantitative (numbers served, behaviour changes measured) and qualitative (community stories, interviews) evidence</li><li>Share impact findings with the community in accessible formats—posters, presentations, or community meetings</li></ul></div>`
+  },
+  {
+    num: 12, title: "Ethical Engagement in Community Work",
+    tagline: "Doing good, doing it right",
+    content: `<h3>The Ethics of Service</h3>
+<p>Not all community service is beneficial. Poorly designed, patronizing, or extractive service activities can harm communities, reinforce harmful stereotypes, create dependency rather than capacity, and damage the reputation of schools and educational systems. Ethical community engagement requires that schools approach community work with humility, respect, genuine partnership, and a commitment to community-driven rather than school-driven agendas.</p>
+<h3>Common Ethical Pitfalls</h3>
+<p>Poverty tourism occurs when students visit disadvantaged communities primarily for their own educational benefit, without contributing meaningfully and with risk of objectifying community members. Saviour mentality emerges when students and teachers unconsciously position themselves as helpers bringing solutions to passive, helpless community members. Extractive research happens when students collect data from communities—surveys, interviews, photographs—without genuine consent, reciprocity, or sharing of findings. Mismatched needs occur when schools design projects around what they want to do rather than what communities actually need.</p>
+<div class="prompt-box"><strong>Reflection Prompt</strong><p>Have you ever participated in or witnessed service activities that might have caused harm despite good intentions? What signals suggested this? What should have been done differently? How will you prevent similar problems in your service learning programs?</p></div>
+<div class="impl-box"><strong>Implementation Guidelines</strong><ul><li>Always begin project design with genuine community consultation, not just announcement</li><li>Obtain informed consent from community members for data collection, photography, and publication</li><li>Ensure community members have voice and choice in how service activities are designed</li><li>Build in feedback mechanisms so communities can flag concerns during project implementation</li><li>Acknowledge community members' contributions explicitly and tangibly—not just student learning</li></ul></div>`
+  },
+  {
+    num: 13, title: "Equity & Inclusion in Service Projects",
+    tagline: "Ensuring service learning serves all students and communities",
+    content: `<h3>The Equity Imperative</h3>
+<p>Service learning, like all educational approaches, can either reinforce or disrupt existing inequities. Schools must be intentional about designing service learning programs that include all students—those with disabilities, those from marginalized backgrounds, girls in contexts where their participation in community activities is constrained, and students who may be from the very communities being "served." The risk of exclusion is real: students who struggle academically may be sidelined from leadership roles; students with physical disabilities may be excluded from field activities; girls may face restrictions on community visits.</p>
+<h3>Designing for Inclusion</h3>
+<p>Universal Design for Learning (UDL) principles are applicable to service learning design. Multiple means of engagement ensure that all students can participate meaningfully, regardless of their learning style or disability. Multiple means of representation ensure that service activities do not privilege students with specific cultural capital. Multiple means of action and expression ensure that students can contribute and demonstrate their learning in diverse ways—not only through verbal or written formats.</p>
+<div class="prompt-box"><strong>Reflection Prompt</strong><p>Map the students in your school who are at greatest risk of being excluded from service learning activities. For each group, what specific design modifications would ensure their meaningful participation? Who needs to be consulted to make these modifications effectively?</p></div>
+<div class="impl-box"><strong>Implementation Guidelines</strong><ul><li>Conduct an equity audit of your service learning program annually</li><li>Specifically track participation by gender, socioeconomic status, and disability status</li><li>Design multiple participation pathways for every project so no student is excluded</li><li>Provide additional support—mentoring, transport, materials—to students facing participation barriers</li><li>Actively challenge the tendency to assign leadership roles only to already-advantaged students</li></ul></div>`
+  },
+  {
+    num: 14, title: "Risk Management in Student Projects",
+    tagline: "Protecting students while enabling real-world learning",
+    content: `<h3>Risk is Inherent, Not Optional</h3>
+<p>Real-world service learning necessarily involves some risk—the risk of physical harm during community visits, the risk of emotional discomfort when confronting difficult social realities, the risk of project failure, and the risk of community conflict. Schools that eliminate all risk eliminate the very conditions that make service learning transformative. The goal is not zero-risk but managed risk—identifying, assessing, and mitigating risks to acceptable levels while preserving the authentic, challenging character of community engagement.</p>
+<h3>Categories of Risk in Service Learning</h3>
+<p>Physical risks include transportation hazards, exposure to unsafe environments, physical exertion, and interaction with unknown people. Emotional risks include exposure to poverty, suffering, and injustice; confrontation of personal biases; and discomfort with ethical ambiguity. Relational risks include conflict within student teams, miscommunication with community partners, and failure to meet community expectations. Academic risks include the possibility that a project does not generate expected learning outcomes or that time spent in service reduces time for core academic study.</p>
+<div class="prompt-box"><strong>Reflection Prompt</strong><p>For a specific service learning project you are designing or have implemented, list every risk you can imagine in the categories above. For each risk, rate its likelihood and severity. Which risks require specific mitigation actions? Who is responsible for each action?</p></div>
+<div class="impl-box"><strong>Implementation Guidelines</strong><ul><li>Complete a formal risk assessment for every service learning project before it begins</li><li>Obtain parental consent for community visits and activities</li><li>Ensure adequate adult supervision—one adult per ten students minimum for off-campus activities</li><li>Brief students on safety protocols, emergency contacts, and expected behaviour before every community visit</li><li>Debrief after every community interaction to identify and address any concerns that arose</li></ul></div>`
+  },
+  {
+    num: 15, title: "Long-Term Community Transformation",
+    tagline: "From one-off projects to sustained systemic change",
+    content: `<h3>The Transformation Vision</h3>
+<p>The most ambitious vision for school-community service learning is not just individual project impact but long-term community transformation—systematic, sustained improvement in community wellbeing driven by a culture of engaged, action-oriented citizens developed through years of quality education. This vision requires thinking in decades rather than semesters, building institutional structures rather than individual relationships, and developing community capacity rather than simply delivering community service.</p>
+<h3>Building Toward Transformation</h3>
+<p>Long-term community transformation through service learning follows a characteristic pattern. In the first year, schools build relationships and trust with community partners, conducting initial needs assessments and piloting small-scale projects. In years two and three, schools expand successful projects and develop more sophisticated community partnerships. By years four and five, community members begin to take ownership of initiatives, students from earlier cohorts serve as mentors to newer students, and the school's role shifts from initiator to supporter of community-led change.</p>
+<div class="prompt-box"><strong>Reflection Prompt</strong><p>Imagine your school's service learning program in ten years at its best. What has changed in the surrounding community? What has changed in your school? What has changed in your students? Working backwards from this vision, what must you start doing now to make it possible?</p></div>
+<div class="impl-box"><strong>Implementation Guidelines</strong><ul><li>Develop a five-year service learning strategic plan rather than designing projects semester by semester</li><li>Create formal community partnership agreements that last multiple years</li><li>Build a school service learning archive documenting all projects, outcomes, and community feedback</li><li>Track former students to gather longitudinal evidence of civic and personal development</li><li>Celebrate community transformation milestones publicly to sustain motivation and community engagement</li></ul></div>`
+  },
+  {
+    num: 16, title: "Student Agency & Leadership",
+    tagline: "Putting students in the driver's seat",
+    content: `<h3>From Recipient to Actor</h3>
+<p>Traditional education positions students primarily as recipients—of knowledge, instruction, guidance, and assessment decisions made by others. Service learning has the potential to fundamentally shift this positioning, treating students as capable agents who can identify community problems, design solutions, lead teams, manage resources, and evaluate outcomes. This shift from recipient to agent is one of the most powerful developmental outcomes of quality service learning.</p>
+<h3>Student Leadership in Service Learning</h3>
+<p>Student agency and leadership can be cultivated at multiple levels of service learning programs. At the project level, students can co-design projects with teachers and community partners, make genuine decisions about project direction, manage aspects of project logistics, and lead presentations and community interactions. At the program level, student-led service learning councils can advise on program design, conduct peer training, and represent the program to school leadership and external partners.</p>
+<div class="prompt-box"><strong>Reflection Prompt</strong><p>Honestly assess the current level of student agency in your service learning activities. On a scale of 1–10, where 1 is "students do exactly what they are told" and 10 is "students fully self-direct," where do your projects fall? What is one concrete step you could take to move one point up the scale?</p></div>
+<div class="impl-box"><strong>Implementation Guidelines</strong><ul><li>Begin project design by asking students what they observe as community needs rather than presenting a pre-determined project</li><li>Give students genuine decision-making authority over at least one significant aspect of each project</li><li>Establish a student project management committee for each service learning initiative</li><li>Create a student service leadership program that provides ongoing roles and training</li><li>Celebrate student leadership publicly and specifically—not just outcomes but the process of leading</li></ul></div>`
+  },
+  {
+    num: 17, title: "Sustainable Development Goals & Education",
+    tagline: "Aligning school service with global priorities",
+    content: `<h3>The SDGs as a Framework for Service Learning</h3>
+<p>The United Nations' 2030 Agenda for Sustainable Development, organized around 17 Sustainable Development Goals (SDGs), provides a globally shared framework for addressing humanity's most pressing challenges. SDG 4—Quality Education—is explicitly concerned with ensuring inclusive, equitable, quality education. But all 17 SDGs offer service learning opportunities because they address real-world challenges that schools can meaningfully engage with at the local level: clean water and sanitation (SDG 6), good health and wellbeing (SDG 3), zero hunger (SDG 2), reduced inequalities (SDG 10), and climate action (SDG 13).</p>
+<h3>Local Action, Global Connection</h3>
+<p>One of the great educational opportunities of the SDGs is that they connect local community action to global priorities. When students in Kashmir document traditional agricultural practices threatened by climate change, they are contributing to SDGs 2, 13, and 15. When they run digital literacy workshops for elderly community members, they address SDGs 4 and 10. Helping students make these connections develops global citizenship alongside local civic responsibility.</p>
+<div class="prompt-box"><strong>Reflection Prompt</strong><p>Map your three most recent or planned service learning projects to specific SDG targets. Is your school's service learning portfolio addressing a diverse range of SDGs or concentrating on just one or two? How might you deliberately diversify your projects to address a broader range of sustainable development priorities?</p></div>
+<div class="impl-box"><strong>Implementation Guidelines</strong><ul><li>Display the 17 SDGs visibly in your service learning coordination space</li><li>Explicitly map each service learning project to relevant SDG targets in project documentation</li><li>Include SDG connections in student reflection prompts</li><li>Connect your school's service learning work to district or state SDG reporting where possible</li><li>Share your SDG-aligned work with other schools and the wider community to inspire broader action</li></ul></div>`
+  },
+  {
+    num: 18, title: "NEP 2020 and Experiential Reform",
+    tagline: "India's landmark policy and its implications for service learning",
+    content: `<h3>NEP 2020: A Paradigm Shift</h3>
+<p>India's National Education Policy 2020 represents the most significant reform of the country's education system in thirty years. Replacing the 1986 policy, NEP 2020 signals a fundamental shift from content-heavy, examination-driven education toward holistic, competency-based, experiential learning. The policy's core vision is that "education must move away from rote learning towards conceptual understanding, creativity, critical thinking, problem-solving, ethics, and human values."</p>
+<p>NEP 2020's emphasis on experiential learning is woven throughout the document. Key provisions directly relevant to service learning include: integration of vocational education from Grade 6 onwards with internships, bag-less days, and skill development; emphasis on project-based, inquiry-based, and experiential learning across all grades; cultivation of civic values, social responsibility, and democratic participation; multi-disciplinary integration and flexible curriculum; and assessment reform emphasizing competency demonstration over rote examination performance.</p>
+<h3>NEP Implementation through Service Learning</h3>
+<p>Service learning provides a comprehensive vehicle for implementing the most ambitious elements of NEP 2020. Bag-less days required under NEP 2020 are ideally filled with community service and vocational exposure. The competency-based assessment framework that NEP 2020 promotes is naturally embodied in service learning assessment rubrics. The emphasis on student agency and voice that pervades NEP 2020 is fundamental to quality service learning design. Schools that build strong service learning programs are, in effect, implementing NEP 2020's vision in its most complete form.</p>
+<div class="prompt-box"><strong>Reflection Prompt</strong><p>Read the relevant sections of NEP 2020 on experiential learning, vocational education, and holistic development. Identify three specific NEP 2020 provisions that your school's current service learning program already addresses and three that it does not yet address. Develop one action for each unmet provision.</p></div>
+<div class="impl-box"><strong>Implementation Guidelines</strong><ul><li>Align your service learning program documentation explicitly with NEP 2020 language and provisions</li><li>Use NEP 2020 as advocacy support when requesting resources from school leadership or district administration</li><li>Participate in state and district NEP 2020 implementation forums to share your service learning approach</li><li>Document your NEP-aligned practices carefully—this documentation will be essential for school accreditation and evaluation</li><li>Connect with other NEP 2020 implementation networks across Jammu and Kashmir for peer learning</li></ul></div>`
+  },
+  {
+    num: 19, title: "Portfolio-Based Assessment",
+    tagline: "Documenting the whole journey of learning",
+    content: `<h3>What is a Learning Portfolio?</h3>
+<p>A learning portfolio is a purposeful, organised collection of student work that tells the story of a student's learning journey over time. Unlike a test or examination that captures a single moment of performance, a portfolio captures development—the progress from novice to proficient, the evolution of thinking, the growth of skills and dispositions. In service learning, portfolios are especially powerful because they can document the multi-dimensional learning that occurs across academic, civic, vocational, and personal domains.</p>
+<h3>Portfolio Contents in Service Learning</h3>
+<p>A comprehensive service learning portfolio contains diverse artefacts of learning. Process documentation includes project plans, team meeting notes, challenge logs, and decision-making records. Product evidence includes photographs, written materials, presentations, and other outputs produced during the project. Reflection evidence includes journal entries, response to structured prompts, and self-assessments at multiple points during the project. Community feedback includes testimonials, evaluations, or responses from community partners. Academic connections document how project experiences deepened understanding of curriculum content.</p>
+<div class="prompt-box"><strong>Reflection Prompt</strong><p>Design a portfolio structure for a semester-long service learning project. What artefacts would you require? What artefacts would be student-chosen? How would you assess the portfolio—by the quality of individual artefacts, by the quality of reflection connecting them, or by both? Who would see the portfolio besides you?</p></div>
+<div class="impl-box"><strong>Implementation Guidelines</strong><ul><li>Establish portfolio structures and requirements at the beginning of each project so students collect artefacts continuously</li><li>Use digital portfolios where possible for easy sharing with community partners, parents, and school leadership</li><li>Include a mandatory "best work" selection with student justification—this metacognitive exercise is highly valuable</li><li>Schedule portfolio presentations or exhibitions where students share their learning publicly</li><li>Use portfolios as the primary summative assessment tool for service learning projects</li></ul></div>`
+  },
+  {
+    num: 20, title: "Building a Service Learning Culture",
+    tagline: "Embedding community engagement in school DNA",
+    content: `<h3>Culture as the Foundation</h3>
+<p>Sustainable, high-quality service learning cannot exist as a collection of isolated projects driven by one or two enthusiastic teachers. It requires a school culture that values community engagement, experiential learning, and civic responsibility—a culture in which service learning is the norm rather than the exception, embedded in how the school thinks about itself and its relationship to the community.</p>
+<p>School culture is shaped by stories, rituals, language, symbols, norms, and leadership behaviour. Building a service learning culture means changing each of these elements over time. Stories: schools must celebrate and widely share stories of service learning impact. Rituals: schools must create regular moments—assemblies, showcases, community celebrations—that honour service learning. Language: schools must develop a shared vocabulary for service learning that all staff use consistently. Symbols: schools must display artefacts of service learning—photographs, community testimonials, project documentation—prominently.</p>
+<h3>The Role of Leadership</h3>
+<p>School leadership is the single most powerful determinant of whether service learning culture takes root or withers. Principals who actively participate in community visits, who mention service learning achievements in assemblies, who allocate resources for community partnerships, and who build service learning into teacher evaluation frameworks send a clear message that this work is valued. Conversely, principals who treat service learning as an extracurricular distraction from "real" academic work communicate that it is marginal—and teachers and students respond accordingly.</p>
+<div class="prompt-box"><strong>Reflection Prompt</strong><p>Assess your school's current service learning culture on five dimensions: leadership commitment, teacher confidence and enthusiasm, student ownership, community partnership quality, and resource allocation. Rate each dimension from 1–5 and identify the two dimensions most urgently requiring development.</p></div>
+<div class="impl-box"><strong>Implementation Guidelines</strong><ul><li>Create a Service Learning Committee with representation from teachers, students, parents, and community partners</li><li>Develop a school service learning policy document that establishes program goals, structures, and accountability</li><li>Include service learning achievements in all formal school communications—newsletters, reports, social media</li><li>Build service learning into the school improvement plan and annual reporting frameworks</li><li>Celebrate the service learning journey as much as outcomes—the process of community engagement is itself the culture you are building</li></ul></div>
+<h3>Sustaining the Culture Over Time</h3>
+<p>Building a service learning culture is a multi-year endeavour that must withstand teacher turnover, changing leadership, fluctuating resources, and evolving community relationships. Sustainability requires that the program is institutionalised in policy and structures rather than dependent on individual champions; that multiple teachers are skilled and enthusiastic practitioners rather than only one or two; that community partnerships are formally documented and maintained at the institutional rather than personal level; and that student leadership creates continuity from year to year as individual student cohorts graduate and new ones arrive.</p>`
+  }
+];
+
+// ============================================================
+// DATA: Project Templates
+// ============================================================
+const PROJECT_DATA = {
+  "Environmental": {
+    competencies: ["Critical Thinking","Environmental Awareness","Teamwork","Data Collection","Civic Action"],
+    outcomes: ["Measurable reduction in local pollution","Increased community awareness of environmental issues","Students develop scientific observation skills","Establishment of a sustainable environmental practice"],
+    risks: ["Physical safety during outdoor activities","Community reluctance to change habits","Weather interruptions","Inadequate student supervision"],
+    rubricDimensions: ["Needs Analysis Quality","Solution Innovation","Implementation Quality","Community Engagement","Reflection Depth"]
+  },
+  "Health Awareness": {
+    competencies: ["Health Literacy","Communication","Empathy","Research Skills","Presentation"],
+    outcomes: ["Improved community health knowledge","Increased preventive health behaviours","Students develop health advocacy skills","Connection between school health curriculum and real needs"],
+    risks: ["Privacy concerns in health data collection","Sensitive health topics causing distress","Community mistrust of students as health informants","Misinformation risks"],
+    rubricDimensions: ["Accuracy of Health Information","Communication Clarity","Community Reach","Sensitivity & Ethics","Reflection Quality"]
+  },
+  "Literacy Support": {
+    competencies: ["Teaching Skills","Patience","Communication","Subject Mastery","Curriculum Design"],
+    outcomes: ["Measurable literacy improvement in target community","Students deepen their own subject understanding through teaching","Long-term reading culture established","Intergenerational learning relationships formed"],
+    risks: ["Student readiness to teach effectively","Community members' time availability","Setting unrealistic expectations","Maintaining consistency over project duration"],
+    rubricDimensions: ["Lesson Planning Quality","Teaching Effectiveness","Learner Progress","Relationship Building","Self-Reflection"]
+  },
+  "Digital Awareness": {
+    competencies: ["Digital Literacy","Instruction Design","Patience","Cyber Safety Knowledge","Community Sensitivity"],
+    outcomes: ["Target community can use basic digital tools independently","Awareness of online safety and fraud prevention","Reduction in digital divide","Students develop training and facilitation skills"],
+    risks: ["Device availability and technical issues","Varying levels of digital comfort in community","Ensuring privacy of community members","Keeping content age and context appropriate"],
+    rubricDimensions: ["Content Appropriateness","Training Effectiveness","Accessibility","Safety Coverage","Community Feedback"]
+  },
+  "Local Heritage Documentation": {
+    competencies: ["Research Skills","Interviewing","Documentation","Cultural Sensitivity","Archiving"],
+    outcomes: ["Permanent record of endangered local knowledge","Community pride and intergenerational connection","Students develop historical and cultural awareness","Contribution to regional cultural heritage"],
+    risks: ["Respecting community elders' privacy and dignity","Managing sensitive historical information","Quality control of student-created documents","Intellectual property of traditional knowledge"],
+    rubricDimensions: ["Documentation Accuracy","Interview Quality","Cultural Sensitivity","Archive Organisation","Community Validation"]
+  },
+  "Entrepreneurship": {
+    competencies: ["Business Planning","Financial Literacy","Marketing","Problem Solving","Resilience"],
+    outcomes: ["Students develop real entrepreneurial skills","At least one viable micro-enterprise design created","Community economic opportunity identified and developed","Financial literacy improved in student cohort"],
+    risks: ["Student engagement with business complexity","Ensuring ethical business practices","Managing expectations vs. realities","Risk of failure discouraging students"],
+    rubricDimensions: ["Market Research Quality","Business Plan Viability","Presentation to Stakeholders","Team Collaboration","Entrepreneurial Reflection"]
+  },
+  "Skill Training": {
+    competencies: ["Technical Skills","Instruction","Assessment Design","Patience","Vocational Awareness"],
+    outcomes: ["Community members acquire a measurable new skill","Students deepen understanding through peer teaching","Vocational pathway identified for students","Skill certification or documentation created"],
+    risks: ["Ensuring students are adequately skilled themselves before teaching","Managing skill level diversity in community","Physical safety in skill demonstration","Equipment and material availability"],
+    rubricDimensions: ["Skill Demonstration Quality","Training Design","Safety Protocols","Learner Outcomes","Vocational Connection"]
+  }
+};
+
+// ============================================================
+// DATA: Competency Matrix (deterministic weights)
+// ============================================================
+const COMPETENCY_MATRIX = {
+  "Environmental":           {cognitive:0.85, problemSolving:0.88, collaboration:0.75, communication:0.70, ethical:0.80, civic:0.92},
+  "Health Awareness":        {cognitive:0.78, problemSolving:0.72, collaboration:0.80, communication:0.92, ethical:0.88, civic:0.85},
+  "Literacy Support":        {cognitive:0.80, problemSolving:0.65, collaboration:0.78, communication:0.95, ethical:0.70, civic:0.82},
+  "Digital Awareness":       {cognitive:0.88, problemSolving:0.82, collaboration:0.72, communication:0.85, ethical:0.78, civic:0.68},
+  "Local Heritage Documentation": {cognitive:0.82, problemSolving:0.68, collaboration:0.70, communication:0.88, ethical:0.90, civic:0.88},
+  "Entrepreneurship":        {cognitive:0.90, problemSolving:0.92, collaboration:0.82, communication:0.85, ethical:0.72, civic:0.65},
+  "Skill Training":          {cognitive:0.75, problemSolving:0.78, collaboration:0.85, communication:0.80, ethical:0.75, civic:0.78}
+};
+
+// ============================================================
+// ANALYTICS FORMULAS
+// ============================================================
+function calcCAI(baseWeights, complexity, collab) {
+  const c = parseInt(complexity)/10;
+  const l = parseInt(collab)/4;
+  return {
+    cognitive:     Math.round((baseWeights.cognitive * (0.7 + 0.3*c)) * 100),
+    problemSolving: Math.round((baseWeights.problemSolving * (0.6 + 0.4*c)) * 100),
+    collaboration:  Math.round((baseWeights.collaboration * (0.5 + 0.5*l)) * 100),
+    communication:  Math.round((baseWeights.communication * (0.6 + 0.3*c + 0.1*l)) * 100),
+    ethical:        Math.round((baseWeights.ethical * (0.8 + 0.2*c)) * 100),
+    civic:          Math.round((baseWeights.civic * (0.7 + 0.15*c + 0.15*l)) * 100)
+  };
+}
+
+function calcCIS(P, I, R) {
+  // Community Impact Score = (Participation% × Intensity × Resource%) / 10, capped at 100
+  return Math.min(100, Math.round((P/100 * I * R/100) * 10 * 10));
+}
+
+function calcSGP(I, complexity) {
+  // Student Growth Projection = Intensity × Complexity × 0.8, scaled to 100
+  return Math.min(100, Math.round(I * complexity * 0.8));
+}
+
+function calcCEI(P, R, I) {
+  // Civic Engagement Index
+  return Math.min(100, Math.round(P/100 * R/100 * I * 100));
+}
+
+function calcSP(R, I) {
+  // Sustainability Potential
+  return Math.min(100, Math.round(R/100 * I * 7));
+}
+
+function calcRDS(answers) {
+  // Reflection Depth Score based on answer lengths and keyword presence
+  const keywords = ['learn','challenge','ethical','community','responsibility','impact','change','grow','understand','reflect','civic','problem','value','collaboration'];
+  let score = 0;
+  answers.forEach(a => {
+    const words = a.trim().split(/\s+/).length;
+    score += Math.min(15, words * 0.3); // length score
+    keywords.forEach(kw => { if(a.toLowerCase().includes(kw)) score += 2; });
+  });
+  return Math.min(100, Math.round(score));
+}
+
+function calcLEI(answers) {
+  const leaderKeywords = ['led','organised','decided','initiative','coordinated','managed','directed','proposed','advocated','mobilised','inspired'];
+  let count = 0;
+  answers.forEach(a => {
+    leaderKeywords.forEach(kw => { if(a.toLowerCase().includes(kw)) count++; });
+  });
+  return Math.min(100, count * 12 + 20);
+}
+
+// ============================================================
+// SCREEN MANAGEMENT
+// ============================================================
+function showScreen(id) {
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  window.scrollTo(0,0);
+  if(id === 'screen-home') updateHomeStats();
+  if(id === 'screen-impact') updateDashboard();
+  if(id === 'screen-foundations') renderFoundationsList();
+  if(id === 'screen-design') loadSavedProjects();
+  if(id === 'screen-reflection') loadPortfolio();
+}
+
+function setActive(btnId) {
+  document.querySelectorAll('.bnav-btn').forEach(b => b.classList.remove('active'));
+  const el = document.getElementById(btnId);
+  if(el) el.classList.add('active');
+}
+
+// ============================================================
+// FOUNDATIONS
+// ============================================================
+function renderFoundationsList() {
+  const list = document.getElementById('foundations-list');
+  list.innerHTML = '';
+  FOUNDATIONS.forEach(f => {
+    const div = document.createElement('div');
+    div.className = 'foundation-item';
+    div.innerHTML = `<span class="foundation-num">${f.num}</span><div class="foundation-text"><h4>${f.title}</h4><p>${f.tagline}</p></div><span style="color:var(--gray);font-size:18px;">›</span>`;
+    div.onclick = () => showFoundationPage(f);
+    list.appendChild(div);
+  });
+}
+
+function showFoundationPage(f) {
+  document.getElementById('foundations-list-view').style.display = 'none';
+  const detail = document.getElementById('foundation-detail');
+  detail.innerHTML = `
+    <button class="btn-secondary mb-16" onclick="closeFoundationPage()" style="margin-bottom:16px;">← All Pages</button>
+    <div class="card foundation-page show">
+      <div style="display:flex;align-items:center;gap:8px;margin-bottom:4px;">
+        <span class="tag">Page ${f.num} of 20</span>
+        <span class="tag">NEP 2020</span>
+      </div>
+      <h2>${f.title}</h2>
+      <p class="page-meta">✦ ${f.tagline} ✦ Approx. 1200 words of academic content</p>
+      ${f.content}
+    </div>`;
+  window.scrollTo(0,0);
+}
+
+function closeFoundationPage() {
+  document.getElementById('foundations-list-view').style.display = 'block';
+  document.getElementById('foundation-detail').innerHTML = '';
+  window.scrollTo(0,0);
+}
+
+// ============================================================
+// PROJECT DESIGN
+// ============================================================
+function generateProjectBlueprint() {
+  const type = document.getElementById('proj-type').value;
+  const community = document.getElementById('proj-community').value.trim() || 'Local community';
+  const duration = parseInt(document.getElementById('proj-duration').value) || 8;
+  const size = parseInt(document.getElementById('proj-size').value) || 25;
+  const outcome = document.getElementById('proj-outcome').value.trim() || 'Positive community impact';
+
+  if(!type) { alert('Please select a project type.'); return; }
+
+  const data = PROJECT_DATA[type];
+  const box = document.getElementById('blueprint-result');
+  const title = document.getElementById('blueprint-title');
+  const content = document.getElementById('blueprint-content');
+
+  title.textContent = `📋 ${type} Project Blueprint`;
+  content.innerHTML = `
+    <div class="result-section">
+      <h4>🎯 Project Overview</h4>
+      <p><strong>Type:</strong> ${type} | <strong>Community:</strong> ${community} | <strong>Duration:</strong> ${duration} weeks | <strong>Team Size:</strong> ${size} students</p>
+    </div>
+    <div class="result-section">
+      <h4>📌 Required Competencies</h4>
+      <div class="flex flex-wrap gap-8">${data.competencies.map(c => `<span class="tag">${c}</span>`).join('')}</div>
+    </div>
+    <div class="result-section">
+      <h4>🏆 Learning Outcomes</h4>
+      <ul>${data.outcomes.map(o => `<li>${o}</li>`).join('')}</ul>
+    </div>
+    <div class="result-section">
+      <h4>📊 Assessment Rubric Dimensions</h4>
+      <ul>${data.rubricDimensions.map((d,i) => `<li><strong>${d}</strong> — Evaluated on Beginning/Developing/Proficient/Advanced scale</li>`).join('')}</ul>
+    </div>
+    <div class="result-section">
+      <h4>⚠️ Risk Checklist</h4>
+      <ul>${data.risks.map(r => `<li>☐ ${r}</li>`).join('')}</ul>
+    </div>
+    <div class="result-section">
+      <h4>📅 Suggested Timeline</h4>
+      <ul>
+        <li><strong>Week 1–2:</strong> Community needs assessment & stakeholder consultation</li>
+        <li><strong>Week 3–4:</strong> Project planning, team formation & resource acquisition</li>
+        <li><strong>Week 5–${duration-1}:</strong> Implementation, monitoring & formative reflection</li>
+        <li><strong>Week ${duration}:</strong> Final showcase, community presentation & summative assessment</li>
+      </ul>
+    </div>`;
+
+  box.classList.add('show');
+  window.localStorage.setItem('lastBlueprint', JSON.stringify({type, community, duration, size, outcome, timestamp: Date.now()}));
+}
+
+function saveProject() {
+  const type = document.getElementById('proj-type').value;
+  if(!type) return;
+  const projects = JSON.parse(localStorage.getItem('projectDesigns') || '[]');
+  projects.push({
+    id: Date.now(),
+    type,
+    community: document.getElementById('proj-community').value || 'Unknown',
+    duration: document.getElementById('proj-duration').value,
+    size: document.getElementById('proj-size').value,
+    outcome: document.getElementById('proj-outcome').value,
+    date: new Date().toLocaleDateString('en-IN')
+  });
+  localStorage.setItem('projectDesigns', JSON.stringify(projects));
+  loadSavedProjects();
+  alert('✅ Project saved successfully!');
+}
+
+function loadSavedProjects() {
+  const projects = JSON.parse(localStorage.getItem('projectDesigns') || '[]');
+  const container = document.getElementById('saved-projects-list');
+  if(!container) return;
+  if(projects.length === 0) {
+    container.innerHTML = '<p style="color:var(--gray);font-size:13px;">No projects saved yet.</p>';
+    return;
+  }
+  container.innerHTML = projects.slice().reverse().map(p => `
+    <div style="border:1px solid var(--card-border);border-radius:10px;padding:12px 14px;margin-bottom:10px;">
+      <div style="font-weight:700;margin-bottom:4px;">📁 ${p.type} Project</div>
+      <div style="font-size:12px;color:var(--gray);">Community: ${p.community} · ${p.duration} weeks · ${p.size} students · Saved: ${p.date}</div>
+    </div>`).join('');
+}
+
+// ============================================================
+// COMPETENCY MAPPING
+// ============================================================
+function generateCompetencyMap() {
+  const domain = document.getElementById('comp-domain').value;
+  const complexity = document.getElementById('comp-complexity').value;
+  const collab = document.getElementById('comp-collab').value;
+
+  if(!domain) { alert('Please select a project domain.'); return; }
+
+  const base = COMPETENCY_MATRIX[domain];
+  const scores = calcCAI(base, complexity, collab);
+  const cai = Math.round(Object.values(scores).reduce((a,b) => a+b, 0) / 6);
+
+  const labels = {
+    cognitive: '🧠 Cognitive Skills',
+    problemSolving: '🔍 Problem Solving',
+    collaboration: '🤝 Collaboration',
+    communication: '💬 Communication',
+    ethical: '⚖️ Ethical Reasoning',
+    civic: '🌍 Civic Responsibility'
+  };
+
+  const grid = document.getElementById('competency-grid');
+  grid.innerHTML = Object.entries(scores).map(([k,v]) => `
+    <div class="comp-item">
+      <div class="comp-name">${labels[k]}</div>
+      <div class="comp-score">${v}%</div>
+      <div class="score-bar-bg" style="margin-top:6px;"><div class="score-bar" style="width:${v}%"></div></div>
+    </div>`).join('');
+
+  document.getElementById('competency-index').innerHTML = `
+    <div style="background:rgba(16,185,129,0.12);border:1px solid rgba(16,185,129,0.3);border-radius:12px;padding:16px;text-align:center;">
+      <div style="font-size:12px;text-transform:uppercase;letter-spacing:1px;color:var(--gray);margin-bottom:6px;">Competency Application Index (CAI)</div>
+      <div style="font-size:40px;font-weight:900;color:var(--accent-green);font-family:'Playfair Display',serif;">${cai}%</div>
+      <div style="font-size:12px;color:var(--gray);">${cai >= 80 ? 'Excellent' : cai >= 65 ? 'Good' : cai >= 50 ? 'Developing' : 'Beginning'} Level of Competency Integration</div>
+    </div>`;
+
+  localStorage.setItem('competencyScores', JSON.stringify({domain, complexity, collab, scores, cai, date: new Date().toLocaleDateString('en-IN')}));
+  document.getElementById('competency-result').classList.add('show');
+}
+
+// ============================================================
+// IMPACT
+// ============================================================
+function calculateImpact() {
+  const communitySize = parseInt(document.getElementById('imp-community').value) || 500;
+  const P = parseInt(document.getElementById('imp-participation').value) || 35;
+  const I = parseInt(document.getElementById('imp-intensity').value) || 7;
+  const R = parseInt(document.getElementById('imp-resources').value) || 60;
+  const complexity = 7; // default
+
+  const CIS = calcCIS(P, I, R);
+  const SGP = calcSGP(I, complexity);
+  const CEI = calcCEI(P, R, I);
+  const SP  = calcSP(R, I);
+  const reach = Math.round(communitySize * P/100);
+
+  const scoresHTML = [
+    {label: 'Community Impact Score (CIS)', val: CIS, desc: 'Overall positive change in community wellbeing'},
+    {label: 'Student Growth Projection (SGP)', val: SGP, desc: 'Predicted holistic development of participating students'},
+    {label: 'Civic Engagement Index (CEI)', val: CEI, desc: 'Strength of civic participation and active citizenship'},
+    {label: 'Sustainability Potential (SP)', val: SP, desc: 'Likelihood of long-term project impact continuity'}
+  ].map(s => `
+    <div class="score-row">
+      <div class="score-label"><span>${s.label}</span><span class="score-val">${s.val}/100</span></div>
+      <div class="score-bar-bg"><div class="score-bar" style="width:${s.val}%"></div></div>
+      <div style="font-size:11px;color:var(--gray);margin-top:3px;">${s.desc}</div>
+    </div>`).join('');
+
+  document.getElementById('impact-scores').innerHTML = `
+    <div style="padding:12px;background:rgba(16,185,129,0.08);border-radius:10px;margin-bottom:14px;text-align:center;">
+      <div style="font-size:11px;text-transform:uppercase;letter-spacing:1px;color:var(--gray);">Community Reach</div>
+      <div style="font-size:32px;font-weight:900;color:var(--accent-green);">${reach.toLocaleString()}</div>
+      <div style="font-size:12px;color:var(--gray);">People directly impacted out of ${communitySize.toLocaleString()}</div>
+    </div>
+    ${scoresHTML}`;
+
+  // Chart
+  const chartItems = [
+    {label:'CIS', val:CIS, maxH:160},
+    {label:'SGP', val:SGP, maxH:160},
+    {label:'CEI', val:CEI, maxH:160},
+    {label:'SP', val:SP, maxH:160}
+  ];
+  document.getElementById('impact-chart').innerHTML = chartItems.map(c => `
+    <div class="bar-item">
+      <span class="bar-val">${c.val}</span>
+      <div class="bar" style="height:${Math.round(c.val/100*120)}px;"></div>
+      <span class="bar-label">${c.label}</span>
+    </div>`).join('');
+
+  localStorage.setItem('impactData', JSON.stringify({P, I, R, communitySize, CIS, SGP, CEI, SP, date: new Date().toLocaleDateString('en-IN')}));
+  document.getElementById('impact-result').classList.add('show');
+  updateDashboard();
+}
+
+function updateDashboard() {
+  const projects = JSON.parse(localStorage.getItem('projectDesigns') || '[]');
+  const reflections = JSON.parse(localStorage.getItem('reflectionLogs') || '[]');
+  const impact = JSON.parse(localStorage.getItem('impactData') || 'null');
+
+  document.getElementById('ds-projects').textContent = projects.length;
+  document.getElementById('ds-reflections').textContent = reflections.length;
+  document.getElementById('ds-impact').textContent = impact ? impact.CIS : '—';
+  document.getElementById('ds-civic').textContent = impact ? impact.CEI : '—';
+}
+
+// ============================================================
+// REFLECTION
+// ============================================================
+function generateReflection() {
+  const name = document.getElementById('refl-name').value.trim() || 'Student';
+  const project = document.getElementById('refl-project').value.trim() || 'Service Project';
+  const answers = [
+    document.getElementById('refl-q1').value,
+    document.getElementById('refl-q2').value,
+    document.getElementById('refl-q3').value,
+    document.getElementById('refl-q4').value,
+    document.getElementById('refl-q5').value
+  ];
+
+  if(answers.every(a => !a.trim())) { alert('Please answer at least some reflection questions.'); return; }
+
+  const RDS = calcRDS(answers);
+  const LEI = calcLEI(answers);
+  const depth = RDS >= 75 ? 'Deep' : RDS >= 50 ? 'Developing' : 'Surface';
+
+  document.getElementById('reflection-scores').innerHTML = `
+    <div class="score-row"><div class="score-label"><span>Reflection Depth Score (RDS)</span><span class="score-val">${RDS}/100</span></div>
+      <div class="score-bar-bg"><div class="score-bar" style="width:${RDS}%"></div></div>
+      <div style="font-size:11px;color:var(--gray);margin-top:3px;">Level: ${depth} Reflection</div>
+    </div>
+    <div class="score-row"><div class="score-label"><span>Leadership Emergence Index (LEI)</span><span class="score-val">${LEI}/100</span></div>
+      <div class="score-bar-bg"><div class="score-bar" style="width:${LEI}%"></div></div>
+      <div style="font-size:11px;color:var(--gray);margin-top:3px;">${LEI >= 60 ? 'Strong leadership behaviours evident' : 'Leadership potential developing'}</div>
+    </div>`;
+
+  document.getElementById('portfolio-entry').innerHTML = `
+    <div style="background:rgba(255,255,255,0.04);border:1px solid var(--card-border);border-radius:10px;padding:14px;">
+      <div style="font-size:11px;text-transform:uppercase;letter-spacing:1px;color:var(--accent-green);margin-bottom:8px;">Portfolio Entry Preview</div>
+      <div style="font-weight:700;margin-bottom:4px;">${name} — ${project}</div>
+      <div style="font-size:12px;color:var(--gray);">Date: ${new Date().toLocaleDateString('en-IN')} · RDS: ${RDS} · LEI: ${LEI}</div>
+      ${answers[0] ? `<p style="font-size:13px;color:#cbd5e1;margin-top:10px;line-height:1.6;"><em>"${answers[0].slice(0,180)}${answers[0].length > 180 ? '...' : ''}"</em></p>` : ''}
+    </div>`;
+
+  document.getElementById('reflection-result').classList.add('show');
+}
+
+function saveReflection() {
+  const logs = JSON.parse(localStorage.getItem('reflectionLogs') || '[]');
+  logs.push({
+    id: Date.now(),
+    name: document.getElementById('refl-name').value || 'Student',
+    project: document.getElementById('refl-project').value || 'Project',
+    answers: [
+      document.getElementById('refl-q1').value,
+      document.getElementById('refl-q2').value,
+      document.getElementById('refl-q3').value,
+      document.getElementById('refl-q4').value,
+      document.getElementById('refl-q5').value
+    ],
+    date: new Date().toLocaleDateString('en-IN')
+  });
+  localStorage.setItem('reflectionLogs', JSON.stringify(logs));
+  loadPortfolio();
+  alert('✅ Added to portfolio!');
+}
+
+function loadPortfolio() {
+  const logs = JSON.parse(localStorage.getItem('reflectionLogs') || '[]');
+  const container = document.getElementById('portfolio-list');
+  if(!container) return;
+  if(logs.length === 0) {
+    container.innerHTML = '<p style="color:var(--gray);font-size:13px;">No portfolio entries yet.</p>';
+    return;
+  }
+  container.innerHTML = logs.slice().reverse().map(l => `
+    <div style="border:1px solid var(--card-border);border-radius:10px;padding:12px 14px;margin-bottom:10px;">
+      <div style="font-weight:700;margin-bottom:4px;">🪞 ${l.name} — ${l.project}</div>
+      <div style="font-size:12px;color:var(--gray);">Saved: ${l.date}</div>
+      ${l.answers[0] ? `<p style="font-size:12px;color:#94a3b8;margin-top:6px;font-style:italic;">"${l.answers[0].slice(0,100)}..."</p>` : ''}
+    </div>`).join('');
+}
+
+// ============================================================
+// VOCATIONAL
+// ============================================================
+let selectedDomain = '';
+
+function selectDomain(el, domain) {
+  document.querySelectorAll('.skill-dom').forEach(d => d.classList.remove('selected'));
+  el.classList.add('selected');
+  selectedDomain = domain;
+}
+
+function calculateVocational() {
+  if(!selectedDomain) { alert('Please select a skill domain.'); return; }
+  const exposure = parseInt(document.getElementById('voc-exposure').value);
+  const hours = parseInt(document.getElementById('voc-hours').value) || 20;
+
+  const SRS = Math.min(100, Math.round((exposure * 15) + (hours * 0.8)));
+  const EP  = Math.min(100, Math.round((exposure * 12) + (hours * 0.6)));
+  const AI  = Math.min(100, Math.round((exposure * 10) + (hours * 0.5) + 20));
+
+  document.getElementById('vocational-scores').innerHTML = `
+    <div style="margin-bottom:10px;font-size:14px;font-weight:700;">Domain: <span style="color:var(--accent-green);">${selectedDomain}</span></div>
+    <div class="score-row"><div class="score-label"><span>Skill Readiness Score (SRS)</span><span class="score-val">${SRS}/100</span></div>
+      <div class="score-bar-bg"><div class="score-bar" style="width:${SRS}%"></div></div></div>
+    <div class="score-row"><div class="score-label"><span>Employability Projection (EP)</span><span class="score-val">${EP}/100</span></div>
+      <div class="score-bar-bg"><div class="score-bar" style="width:${EP}%"></div></div></div>
+    <div class="score-row"><div class="score-label"><span>Adaptability Index (AI)</span><span class="score-val">${AI}/100</span></div>
+      <div class="score-bar-bg"><div class="score-bar" style="width:${AI}%"></div></div></div>
+    <div style="margin-top:14px;padding:12px;background:rgba(16,185,129,0.08);border-radius:10px;font-size:13px;color:#cbd5e1;">
+      <strong style="color:var(--accent-green);">📌 Recommendation:</strong> ${SRS >= 70 ? 'Student is well-prepared for vocational exposure in this domain. Consider arranging mentorship or apprenticeship.' : SRS >= 45 ? 'Student shows developing readiness. Increase practical hours and seek industry visit opportunities.' : 'Student needs foundational skill building. Start with classroom simulations and progress to field exposure.'}
+    </div>`;
+
+  document.getElementById('vocational-result').classList.add('show');
+}
+
+// ============================================================
+// TRANSFORMATION SIMULATOR
+// ============================================================
+function runTransformationSimulation() {
+  const readiness = parseInt(document.getElementById('trans-readiness').value) || 4;
+  const leadership = parseInt(document.getElementById('trans-leadership').value) || 6;
+  const projPerYear = parseInt(document.getElementById('trans-projects-per-year').value) || 3;
+
+  const years = [
+    {
+      year: 'Year 1', phase: 'Awareness & Trust Building',
+      score: Math.round(readiness * 8 + leadership * 5 + projPerYear * 3),
+      desc: `School launches ${projPerYear} pilot service learning project(s). Community begins to notice school's presence. ${readiness <= 4 ? 'Significant trust-building required.' : 'Good foundation for rapid engagement.'} Key activities: community mapping, first partnerships, staff training.`
+    },
+    {
+      year: 'Year 2', phase: 'Active Participation',
+      score: Math.min(100, Math.round(readiness * 9 + leadership * 7 + projPerYear * 5 + 10)),
+      desc: `Community participation increases. ${projPerYear * 2} projects running simultaneously. Students begin peer mentoring. Community partners take on more active roles in project design.`
+    },
+    {
+      year: 'Year 3', phase: 'Behavioural & Cultural Shift',
+      score: Math.min(100, Math.round(readiness * 10 + leadership * 9 + projPerYear * 7 + 15)),
+      desc: `Observable behaviour change in community members reached by projects. School recognized as community asset. Service learning becomes embedded in school culture. First alumni begin contributing as mentors.`
+    },
+    {
+      year: 'Year 4', phase: 'Institutional Change',
+      score: Math.min(100, Math.round(leadership * 11 + projPerYear * 9 + 25)),
+      desc: `Community organizations formally partner with school. Policy changes at local government level influenced by school advocacy. Service learning program cited by district as model. Community-initiated projects emerge independent of school.`
+    },
+    {
+      year: 'Year 5', phase: 'Sustainable Transformation',
+      score: Math.min(100, Math.round(leadership * 12 + projPerYear * 11 + readiness * 6 + 30)),
+      desc: `Community self-organizes around identified needs with school playing support role. Measurable improvements in community wellbeing indicators. Former service learning students leading community institutions. Program fully sustainable and replicable.`
+    }
+  ];
+
+  const timeline = document.getElementById('transformation-timeline');
+  timeline.innerHTML = years.map(y => `
+    <div class="tl-item">
+      <div class="tl-dot"></div>
+      <div class="tl-year">${y.year} · Community Development Score: ${Math.min(100,y.score)}%</div>
+      <div class="tl-title">${y.phase}</div>
+      <div class="tl-desc">${y.desc}</div>
+      <div class="score-bar-bg" style="margin-top:8px;"><div class="score-bar" style="width:${Math.min(100,y.score)}%"></div></div>
+    </div>`).join('');
+
+  const finalScore = Math.min(100, years[4].score);
+  const stability = Math.min(100, Math.round(leadership * 8 + projPerYear * 6 + 20));
+
+  document.getElementById('transformation-indicators').innerHTML = `
+    <div class="competency-grid">
+      <div class="comp-item">
+        <div class="comp-name">Community Development Projection</div>
+        <div class="comp-score">${finalScore}%</div>
+        <div class="comp-desc">After 5 years of consistent implementation</div>
+      </div>
+      <div class="comp-item">
+        <div class="comp-name">Civic Stability Indicator</div>
+        <div class="comp-score">${stability}%</div>
+        <div class="comp-desc">Resilience of community improvements</div>
+      </div>
+    </div>`;
+
+  document.getElementById('transformation-result').classList.add('show');
+}
+
+// ============================================================
+// REPORT GENERATOR
+// ============================================================
+function generateReport() {
+  const school = document.getElementById('rep-school').value || 'School Name';
+  const year = document.getElementById('rep-year').value || '2025–26';
+  const teacher = document.getElementById('rep-teacher').value || 'Teacher Name';
+  const today = new Date().toLocaleDateString('en-IN', {year:'numeric', month:'long', day:'numeric'});
+
+  const projects = JSON.parse(localStorage.getItem('projectDesigns') || '[]');
+  const competency = JSON.parse(localStorage.getItem('competencyScores') || 'null');
+  const impact = JSON.parse(localStorage.getItem('impactData') || 'null');
+  const reflections = JSON.parse(localStorage.getItem('reflectionLogs') || '[]');
+
+  const inclProj = document.getElementById('rep-include-projects').checked;
+  const inclComp = document.getElementById('rep-include-competency').checked;
+  const inclImp  = document.getElementById('rep-include-impact').checked;
+  const inclRefl = document.getElementById('rep-include-reflection').checked;
+  const inclRoad = document.getElementById('rep-include-roadmap').checked;
+
+  let html = `
+    <div style="text-align:center;margin-bottom:20px;padding-bottom:16px;border-bottom:3px solid #1a3a6e;">
+      <div style="font-size:11px;color:#1a3a6e;font-weight:700;letter-spacing:2px;text-transform:uppercase;margin-bottom:8px;">School Education Department, Jammu & Kashmir</div>
+      <h1>Service Learning Program Report</h1>
+      <div style="font-size:16px;font-weight:700;color:#1a3a6e;margin:6px 0;">${school}</div>
+      <div style="font-size:13px;color:#64748b;">Academic Year: ${year} | Prepared by: ${teacher} | Date: ${today}</div>
+      <div style="margin-top:10px;display:inline-block;background:#1a3a6e;color:#fff;font-size:10px;font-weight:700;letter-spacing:1.5px;padding:4px 14px;border-radius:12px;">NEP 2020 ALIGNED | EXPERIENTIAL & COMPETENCY-BASED LEARNING</div>
+    </div>
+
+    <h2>Executive Summary</h2>
+    <p>This report documents the service learning activities conducted under the Community-Linked Competency & Service Learning Innovation Lab framework at ${school} during the academic year ${year}. The program is aligned with the National Education Policy 2020's emphasis on experiential learning, holistic student development, and school-community partnership.</p>
+    <p>Total projects completed: <strong>${projects.length}</strong> | Portfolio entries: <strong>${reflections.length}</strong> | Community Impact Score: <strong>${impact ? impact.CIS + '/100' : 'Not yet calculated'}</strong></p>`;
+
+  if(inclProj && projects.length > 0) {
+    html += `<h2>Project Summary</h2>
+    <table><tr><th>#</th><th>Project Type</th><th>Community</th><th>Duration</th><th>Team Size</th><th>Date</th></tr>
+    ${projects.map((p,i) => `<tr><td>${i+1}</td><td>${p.type}</td><td>${p.community}</td><td>${p.duration} wks</td><td>${p.size}</td><td>${p.date}</td></tr>`).join('')}</table>`;
+  }
+
+  if(inclComp && competency) {
+    html += `<h2>Competency Mapping Analysis</h2>
+    <p>Competency mapping was conducted for the <strong>${competency.domain}</strong> domain at complexity level <strong>${competency.complexity}/10</strong>. The overall Competency Application Index (CAI) achieved was <strong>${competency.cai}%</strong>.</p>
+    <table><tr><th>Competency</th><th>Score</th><th>Level</th></tr>
+    ${Object.entries(competency.scores).map(([k,v]) => `<tr><td>${k.replace(/([A-Z])/g,' $1').replace(/^./,s=>s.toUpperCase())}</td><td>${v}%</td><td>${v>=80?'Advanced':v>=65?'Proficient':v>=50?'Developing':'Beginning'}</td></tr>`).join('')}</table>`;
+  }
+
+  if(inclImp && impact) {
+    html += `<h2>Impact Analysis</h2>
+    <p>Community size: <strong>${impact.communitySize.toLocaleString()}</strong> | Participation rate: <strong>${impact.P}%</strong> | Project intensity: <strong>${impact.I}/10</strong> | Resource allocation: <strong>${impact.R}%</strong></p>
+    <table><tr><th>Metric</th><th>Score</th><th>Interpretation</th></tr>
+    <tr><td>Community Impact Score (CIS)</td><td>${impact.CIS}/100</td><td>${impact.CIS>=70?'High positive impact':'Moderate impact — scope for improvement'}</td></tr>
+    <tr><td>Student Growth Projection (SGP)</td><td>${impact.SGP}/100</td><td>${impact.SGP>=70?'Strong holistic development':'Developing — increase intensity'}</td></tr>
+    <tr><td>Civic Engagement Index (CEI)</td><td>${impact.CEI}/100</td><td>${impact.CEI>=70?'Strong civic participation':'Growing civic awareness'}</td></tr>
+    <tr><td>Sustainability Potential (SP)</td><td>${impact.SP}/100</td><td>${impact.SP>=70?'High sustainability likelihood':'Requires stronger resource commitment'}</td></tr></table>`;
+  }
+
+  if(inclRefl && reflections.length > 0) {
+    html += `<h2>Reflection Synthesis</h2>
+    <p>A total of <strong>${reflections.length}</strong> student reflection entries have been recorded in the portfolio. Key themes emerging from student reflections include civic awareness, community empathy, problem-solving under real constraints, and personal growth through challenge. The reflection portfolio demonstrates that students are moving beyond surface-level observations toward substantive critical analysis of their service experiences.</p>`;
+  }
+
+  if(inclRoad) {
+    html += `<h2>Sustainability Roadmap</h2>
+    <p><strong>Year 1 (Current):</strong> Consolidate existing partnerships, standardise project documentation, and build teacher capacity in facilitation and assessment of service learning.</p>
+    <p><strong>Year 2:</strong> Expand to interdisciplinary projects involving at least three subject teachers per project. Increase community partner diversity and formalise partnership agreements.</p>
+    <p><strong>Year 3:</strong> Establish a Student Service Leadership Council. Develop a school service learning policy document. Begin tracking multi-year impact indicators.</p>
+    <p><strong>Year 4–5:</strong> Position the school as a district resource for service learning, offering peer support to neighbouring schools. Seek recognition under NEP 2020 innovation initiatives.</p>`;
+  }
+
+  html += `
+    <div style="margin-top:20px;padding-top:16px;border-top:2px solid #e2e8f0;text-align:center;">
+      <div style="font-size:11px;color:#94a3b8;">Generated by Community-Linked Competency & Service Learning Innovation Lab</div>
+      <div style="font-size:11px;color:#94a3b8;">Developed by Mateen Yousuf · School Education Department Kashmir · NEP 2020 Aligned</div>
+    </div>`;
+
+  const reportEl = document.getElementById('report-output');
+  reportEl.innerHTML = html;
+  reportEl.classList.add('show');
+  document.getElementById('report-actions').classList.remove('hidden');
+  document.getElementById('report-actions').style.display = 'flex';
+}
+
+function saveReportData() {
+  const reports = JSON.parse(localStorage.getItem('reports') || '[]');
+  reports.push({ id: Date.now(), date: new Date().toLocaleDateString('en-IN'), school: document.getElementById('rep-school').value || 'School' });
+  localStorage.setItem('reports', JSON.stringify(reports));
+  alert('✅ Report data saved to local storage.');
+}
+
+// ============================================================
+// HOME STATS
+// ============================================================
+function updateHomeStats() {
+  const projects = JSON.parse(localStorage.getItem('projectDesigns') || '[]');
+  const reflections = JSON.parse(localStorage.getItem('reflectionLogs') || '[]');
+  const impact = JSON.parse(localStorage.getItem('impactData') || 'null');
+  document.getElementById('stat-projects').textContent = projects.length;
+  document.getElementById('stat-reflections').textContent = reflections.length;
+  document.getElementById('stat-impact').textContent = impact ? impact.CIS : '—';
+}
+
+// ============================================================
+// PWA SERVICE WORKER REGISTRATION
+// ============================================================
+if('serviceWorker' in navigator) {
+  navigator.serviceWorker.register('./service-worker.js').catch(() => {});
+}
+
+// Init
+updateHomeStats();
+</script>
+</body>
+</html>

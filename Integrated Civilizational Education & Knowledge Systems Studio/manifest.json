@@ -1,0 +1,29 @@
+{
+  "name": "Integrated Civilizational Education & Knowledge Systems Studio",
+  "short_name": "IKS Studio",
+  "description": "Offline educational PWA for NEP 2020 Indian Knowledge Systems integration. Developed by Mateen Yousuf, Teacher, School Education Department Kashmir.",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#0a1628",
+  "theme_color": "#b87333",
+  "orientation": "portrait-primary",
+  "lang": "en-IN",
+  "categories": ["education", "productivity"],
+  "icons": [
+    {
+      "src": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 192 192'%3E%3Crect width='192' height='192' fill='%230a1628'/%3E%3Ccircle cx='96' cy='96' r='80' fill='none' stroke='%23b87333' stroke-width='6'/%3E%3Ctext x='96' y='110' text-anchor='middle' font-size='64' fill='%23c9a84c'%3E%F0%9F%8F%9B%3C/text%3E%3C/svg%3E",
+      "sizes": "192x192",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'%3E%3Crect width='512' height='512' fill='%230a1628'/%3E%3Ccircle cx='256' cy='256' r='220' fill='none' stroke='%23b87333' stroke-width='12'/%3E%3Ctext x='256' y='300' text-anchor='middle' font-size='180' fill='%23c9a84c'%3E%F0%9F%8F%9B%3C/text%3E%3C/svg%3E",
+      "sizes": "512x512",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ],
+  "screenshots": [],
+  "related_applications": [],
+  "prefer_related_applications": false
+}

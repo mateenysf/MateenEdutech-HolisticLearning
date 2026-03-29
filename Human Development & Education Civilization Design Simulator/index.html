@@ -1,0 +1,2165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<meta name="theme-color" content="#0a1628">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<link rel="manifest" href="manifest.json">
+<title>Human Development & Education Civilization Design Simulator</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700;900&family=Crimson+Text:ital,wght@0,400;0,600;1,400&family=Rajdhani:wght@300;400;500;600;700&display=swap');
+
+:root {
+  --deep-blue: #0a1628;
+  --navy: #0d1f3c;
+  --royal: #1a3a6e;
+  --azure: #1e5fa8;
+  --sky: #2d7dd2;
+  --gold: #c9a84c;
+  --gold-light: #e8c96a;
+  --gold-dim: #8a6f2e;
+  --white: #f0f4ff;
+  --off-white: #d4ddf0;
+  --text-dim: #8899bb;
+  --border: rgba(201,168,76,0.25);
+  --card-bg: rgba(13,31,60,0.85);
+  --glass: rgba(26,58,110,0.4);
+}
+
+* { margin:0; padding:0; box-sizing:border-box; }
+
+html { font-size:16px; scroll-behavior:smooth; }
+
+body {
+  background: var(--deep-blue);
+  color: var(--white);
+  font-family: 'Crimson Text', Georgia, serif;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* ===== BACKGROUNDS ===== */
+.bg-pattern {
+  position: fixed; inset: 0; z-index: 0; pointer-events: none;
+  background:
+    radial-gradient(ellipse 80% 60% at 50% 0%, rgba(30,95,168,0.18) 0%, transparent 70%),
+    radial-gradient(ellipse 40% 40% at 80% 80%, rgba(201,168,76,0.06) 0%, transparent 60%),
+    linear-gradient(180deg, #0a1628 0%, #060e1e 100%);
+}
+
+.bg-grid {
+  position: fixed; inset: 0; z-index: 0; pointer-events: none; opacity: 0.04;
+  background-image:
+    linear-gradient(rgba(201,168,76,0.8) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(201,168,76,0.8) 1px, transparent 1px);
+  background-size: 60px 60px;
+}
+
+/* ===== PAGES ===== */
+.page { display:none; position:relative; z-index:1; min-height:100vh; padding-bottom:80px; }
+.page.active { display:block; animation: fadeIn 0.4s ease; }
+@keyframes fadeIn { from {opacity:0; transform:translateY(8px)} to {opacity:1; transform:translateY(0)} }
+
+/* ===== HEADER ===== */
+.page-header {
+  text-align: center;
+  padding: 48px 24px 32px;
+  position: relative;
+}
+
+.page-header::after {
+  content: '';
+  display: block;
+  width: 120px; height: 2px;
+  background: linear-gradient(90deg, transparent, var(--gold), transparent);
+  margin: 20px auto 0;
+}
+
+.page-header h1 {
+  font-family: 'Cinzel', serif;
+  font-size: clamp(1.1rem, 4vw, 1.9rem);
+  font-weight: 700;
+  color: var(--gold-light);
+  letter-spacing: 0.04em;
+  text-shadow: 0 0 40px rgba(201,168,76,0.3);
+  line-height: 1.3;
+}
+
+.page-header p {
+  font-family: 'Rajdhani', sans-serif;
+  color: var(--text-dim);
+  font-size: 0.95rem;
+  margin-top: 8px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+/* ===== TITLE PAGE ===== */
+#page-home {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  padding: 0;
+  min-height: 100vh;
+}
+
+.home-hero {
+  width: 100%;
+  text-align: center;
+  padding: 40px 24px 32px;
+  position: relative;
+}
+
+.home-hero::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 50%; transform: translateX(-50%);
+  width: 300px; height: 300px;
+  background: radial-gradient(circle, rgba(201,168,76,0.08) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+.hero-emblem {
+  font-size: 3.5rem;
+  margin-bottom: 8px;
+  filter: drop-shadow(0 0 20px rgba(201,168,76,0.4));
+  animation: glow-pulse 3s ease-in-out infinite;
+}
+@keyframes glow-pulse {
+  0%,100% { filter: drop-shadow(0 0 20px rgba(201,168,76,0.4)); }
+  50% { filter: drop-shadow(0 0 35px rgba(201,168,76,0.7)); }
+}
+
+.hero-title {
+  font-family: 'Cinzel', serif;
+  font-size: clamp(1.15rem, 5vw, 2.2rem);
+  font-weight: 900;
+  color: var(--gold-light);
+  letter-spacing: 0.03em;
+  line-height: 1.25;
+  text-shadow: 0 2px 30px rgba(201,168,76,0.35);
+  margin-bottom: 6px;
+}
+
+.hero-subtitle {
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 0.8rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--text-dim);
+  margin-bottom: 20px;
+}
+
+.nep-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  border: 1px solid var(--gold-dim);
+  border-radius: 4px;
+  padding: 6px 16px;
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 0.75rem;
+  letter-spacing: 0.1em;
+  color: var(--gold);
+  background: rgba(201,168,76,0.06);
+  margin-bottom: 32px;
+  text-transform: uppercase;
+}
+
+.author-card {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  background: var(--glass);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 16px 20px;
+  margin: 0 24px 28px;
+  backdrop-filter: blur(10px);
+}
+
+.author-avatar {
+  width: 64px; height: 64px;
+  border-radius: 50%;
+  border: 2px solid var(--gold);
+  object-fit: cover;
+  object-position: top center;
+  flex-shrink: 0;
+}
+
+.author-info { text-align: left; }
+.author-info h3 {
+  font-family: 'Cinzel', serif;
+  font-size: 1rem;
+  color: var(--gold-light);
+  font-weight: 600;
+}
+.author-info p {
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 0.8rem;
+  color: var(--text-dim);
+  letter-spacing: 0.05em;
+}
+
+.home-nav {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  padding: 0 20px;
+  width: 100%;
+  max-width: 480px;
+}
+
+.nav-btn {
+  background: var(--card-bg);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 18px 12px;
+  cursor: pointer;
+  text-align: center;
+  transition: all 0.25s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.nav-btn::before {
+  content: '';
+  position: absolute; top: 0; left: 0; right: 0; height: 2px;
+  background: linear-gradient(90deg, transparent, var(--gold), transparent);
+  opacity: 0;
+  transition: opacity 0.25s;
+}
+
+.nav-btn:hover::before, .nav-btn:active::before { opacity: 1; }
+.nav-btn:hover, .nav-btn:active {
+  background: rgba(26,58,110,0.7);
+  border-color: var(--gold-dim);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(0,0,0,0.3);
+}
+
+.nav-btn .btn-icon { font-size: 1.8rem; margin-bottom: 8px; }
+.nav-btn .btn-label {
+  font-family: 'Cinzel', serif;
+  font-size: 0.72rem;
+  color: var(--gold-light);
+  letter-spacing: 0.03em;
+  line-height: 1.3;
+  font-weight: 600;
+}
+.nav-btn .btn-sub {
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 0.65rem;
+  color: var(--text-dim);
+  margin-top: 4px;
+  letter-spacing: 0.05em;
+}
+
+/* ===== BOTTOM NAV ===== */
+.bottom-nav {
+  position: fixed;
+  bottom: 0; left: 0; right: 0;
+  height: 60px;
+  background: rgba(8,15,32,0.95);
+  border-top: 1px solid var(--border);
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  z-index: 100;
+  backdrop-filter: blur(12px);
+}
+
+.bnav-btn {
+  display: flex; flex-direction: column; align-items: center;
+  gap: 2px; padding: 8px 12px; cursor: pointer;
+  border: none; background: transparent;
+  transition: all 0.2s;
+  border-radius: 8px;
+  flex: 1;
+}
+
+.bnav-btn .bnav-icon { font-size: 1.2rem; }
+.bnav-btn .bnav-label {
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 0.58rem;
+  letter-spacing: 0.05em;
+  color: var(--text-dim);
+  text-transform: uppercase;
+  transition: color 0.2s;
+}
+
+.bnav-btn.active .bnav-label, .bnav-btn:hover .bnav-label { color: var(--gold); }
+.bnav-btn.active .bnav-icon { filter: drop-shadow(0 0 6px rgba(201,168,76,0.6)); }
+
+/* ===== CARDS ===== */
+.card {
+  background: var(--card-bg);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 20px;
+  margin: 0 16px 16px;
+  backdrop-filter: blur(8px);
+  position: relative;
+  overflow: hidden;
+}
+
+.card::before {
+  content: '';
+  position: absolute; top: 0; left: 0; right: 0; height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(201,168,76,0.4), transparent);
+}
+
+.card h2 {
+  font-family: 'Cinzel', serif;
+  font-size: 1rem;
+  color: var(--gold-light);
+  margin-bottom: 12px;
+  letter-spacing: 0.03em;
+}
+
+.card h3 {
+  font-family: 'Cinzel', serif;
+  font-size: 0.88rem;
+  color: var(--off-white);
+  margin-bottom: 8px;
+}
+
+.card p {
+  font-size: 0.92rem;
+  color: var(--off-white);
+  line-height: 1.7;
+  margin-bottom: 8px;
+}
+
+/* ===== SECTION TABS ===== */
+.tab-bar {
+  display: flex;
+  overflow-x: auto;
+  gap: 8px;
+  padding: 12px 16px;
+  scrollbar-width: none;
+}
+.tab-bar::-webkit-scrollbar { display: none; }
+
+.tab-btn {
+  flex-shrink: 0;
+  border: 1px solid var(--border);
+  background: transparent;
+  color: var(--text-dim);
+  border-radius: 20px;
+  padding: 6px 14px;
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 0.78rem;
+  letter-spacing: 0.06em;
+  cursor: pointer;
+  transition: all 0.2s;
+  white-space: nowrap;
+  text-transform: uppercase;
+}
+
+.tab-btn.active, .tab-btn:hover {
+  background: rgba(201,168,76,0.12);
+  border-color: var(--gold-dim);
+  color: var(--gold);
+}
+
+/* ===== SLIDERS ===== */
+.param-group { margin-bottom: 20px; }
+
+.param-label {
+  display: flex;
+  justify-content: space-between;
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 0.82rem;
+  letter-spacing: 0.05em;
+  color: var(--off-white);
+  margin-bottom: 8px;
+}
+
+.param-label span {
+  color: var(--gold);
+  font-weight: 600;
+}
+
+input[type=range] {
+  width: 100%;
+  appearance: none;
+  height: 4px;
+  border-radius: 2px;
+  background: rgba(26,58,110,0.8);
+  outline: none;
+  cursor: pointer;
+}
+
+input[type=range]::-webkit-slider-thumb {
+  appearance: none;
+  width: 18px; height: 18px;
+  border-radius: 50%;
+  background: var(--gold);
+  border: 2px solid var(--deep-blue);
+  box-shadow: 0 0 8px rgba(201,168,76,0.5);
+  cursor: pointer;
+}
+
+input[type=range]::-webkit-slider-runnable-track {
+  background: linear-gradient(to right, var(--gold-dim) 0%, var(--gold-dim) var(--val, 50%), rgba(26,58,110,0.8) var(--val, 50%));
+  height: 4px; border-radius: 2px;
+}
+
+/* ===== SELECT ===== */
+select {
+  width: 100%;
+  background: rgba(13,31,60,0.9);
+  border: 1px solid var(--border);
+  color: var(--white);
+  border-radius: 8px;
+  padding: 10px 14px;
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 0.9rem;
+  outline: none;
+  cursor: pointer;
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23c9a84c' fill='none' stroke-width='1.5' stroke-linecap='round'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 12px center;
+  background-size: 12px;
+}
+
+select:focus { border-color: var(--gold-dim); }
+
+/* ===== INDEX SCORES ===== */
+.score-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin: 0 16px 16px;
+}
+
+.score-card {
+  background: var(--card-bg);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 14px 12px;
+  text-align: center;
+}
+
+.score-card .score-val {
+  font-family: 'Cinzel', serif;
+  font-size: 1.6rem;
+  font-weight: 700;
+  color: var(--gold-light);
+  line-height: 1;
+}
+
+.score-card .score-lbl {
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 0.65rem;
+  letter-spacing: 0.06em;
+  color: var(--text-dim);
+  text-transform: uppercase;
+  margin-top: 6px;
+  line-height: 1.3;
+}
+
+/* ===== RADAR CHART ===== */
+.radar-wrap {
+  display: flex;
+  justify-content: center;
+  padding: 16px;
+}
+
+/* ===== FOUNDATION PAGES ===== */
+.found-nav {
+  display: flex;
+  gap: 8px;
+  padding: 8px 16px;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+.found-nav::-webkit-scrollbar { display: none; }
+
+.found-dot {
+  width: 28px; height: 28px; border-radius: 50%;
+  border: 1px solid var(--border);
+  background: transparent;
+  color: var(--text-dim);
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 0.7rem;
+  cursor: pointer;
+  flex-shrink: 0;
+  transition: all 0.2s;
+  display: flex; align-items: center; justify-content: center;
+}
+
+.found-dot.active {
+  background: rgba(201,168,76,0.15);
+  border-color: var(--gold);
+  color: var(--gold);
+}
+
+.found-content { display: none; }
+.found-content.active { display: block; }
+
+.found-title {
+  font-family: 'Cinzel', serif;
+  font-size: 1.05rem;
+  color: var(--gold-light);
+  font-weight: 700;
+  margin-bottom: 14px;
+}
+
+.found-page-num {
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 0.7rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--gold-dim);
+  margin-bottom: 8px;
+}
+
+.reflective-box {
+  background: rgba(201,168,76,0.06);
+  border-left: 3px solid var(--gold-dim);
+  border-radius: 0 8px 8px 0;
+  padding: 14px 16px;
+  margin-top: 16px;
+}
+
+.reflective-box h4 {
+  font-family: 'Cinzel', serif;
+  font-size: 0.78rem;
+  color: var(--gold);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  margin-bottom: 8px;
+}
+
+.reflective-box p {
+  font-size: 0.9rem;
+  color: var(--off-white);
+  line-height: 1.65;
+  font-style: italic;
+}
+
+/* ===== PROJECTION CHART ===== */
+.projection-bar {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+
+.projection-bar .bar-lbl {
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 0.75rem;
+  color: var(--text-dim);
+  width: 90px;
+  flex-shrink: 0;
+  letter-spacing: 0.04em;
+}
+
+.bar-track {
+  flex: 1;
+  height: 10px;
+  background: rgba(26,58,110,0.5);
+  border-radius: 5px;
+  overflow: hidden;
+}
+
+.bar-fill {
+  height: 100%;
+  border-radius: 5px;
+  background: linear-gradient(90deg, var(--royal), var(--gold));
+  transition: width 0.8s ease;
+}
+
+.bar-val {
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 0.75rem;
+  color: var(--gold);
+  width: 36px;
+  text-align: right;
+  flex-shrink: 0;
+}
+
+/* ===== REPORT ===== */
+.report-section {
+  border-left: 2px solid var(--gold-dim);
+  padding-left: 16px;
+  margin-bottom: 20px;
+}
+
+.report-section h3 {
+  font-family: 'Cinzel', serif;
+  font-size: 0.9rem;
+  color: var(--gold-light);
+  margin-bottom: 8px;
+}
+
+.report-section p, .report-section li {
+  font-size: 0.88rem;
+  color: var(--off-white);
+  line-height: 1.7;
+}
+
+.report-section ul { padding-left: 16px; }
+
+/* ===== RISK INDICATOR ===== */
+.risk-bar {
+  height: 12px;
+  border-radius: 6px;
+  background: linear-gradient(90deg, #1a6e3a 0%, #c9a84c 50%, #9e2a2a 100%);
+  position: relative;
+  margin: 12px 0 4px;
+}
+
+.risk-needle {
+  position: absolute;
+  top: -4px;
+  width: 4px; height: 20px;
+  background: white;
+  border-radius: 2px;
+  transform: translateX(-50%);
+  box-shadow: 0 0 6px rgba(255,255,255,0.7);
+  transition: left 0.8s ease;
+}
+
+/* ===== GENERATE BTN ===== */
+.gen-btn {
+  width: calc(100% - 32px);
+  margin: 0 16px 16px;
+  padding: 16px;
+  background: linear-gradient(135deg, var(--royal), var(--azure));
+  border: 1px solid var(--gold-dim);
+  border-radius: 10px;
+  color: var(--gold-light);
+  font-family: 'Cinzel', serif;
+  font-size: 0.9rem;
+  letter-spacing: 0.06em;
+  cursor: pointer;
+  transition: all 0.25s;
+  text-transform: uppercase;
+}
+
+.gen-btn:hover, .gen-btn:active {
+  background: linear-gradient(135deg, var(--azure), var(--sky));
+  box-shadow: 0 4px 20px rgba(30,95,168,0.5);
+  transform: translateY(-1px);
+}
+
+/* ===== ABOUT ===== */
+.about-wrap {
+  padding: 0 16px;
+}
+
+.about-img {
+  width: 100%;
+  max-width: 340px;
+  border-radius: 12px;
+  border: 2px solid var(--gold-dim);
+  display: block;
+  margin: 0 auto 20px;
+}
+
+/* ===== UTIL ===== */
+.divider {
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--border), transparent);
+  margin: 20px 16px;
+}
+
+.section-label {
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 0.7rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--gold-dim);
+  padding: 0 16px;
+  margin-bottom: 8px;
+  margin-top: 8px;
+}
+
+.tag-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 8px;
+}
+
+.tag {
+  background: rgba(26,58,110,0.5);
+  border: 1px solid rgba(201,168,76,0.2);
+  border-radius: 4px;
+  padding: 3px 9px;
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 0.7rem;
+  color: var(--text-dim);
+  letter-spacing: 0.04em;
+}
+
+.alert {
+  background: rgba(158,42,42,0.15);
+  border: 1px solid rgba(200,80,80,0.3);
+  border-radius: 8px;
+  padding: 10px 14px;
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 0.82rem;
+  color: #ffaaaa;
+  margin: 0 16px 12px;
+}
+
+.success {
+  background: rgba(26,110,58,0.15);
+  border: 1px solid rgba(80,200,100,0.3);
+  border-radius: 8px;
+  padding: 10px 14px;
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 0.82rem;
+  color: #aaffcc;
+  margin: 0 16px 12px;
+}
+
+.info-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 0;
+  border-bottom: 1px solid rgba(201,168,76,0.08);
+}
+
+.info-row:last-child { border-bottom: none; }
+
+.info-row .info-k {
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 0.8rem;
+  color: var(--text-dim);
+  letter-spacing: 0.04em;
+}
+
+.info-row .info-v {
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 0.85rem;
+  color: var(--gold);
+  font-weight: 600;
+}
+
+/* ===== GENERATION BAR ===== */
+.gen-header {
+  display: flex;
+  gap: 8px;
+  padding: 12px 16px 0;
+}
+
+.gen-card {
+  flex: 1;
+  background: var(--card-bg);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 12px;
+  text-align: center;
+}
+
+.gen-card .gen-num {
+  font-family: 'Cinzel', serif;
+  font-size: 1.3rem;
+  color: var(--gold);
+}
+
+.gen-card .gen-lbl {
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 0.62rem;
+  color: var(--text-dim);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  margin-top: 4px;
+}
+</style>
+</head>
+<body>
+
+<div class="bg-pattern"></div>
+<div class="bg-grid"></div>
+
+<!-- ==================== HOME PAGE ==================== -->
+<div class="page active" id="page-home">
+  <div class="home-hero">
+    <div class="hero-emblem">🏛️</div>
+    <h1 class="hero-title">Human Development &amp;<br>Education Civilization<br>Design Simulator</h1>
+    <p class="hero-subtitle">Offline Edition · NEP 2020 Aligned</p>
+    <div class="nep-badge">
+      🎓 Aligned with NEP 2020 &nbsp;|&nbsp; Holistic Human Development
+    </div>
+  </div>
+
+  <div class="author-card" style="margin:0 20px 28px;">
+    <img src="author.jpg" alt="Mateen Yousuf" class="author-avatar" onerror="this.style.display='none'">
+    <div class="author-info">
+      <h3>Mateen Yousuf</h3>
+      <p>Teacher, School Education Department<br>Kashmir, India</p>
+    </div>
+  </div>
+
+  <div class="home-nav">
+    <div class="nav-btn" onclick="goPage('page-foundations')">
+      <div class="btn-icon">📖</div>
+      <div class="btn-label">Design Education Civilization</div>
+      <div class="btn-sub">20 Foundation Pages</div>
+    </div>
+    <div class="nav-btn" onclick="goPage('page-simulator')">
+      <div class="btn-icon">🧬</div>
+      <div class="btn-label">Human Development Simulator</div>
+      <div class="btn-sub">Life-Stage Progression</div>
+    </div>
+    <div class="nav-btn" onclick="goPage('page-balance')">
+      <div class="btn-icon">⚖️</div>
+      <div class="btn-label">Moral &amp; Intellectual Balance Lab</div>
+      <div class="btn-sub">Radar &amp; Risk Analysis</div>
+    </div>
+    <div class="nav-btn" onclick="goPage('page-framework')">
+      <div class="btn-icon">🗺️</div>
+      <div class="btn-label">Framework &amp; Vision</div>
+      <div class="btn-sub">Dashboard &amp; Report</div>
+    </div>
+  </div>
+
+  <div style="padding: 24px 20px 8px; text-align:center;">
+    <p style="font-family:'Rajdhani',sans-serif;font-size:0.72rem;color:var(--text-dim);letter-spacing:0.08em;text-transform:uppercase;">Fully Offline · No Internet Required · PWA Enabled</p>
+  </div>
+</div>
+
+<!-- ==================== FOUNDATIONS PAGE ==================== -->
+<div class="page" id="page-foundations">
+  <div class="page-header">
+    <h1>Civilizational Foundations</h1>
+    <p>20 Deep Conceptual Pages</p>
+  </div>
+
+  <div class="found-nav" id="foundNav"></div>
+
+  <div id="foundPages" style="padding: 0 16px 16px;"></div>
+
+  <div style="display:flex;gap:10px;padding:0 16px 16px;">
+    <button class="gen-btn" style="margin:0;flex:1;" onclick="prevFoundation()">← Previous</button>
+    <button class="gen-btn" style="margin:0;flex:1;" onclick="nextFoundation()">Next →</button>
+  </div>
+</div>
+
+<!-- ==================== DESIGN STUDIO ==================== -->
+<div class="page" id="page-studio">
+  <div class="page-header">
+    <h1>Education Civilization Design Studio</h1>
+    <p>Configure Parameters · Calculate Indices</p>
+  </div>
+
+  <div class="card">
+    <h2>🏗️ Curriculum & Assessment</h2>
+    <div class="param-group">
+      <div class="param-label">Curriculum Focus <span id="lbl-curr">Competency-Based</span></div>
+      <select id="sel-curriculum" onchange="updateDesign()">
+        <option value="1">Content-Heavy</option>
+        <option value="2" selected>Competency-Based</option>
+        <option value="3">Integrated</option>
+      </select>
+    </div>
+    <div class="param-group">
+      <div class="param-label">Assessment Model <span id="lbl-assess">Holistic</span></div>
+      <select id="sel-assessment" onchange="updateDesign()">
+        <option value="1">Marks-Based</option>
+        <option value="2">Diagnostic</option>
+        <option value="3" selected>Holistic</option>
+      </select>
+    </div>
+    <div class="param-group">
+      <div class="param-label">Teacher Model <span id="lbl-teacher">Mentor</span></div>
+      <select id="sel-teacher" onchange="updateDesign()">
+        <option value="1">Instructor-Centric</option>
+        <option value="2">Facilitator</option>
+        <option value="3" selected>Mentor</option>
+      </select>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>🕊️ Values & Civic Emphasis</h2>
+    <div class="param-group">
+      <div class="param-label">Moral Education <span id="lbl-moral">Moderate</span></div>
+      <input type="range" id="sl-moral" min="1" max="3" step="1" value="2" oninput="updateDesign()">
+    </div>
+    <div class="param-group">
+      <div class="param-label">Civic Education <span id="lbl-civic">Moderate</span></div>
+      <input type="range" id="sl-civic" min="1" max="3" step="1" value="2" oninput="updateDesign()">
+    </div>
+  </div>
+
+  <div class="section-label">Calculated Indices</div>
+  <div class="score-grid">
+    <div class="score-card"><div class="score-val" id="sc-intel">--</div><div class="score-lbl">Intellectual Depth Index</div></div>
+    <div class="score-card"><div class="score-val" id="sc-moral">--</div><div class="score-lbl">Moral Stability Index</div></div>
+    <div class="score-card"><div class="score-val" id="sc-innov">--</div><div class="score-lbl">Innovation Capacity</div></div>
+    <div class="score-card"><div class="score-val" id="sc-harmony">--</div><div class="score-lbl">Social Harmony</div></div>
+    <div class="score-card" style="grid-column:1/-1"><div class="score-val" id="sc-culture">--</div><div class="score-lbl">Cultural Continuity Score</div></div>
+  </div>
+
+  <button class="gen-btn" onclick="runDesign()">▶ Calculate Civilization Design</button>
+  <div id="design-alert" style="display:none;"></div>
+</div>
+
+<!-- ==================== SIMULATOR PAGE ==================== -->
+<div class="page" id="page-simulator">
+  <div class="page-header">
+    <h1>Human Development Simulator</h1>
+    <p>Life-Stage Cognitive & Ethical Progression</p>
+  </div>
+
+  <div class="card">
+    <h2>📊 Stage Parameters</h2>
+    <div class="param-group">
+      <div class="param-label">Cognitive Flexibility <span id="lbl-cog">60</span></div>
+      <input type="range" id="sl-cog" min="0" max="100" value="60" oninput="updateSim()">
+    </div>
+    <div class="param-group">
+      <div class="param-label">Ethical Reasoning <span id="lbl-eth">55</span></div>
+      <input type="range" id="sl-eth" min="0" max="100" value="55" oninput="updateSim()">
+    </div>
+    <div class="param-group">
+      <div class="param-label">Social Empathy <span id="lbl-emp">65</span></div>
+      <input type="range" id="sl-emp" min="0" max="100" value="65" oninput="updateSim()">
+    </div>
+    <div class="param-group">
+      <div class="param-label">Problem Solving <span id="lbl-prob">58</span></div>
+      <input type="range" id="sl-prob" min="0" max="100" value="58" oninput="updateSim()">
+    </div>
+    <div class="param-group">
+      <div class="param-label">Skill Diversity <span id="lbl-skill">50</span></div>
+      <input type="range" id="sl-skill" min="0" max="100" value="50" oninput="updateSim()">
+    </div>
+  </div>
+
+  <div class="section-label">Human Development Composite Score</div>
+  <div class="card" style="text-align:center;">
+    <div id="hdc-score" style="font-family:'Cinzel',serif;font-size:3rem;color:var(--gold-light);font-weight:700;">72</div>
+    <div style="font-family:'Rajdhani',sans-serif;font-size:0.7rem;color:var(--text-dim);letter-spacing:0.1em;text-transform:uppercase;margin-top:6px;">Human Development Composite</div>
+    <div id="hdc-label" style="font-family:'Rajdhani',sans-serif;font-size:0.85rem;color:var(--off-white);margin-top:8px;">Good Foundation</div>
+  </div>
+
+  <div class="section-label">Life Stage Progression</div>
+  <div class="card">
+    <div id="stage-bars"></div>
+  </div>
+
+  <div class="section-label">Radar Analysis</div>
+  <div class="card">
+    <canvas id="simRadar" width="280" height="280" style="display:block;margin:0 auto;"></canvas>
+  </div>
+</div>
+
+<!-- ==================== BALANCE LAB ==================== -->
+<div class="page" id="page-balance">
+  <div class="page-header">
+    <h1>Moral–Intellectual Balance Lab</h1>
+    <p>Visualize Harmony, Risk & Social Effects</p>
+  </div>
+
+  <div class="card">
+    <h2>🎛️ Adjust Parameters</h2>
+    <div class="param-group">
+      <div class="param-label">Academic Rigor <span id="lbl-rig">65</span></div>
+      <input type="range" id="sl-rig" min="0" max="100" value="65" oninput="updateBalance()">
+    </div>
+    <div class="param-group">
+      <div class="param-label">Value Education Intensity <span id="lbl-val">60</span></div>
+      <input type="range" id="sl-val" min="0" max="100" value="60" oninput="updateBalance()">
+    </div>
+    <div class="param-group">
+      <div class="param-label">Civic Engagement <span id="lbl-civ">55</span></div>
+      <input type="range" id="sl-civ" min="0" max="100" value="55" oninput="updateBalance()">
+    </div>
+    <div class="param-group">
+      <div class="param-label">Freedom Level <span id="lbl-free">50</span></div>
+      <input type="range" id="sl-free" min="0" max="100" value="50" oninput="updateBalance()">
+    </div>
+    <div class="param-group">
+      <div class="param-label">Structure Level <span id="lbl-struct">55</span></div>
+      <input type="range" id="sl-struct" min="0" max="100" value="55" oninput="updateBalance()">
+    </div>
+  </div>
+
+  <div class="section-label">Balance Radar</div>
+  <div class="card">
+    <canvas id="balanceRadar" width="280" height="280" style="display:block;margin:0 auto;"></canvas>
+  </div>
+
+  <div class="section-label">Imbalance Risk Indicator</div>
+  <div class="card">
+    <p style="font-family:'Rajdhani',sans-serif;font-size:0.8rem;color:var(--text-dim);margin-bottom:4px;">RISK LEVEL</p>
+    <div class="risk-bar"><div class="risk-needle" id="risk-needle"></div></div>
+    <div style="display:flex;justify-content:space-between;font-family:'Rajdhani',sans-serif;font-size:0.65rem;color:var(--text-dim);">
+      <span>Balanced</span><span>Moderate</span><span>High Risk</span>
+    </div>
+    <div style="text-align:center;margin-top:12px;">
+      <span id="risk-label" style="font-family:'Cinzel',serif;font-size:1rem;color:var(--gold);">Balanced System</span>
+    </div>
+  </div>
+
+  <div class="section-label">Long-Term Social Effect Projection</div>
+  <div class="card" id="balance-effects"></div>
+</div>
+
+<!-- ==================== INNOVATION & COHESION ==================== -->
+<div class="page" id="page-innovation">
+  <div class="page-header">
+    <h1>Economic, Innovation &amp; Cohesion Model</h1>
+    <p>Sections 5 &amp; 6 — Integrated Analysis</p>
+  </div>
+
+  <div class="tab-bar">
+    <button class="tab-btn active" onclick="switchInnovTab('innov', this)">Innovation</button>
+    <button class="tab-btn" onclick="switchInnovTab('cohesion', this)">Cohesion</button>
+  </div>
+
+  <div id="innov-panel">
+    <div class="card">
+      <h2>🔬 Innovation Parameters</h2>
+      <div class="param-group">
+        <div class="param-label">Vocational Integration <span id="lbl-voc">60</span></div>
+        <input type="range" id="sl-voc" min="0" max="100" value="60" oninput="updateInnov()">
+      </div>
+      <div class="param-group">
+        <div class="param-label">STEM Focus Level <span id="lbl-stem">65</span></div>
+        <input type="range" id="sl-stem" min="0" max="100" value="65" oninput="updateInnov()">
+      </div>
+      <div class="param-group">
+        <div class="param-label">Multidisciplinary Integration <span id="lbl-multi">55</span></div>
+        <input type="range" id="sl-multi" min="0" max="100" value="55" oninput="updateInnov()">
+      </div>
+    </div>
+    <div class="score-grid">
+      <div class="score-card"><div class="score-val" id="sc-econ">--</div><div class="score-lbl">Economic Adaptability</div></div>
+      <div class="score-card"><div class="score-val" id="sc-ecosystem">--</div><div class="score-lbl">Innovation Ecosystem</div></div>
+      <div class="score-card" style="grid-column:1/-1"><div class="score-val" id="sc-mobility">--</div><div class="score-lbl">Skill Mobility Projection</div></div>
+    </div>
+    <button class="gen-btn" onclick="calcInnov()">Calculate Innovation Index</button>
+  </div>
+
+  <div id="cohesion-panel" style="display:none;">
+    <div class="card">
+      <h2>🤝 Social Cohesion Parameters</h2>
+      <div class="param-group">
+        <div class="param-label">Equity Focus <span id="lbl-eq">60</span></div>
+        <input type="range" id="sl-eq" min="0" max="100" value="60" oninput="updateCohesion()">
+      </div>
+      <div class="param-group">
+        <div class="param-label">Inclusion Programs <span id="lbl-inc">55</span></div>
+        <input type="range" id="sl-inc" min="0" max="100" value="55" oninput="updateCohesion()">
+      </div>
+      <div class="param-group">
+        <div class="param-label">Cultural Literacy Emphasis <span id="lbl-cult">65</span></div>
+        <input type="range" id="sl-cult" min="0" max="100" value="65" oninput="updateCohesion()">
+      </div>
+    </div>
+    <div class="score-grid">
+      <div class="score-card"><div class="score-val" id="sc-incl">--</div><div class="score-lbl">Inclusion Index</div></div>
+      <div class="score-card"><div class="score-val" id="sc-conflict">--</div><div class="score-lbl">Conflict Risk Reduction</div></div>
+      <div class="score-card" style="grid-column:1/-1"><div class="score-val" id="sc-trust">--</div><div class="score-lbl">Trust & Social Capital</div></div>
+    </div>
+    <button class="gen-btn" onclick="calcCohesion()">Calculate Cohesion Index</button>
+  </div>
+</div>
+
+<!-- ==================== GENERATIONAL PROJECTION ==================== -->
+<div class="page" id="page-projection">
+  <div class="page-header">
+    <h1>Generational Civilization Projection</h1>
+    <p>3 Generations — Transitional to Mature Civilization</p>
+  </div>
+
+  <div class="gen-header">
+    <div class="gen-card"><div class="gen-num">G1</div><div class="gen-lbl">Transitional</div></div>
+    <div class="gen-card"><div class="gen-num">G2</div><div class="gen-lbl">Stabilized</div></div>
+    <div class="gen-card"><div class="gen-num">G3</div><div class="gen-lbl">Mature Civ.</div></div>
+  </div>
+
+  <div class="card" style="margin-top:12px;">
+    <h2>📈 Civilization Trajectory</h2>
+    <canvas id="projCanvas" width="320" height="220" style="display:block;margin:0 auto;width:100%;max-width:340px;"></canvas>
+  </div>
+
+  <div class="section-label">Metric Comparison by Generation</div>
+  <div class="card" id="proj-metrics"></div>
+
+  <div class="section-label">Civilization Stability Index</div>
+  <div class="card" style="text-align:center;">
+    <div id="csi-score" style="font-family:'Cinzel',serif;font-size:2.8rem;color:var(--gold-light);font-weight:700;">--</div>
+    <div style="font-family:'Rajdhani',sans-serif;font-size:0.7rem;color:var(--text-dim);text-transform:uppercase;letter-spacing:0.1em;margin-top:6px;">Civilization Stability Index</div>
+    <div id="csi-label" style="font-family:'Rajdhani',sans-serif;font-size:0.9rem;color:var(--off-white);margin-top:8px;"></div>
+  </div>
+
+  <button class="gen-btn" onclick="runProjection()">▶ Run 3-Generation Projection</button>
+</div>
+
+<!-- ==================== FRAMEWORK / DASHBOARD ==================== -->
+<div class="page" id="page-framework">
+  <div class="page-header">
+    <h1>Framework &amp; Civilization Scorecard</h1>
+    <p>Dashboard · Report Generator</p>
+  </div>
+
+  <div class="tab-bar">
+    <button class="tab-btn active" onclick="switchFwTab('dashboard', this)">Dashboard</button>
+    <button class="tab-btn" onclick="switchFwTab('report', this)">Report</button>
+    <button class="tab-btn" onclick="switchFwTab('about', this)">About</button>
+  </div>
+
+  <div id="fw-dashboard">
+    <div class="section-label">Civilization Scorecard</div>
+    <div class="score-grid">
+      <div class="score-card"><div class="score-val" id="dash-hdc">--</div><div class="score-lbl">Human Dev. Composite</div></div>
+      <div class="score-card"><div class="score-val" id="dash-intel">--</div><div class="score-lbl">Intellectual Depth</div></div>
+      <div class="score-card"><div class="score-val" id="dash-moral">--</div><div class="score-lbl">Moral Stability</div></div>
+      <div class="score-card"><div class="score-val" id="dash-innov">--</div><div class="score-lbl">Innovation Capacity</div></div>
+      <div class="score-card"><div class="score-val" id="dash-harmony">--</div><div class="score-lbl">Social Harmony</div></div>
+      <div class="score-card"><div class="score-val" id="dash-sustain">--</div><div class="score-lbl">Sustainability</div></div>
+    </div>
+
+    <div class="section-label">30-Year Projection Curve</div>
+    <div class="card">
+      <canvas id="dashChart" width="320" height="180" style="display:block;margin:0 auto;width:100%;max-width:340px;"></canvas>
+    </div>
+
+    <button class="gen-btn" onclick="syncDashboard()">🔄 Refresh Dashboard</button>
+  </div>
+
+  <div id="fw-report" style="display:none;">
+    <div class="card">
+      <h2>📋 Civilization Design Report</h2>
+      <div id="report-content">
+        <p style="color:var(--text-dim);font-family:'Rajdhani',sans-serif;font-size:0.85rem;">Run simulations in all sections first, then generate your report.</p>
+      </div>
+    </div>
+    <button class="gen-btn" onclick="generateReport()">📄 Generate Full Report</button>
+    <button class="gen-btn" onclick="saveReport()" style="background:linear-gradient(135deg,#1a6e3a,#2d9e5a);">💾 Save Report to Device</button>
+  </div>
+
+  <div id="fw-about" style="display:none;">
+    <div class="about-wrap">
+      <img src="author.jpg" alt="Mateen Yousuf" class="about-img" onerror="this.style.display='none'">
+      <div class="card">
+        <h2>About the Author</h2>
+        <p><strong>Mateen Yousuf</strong> is a dedicated educator with the School Education Department, Kashmir. He is passionate about integrating modern educational philosophy with India's NEP 2020 framework to transform how future generations learn, think, and contribute to society.</p>
+        <p>This simulator was designed to help educators, policymakers, and researchers model the long-term civilizational impact of education design choices.</p>
+        <div class="divider" style="margin:12px 0;"></div>
+        <h3 style="margin-bottom:10px;">NEP 2020 Pillars Covered</h3>
+        <div class="tag-row">
+          <span class="tag">Holistic Development</span>
+          <span class="tag">Constitutional Values</span>
+          <span class="tag">Critical Thinking</span>
+          <span class="tag">Multidisciplinary</span>
+          <span class="tag">Ethical Grounding</span>
+          <span class="tag">Nation Building</span>
+          <span class="tag">Cultural Continuity</span>
+          <span class="tag">Innovation</span>
+        </div>
+      </div>
+      <div class="card">
+        <h2>App Information</h2>
+        <div class="info-row"><span class="info-k">Version</span><span class="info-v">1.0.0</span></div>
+        <div class="info-row"><span class="info-k">Mode</span><span class="info-v">Fully Offline PWA</span></div>
+        <div class="info-row"><span class="info-k">Storage</span><span class="info-v">LocalStorage</span></div>
+        <div class="info-row"><span class="info-k">Framework</span><span class="info-v">Pure HTML/CSS/JS</span></div>
+        <div class="info-row"><span class="info-k">Aligned With</span><span class="info-v">NEP 2020</span></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== BOTTOM NAV ==================== -->
+<nav class="bottom-nav">
+  <button class="bnav-btn active" onclick="goPage('page-home',this)" id="bnav-home">
+    <span class="bnav-icon">🏛️</span>
+    <span class="bnav-label">Home</span>
+  </button>
+  <button class="bnav-btn" onclick="goPage('page-foundations',this)" id="bnav-foundations">
+    <span class="bnav-icon">📖</span>
+    <span class="bnav-label">Foundations</span>
+  </button>
+  <button class="bnav-btn" onclick="goPage('page-studio',this)" id="bnav-studio">
+    <span class="bnav-icon">🏗️</span>
+    <span class="bnav-label">Studio</span>
+  </button>
+  <button class="bnav-btn" onclick="goPage('page-simulator',this)" id="bnav-simulator">
+    <span class="bnav-icon">🧬</span>
+    <span class="bnav-label">Simulate</span>
+  </button>
+  <button class="bnav-btn" onclick="goPage('page-framework',this)" id="bnav-framework">
+    <span class="bnav-icon">📊</span>
+    <span class="bnav-label">Dashboard</span>
+  </button>
+</nav>
+
+<script>
+// ===== STATE =====
+const state = {
+  design: { curriculum:2, assessment:3, teacher:3, moral:2, civic:2 },
+  sim: { cog:60, eth:55, emp:65, prob:58, skill:50 },
+  balance: { rig:65, val:60, civ:55, free:50, struct:55 },
+  innov: { voc:60, stem:65, multi:55 },
+  cohesion: { eq:60, inc:55, cult:65 },
+  scores: {}
+};
+
+// ===== NAVIGATION =====
+function goPage(id, btn) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  document.querySelectorAll('.bnav-btn').forEach(b => b.classList.remove('active'));
+  // activate matching nav
+  const map = {
+    'page-home':'bnav-home','page-foundations':'bnav-foundations',
+    'page-studio':'bnav-studio','page-simulator':'bnav-simulator',
+    'page-balance':'bnav-simulator','page-innovation':'bnav-studio',
+    'page-projection':'bnav-studio','page-framework':'bnav-framework'
+  };
+  const navId = map[id];
+  if(navId) document.getElementById(navId)?.classList.add('active');
+  window.scrollTo(0,0);
+  // init on first visit
+  if(id === 'page-simulator') { updateSim(); drawSimRadar(); }
+  if(id === 'page-balance') { updateBalance(); drawBalanceRadar(); }
+  if(id === 'page-projection') { runProjection(); }
+  if(id === 'page-framework') { syncDashboard(); drawDashChart(); }
+}
+
+// ===== FOUNDATIONS DATA =====
+const foundations = [
+  {
+    title: "Education as Civilizational Engine",
+    content: `Education is not merely the transmission of knowledge—it is the engine that drives civilizations forward, sustains them through crises, and enables them to renew themselves across generations. Every great civilization in history, from ancient Athens to the Islamic Golden Age, from the Gupta Empire to Renaissance Europe, rose and fell partly on the strength or weakness of its educational institutions.
+
+When we speak of education as a civilizational engine, we mean that the values instilled in young minds become the operating system of a society. A civilization that teaches its children to question respectfully, to reason carefully, to feel empathy for the other, and to take pride in collective achievement will behave very differently from one that trains its youth merely to pass examinations and secure employment.
+
+NEP 2020 recognizes this civilizational role. It envisions an education system that nurtures not just skill but character, not just knowledge but wisdom. The foundational literacy and numeracy programs, the emphasis on mother-tongue instruction in early years, the integration of Indian knowledge traditions—all of these are civilizational choices, not merely pedagogical ones.
+
+Comparatively, Finland's education system produced a national renaissance not because it added more content but because it placed trust, autonomy, and holistic wellbeing at the center. Singapore combined rigorous intellectual standards with a deep civic curriculum to build extraordinary national cohesion. Japan's moral education (Dotoku) survived industrialization because it was embedded in daily school rituals, not confined to textbooks.
+
+India's challenge is unique: a civilization of unparalleled antiquity and diversity must modernize without homogenizing, must compete globally without losing its soul.`,
+    prompts: ["What does your community's education system currently engine—economic mobility, conformity, or creative citizenship?", "If education were redesigned for civilizational strength rather than exam performance, what would change first?"]
+  },
+  {
+    title: "Holistic Human Development Model",
+    content: `The reductionist view of education—that its purpose is to produce skilled workers—has been challenged by developmental psychologists, philosophers, and policymakers for over a century. Howard Gardner's theory of multiple intelligences, Lev Vygotsky's social constructivism, and Abraham Maslow's hierarchy of needs all converge on a single insight: human beings are multidimensional, and their education must honor that complexity.
+
+A holistic human development model addresses the cognitive, emotional, social, physical, aesthetic, ethical, and spiritual dimensions of a person simultaneously. NEP 2020 articulates this through its emphasis on the Panch Kosha model from Indian philosophy—the five sheaths of the self: physical (Annamaya), vital (Pranamaya), mental (Manomaya), intellectual (Vijnanamaya), and blissful (Anandamaya). Each dimension requires cultivation; neglect any one and the human being develops pathologies that manifest as social problems.
+
+Globally, models like the IB (International Baccalaureate) Learner Profile aim at this holism. The profile asks learners to be inquirers, knowers, thinkers, communicators, principled, open-minded, caring, risk-takers, balanced, and reflective. Each quality is a dimension of human development that a purely academic system ignores.
+
+In practice, holistic development requires structural changes: longer school days that include arts and sports, assessments that measure character and creativity, teacher training that addresses social-emotional learning, and family engagement programs. But it begins with a philosophical commitment that a test score does not equal a human being.
+
+For Indian civilization, this is not a foreign import. The gurukul tradition, Tagore's Shantiniketan, and Swami Vivekananda's man-making education all embodied holism. NEP 2020 recovers this inheritance for the 21st century.`,
+    prompts: ["Which dimensions of holistic development are most neglected in your local school system?", "How might you redesign a single school week to honor all five kosha dimensions?"]
+  },
+  {
+    title: "Intellectual Formation",
+    content: `Intellectual formation is the process by which a mind learns not just what to think but how to think. It is the deepest and most durable gift an education system can offer. A person who has been genuinely educated intellectually can learn any new subject, navigate any unfamiliar domain, and contribute original ideas to civilization.
+
+The components of intellectual formation include: logical reasoning, conceptual understanding, pattern recognition, analogical thinking, hypothesis generation, evidence evaluation, and reflective self-correction. These are not innate—they are cultivated through sustained practice in an environment that prizes intellectual risk-taking over safe conformity.
+
+Classical models of intellectual formation were remarkably similar across cultures. The Trivium of medieval European education (grammar, logic, rhetoric) mirrored the Indian tradition of Vyakarana (grammar), Tarka (logic), and Mimamsa (interpretation). Both recognized that intellectual depth requires mastery of language, the ability to reason, and the capacity to analyze and construct arguments.
+
+Modern neuroscience confirms what these traditions intuited. The prefrontal cortex—the seat of executive function, planning, and abstract reasoning—develops most rapidly in early adolescence but continues developing until the mid-twenties. Education during this critical window shapes the neural architecture of intellectual capacity for life.
+
+The tragedy of examination-driven education is that it trains memory at the expense of understanding, recognition at the expense of generation. Students who can recall definitions cannot always explain concepts; students who can solve template problems cannot always approach novel ones. Intellectual formation requires moving beyond templates into genuine thinking.`,
+    prompts: ["Identify one subject in your curriculum where rote learning dominates over genuine understanding. How would you redesign that unit?", "What does a 'thinking classroom' look like, sound like, feel like?"]
+  },
+  {
+    title: "Moral & Ethical Education",
+    content: `Every civilization that has endured has possessed a robust tradition of moral education—the systematic cultivation of virtues, values, and ethical reasoning in the young. The question is never whether to provide moral education but how to do so authentically in a pluralistic, rapidly changing society.
+
+There are three dominant approaches to moral education in contemporary systems. The first is character education, which focuses on instilling specific virtues (honesty, courage, compassion, responsibility) through modeling, practice, and institutional culture. The second is values clarification, which helps learners identify and examine their own values without prescribing specific ones. The third is Kohlberg's cognitive-developmental approach, which aims to advance moral reasoning through engagement with genuine moral dilemmas.
+
+NEP 2020 draws on India's pluralistic ethical inheritance. It emphasizes constitutional values—justice, liberty, equality, fraternity—alongside traditional virtues derived from various cultural streams. The goal is not moral uniformity but moral depth: the capacity to reason about difficult ethical questions with both knowledge and compassion.
+
+The Islamic philosophical tradition contributed enormously to the global understanding of moral education through its emphasis on Tarbiya (character formation) alongside Talim (knowledge transmission). The Confucian tradition embedded moral education in daily rituals of respect and reciprocity. The Buddhist tradition trained mindfulness as a foundation for ethical awareness. India's own traditions synthesized all of these streams.
+
+Contemporary moral education must also address digital ethics, environmental responsibility, bioethical questions, and the ethics of artificial intelligence—domains unimaginable to earlier educators but essential for civilizational survival.`,
+    prompts: ["What moral dilemmas do your students face that the current curriculum completely ignores?", "How does your school's daily culture reinforce or undermine the values it claims to teach?"]
+  },
+  {
+    title: "Civic Responsibility & Democracy",
+    content: `Democracy is the most demanding form of government in human history because it requires its citizens to be informed, engaged, and capable of reasoned deliberation. A democracy that fails to educate its citizens for civic responsibility inevitably degenerates into either authoritarianism or mob rule. Civic education is therefore not optional for democratic civilizations—it is existential.
+
+Civic education encompasses multiple dimensions. Political literacy helps citizens understand institutions, rights, and processes. Historical consciousness provides context for contemporary challenges. Media literacy enables citizens to navigate information environments intelligently. Deliberative skills equip people to argue, listen, disagree, and compromise productively. And civic virtues—including public-spiritedness, tolerance, and a sense of shared fate—motivate engagement rather than apathy.
+
+NEP 2020 places civic education at the heart of the school curriculum, linking it explicitly to constitutional values. The emphasis on project-based learning, community engagement, and service learning creates opportunities for students to practice citizenship rather than merely study it. Student governments, debate competitions, mock parliaments, and social work placements translate civic knowledge into civic experience.
+
+International comparisons are instructive. Finland's strong emphasis on active citizenship and critical media literacy has produced one of the world's most politically engaged and media-literate populations. Taiwan's civic education curriculum was redesigned in the 2010s to emphasize democratic participation and critical thinking—credited by many with strengthening Taiwanese democratic culture.
+
+India's civic education challenge is compounded by scale and diversity. Building a civic culture that honors both national unity and cultural plurality requires education that teaches students to hold multiple identities simultaneously—local, regional, national, and global—without experiencing them as contradictions.`,
+    prompts: ["What is the most important civic skill your students lack that school currently fails to teach?", "Design a community project that would give students genuine civic responsibility, not simulated experience."]
+  },
+  {
+    title: "Economic Skill Formation",
+    content: `The relationship between education and economic development is complex, non-linear, and culturally embedded. Simple human capital theory—that more education produces more economic growth—has been repeatedly complicated by evidence. What matters is not the quantity of education but its quality, relevance, and alignment with both economic realities and human aspirations.
+
+Economic skill formation in the 21st century requires a fundamentally different orientation than the industrial-era model it is replacing. The World Economic Forum's Future of Jobs reports consistently identify the most valuable future skills as: complex problem-solving, critical thinking, creativity, people management, coordinating with others, emotional intelligence, judgment and decision-making, service orientation, negotiation, and cognitive flexibility. Notably absent from this list are most of the skills that dominate traditional school curricula.
+
+NEP 2020 addresses this through its emphasis on vocational education integrated throughout schooling, not siloed in separate tracks. The aim is to develop what the policy calls "21st century skills"—skills that are portable across jobs, adaptable to technological change, and grounded in genuine understanding rather than rote procedure.
+
+The challenge is to provide vocational education that is genuinely dignified—not a consolation prize for academic underachievers but a respected pathway for every student. Germany's dual education system, which combines school-based learning with structured workplace apprenticeships, demonstrates that vocational education can produce both economic dynamism and personal fulfillment. South Korea's transformation from poverty to prosperity was driven by education that combined technical training with strong general education.
+
+For India, the integration of traditional craft knowledge, agricultural wisdom, and service skills with modern technical education represents an enormous untapped resource for economic development.`,
+    prompts: ["What local economic skills are being lost because school doesn't recognize or teach them?", "How would you design a school curriculum that prepared students for the economy of 2035 rather than 1995?"]
+  },
+  {
+    title: "Innovation & Scientific Temper",
+    content: `Scientific temper—the disposition to reason empirically, to test beliefs against evidence, to revise conclusions in light of new data, and to maintain intellectual humility about the limits of current knowledge—is explicitly mandated by the Indian Constitution as a fundamental duty of every citizen. Article 51A(h) reads: "to develop the scientific temper, humanism and the spirit of inquiry and reform."
+
+This constitutional commitment reflects a deep civilizational choice. India's founders understood that a nation emerging from colonial rule and structured by ancient traditions needed a culture of critical inquiry to navigate modernity without becoming its victim. Scientific temper is not anti-tradition; it is the ability to interrogate all claims—traditional and modern, domestic and foreign—with the same rigorous but respectful eye.
+
+Innovation capacity in education systems is built through multiple mechanisms. Project-based learning that requires original problem-solving. Science fairs that celebrate failure as learning. Design thinking curricula that teach iterative prototyping. Maker spaces that democratize access to creative tools. Research opportunities that bring real questions into the classroom.
+
+The STEM-focused education reforms of the early 21st century, while valuable, often confused scientific literacy with technological training. True scientific temper is a philosophical orientation as much as a technical capability. It includes the ability to distinguish between scientific consensus and contested claims, to understand the sociology of knowledge production, and to appreciate the ethical dimensions of scientific and technological development.
+
+India's ancient traditions of inquiry—from the Nyaya school of logic to Aryabhata's astronomical calculations to the Carvaka materialist tradition—demonstrate that scientific temper is not a Western import but an indigenous capacity to be recovered and developed.`,
+    prompts: ["Where in your school day are students given permission to be genuinely wrong and learn from it?", "How would you cultivate scientific temper in a subject that is not science?"]
+  },
+  {
+    title: "Cultural Literacy & Identity",
+    content: `Cultural literacy is the knowledge of the stories, symbols, values, practices, and historical references that constitute a civilization's shared inheritance. E.D. Hirsch famously argued that cultural literacy is prerequisite to genuine communication and full democratic participation—those who do not share the cultural background knowledge of a society are systematically disadvantaged in that society's discourses.
+
+In India, cultural literacy must be understood at multiple levels simultaneously. At the local level, students should know the stories, music, crafts, agricultural practices, and ecological wisdom of their immediate communities. At the regional level, they should understand the linguistic, artistic, and historical traditions of their linguistic community. At the national level, they should know the foundational texts, historical events, philosophical traditions, and artistic achievements that constitute India's civilizational identity. And at the global level, they should have sufficient knowledge of world cultures to engage respectfully and effectively with the global community.
+
+NEP 2020's emphasis on integration of Indian Knowledge Systems (IKS) into the curriculum reflects this multi-level understanding of cultural literacy. The inclusion of classical languages, the recognition of tribal and folk knowledge traditions, the emphasis on mother-tongue instruction in foundational years—all of these are cultural literacy interventions with deep civilizational significance.
+
+The risk is cultural chauvinism: the mistaking of cultural pride for cultural superiority. Genuine cultural literacy includes the critical capacity to examine one's own tradition honestly, to recognize its contradictions and failures alongside its achievements, and to learn from other traditions without abandoning one's own. This is the difference between civilizational confidence and civilizational anxiety.`,
+    prompts: ["What cultural knowledge is your school actively transmitting? What is it inadvertently allowing to disappear?", "How do you teach pride in cultural heritage without teaching contempt for other heritages?"]
+  },
+  {
+    title: "Emotional Intelligence in Education",
+    content: `Daniel Goleman's popularization of emotional intelligence in the 1990s catalyzed a global conversation about what schools should actually be developing in students. His research synthesized decades of work showing that emotional competence—the ability to recognize, understand, manage, and use emotions effectively—was a stronger predictor of life success, relationship quality, and wellbeing than IQ alone.
+
+The five domains of emotional intelligence are: self-awareness (recognizing one's emotions and their effects), self-regulation (managing disruptive impulses and moods), motivation (pursuing goals with energy and persistence), empathy (understanding others' emotional makeup), and social skills (managing relationships effectively). Each domain is educable—these are learned competencies, not fixed traits.
+
+Social-emotional learning (SEL) programs that systematically develop these competencies have been shown to improve academic achievement by an average of 11 percentile points, reduce behavioral problems, improve classroom climate, and produce lasting benefits that follow students into adulthood. CASEL (Collaborative for Academic, Social, and Emotional Learning) has documented evidence from thousands of programs across cultures.
+
+NEP 2020 integrates SEL through its emphasis on well-being, life skills, yoga and mindfulness, and reflective practices. The bagless day, community service, arts integration, and peer learning all create conditions for emotional development. But the most powerful SEL tool in any school is the emotional quality of teacher-student relationships—students learn emotional regulation from regulated adults, empathy from empathic teachers.
+
+The neuroscience of emotion and learning shows that emotional safety is prerequisite to intellectual risk-taking. A student in chronic stress cannot access higher-order thinking. Before we can teach content, we must create emotional conditions in which learning can occur.`,
+    prompts: ["How emotionally safe does your school feel to its most vulnerable students?", "Design a morning routine for a classroom that would systematically build emotional intelligence over a school year."]
+  },
+  {
+    title: "Intergenerational Knowledge Transmission",
+    content: `Every civilization rests on accumulated knowledge—technical, philosophical, ethical, artistic, ecological—that was hard-won across generations and must be consciously transmitted to avoid being lost. The school is society's primary mechanism for this transmission, but it operates alongside family, community, religious institutions, and increasingly, digital platforms.
+
+The tension in intergenerational knowledge transmission is between preservation and adaptation. Pure preservation without adaptation produces a museum culture—beautiful artifacts disconnected from living practice. Pure adaptation without preservation produces cultural amnesia—innovation without roots, modernity without wisdom. The challenge is to transmit knowledge in ways that keep it alive, relevant, and capable of continuing to evolve.
+
+India faces this challenge acutely because it possesses one of the world's richest knowledge inheritances: in mathematics (the zero, decimal system, trigonometry), astronomy (precise planetary calculations), medicine (Ayurveda, Siddha, Unani), philosophy (the six Darshanas, Buddhist epistemology, Jain logic), literature (Sanskrit, Tamil, and multiple vernacular traditions), music (classical ragas), architecture (temple design as cosmological map), and ecology (traditional water harvesting, forest management, seed conservation).
+
+Much of this knowledge is held by specific communities and transmitted through apprenticeship, ritual, and living practice rather than written texts. When those communities are disrupted—by migration, economic pressure, or cultural assimilation—the knowledge disappears irreversibly. NEP 2020's emphasis on local and traditional knowledge is partly a response to this existential threat.
+
+Intergenerational transmission is also about values, stories, and ways of being in the world that cannot be reduced to information. The oral traditions of every culture carry wisdom that formal education frequently dismisses as "superstition" but often encodes genuine ecological, psychological, and social knowledge.`,
+    prompts: ["What knowledge in your community is at risk of being lost within a generation? Who holds it?", "Design a school project that would involve genuine knowledge transmission from elders to students."]
+  },
+  {
+    title: "Assessment & Character Formation",
+    content: `Assessment is never neutral. The way we measure learning shapes what gets taught, how it gets taught, and what students learn about themselves as learners. High-stakes examinations that reward memorization train students to memorize; they also train students to believe that their worth is determined by their performance on a single day under conditions of high stress. These are both civilizational messages with long-term consequences.
+
+Character formation through assessment asks a more fundamental question: what does the experience of being assessed teach students about themselves, about knowledge, and about the nature of achievement? Does assessment cultivate intellectual honesty (the capacity to acknowledge what you don't know)? Does it develop resilience (the ability to learn from failure)? Does it reward creativity and risk-taking, or penalize deviation from the expected answer?
+
+Portfolio assessment allows students to demonstrate growth over time and to develop metacognitive awareness of their own learning. Competency-based progression allows students to advance when they have genuinely mastered skills rather than when they have sat in a classroom long enough. Peer and self-assessment develop the reflective capacities essential to lifelong learning. Project-based assessment reveals capabilities—collaboration, communication, creativity, persistence—that written examinations cannot detect.
+
+NEP 2020's Continuous Comprehensive Evaluation (CCE) framework recognizes that regular, low-stakes feedback is more effective for learning than terminal high-stakes examinations. The PARAKH framework for holistic progress cards attempts to document student development across domains beyond academic achievement.
+
+The deepest argument for reforming assessment is civilizational: societies that narrow their definition of human excellence to academic performance systematically exclude and demoralize the majority of their citizens, wasting the enormous creative potential that the narrow system was incapable of detecting.`,
+    prompts: ["What does your current assessment system say to the student who cannot pass its tests?", "Design an alternative assessment for one unit that would reveal capabilities the current test cannot see."]
+  },
+  {
+    title: "Institutional Stability & Trust",
+    content: `Educational institutions function only within an ecology of trust. Students must trust that learning is worth the effort. Parents must trust that schools serve their children's genuine interests. Teachers must trust that their professional judgment is respected. Communities must trust that schools reflect their values. And society must trust that educational credentials mean something.
+
+When these trust relationships break down, education systems collapse in slow motion. Credentialism—the pursuit of certificates without the knowledge they are supposed to certify—is a symptom of institutional trust failure. Corruption in examination systems is both a cause and effect of this collapse. Private tutoring systems that effectively replace formal schooling represent a market vote of no-confidence in public education.
+
+India's educational institutions carry both enormous accumulated trust—in the reverence for teachers, in the cultural status of learning, in the tradition of scholarship—and deep contemporary distrust, expressed in examination scandals, teacher absenteeism, and the flight to private schooling.
+
+Institutional stability requires transparency, consistency, and accountability. But it also requires something harder to mandate: a culture of professional integrity in which educators take genuine pride in their work and communities take genuine ownership of their schools. The most stable educational institutions in any civilization are those that are deeply embedded in community life—not bureaucratic service delivery mechanisms but living cultural institutions.
+
+Research on school effectiveness consistently finds that institutional trust is the mediating variable between resource inputs and student outcomes. Schools with identical resources produce dramatically different results depending on whether they function as high-trust or low-trust organizations.`,
+    prompts: ["What specific practices in your school institution build or erode teacher and community trust?", "If you could change one policy to increase institutional trust in your school, what would it be and why?"]
+  },
+  {
+    title: "Education & Social Cohesion",
+    content: `Social cohesion—the degree to which members of a society feel bonded by shared identity, mutual obligation, and a common future—is both a prerequisite for and a product of good education. Divided societies produce divided schools; divided schools reproduce divided societies. The question is whether education can be an engine of cohesion in societies that are structurally divided by class, caste, religion, language, and region.
+
+History offers both cautionary tales and models of success. Rwanda's post-genocide education reform explicitly addressed ethnic division through curriculum redesign, teacher training, and a national commitment to reconciliation. Singapore's educational multiculturalism—which requires all students to study their mother tongue alongside a common national curriculum—has contributed to one of the world's most stable multi-ethnic societies. Canada's inclusive education policies have created school environments that model the multicultural citizenship the society aspires to.
+
+India's educational challenge of cohesion is profound. A nation with 1.4 billion people, 22 officially scheduled languages, hundreds of dialects, multiple major religious communities, a caste system with thousands of subdivisions, and radical economic inequality must build a common educational experience that honors this complexity without exploiting it.
+
+NEP 2020 attempts to address social cohesion through its emphasis on mother-tongue instruction (which validates linguistic diversity), the three-language formula (which builds bridges across communities), the integration of diverse cultural traditions in the curriculum, and the provision of quality education for historically marginalized communities through targeted support.
+
+But structural interventions cannot substitute for the everyday experience of shared humanity in diverse classrooms. Teachers who model respect across difference, curricula that make all students visible and valued, assessment systems that do not systematically favor some communities over others—these are the daily building blocks of educational social cohesion.`,
+    prompts: ["Where in your school do students from different backgrounds genuinely encounter each other as equals?", "What does your school curriculum reveal about which communities count and which are footnotes?"]
+  },
+  {
+    title: "Knowledge & Responsibility Balance",
+    content: `The accumulation of knowledge without the cultivation of responsibility is among the most dangerous developments in human history. Nuclear physics without international governance, genetic engineering without bioethics, artificial intelligence without alignment—each represents the catastrophic potential of knowledge divorced from wisdom.
+
+The concept of knowledge with responsibility has deep roots in every major civilization. The Hippocratic injunction to "first, do no harm" embedded responsibility in medical knowledge from antiquity. The Islamic concept of Amanah (trusteeship) positioned all knowledge as held in trust for God and humanity. The Bodhisattva ideal in Buddhism defined wisdom as inseparable from compassion. Gandhi's concept of Trusteeship extended this to economic and social knowledge.
+
+Contemporary education systems routinely teach knowledge without teaching responsibility for its use. Science students learn powerful techniques without systematic ethical training. Engineering students learn to optimize systems without learning to question what those systems serve. Business students learn to maximize returns without examining what is being returned for and to whom.
+
+Integrating knowledge and responsibility requires structural changes: ethics committees that evaluate research in schools and universities, professional practice standards that embed ethical reasoning, community engagement requirements that connect knowledge production to knowledge application, and reflective practices that ask students to examine not just what they are learning but why and for whom.
+
+NEP 2020's emphasis on Indian Knowledge Systems provides a framework for this integration: the traditional Indian concept of knowledge (Vidya) was always situated in a comprehensive vision of human flourishing rather than a purely instrumental view of cognitive competence.`,
+    prompts: ["Choose a piece of knowledge your students learn. Who benefits from this knowledge? Who might be harmed by its misuse?", "Design a unit that teaches both technical skill and ethical responsibility simultaneously."]
+  },
+  {
+    title: "Discipline vs Creativity",
+    content: `The tension between discipline and creativity is among the most productive in educational philosophy. Too much discipline without creativity produces technically proficient but intellectually sterile graduates who can execute existing solutions but cannot imagine new ones. Too much creativity without discipline produces enthusiastic but ineffective graduates who generate ideas but lack the skills and habits to realize them.
+
+Genuine creative achievement requires both: the discipline of mastery (deep knowledge of a domain's existing possibilities) and the creativity of transgression (the courage and skill to move beyond those possibilities). Mozart's extraordinary musical creativity was built on a foundation of extraordinary musical discipline. Einstein's theoretical breakthroughs emerged from meticulous mastery of existing physics. Tagore's poetic innovations presupposed complete command of existing poetic traditions.
+
+The neuroscience of creativity confirms this integration. Research shows that the brain's default mode network (associated with imagination and creativity) and its executive network (associated with focused, disciplined thinking) are most effective when they work in alternation—periods of open, associative thinking followed by periods of focused, critical evaluation. Educational environments that force students to be always "on task" suppress the default mode network and thereby suppress creativity; those that are always loose and unstructured fail to develop the executive network needed to realize creative visions.
+
+Finland's educational approach balances structured academic learning with extensive unstructured play and exploration. The Reggio Emilia approach, developed in post-war northern Italy, treats creativity as the fundamental language of children's intelligence and builds disciplined mastery through creative projects.
+
+NEP 2020's integration of arts, crafts, sports, and performing arts into the curriculum as co-curricular activities reflects understanding of this balance. The bagless days, flexible timetabling, and project-based assessments all create space for creative exploration within structured educational programs.`,
+    prompts: ["In which parts of your school day do students experience genuine creative freedom? In which do they experience genuine disciplined mastery?", "Design a single lesson that cultivates both discipline and creativity simultaneously."]
+  },
+  {
+    title: "Freedom & Structure in Learning",
+    content: `Every effective learning environment navigates the relationship between freedom and structure. Pure freedom without structure produces anxiety, not creativity—students without clear expectations and boundaries often founder, unsure what they are supposed to be doing or how to evaluate their own progress. Pure structure without freedom produces compliance, not learning—students who can only perform in highly scaffolded environments have not actually learned; they have been drilled.
+
+The developmental dimension of this tension is crucial. Young children need more structure and gradually earn more freedom as they develop self-regulation, metacognitive awareness, and intrinsic motivation. Adolescents need opportunities for genuine autonomy and self-direction if they are to develop the identity and agency that adult citizenship requires. Adult learners function best with maximum freedom and self-direction within a clear framework of support.
+
+Lev Vygotsky's concept of the Zone of Proximal Development provides the most useful theoretical framework for this balance. Learning occurs optimally when students are challenged just beyond their current capability with appropriate support—neither coddled in the familiar nor abandoned in the overwhelming. The teacher's role is to calibrate this balance continuously for each learner.
+
+Montessori education structures freedom systematically: within a carefully prepared environment, children choose their own activities and work at their own pace, but the environment is designed to make the most productive choices the most attractive ones. Democratic schools like Summerhill take freedom further, giving students genuine governance authority over school rules and schedules. Traditional gurukul education embedded freedom within a framework of relationship—the student's freedom was bounded by the guru's discernment of their readiness.`,
+    prompts: ["Where in your current school structure do students experience genuine choice? Are those choices meaningful?", "What would you need to change about your classroom environment to give students more productive freedom?"]
+  },
+  {
+    title: "Technology & Human Agency",
+    content: `The integration of technology into education presents civilization with its deepest contemporary challenge: how to harness digital tools to enhance human agency rather than diminish it. Every previous technology of communication—writing, print, radio, television—was eventually integrated into education in ways that both expanded and constrained human possibility. Digital technology is orders of magnitude more powerful and more penetrating than any of its predecessors.
+
+The central risk of educational technology is not that it makes children passive (though excessive screen time does reduce physical activity and sleep) but that it optimizes for engagement rather than learning, for attention capture rather than attention development, and for dependency rather than capability. The most sophisticated educational technology systems in the world—including many AI tutoring systems—are designed to be maximally attractive and minimally demanding, producing the sensation of learning without its substance.
+
+The central opportunity of educational technology is genuine personalization at scale: adaptive systems that can respond to each learner's individual needs, pace, and style in ways that no human teacher with thirty students can. Khan Academy's mastery-based learning, Duolingo's spaced repetition vocabulary learning, and various AI tutoring systems have demonstrated genuine learning gains for specific competencies.
+
+NEP 2020's National Digital Education Architecture (NDEAR) and DIKSHA platform represent India's attempt to harness digital technology for educational equity—ensuring that high-quality educational resources reach students in remote and underserved areas. The risk is that digital equity infrastructure becomes a substitute for human teaching rather than a supplement to it.
+
+The philosophical question for any civilization is: what do we want technology to do to and for human beings? Technology that develops human capability—that makes us more capable thinkers, more connected to one another, more aware of our world—serves civilization. Technology that replaces human effort, relationship, and agency diminishes it.`,
+    prompts: ["In what ways does technology in your classroom expand student agency? In what ways does it substitute for it?", "Design a technology-integrated learning experience that would make students more capable humans, not just more efficient consumers of content."]
+  },
+  {
+    title: "Leadership Development Across Generations",
+    content: `Leadership development is among the most consequential purposes of education. Every civilization's continuation depends on its ability to produce successive generations of people capable of guiding institutions, inspiring communities, navigating crises, and transmitting wisdom to those who follow. When this pipeline fails—when a generation of leaders is inadequately prepared—civilizations stagnate, fragment, or collapse.
+
+Leadership is not a single quality but a complex of capacities: vision (the ability to see possibilities beyond current constraints), judgment (the ability to make good decisions under uncertainty), integrity (the alignment of values and action), empathy (genuine understanding of others' perspectives and needs), resilience (the capacity to persist and adapt through adversity), and communication (the ability to transmit understanding and inspire commitment).
+
+Schools develop leadership capacity in both obvious and subtle ways. Student government, debate, sports captaincy, and community service are the obvious mechanisms. The subtle ones are more powerful: classrooms that give students genuine responsibility for their communities' wellbeing, teachers who model leadership through their own practice, cultures that celebrate service and contribution rather than merely performance and achievement.
+
+Across civilizations, leadership development traditions have recognized that genuine leadership is inseparable from character formation. Confucius' emphasis on the junzi (superior person) as the model of educated leadership. Plato's philosopher-kings educated through mathematics and philosophy. The Islamic tradition of the Wali (scholar-leader) who combined knowledge with piety and service. India's concept of Rajarishi—the sage-king who combined political authority with spiritual depth.
+
+NEP 2020's emphasis on holistic development, service learning, and civic education creates the foundations for this comprehensive approach to leadership development.`,
+    prompts: ["Name three students in your school who show leadership potential that the formal system doesn't recognize or develop. What would you need to change to develop their capacity?", "Design a year-long leadership development program that doesn't require formal positions or titles."]
+  },
+  {
+    title: "Sustainable Education Design",
+    content: `Education systems, like all complex systems, must be designed for sustainability—the capacity to produce benefits over long time periods without depleting the resources, relationships, and values on which they depend. Unsustainable education designs are common: systems that burn teachers out through unreasonable demands, curricula that overload students with content that cannot be absorbed, reforms that exhaust communities and then collapse when external funding ends.
+
+Sustainable education design requires attention to at least four dimensions. Ecological sustainability means designing education that produces environmentally responsible citizens and that operates within planetary limits—not just adding environmental content but embedding ecological thinking throughout the curriculum and in school operations. Economic sustainability means creating systems that deliver quality education at costs that communities can sustain over generations, without permanent dependency on external subsidies. Social sustainability means building communities of practice among teachers, families, and students that continue to regenerate professional knowledge and motivation. And cultural sustainability means ensuring that education preserves and transmits the cultural wisdom that enables communities to navigate challenges over time.
+
+The most sustainable education systems in the world share certain characteristics: high teacher status and professional autonomy (which retains talent and builds institutional memory), strong community ownership (which ensures local maintenance and adaptation), modest and focused ambitions (which allow genuine mastery rather than superficial coverage), and long time horizons (which reward investment in fundamental capabilities over quick-fix interventions).
+
+Finland's education system was not built in a decade—it was constructed through forty years of patient, consistent reform guided by a clear vision and sustained through successive governments. The patience required for sustainable education reform is itself a civilizational virtue that must be cultivated.`,
+    prompts: ["What aspects of your current school's design are sustainable? What aspects will exhaust or collapse within a decade?", "Design a classroom practice that is sustainable for teachers, students, and communities simultaneously."]
+  },
+  {
+    title: "Designing an Ideal Education Civilization",
+    content: `We arrive at the culminating question: what does an ideal education civilization look like? Not a perfect system—perfection is inhuman and impossible—but a civilization in which education is genuinely designed for human flourishing across generations.
+
+An ideal education civilization begins with a clear and shared vision of the human being it aims to develop: not a functional unit of economic production, not a consumer of cultural products, not a voter to be managed, but a full human being capable of wisdom, compassion, creativity, and contribution. This vision must be specific enough to guide design choices and flexible enough to honor individual and cultural diversity.
+
+The institutional architecture of an ideal education civilization includes: schools that are genuine communities rather than processing facilities, teachers who are honored as cultural transmitters and intellectual leaders rather than service delivery agents, curricula that are broad enough to honor human complexity and deep enough to produce genuine mastery, assessments that reveal and develop capability rather than rank and exclude, and governance structures that give communities genuine ownership while ensuring universal access to quality.
+
+The cultural substrate of an ideal education civilization includes: a deep reverence for learning as a human activity, a culture of intellectual courage that prizes honest questions over comfortable answers, social norms that honor teachers and celebrate learning across the life course, and a tradition of service that connects knowledge to responsibility.
+
+India possesses many of the raw materials for this civilization: an ancient tradition of reverence for learning, a philosophical inheritance of extraordinary depth, a cultural diversity that could produce creativity rather than division if honored rather than homogenized, and a young population whose energy and aspiration represent one of history's greatest opportunities.
+
+NEP 2020, for all its limitations and implementation challenges, represents a serious attempt to design education for civilizational flourishing. Its ultimate success depends not on policy documents but on the millions of teachers, parents, students, and community members who must bring it to life in every classroom, every day, across the vast complexity of India.`,
+    prompts: ["Write your personal vision statement for the education civilization you want to help build.", "What is the single most important change you can make in your own practice to move toward this ideal?"]
+  }
+];
+
+// Build foundation page nav
+function buildFoundations() {
+  const nav = document.getElementById('foundNav');
+  const pages = document.getElementById('foundPages');
+  nav.innerHTML = '';
+  pages.innerHTML = '';
+
+  foundations.forEach((f, i) => {
+    const dot = document.createElement('button');
+    dot.className = 'found-dot' + (i===0?' active':'');
+    dot.textContent = i+1;
+    dot.onclick = () => showFoundation(i);
+    nav.appendChild(dot);
+
+    const div = document.createElement('div');
+    div.className = 'found-content' + (i===0?' active':'');
+    div.id = 'found-'+i;
+    div.innerHTML = `
+      <div class="found-page-num">Page ${i+1} of ${foundations.length}</div>
+      <div class="found-title">${f.title}</div>
+      <div class="card" style="margin:0 0 16px;">
+        ${f.content.split('\n\n').map(p => `<p style="margin-bottom:12px;">${p}</p>`).join('')}
+      </div>
+      <div class="reflective-box">
+        <h4>🔍 Reflective Prompts</h4>
+        ${f.prompts.map(p => `<p style="margin-bottom:8px;">• ${p}</p>`).join('')}
+      </div>
+    `;
+    pages.appendChild(div);
+  });
+}
+
+let currentFoundation = 0;
+
+function showFoundation(i) {
+  currentFoundation = i;
+  document.querySelectorAll('.found-content').forEach((el,idx) => el.classList.toggle('active', idx===i));
+  document.querySelectorAll('.found-dot').forEach((el,idx) => el.classList.toggle('active', idx===i));
+  // scroll nav dot into view
+  const dots = document.querySelectorAll('.found-dot');
+  dots[i]?.scrollIntoView({behavior:'smooth', block:'nearest', inline:'center'});
+  document.getElementById('page-foundations').scrollTo(0,0);
+}
+
+function prevFoundation() {
+  if(currentFoundation > 0) showFoundation(currentFoundation-1);
+}
+
+function nextFoundation() {
+  if(currentFoundation < foundations.length-1) showFoundation(currentFoundation+1);
+}
+
+// ===== DESIGN STUDIO =====
+function updateDesign() {
+  const sel = ['curriculum','assessment','teacher'];
+  const lblMap = {curriculum:{1:'Content-Heavy',2:'Competency-Based',3:'Integrated'},
+                   assessment:{1:'Marks-Based',2:'Diagnostic',3:'Holistic'},
+                   teacher:{1:'Instructor-Centric',2:'Facilitator',3:'Mentor'}};
+  sel.forEach(s => {
+    const v = parseInt(document.getElementById('sel-'+s).value);
+    state.design[s] = v;
+    document.getElementById('lbl-'+s.replace('assessment','assess').replace('curriculum','curr')).textContent = lblMap[s][v];
+  });
+  ['moral','civic'].forEach(s => {
+    const v = parseInt(document.getElementById('sl-'+s).value);
+    state.design[s] = v;
+    const labels = {1:'Minimal',2:'Moderate',3:'Strong'};
+    document.getElementById('lbl-'+s).textContent = labels[v];
+  });
+}
+
+function runDesign() {
+  const d = state.design;
+  // Deterministic formulas
+  const intellectual = Math.round((d.curriculum * 0.4 + d.assessment * 0.3 + d.teacher * 0.3) / 3 * 33);
+  const moral = Math.round((d.moral * 0.6 + d.civic * 0.4) / 3 * 100);
+  const innovation = Math.round((d.curriculum * 0.5 + d.teacher * 0.3 + d.civic * 0.2) / 3 * 100);
+  const harmony = Math.round((d.civic * 0.5 + d.moral * 0.3 + d.assessment * 0.2) / 3 * 100);
+  const culture = Math.round((d.moral * 0.4 + d.civic * 0.4 + d.curriculum * 0.2) / 3 * 100);
+
+  state.scores.intellectual = intellectual;
+  state.scores.moral = moral;
+  state.scores.innovation = innovation;
+  state.scores.harmony = harmony;
+  state.scores.culture = culture;
+
+  document.getElementById('sc-intel').textContent = intellectual;
+  document.getElementById('sc-moral').textContent = moral;
+  document.getElementById('sc-innov').textContent = innovation;
+  document.getElementById('sc-harmony').textContent = harmony;
+  document.getElementById('sc-culture').textContent = culture;
+
+  saveToStorage('designScores', state.scores);
+
+  const alert = document.getElementById('design-alert');
+  alert.style.display = 'block';
+  alert.className = 'success';
+  alert.innerHTML = `✅ Civilization design calculated. Navigate to Dashboard to view full scorecard.`;
+}
+
+// ===== SIMULATOR =====
+function updateSim() {
+  ['cog','eth','emp','prob','skill'].forEach(k => {
+    const v = document.getElementById('sl-'+k).value;
+    state.sim[k] = parseInt(v);
+    document.getElementById('lbl-'+k).textContent = v;
+  });
+
+  const s = state.sim;
+  // HDC = weighted average
+  const hdc = Math.round(s.cog*0.25 + s.eth*0.25 + s.emp*0.2 + s.prob*0.2 + s.skill*0.1);
+  state.scores.hdc = hdc;
+  document.getElementById('hdc-score').textContent = hdc;
+
+  const labels = {[hdc < 40]:'Needs Intensive Support', [hdc>=40 && hdc<60]:'Developing Foundation',
+    [hdc>=60 && hdc<75]:'Good Foundation', [hdc>=75 && hdc<90]:'Strong Development',
+    [hdc>=90]:'Exceptional Development'};
+  document.getElementById('hdc-label').textContent = Object.keys(labels).find(k=>k==='true') ?
+    labels[true] : hdc >= 90 ? 'Exceptional Development' : hdc >= 75 ? 'Strong Development' :
+    hdc >= 60 ? 'Good Foundation' : hdc >= 40 ? 'Developing Foundation' : 'Needs Intensive Support';
+
+  buildStageBars();
+  drawSimRadar();
+  saveToStorage('simScores', state.sim);
+}
+
+function buildStageBars() {
+  const s = state.sim;
+  const stages = [
+    {lbl:'Foundational', val: Math.round((s.emp*0.5 + s.cog*0.3 + s.skill*0.2)*0.7)},
+    {lbl:'Preparatory', val: Math.round((s.cog*0.4 + s.prob*0.3 + s.eth*0.3)*0.8)},
+    {lbl:'Middle Stage', val: Math.round((s.prob*0.35 + s.eth*0.35 + s.emp*0.3)*0.9)},
+    {lbl:'Secondary', val: Math.round((s.cog*0.3 + s.eth*0.3 + s.prob*0.25 + s.skill*0.15))},
+    {lbl:'Higher Ed.', val: Math.round(s.cog*0.2+s.eth*0.2+s.emp*0.2+s.prob*0.2+s.skill*0.2)}
+  ];
+  const container = document.getElementById('stage-bars');
+  container.innerHTML = stages.map(st => `
+    <div class="projection-bar">
+      <div class="bar-lbl">${st.lbl}</div>
+      <div class="bar-track"><div class="bar-fill" style="width:${st.val}%"></div></div>
+      <div class="bar-val">${st.val}</div>
+    </div>`).join('');
+}
+
+function drawSimRadar() {
+  const canvas = document.getElementById('simRadar');
+  if(!canvas) return;
+  const ctx = canvas.getContext('2d');
+  const s = state.sim;
+  const values = [s.cog/100, s.eth/100, s.emp/100, s.prob/100, s.skill/100];
+  const labels = ['Cognitive','Ethical','Empathy','Problem\nSolving','Skills'];
+  drawRadar(ctx, canvas.width, values, labels, '#2d7dd2', 'rgba(45,125,210,0.2)');
+}
+
+// ===== BALANCE LAB =====
+function updateBalance() {
+  ['rig','val','civ','free','struct'].forEach(k => {
+    const v = document.getElementById('sl-'+k).value;
+    state.balance[k] = parseInt(v);
+    document.getElementById('lbl-'+k).textContent = v;
+  });
+
+  const b = state.balance;
+  // Risk = imbalance between academic rigor and value education
+  const rigValDiff = Math.abs(b.rig - b.val) / 100;
+  const freeStructDiff = Math.abs(b.free - b.struct) / 100;
+  const risk = Math.round((rigValDiff * 0.5 + freeStructDiff * 0.5) * 100);
+
+  const needle = document.getElementById('risk-needle');
+  needle.style.left = risk + '%';
+
+  const rLabel = document.getElementById('risk-label');
+  if(risk < 25) { rLabel.textContent = 'Balanced System'; rLabel.style.color = '#66ffaa'; }
+  else if(risk < 50) { rLabel.textContent = 'Moderate Imbalance'; rLabel.style.color = 'var(--gold)'; }
+  else { rLabel.textContent = 'High Imbalance Risk'; rLabel.style.color = '#ff6666'; }
+
+  // Effects
+  const effects = document.getElementById('balance-effects');
+  const intellectualEffect = b.rig > 70 ? 'Strong intellectual performance' : b.rig < 40 ? 'Risk of intellectual underdevelopment' : 'Adequate intellectual development';
+  const moralEffect = b.val > 70 ? 'Strong ethical foundation' : b.val < 40 ? 'Risk of moral drift' : 'Moderate values formation';
+  const socialEffect = b.civ > 60 ? 'High civic participation projected' : 'Limited civic engagement risk';
+  const agencyEffect = b.free > b.struct + 30 ? 'Risk: undirected creativity' : b.struct > b.free + 30 ? 'Risk: suppressed initiative' : 'Healthy creative autonomy';
+
+  effects.innerHTML = `
+    <h2>📊 Long-Term Social Effects</h2>
+    <div class="info-row"><span class="info-k">Intellectual Outcome</span><span class="info-v" style="font-size:0.75rem;text-align:right;max-width:60%;">${intellectualEffect}</span></div>
+    <div class="info-row"><span class="info-k">Moral Outcome</span><span class="info-v" style="font-size:0.75rem;text-align:right;max-width:60%;">${moralEffect}</span></div>
+    <div class="info-row"><span class="info-k">Civic Outcome</span><span class="info-v" style="font-size:0.75rem;text-align:right;max-width:60%;">${socialEffect}</span></div>
+    <div class="info-row"><span class="info-k">Agency Outcome</span><span class="info-v" style="font-size:0.75rem;text-align:right;max-width:60%;">${agencyEffect}</span></div>
+  `;
+
+  drawBalanceRadar();
+}
+
+function drawBalanceRadar() {
+  const canvas = document.getElementById('balanceRadar');
+  if(!canvas) return;
+  const ctx = canvas.getContext('2d');
+  const b = state.balance;
+  const values = [b.rig/100, b.val/100, b.civ/100, b.free/100, b.struct/100];
+  const labels = ['Academic\nRigor','Value\nEducation','Civic\nEngagement','Freedom','Structure'];
+  drawRadar(ctx, canvas.width, values, labels, '#c9a84c', 'rgba(201,168,76,0.15)');
+}
+
+// ===== INNOVATION =====
+function switchInnovTab(tab, btn) {
+  document.getElementById('innov-panel').style.display = tab==='innov' ? 'block' : 'none';
+  document.getElementById('cohesion-panel').style.display = tab==='cohesion' ? 'block' : 'none';
+  document.querySelectorAll('#page-innovation .tab-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+}
+
+function updateInnov() {
+  ['voc','stem','multi'].forEach(k => {
+    const v = document.getElementById('sl-'+k).value;
+    state.innov[k] = parseInt(v);
+    document.getElementById('lbl-'+k).textContent = v;
+  });
+}
+
+function calcInnov() {
+  const i = state.innov;
+  const econ = Math.round(i.voc*0.5 + i.stem*0.3 + i.multi*0.2);
+  const ecosystem = Math.round(i.stem*0.4 + i.multi*0.4 + i.voc*0.2);
+  const mobility = Math.round(i.voc*0.4 + i.multi*0.4 + i.stem*0.2);
+  state.scores.econ = econ;
+  state.scores.ecosystem = ecosystem;
+  state.scores.mobility = mobility;
+  document.getElementById('sc-econ').textContent = econ;
+  document.getElementById('sc-ecosystem').textContent = ecosystem;
+  document.getElementById('sc-mobility').textContent = mobility;
+  saveToStorage('innovScores', state.innov);
+}
+
+function updateCohesion() {
+  ['eq','inc','cult'].forEach(k => {
+    const v = document.getElementById('sl-'+k).value;
+    state.cohesion[k] = parseInt(v);
+    document.getElementById('lbl-'+k).textContent = v;
+  });
+}
+
+function calcCohesion() {
+  const c = state.cohesion;
+  const incl = Math.round(c.eq*0.4 + c.inc*0.4 + c.cult*0.2);
+  const conflict = Math.round(c.inc*0.4 + c.eq*0.3 + c.cult*0.3);
+  const trust = Math.round(c.cult*0.4 + c.eq*0.3 + c.inc*0.3);
+  state.scores.inclusion = incl;
+  state.scores.conflictReduction = conflict;
+  state.scores.trust = trust;
+  document.getElementById('sc-incl').textContent = incl;
+  document.getElementById('sc-conflict').textContent = conflict;
+  document.getElementById('sc-trust').textContent = trust;
+  saveToStorage('cohesionScores', state.cohesion);
+}
+
+// ===== PROJECTION =====
+function runProjection() {
+  const s = state.scores;
+  const base = s.hdc || 65;
+  const intel = s.intellectual || 70;
+  const moral = s.moral || 65;
+
+  // 3-generation model
+  const g = [
+    { // G1 Transitional
+      intellectual: Math.round(intel * 0.7),
+      civic: Math.round((s.harmony || 60) * 0.65),
+      ethical: Math.round(moral * 0.7),
+      economic: Math.round((s.econ || 60) * 0.75)
+    },
+    { // G2 Stabilized
+      intellectual: Math.round(intel * 0.88),
+      civic: Math.round((s.harmony || 60) * 0.85),
+      ethical: Math.round(moral * 0.87),
+      economic: Math.round((s.econ || 60) * 0.92)
+    },
+    { // G3 Mature
+      intellectual: Math.min(99, Math.round(intel * 1.05)),
+      civic: Math.min(99, Math.round((s.harmony || 60) * 1.05)),
+      ethical: Math.min(99, Math.round(moral * 1.04)),
+      economic: Math.min(99, Math.round((s.econ || 60) * 1.1))
+    }
+  ];
+
+  // CSI = average of G3 scores
+  const csi = Math.round((g[2].intellectual + g[2].civic + g[2].ethical + g[2].economic) / 4);
+  state.scores.csi = csi;
+  document.getElementById('csi-score').textContent = csi;
+  document.getElementById('csi-label').textContent = csi >= 80 ? 'Advanced Civilization Stability' :
+    csi >= 65 ? 'Stable Development Trajectory' : 'Requires Strategic Reform';
+
+  // Metrics table
+  const metrics = document.getElementById('proj-metrics');
+  const dims = ['intellectual','civic','ethical','economic'];
+  const dimLabels = ['Intellectual Capital','Civic Participation','Ethical Maturity','Economic Resilience'];
+  metrics.innerHTML = `<h2>📊 Generation Comparison</h2>` + dims.map((d,i) => `
+    <div style="margin-bottom:14px;">
+      <div style="font-family:'Rajdhani',sans-serif;font-size:0.75rem;color:var(--text-dim);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:6px;">${dimLabels[i]}</div>
+      ${['G1 Transitional','G2 Stabilized','G3 Mature'].map((gl,gi) => `
+        <div class="projection-bar" style="margin-bottom:6px;">
+          <div class="bar-lbl" style="font-size:0.68rem;">${gl}</div>
+          <div class="bar-track"><div class="bar-fill" style="width:${g[gi][d]}%;${gi===2?'background:linear-gradient(90deg,var(--gold-dim),var(--gold))':''}"></div></div>
+          <div class="bar-val">${g[gi][d]}</div>
+        </div>`).join('')}
+    </div>`).join('');
+
+  drawProjectionChart(g);
+  saveToStorage('projectionData', g);
+}
+
+function drawProjectionChart(g) {
+  const canvas = document.getElementById('projCanvas');
+  if(!canvas) return;
+  const ctx = canvas.getContext('2d');
+  const W = canvas.width, H = canvas.height;
+  ctx.clearRect(0, 0, W, H);
+
+  // Background
+  ctx.fillStyle = 'rgba(10,22,40,0)';
+  ctx.fillRect(0, 0, W, H);
+
+  // Grid lines
+  ctx.strokeStyle = 'rgba(201,168,76,0.1)';
+  ctx.lineWidth = 1;
+  for(let i=0;i<=4;i++) {
+    const y = H*0.85 - (H*0.7*(i/4));
+    ctx.beginPath(); ctx.moveTo(W*0.1,y); ctx.lineTo(W*0.95,y); ctx.stroke();
+    ctx.fillStyle = 'rgba(136,153,187,0.6)';
+    ctx.font = '10px Rajdhani,sans-serif';
+    ctx.fillText(i*25, 4, y+4);
+  }
+
+  // Series
+  const series = [
+    { key:'intellectual', color:'#2d7dd2', label:'Intellectual' },
+    { key:'civic', color:'#c9a84c', label:'Civic' },
+    { key:'ethical', color:'#5dbb7a', label:'Ethical' },
+    { key:'economic', color:'#dd6b4a', label:'Economic' }
+  ];
+
+  const xPoints = [W*0.2, W*0.55, W*0.9];
+
+  series.forEach(s => {
+    const vals = g.map(gen => gen[s.key]);
+    ctx.strokeStyle = s.color;
+    ctx.lineWidth = 2;
+    ctx.beginPath();
+    vals.forEach((v, i) => {
+      const x = xPoints[i];
+      const y = H*0.85 - (H*0.7*(v/100));
+      if(i===0) ctx.moveTo(x,y); else ctx.lineTo(x,y);
+    });
+    ctx.stroke();
+
+    // Dots
+    vals.forEach((v, i) => {
+      const x = xPoints[i]; const y = H*0.85 - (H*0.7*(v/100));
+      ctx.beginPath(); ctx.arc(x,y,4,0,Math.PI*2);
+      ctx.fillStyle = s.color; ctx.fill();
+    });
+
+    // Label at end
+    const lastV = vals[2];
+    ctx.fillStyle = s.color;
+    ctx.font = '10px Rajdhani,sans-serif';
+    ctx.fillText(s.label, W*0.92, H*0.85 - (H*0.7*(lastV/100))+4);
+  });
+
+  // X labels
+  ['G1','G2','G3'].forEach((l, i) => {
+    ctx.fillStyle = 'rgba(136,153,187,0.8)';
+    ctx.font = '11px Rajdhani,sans-serif';
+    ctx.fillText(l, xPoints[i]-8, H*0.95);
+  });
+}
+
+// ===== DASHBOARD =====
+function syncDashboard() {
+  const s = state.scores;
+  const get = (k, fallback) => s[k] !== undefined ? s[k] : fallback;
+  document.getElementById('dash-hdc').textContent = get('hdc', '--');
+  document.getElementById('dash-intel').textContent = get('intellectual', '--');
+  document.getElementById('dash-moral').textContent = get('moral', '--');
+  document.getElementById('dash-innov').textContent = get('innovation', '--');
+  document.getElementById('dash-harmony').textContent = get('harmony', '--');
+  const sustain = s.hdc && s.moral && s.harmony ? Math.round((s.hdc+s.moral+s.harmony)/3) : '--';
+  state.scores.sustain = sustain;
+  document.getElementById('dash-sustain').textContent = sustain;
+  drawDashChart();
+}
+
+function drawDashChart() {
+  const canvas = document.getElementById('dashChart');
+  if(!canvas) return;
+  const ctx = canvas.getContext('2d');
+  const W = canvas.width, H = canvas.height;
+  ctx.clearRect(0,0,W,H);
+
+  const s = state.scores;
+  const hdc = s.hdc || 65;
+  const intel = s.intellectual || 70;
+  const moral = s.moral || 65;
+  const innov = s.innovation || 60;
+  const harmony = s.harmony || 62;
+
+  // 30-year projection curve (simple growth model)
+  const years = Array.from({length:31}, (_,i) => i);
+  const data = years.map(y => {
+    const growth = 1 + (0.015 * (1 - y/60));
+    return Math.min(99, Math.round(((hdc+intel+moral+innov+harmony)/5) * Math.pow(growth, y)));
+  });
+
+  // Axes
+  ctx.strokeStyle = 'rgba(201,168,76,0.15)';
+  ctx.lineWidth = 1;
+  for(let i=0;i<=4;i++) {
+    const y = H*0.88 - (H*0.75*(i/4));
+    ctx.beginPath(); ctx.moveTo(W*0.08,y); ctx.lineTo(W*0.97,y); ctx.stroke();
+  }
+
+  // Gradient fill
+  const grad = ctx.createLinearGradient(0,0,0,H);
+  grad.addColorStop(0,'rgba(45,125,210,0.25)');
+  grad.addColorStop(1,'rgba(45,125,210,0)');
+
+  ctx.beginPath();
+  data.forEach((v,i) => {
+    const x = W*0.08 + (W*0.89*(i/30));
+    const y = H*0.88 - (H*0.75*(v/100));
+    if(i===0) ctx.moveTo(x,y); else ctx.lineTo(x,y);
+  });
+  ctx.lineTo(W*0.97, H*0.88);
+  ctx.lineTo(W*0.08, H*0.88);
+  ctx.closePath();
+  ctx.fillStyle = grad;
+  ctx.fill();
+
+  // Line
+  ctx.beginPath();
+  data.forEach((v,i) => {
+    const x = W*0.08 + (W*0.89*(i/30));
+    const y = H*0.88 - (H*0.75*(v/100));
+    if(i===0) ctx.moveTo(x,y); else ctx.lineTo(x,y);
+  });
+  ctx.strokeStyle = '#2d7dd2';
+  ctx.lineWidth = 2;
+  ctx.stroke();
+
+  // Labels
+  ctx.fillStyle = 'rgba(136,153,187,0.7)';
+  ctx.font = '10px Rajdhani,sans-serif';
+  ['0','10','20','30'].forEach((l,i) => ctx.fillText('Y'+l, W*0.08+(W*0.89*(i*10/30))-6, H*0.98));
+}
+
+// ===== REPORT =====
+function switchFwTab(tab, btn) {
+  document.getElementById('fw-dashboard').style.display = tab==='dashboard' ? 'block' : 'none';
+  document.getElementById('fw-report').style.display = tab==='report' ? 'block' : 'none';
+  document.getElementById('fw-about').style.display = tab==='about' ? 'block' : 'none';
+  document.querySelectorAll('#page-framework .tab-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  if(tab==='dashboard') { syncDashboard(); }
+}
+
+function generateReport() {
+  const s = state.scores;
+  const hasData = Object.keys(s).length > 0;
+
+  const reportEl = document.getElementById('report-content');
+  if(!hasData) {
+    reportEl.innerHTML = `<p class="alert" style="margin:0;">Please run at least one simulation before generating a report.</p>`;
+    return;
+  }
+
+  const hdc = s.hdc || '—';
+  const intel = s.intellectual || '—';
+  const moral = s.moral || '—';
+  const innov = s.innovation || '—';
+  const harmony = s.harmony || '—';
+  const csi = s.csi || '—';
+
+  const strengths = [];
+  const risks = [];
+  if(s.intellectual >= 70) strengths.push('Strong intellectual formation capacity');
+  else risks.push('Intellectual depth requires enhancement');
+  if(s.moral >= 70) strengths.push('Robust moral education framework');
+  else risks.push('Values formation needs stronger emphasis');
+  if(s.innovation >= 65) strengths.push('Good innovation ecosystem potential');
+  else risks.push('Innovation capacity below optimal threshold');
+  if(s.harmony >= 65) strengths.push('Positive social harmony trajectory');
+  else risks.push('Social cohesion risks identified');
+  if(s.hdc >= 70) strengths.push('Human development composite above benchmark');
+
+  const recommendations = [
+    'Integrate holistic assessment frameworks aligned with NEP 2020 Annex guidelines',
+    'Expand vocational integration in middle and secondary stages',
+    'Strengthen teacher mentoring programs to enhance facilitation capacity',
+    'Implement community engagement projects for civic development',
+    'Adopt Indian Knowledge Systems modules in foundational curriculum',
+    'Establish regular moral education dialogues using age-appropriate dilemma methods',
+    'Create innovation labs and maker spaces in all secondary schools',
+    'Develop family partnership programs to reinforce school values at home'
+  ];
+
+  reportEl.innerHTML = `
+    <div class="report-section">
+      <h3>🏛️ Civilization Design Summary</h3>
+      <p>This simulation models an education civilization designed for holistic human development aligned with NEP 2020. The system has been configured across curriculum, pedagogy, values education, civic emphasis, innovation capacity, and social cohesion parameters.</p>
+    </div>
+    <div class="report-section">
+      <h3>📊 Key Indices</h3>
+      <div class="info-row"><span class="info-k">Human Dev. Composite</span><span class="info-v">${hdc}</span></div>
+      <div class="info-row"><span class="info-k">Intellectual Depth</span><span class="info-v">${intel}</span></div>
+      <div class="info-row"><span class="info-k">Moral Stability</span><span class="info-v">${moral}</span></div>
+      <div class="info-row"><span class="info-k">Innovation Capacity</span><span class="info-v">${innov}</span></div>
+      <div class="info-row"><span class="info-k">Social Harmony</span><span class="info-v">${harmony}</span></div>
+      <div class="info-row"><span class="info-k">Civilization Stability Index</span><span class="info-v">${csi}</span></div>
+    </div>
+    <div class="report-section">
+      <h3>✅ Strengths Identified</h3>
+      <ul>${strengths.length ? strengths.map(s=>`<li>${s}</li>`).join('') : '<li>Run simulations to generate strength analysis</li>'}</ul>
+    </div>
+    <div class="report-section">
+      <h3>⚠️ Risk Factors</h3>
+      <ul>${risks.length ? risks.map(r=>`<li>${r}</li>`).join('') : '<li>No major risks identified in current configuration</li>'}</ul>
+    </div>
+    <div class="report-section">
+      <h3>🔭 Long-Term Projections</h3>
+      <p>Based on the 3-generation model, this education design is projected to ${csi >= 75 ? 'produce a mature, stable civilization with strong intellectual and civic capital by Generation 3.' : 'require targeted reforms to achieve full civilizational stability by Generation 3.'} Key growth areas will be ${s.csi < 70 ? 'civic participation and ethical formation' : 'innovation capacity and cultural continuity'}.</p>
+    </div>
+    <div class="report-section">
+      <h3>📋 Policy Recommendations</h3>
+      <ul>${recommendations.map(r=>`<li>${r}</li>`).join('')}</ul>
+    </div>
+    <p style="font-family:'Rajdhani',sans-serif;font-size:0.72rem;color:var(--text-dim);margin-top:16px;">Generated by: Human Development & Education Civilization Design Simulator | Author: Mateen Yousuf | NEP 2020 Aligned</p>
+  `;
+
+  saveToStorage('lastReport', { scores: s, timestamp: new Date().toISOString() });
+}
+
+function saveReport() {
+  const content = document.getElementById('report-content').innerHTML;
+  if(!content || content.includes('Run simulations')) { alert('Please generate a report first.'); return; }
+
+  const blob = new Blob([`<!DOCTYPE html><html><head><meta charset="UTF-8"><title>Civilization Report</title>
+  <style>body{font-family:Georgia,serif;max-width:800px;margin:40px auto;padding:20px;background:#f9f9f9;color:#222;}
+  h1{color:#1a3a6e;} h3{color:#0d1f3c;border-bottom:1px solid #c9a84c;padding-bottom:6px;}
+  .info-row{display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid #eee;}
+  .info-v{font-weight:bold;color:#1a3a6e;}
+  </style></head><body>
+  <h1>Human Development & Education Civilization Design Simulator</h1>
+  <h2>Civilization Design Report</h2>
+  <p>Author: Mateen Yousuf | Teacher, School Education Department Kashmir | NEP 2020 Aligned</p>
+  <hr>${content}</body></html>`], {type:'text/html'});
+
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = 'civilization-report.html';
+  a.click();
+}
+
+// ===== RADAR DRAWING UTILITY =====
+function drawRadar(ctx, size, values, labels, strokeColor, fillColor) {
+  const cx = size/2, cy = size/2;
+  const r = size * 0.35;
+  const n = values.length;
+
+  ctx.clearRect(0,0,size,size);
+
+  // Grid rings
+  for(let ring=1; ring<=4; ring++) {
+    ctx.beginPath();
+    for(let i=0;i<n;i++) {
+      const angle = (Math.PI*2*i/n) - Math.PI/2;
+      const x = cx + Math.cos(angle)*(r*ring/4);
+      const y = cy + Math.sin(angle)*(r*ring/4);
+      if(i===0) ctx.moveTo(x,y); else ctx.lineTo(x,y);
+    }
+    ctx.closePath();
+    ctx.strokeStyle = 'rgba(201,168,76,0.12)';
+    ctx.lineWidth = 1;
+    ctx.stroke();
+  }
+
+  // Axes
+  for(let i=0;i<n;i++) {
+    const angle = (Math.PI*2*i/n) - Math.PI/2;
+    ctx.beginPath();
+    ctx.moveTo(cx, cy);
+    ctx.lineTo(cx + Math.cos(angle)*r, cy + Math.sin(angle)*r);
+    ctx.strokeStyle = 'rgba(201,168,76,0.2)';
+    ctx.stroke();
+  }
+
+  // Data polygon
+  ctx.beginPath();
+  values.forEach((v, i) => {
+    const angle = (Math.PI*2*i/n) - Math.PI/2;
+    const x = cx + Math.cos(angle)*r*v;
+    const y = cy + Math.sin(angle)*r*v;
+    if(i===0) ctx.moveTo(x,y); else ctx.lineTo(x,y);
+  });
+  ctx.closePath();
+  ctx.fillStyle = fillColor;
+  ctx.fill();
+  ctx.strokeStyle = strokeColor;
+  ctx.lineWidth = 2;
+  ctx.stroke();
+
+  // Dots
+  values.forEach((v,i) => {
+    const angle = (Math.PI*2*i/n) - Math.PI/2;
+    const x = cx + Math.cos(angle)*r*v;
+    const y = cy + Math.sin(angle)*r*v;
+    ctx.beginPath(); ctx.arc(x,y,4,0,Math.PI*2);
+    ctx.fillStyle = strokeColor; ctx.fill();
+  });
+
+  // Labels
+  labels.forEach((lbl, i) => {
+    const angle = (Math.PI*2*i/n) - Math.PI/2;
+    const x = cx + Math.cos(angle)*(r+24);
+    const y = cy + Math.sin(angle)*(r+24);
+    ctx.fillStyle = 'rgba(212,221,240,0.8)';
+    ctx.font = '10px Rajdhani,sans-serif';
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    const lines = lbl.split('\n');
+    lines.forEach((line,li) => ctx.fillText(line, x, y + li*13 - ((lines.length-1)*6)));
+  });
+  ctx.textAlign = 'left';
+  ctx.textBaseline = 'alphabetic';
+}
+
+// ===== LOCALSTORAGE =====
+function saveToStorage(key, data) {
+  try { localStorage.setItem('edu_civ_'+key, JSON.stringify(data)); } catch(e) {}
+}
+
+function loadFromStorage(key) {
+  try { const v = localStorage.getItem('edu_civ_'+key); return v ? JSON.parse(v) : null; } catch(e) { return null; }
+}
+
+function loadSavedState() {
+  const saved = loadFromStorage('designScores');
+  if(saved) Object.assign(state.scores, saved);
+  const savedSim = loadFromStorage('simScores');
+  if(savedSim) Object.assign(state.sim, savedSim);
+}
+
+// ===== SERVICE WORKER REGISTRATION =====
+// Register only when served from a real file server (not preview/blob environments)
+if('serviceWorker' in navigator && location.protocol !== 'blob:' && !location.hostname.includes('claudeusercontent')) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('./service-worker.js')
+      .then(() => console.log('SW registered'))
+      .catch(() => {});
+  });
+}
+
+// ===== INIT =====
+buildFoundations();
+loadSavedState();
+updateSim();
+updateBalance();
+updateInnov();
+updateCohesion();
+</script>
+</body>
+</html>

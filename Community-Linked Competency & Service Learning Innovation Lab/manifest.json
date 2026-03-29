@@ -1,0 +1,19 @@
+{
+  "name": "Community-Linked Competency & Service Learning Innovation Lab",
+  "short_name": "Service Learning Lab",
+  "description": "NEP 2020 Experiential Learning & Service Innovation Platform by Mateen Yousuf",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#0a1628",
+  "theme_color": "#1a3a6e",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 192 192'><rect width='192' height='192' fill='%231a3a6e'/><text y='130' x='20' font-size='130'>🌱</text></svg>",
+      "sizes": "192x192",
+      "type": "image/svg+xml"
+    }
+  ],
+  "categories": ["education"],
+  "lang": "en"
+}

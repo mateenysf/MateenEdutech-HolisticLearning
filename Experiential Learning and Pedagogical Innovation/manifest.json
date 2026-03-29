@@ -1,0 +1,17 @@
+{
+  "name": "Experiential Learning & Pedagogical Innovation",
+  "short_name": "PedagogyReader",
+  "description": "Official Framework Reader – NEP 2020 | NCF 2023 | NCERT | PARAKH",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#fdf6ed",
+  "theme_color": "#c2570a",
+  "orientation": "any",
+  "icons": [
+    {
+      "src": "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 192 192'><rect width='192' height='192' rx='32' fill='%23c2570a'/><text x='50%' y='55%' dominant-baseline='middle' text-anchor='middle' font-size='110' font-family='serif'>📘</text></svg>",
+      "sizes": "192x192",
+      "type": "image/svg+xml"
+    }
+  ]
+}

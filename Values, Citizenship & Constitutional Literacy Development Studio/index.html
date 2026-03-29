@@ -1,0 +1,2946 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0"/>
+<meta name="theme-color" content="#1a3a6b"/>
+<meta name="apple-mobile-web-app-capable" content="yes"/>
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
+<title>Values, Citizenship & Constitutional Literacy Studio</title>
+<link rel="manifest" href="manifest.json"/>
+<style>
+/* ===== IMPORTS & ROOT ===== */
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700;900&family=Source+Serif+4:wght@300;400;600&family=Rajdhani:wght@400;500;600;700&display=swap');
+
+:root {
+  --navy: #0d1f3c;
+  --blue: #1a3a6b;
+  --mid-blue: #2a5298;
+  --light-blue: #4a7fcb;
+  --gold: #c9a84c;
+  --gold-light: #e8c97a;
+  --saffron: #e07b1a;
+  --white: #f8f6f0;
+  --cream: #ede8d8;
+  --text: #1a1a2e;
+  --text-light: #4a4a6a;
+  --success: #2d7a4f;
+  --warn: #c47a00;
+  --danger: #a02020;
+  --card-bg: rgba(255,255,255,0.07);
+  --border: rgba(201,168,76,0.3);
+  --shadow: 0 8px 32px rgba(0,0,0,0.4);
+  --radius: 12px;
+}
+
+* { margin:0; padding:0; box-sizing:border-box; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: 'Source Serif 4', Georgia, serif;
+  background: var(--navy);
+  color: var(--white);
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* ===== UTILITY ===== */
+.hidden { display: none !important; }
+.flex { display: flex; }
+.flex-col { flex-direction: column; }
+.items-center { align-items: center; }
+.justify-center { justify-content: center; }
+.text-center { text-align: center; }
+.gap-2 { gap: 0.5rem; }
+.gap-4 { gap: 1rem; }
+.gap-6 { gap: 1.5rem; }
+.w-full { width: 100%; }
+.mb-4 { margin-bottom: 1rem; }
+.mb-6 { margin-bottom: 1.5rem; }
+.mt-4 { margin-top: 1rem; }
+.mt-6 { margin-top: 1.5rem; }
+.p-4 { padding: 1rem; }
+.p-6 { padding: 1.5rem; }
+
+/* ===== SCREEN SYSTEM ===== */
+.screen { display: none; min-height: 100vh; }
+.screen.active { display: block; animation: fadeIn 0.4s ease; }
+@keyframes fadeIn { from { opacity:0; transform:translateY(10px); } to { opacity:1; transform:translateY(0); } }
+
+/* ===== NAVBAR ===== */
+#navbar {
+  position: sticky; top: 0; z-index: 1000;
+  background: rgba(13,31,60,0.97);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--border);
+  padding: 0.75rem 1rem;
+  display: flex; align-items: center; justify-content: space-between;
+}
+#navbar .logo {
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 1rem; font-weight: 700;
+  color: var(--gold); letter-spacing: 0.5px;
+}
+#navbar .nav-back {
+  background: none; border: 1px solid var(--border);
+  color: var(--gold); padding: 0.3rem 0.8rem;
+  border-radius: 6px; font-size: 0.85rem;
+  cursor: pointer; font-family: 'Rajdhani', sans-serif;
+  font-weight: 600; transition: all 0.2s;
+}
+#navbar .nav-back:hover { background: var(--gold); color: var(--navy); }
+
+/* ===== TITLE PAGE ===== */
+#screen-home {
+  background: linear-gradient(160deg, #0d1f3c 0%, #102040 40%, #0a1628 100%);
+  position: relative; overflow: hidden;
+}
+#screen-home::before {
+  content: '';
+  position: absolute; inset: 0;
+  background: radial-gradient(ellipse 80% 60% at 50% 20%, rgba(26,58,107,0.5) 0%, transparent 70%);
+  pointer-events: none;
+}
+.home-ashoka {
+  position: absolute; top: 0; left: 50%;
+  transform: translateX(-50%);
+  font-size: 18rem; opacity: 0.04; pointer-events: none;
+  line-height: 1; user-select: none;
+}
+.home-inner {
+  position: relative; z-index: 1;
+  max-width: 700px; margin: 0 auto;
+  padding: 2rem 1.5rem 3rem;
+  display: flex; flex-direction: column; align-items: center; gap: 1.5rem;
+}
+.author-badge {
+  display: flex; align-items: center; gap: 0.75rem;
+  background: var(--card-bg); border: 1px solid var(--border);
+  border-radius: 50px; padding: 0.4rem 1rem 0.4rem 0.4rem;
+}
+.author-avatar {
+  width: 44px; height: 44px; border-radius: 50%;
+  background: linear-gradient(135deg, var(--gold), var(--saffron));
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1.2rem; font-weight: 700; color: var(--navy);
+  font-family: 'Rajdhani', sans-serif; overflow: hidden;
+}
+.author-avatar img { width: 100%; height: 100%; object-fit: cover; border-radius: 50%; }
+.author-text { font-family: 'Rajdhani', sans-serif; font-size: 0.85rem; }
+.author-text .name { color: var(--gold); font-weight: 700; font-size: 0.95rem; }
+.author-text .role { color: rgba(248,246,240,0.7); font-size: 0.78rem; }
+
+.emblem-ring {
+  width: 110px; height: 110px;
+  border-radius: 50%; 
+  border: 3px solid var(--gold);
+  background: radial-gradient(circle, rgba(26,58,107,0.8), rgba(13,31,60,0.9));
+  display: flex; align-items: center; justify-content: center;
+  font-size: 3.5rem;
+  box-shadow: 0 0 40px rgba(201,168,76,0.3), inset 0 0 20px rgba(201,168,76,0.1);
+  animation: pulseGlow 3s ease-in-out infinite;
+}
+@keyframes pulseGlow {
+  0%,100% { box-shadow: 0 0 30px rgba(201,168,76,0.3); }
+  50% { box-shadow: 0 0 60px rgba(201,168,76,0.5); }
+}
+
+.home-title {
+  text-align: center;
+}
+.home-title h1 {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(1.5rem, 5vw, 2.5rem);
+  font-weight: 900; color: var(--white);
+  line-height: 1.2; margin-bottom: 0.5rem;
+}
+.home-title h1 span { color: var(--gold); }
+.home-title p {
+  color: rgba(248,246,240,0.7);
+  font-size: 0.9rem; font-family: 'Rajdhani', sans-serif;
+  letter-spacing: 0.5px;
+}
+
+.nep-badge {
+  background: linear-gradient(135deg, rgba(201,168,76,0.15), rgba(224,123,26,0.1));
+  border: 1px solid var(--gold);
+  border-radius: 8px; padding: 0.6rem 1.2rem;
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 0.8rem; font-weight: 600;
+  color: var(--gold-light); text-align: center;
+  letter-spacing: 0.3px;
+}
+
+.home-nav-grid {
+  display: grid; grid-template-columns: 1fr 1fr;
+  gap: 0.75rem; width: 100%;
+}
+.home-nav-btn {
+  background: var(--card-bg);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 1rem 0.75rem;
+  cursor: pointer; text-align: center;
+  transition: all 0.25s; position: relative; overflow: hidden;
+  color: var(--white);
+}
+.home-nav-btn::before {
+  content: ''; position: absolute; inset: 0;
+  background: linear-gradient(135deg, var(--blue), var(--mid-blue));
+  opacity: 0; transition: opacity 0.25s;
+}
+.home-nav-btn:hover::before { opacity: 1; }
+.home-nav-btn:hover { border-color: var(--gold); transform: translateY(-2px); box-shadow: var(--shadow); }
+.home-nav-btn .btn-icon { font-size: 2rem; margin-bottom: 0.4rem; position: relative; }
+.home-nav-btn .btn-label {
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 0.85rem; font-weight: 700;
+  color: var(--white); line-height: 1.3; position: relative;
+}
+.home-nav-btn .btn-sub {
+  font-size: 0.7rem; color: var(--gold); margin-top: 0.2rem;
+  font-family: 'Rajdhani', sans-serif; position: relative;
+}
+
+.stat-strip {
+  display: flex; gap: 1rem; width: 100%;
+  background: var(--card-bg); border: 1px solid var(--border);
+  border-radius: var(--radius); padding: 0.75rem 1rem;
+}
+.stat-item { flex: 1; text-align: center; }
+.stat-item .val {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.4rem; font-weight: 700; color: var(--gold);
+}
+.stat-item .lbl {
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 0.7rem; color: rgba(248,246,240,0.6);
+  letter-spacing: 0.5px;
+}
+
+/* ===== SECTION PAGES ===== */
+.section-header {
+  background: linear-gradient(135deg, var(--blue) 0%, var(--mid-blue) 100%);
+  padding: 2rem 1.5rem 1.5rem;
+  position: relative; overflow: hidden;
+}
+.section-header::after {
+  content: ''; position: absolute;
+  bottom: -1px; left: 0; right: 0; height: 30px;
+  background: var(--navy);
+  clip-path: ellipse(55% 100% at 50% 100%);
+}
+.section-header h2 {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(1.3rem, 4vw, 2rem);
+  font-weight: 700; color: var(--white);
+  margin-bottom: 0.4rem;
+}
+.section-header .sub {
+  font-family: 'Rajdhani', sans-serif;
+  color: var(--gold-light); font-size: 0.9rem;
+}
+.section-header .sect-icon { font-size: 2.5rem; margin-bottom: 0.75rem; }
+
+.section-body { padding: 1.5rem; max-width: 800px; margin: 0 auto; }
+
+/* ===== CARD ===== */
+.card {
+  background: rgba(255,255,255,0.05);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 1.25rem;
+  margin-bottom: 1rem;
+  transition: border-color 0.2s;
+}
+.card:hover { border-color: rgba(201,168,76,0.5); }
+.card h3 {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.1rem; color: var(--gold);
+  margin-bottom: 0.5rem;
+}
+.card p {
+  font-size: 0.92rem; line-height: 1.75;
+  color: rgba(248,246,240,0.85);
+}
+
+/* ===== FOUNDATION PAGES ===== */
+.page-nav {
+  display: flex; gap: 0.5rem; flex-wrap: wrap;
+  margin-bottom: 1.5rem;
+}
+.page-pill {
+  background: var(--card-bg); border: 1px solid var(--border);
+  border-radius: 50px; padding: 0.3rem 0.8rem;
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 0.75rem; font-weight: 600; cursor: pointer;
+  color: rgba(248,246,240,0.7); transition: all 0.2s;
+}
+.page-pill.active, .page-pill:hover {
+  background: var(--gold); color: var(--navy);
+  border-color: var(--gold);
+}
+
+.content-page { display: none; }
+.content-page.active { display: block; animation: fadeIn 0.3s ease; }
+
+.content-page h3 {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.3rem; color: var(--gold);
+  margin-bottom: 1rem; padding-bottom: 0.5rem;
+  border-bottom: 1px solid var(--border);
+}
+.content-page .body-text {
+  font-size: 0.9rem; line-height: 1.8;
+  color: rgba(248,246,240,0.85);
+  margin-bottom: 1rem;
+}
+.reflection-box {
+  background: linear-gradient(135deg, rgba(26,58,107,0.3), rgba(42,82,152,0.2));
+  border-left: 3px solid var(--gold);
+  border-radius: 0 8px 8px 0;
+  padding: 1rem 1.25rem; margin: 1rem 0;
+}
+.reflection-box .ref-title {
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 0.8rem; font-weight: 700;
+  color: var(--gold); letter-spacing: 1px;
+  margin-bottom: 0.5rem;
+  text-transform: uppercase;
+}
+.reflection-box ul { padding-left: 1.2rem; }
+.reflection-box ul li {
+  font-size: 0.85rem; line-height: 1.7;
+  color: rgba(248,246,240,0.8); margin-bottom: 0.3rem;
+}
+.class-box {
+  background: rgba(45,122,79,0.15);
+  border: 1px solid rgba(45,122,79,0.4);
+  border-radius: 8px; padding: 1rem 1.25rem; margin: 1rem 0;
+}
+.class-box .cls-title {
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 0.8rem; font-weight: 700;
+  color: #5dcb88; letter-spacing: 1px;
+  margin-bottom: 0.5rem; text-transform: uppercase;
+}
+.class-box ul { padding-left: 1.2rem; }
+.class-box ul li {
+  font-size: 0.85rem; line-height: 1.7;
+  color: rgba(248,246,240,0.8); margin-bottom: 0.3rem;
+}
+
+.page-footer-nav {
+  display: flex; justify-content: space-between;
+  margin-top: 1.5rem; gap: 0.5rem;
+}
+.page-footer-nav button {
+  background: var(--card-bg); border: 1px solid var(--border);
+  color: var(--gold); padding: 0.5rem 1rem;
+  border-radius: 8px; cursor: pointer;
+  font-family: 'Rajdhani', sans-serif; font-weight: 600;
+  font-size: 0.85rem; transition: all 0.2s;
+}
+.page-footer-nav button:hover { background: var(--gold); color: var(--navy); }
+.page-footer-nav button:disabled { opacity: 0.3; cursor: default; }
+
+/* ===== QUIZ / CONSTITUTIONAL ===== */
+.quiz-card {
+  background: var(--card-bg); border: 1px solid var(--border);
+  border-radius: var(--radius); padding: 1.25rem;
+  margin-bottom: 1rem;
+}
+.quiz-card .q-num {
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 0.75rem; color: var(--gold); letter-spacing: 1px;
+  text-transform: uppercase; margin-bottom: 0.5rem;
+}
+.quiz-card .q-text {
+  font-size: 0.95rem; line-height: 1.6;
+  color: var(--white); margin-bottom: 1rem; font-weight: 600;
+}
+.options-list { display: flex; flex-direction: column; gap: 0.5rem; }
+.option-btn {
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(201,168,76,0.2);
+  border-radius: 8px; padding: 0.7rem 1rem;
+  color: rgba(248,246,240,0.85); font-size: 0.88rem;
+  cursor: pointer; text-align: left; transition: all 0.2s;
+  font-family: 'Source Serif 4', serif;
+}
+.option-btn:hover:not([disabled]) { background: rgba(201,168,76,0.1); border-color: var(--gold); }
+.option-btn.correct { background: rgba(45,122,79,0.25) !important; border-color: #5dcb88 !important; color: #5dcb88 !important; }
+.option-btn.wrong { background: rgba(160,32,32,0.25) !important; border-color: #e06060 !important; color: #e06060 !important; }
+.q-feedback {
+  font-size: 0.82rem; line-height: 1.6; margin-top: 0.75rem;
+  padding: 0.6rem 0.9rem; border-radius: 6px;
+  font-family: 'Rajdhani', sans-serif; font-weight: 500;
+}
+.q-feedback.correct { background: rgba(45,122,79,0.2); color: #5dcb88; }
+.q-feedback.wrong { background: rgba(160,32,32,0.2); color: #e06060; }
+
+/* ===== SCORE DISPLAY ===== */
+.score-card {
+  background: linear-gradient(135deg, rgba(26,58,107,0.4), rgba(42,82,152,0.3));
+  border: 1px solid var(--gold); border-radius: var(--radius);
+  padding: 1.5rem; text-align: center; margin-bottom: 1rem;
+}
+.score-card .score-val {
+  font-family: 'Playfair Display', serif;
+  font-size: 3rem; font-weight: 900; color: var(--gold);
+}
+.score-card .score-label {
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 0.9rem; color: rgba(248,246,240,0.7);
+  letter-spacing: 0.5px;
+}
+.score-card .score-bar-wrap {
+  height: 8px; background: rgba(255,255,255,0.1);
+  border-radius: 4px; margin: 0.75rem 0; overflow: hidden;
+}
+.score-card .score-bar-fill {
+  height: 100%; border-radius: 4px;
+  background: linear-gradient(90deg, var(--gold), var(--saffron));
+  transition: width 1s ease;
+}
+
+/* ===== INPUT FORM ===== */
+.form-group { margin-bottom: 1rem; }
+.form-group label {
+  display: block; font-family: 'Rajdhani', sans-serif;
+  font-size: 0.85rem; font-weight: 600; color: var(--gold);
+  margin-bottom: 0.4rem; letter-spacing: 0.3px;
+}
+.form-group input[type="number"],
+.form-group select,
+.form-group textarea {
+  width: 100%; background: rgba(255,255,255,0.07);
+  border: 1px solid var(--border); border-radius: 8px;
+  color: var(--white); padding: 0.6rem 0.9rem;
+  font-family: 'Source Serif 4', serif; font-size: 0.9rem;
+  outline: none; transition: border-color 0.2s;
+  -webkit-appearance: none;
+}
+.form-group input:focus, .form-group select:focus, .form-group textarea:focus {
+  border-color: var(--gold);
+}
+.form-group select option { background: var(--navy); color: var(--white); }
+
+.range-group { margin-bottom: 1rem; }
+.range-group label {
+  display: flex; justify-content: space-between;
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 0.85rem; font-weight: 600; color: var(--gold);
+  margin-bottom: 0.4rem;
+}
+.range-group label span { color: var(--white); }
+.range-group input[type="range"] {
+  width: 100%; accent-color: var(--gold);
+  height: 6px; border-radius: 3px;
+}
+
+/* ===== BUTTONS ===== */
+.btn-primary {
+  background: linear-gradient(135deg, var(--gold), var(--saffron));
+  color: var(--navy); border: none;
+  padding: 0.8rem 1.75rem; border-radius: 50px;
+  font-family: 'Rajdhani', sans-serif; font-weight: 700;
+  font-size: 1rem; cursor: pointer; letter-spacing: 0.5px;
+  transition: all 0.2s; display: inline-block;
+  box-shadow: 0 4px 15px rgba(201,168,76,0.3);
+}
+.btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 25px rgba(201,168,76,0.4); }
+
+.btn-secondary {
+  background: transparent; color: var(--gold);
+  border: 1px solid var(--gold); padding: 0.7rem 1.5rem;
+  border-radius: 50px; font-family: 'Rajdhani', sans-serif;
+  font-weight: 700; font-size: 0.9rem; cursor: pointer;
+  transition: all 0.2s; display: inline-block;
+}
+.btn-secondary:hover { background: var(--gold); color: var(--navy); }
+
+.btn-block { display: block; width: 100%; text-align: center; }
+
+/* ===== SCENARIO CARDS (ETHICS) ===== */
+.scenario-card {
+  background: var(--card-bg); border: 1px solid var(--border);
+  border-radius: var(--radius); padding: 1.25rem; margin-bottom: 1rem;
+}
+.scenario-card .sc-tag {
+  display: inline-block; background: rgba(224,123,26,0.2);
+  border: 1px solid var(--saffron); color: var(--saffron);
+  border-radius: 50px; padding: 0.15rem 0.7rem;
+  font-family: 'Rajdhani', sans-serif; font-size: 0.7rem;
+  font-weight: 700; letter-spacing: 1px; margin-bottom: 0.5rem;
+  text-transform: uppercase;
+}
+.scenario-card .sc-desc {
+  font-size: 0.9rem; line-height: 1.7;
+  color: rgba(248,246,240,0.85); margin-bottom: 1rem;
+}
+.action-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem; }
+.action-btn {
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(201,168,76,0.2);
+  border-radius: 8px; padding: 0.6rem 0.5rem;
+  color: rgba(248,246,240,0.8); font-size: 0.8rem;
+  cursor: pointer; text-align: center; transition: all 0.2s;
+  font-family: 'Source Serif 4', serif;
+}
+.action-btn:hover:not([disabled]) { background: rgba(201,168,76,0.1); border-color: var(--gold); }
+.action-btn.selected { background: rgba(201,168,76,0.2); border-color: var(--gold); color: var(--gold); }
+.action-btn.ethical { background: rgba(45,122,79,0.25); border-color: #5dcb88; color: #5dcb88; }
+.action-btn.unethical { background: rgba(160,32,32,0.2); border-color: #e06060; color: #e06060; }
+
+/* ===== DASHBOARD CHARTS ===== */
+.chart-container { position: relative; width: 100%; overflow: hidden; }
+.radar-canvas { display: block; margin: 0 auto; max-width: 320px; max-height: 320px; }
+
+.metric-row {
+  display: flex; align-items: center; gap: 0.75rem;
+  margin-bottom: 0.75rem;
+}
+.metric-row .m-label {
+  font-family: 'Rajdhani', sans-serif; font-size: 0.85rem;
+  font-weight: 600; color: rgba(248,246,240,0.8);
+  min-width: 160px; flex: 1;
+}
+.metric-row .m-bar-wrap {
+  flex: 2; height: 10px; background: rgba(255,255,255,0.08);
+  border-radius: 5px; overflow: hidden;
+}
+.metric-row .m-bar {
+  height: 100%; border-radius: 5px;
+  background: linear-gradient(90deg, var(--gold), var(--saffron));
+  transition: width 1s ease;
+}
+.metric-row .m-val {
+  font-family: 'Rajdhani', sans-serif; font-size: 0.85rem;
+  font-weight: 700; color: var(--gold); min-width: 35px;
+  text-align: right;
+}
+
+/* ===== GROWTH TRACKER ===== */
+.term-card {
+  background: var(--card-bg); border: 1px solid var(--border);
+  border-radius: var(--radius); padding: 1.25rem; margin-bottom: 1rem;
+}
+.term-card .term-label {
+  font-family: 'Rajdhani', sans-serif; font-weight: 700;
+  color: var(--gold); font-size: 1rem; margin-bottom: 0.75rem;
+}
+
+/* ===== REPORT ===== */
+.report-section {
+  background: var(--card-bg); border: 1px solid var(--border);
+  border-radius: var(--radius); padding: 1.25rem; margin-bottom: 1rem;
+}
+.report-section h4 {
+  font-family: 'Playfair Display', serif;
+  color: var(--gold); font-size: 1.05rem;
+  margin-bottom: 0.75rem; padding-bottom: 0.4rem;
+  border-bottom: 1px solid var(--border);
+}
+.report-section p, .report-section li {
+  font-size: 0.88rem; line-height: 1.8;
+  color: rgba(248,246,240,0.85);
+}
+.report-section ul { padding-left: 1.2rem; }
+
+/* ===== DEMOCRATIC SIM ===== */
+.sim-stage {
+  background: var(--card-bg); border: 1px solid var(--border);
+  border-radius: var(--radius); padding: 1.25rem; margin-bottom: 1rem;
+}
+.sim-stage h4 {
+  font-family: 'Rajdhani', sans-serif; font-weight: 700;
+  color: var(--gold); font-size: 0.95rem;
+  text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 0.75rem;
+}
+
+/* ===== TABS ===== */
+.tab-bar {
+  display: flex; overflow-x: auto; gap: 0.25rem;
+  margin-bottom: 1.25rem;
+  scrollbar-width: none;
+}
+.tab-bar::-webkit-scrollbar { display: none; }
+.tab-btn {
+  background: var(--card-bg); border: 1px solid var(--border);
+  border-radius: 8px 8px 0 0; padding: 0.5rem 1rem;
+  font-family: 'Rajdhani', sans-serif; font-weight: 600;
+  font-size: 0.82rem; color: rgba(248,246,240,0.7);
+  cursor: pointer; white-space: nowrap; transition: all 0.2s;
+  border-bottom: none; flex-shrink: 0;
+}
+.tab-btn.active {
+  background: rgba(201,168,76,0.15); color: var(--gold);
+  border-color: var(--gold); border-bottom: 1px solid rgba(13,31,60,1);
+}
+.tab-content { display: none; }
+.tab-content.active { display: block; }
+
+/* ===== INCLUSION TRACKER ===== */
+.emotion-scale {
+  display: flex; gap: 0.4rem; justify-content: center;
+  margin: 0.5rem 0;
+}
+.emotion-btn {
+  font-size: 1.5rem; background: none; border: 2px solid transparent;
+  border-radius: 8px; cursor: pointer; padding: 0.3rem;
+  transition: all 0.2s;
+}
+.emotion-btn.selected, .emotion-btn:hover { border-color: var(--gold); background: rgba(201,168,76,0.1); }
+
+/* ===== PROGRESS INDICATOR ===== */
+.section-progress {
+  display: flex; gap: 0.3rem; flex-wrap: wrap;
+  margin-bottom: 1.25rem;
+}
+.prog-dot {
+  width: 8px; height: 8px; border-radius: 50%;
+  background: rgba(255,255,255,0.15);
+  transition: background 0.3s;
+}
+.prog-dot.done { background: var(--gold); }
+.prog-dot.current { background: var(--saffron); box-shadow: 0 0 6px var(--saffron); }
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 400px) {
+  .home-nav-grid { grid-template-columns: 1fr 1fr; }
+  .action-grid { grid-template-columns: 1fr; }
+}
+
+/* ===== PRINT ===== */
+@media print {
+  body { background: white; color: #111; }
+  #navbar, .home-nav-grid { display: none; }
+  .card, .report-section { border: 1px solid #ccc; background: white; }
+  .card h3, .report-section h4 { color: #1a3a6b; }
+}
+</style>
+</head>
+<body>
+
+<!-- NAVBAR -->
+<nav id="navbar" class="hidden">
+  <div class="logo">⚖ Civic Studio</div>
+  <button class="nav-back" onclick="goHome()">🏛 Home</button>
+</nav>
+
+<!-- ============================================================ -->
+<!-- SCREEN: HOME / TITLE PAGE -->
+<!-- ============================================================ -->
+<div id="screen-home" class="screen active">
+  <div class="home-ashoka">☸</div>
+  <div class="home-inner">
+
+    <!-- Author Badge -->
+    <div class="author-badge">
+      <div class="author-avatar">
+        <img src="author.jpg" onerror="this.style.display='none';this.parentElement.textContent='MY'" alt="Mateen Yousuf"/>
+      </div>
+      <div class="author-text">
+        <div class="name">Mateen Yousuf</div>
+        <div class="role">Teacher, School Education Department Kashmir</div>
+      </div>
+    </div>
+
+    <!-- Emblem -->
+    <div class="emblem-ring">⚖</div>
+
+    <!-- Title -->
+    <div class="home-title">
+      <h1>Values, Citizenship &amp;<br/><span>Constitutional Literacy</span><br/>Development Studio</h1>
+      <p>An Offline Civic Education Platform for Students &amp; Educators</p>
+    </div>
+
+    <!-- NEP Badge -->
+    <div class="nep-badge">
+      🇮🇳 Aligned with NEP 2020 &nbsp;|&nbsp; Constitutional Values &nbsp;|&nbsp; Responsible Citizenship
+    </div>
+
+    <!-- Stats Strip -->
+    <div class="stat-strip" id="homeStats">
+      <div class="stat-item">
+        <div class="val" id="statLiteracy">--</div>
+        <div class="lbl">LITERACY SCORE</div>
+      </div>
+      <div class="stat-item">
+        <div class="val" id="statEthics">--</div>
+        <div class="lbl">ETHICS SCORE</div>
+      </div>
+      <div class="stat-item">
+        <div class="val" id="statCivic">--</div>
+        <div class="lbl">CIVIC INDEX</div>
+      </div>
+    </div>
+
+    <!-- Navigation Grid -->
+    <div class="home-nav-grid">
+      <div class="home-nav-btn" onclick="showScreen('screen-foundations')">
+        <div class="btn-icon">📚</div>
+        <div class="btn-label">Civic Education Foundations</div>
+        <div class="btn-sub">20 Pages</div>
+      </div>
+      <div class="home-nav-btn" onclick="showScreen('screen-constitution')">
+        <div class="btn-icon">🏛</div>
+        <div class="btn-label">Constitutional Literacy</div>
+        <div class="btn-sub">Quiz &amp; Score</div>
+      </div>
+      <div class="home-nav-btn" onclick="showScreen('screen-civic-lab')">
+        <div class="btn-icon">🤝</div>
+        <div class="btn-label">Civic Responsibility Lab</div>
+        <div class="btn-sub">Engagement Tracker</div>
+      </div>
+      <div class="home-nav-btn" onclick="showScreen('screen-ethics')">
+        <div class="btn-icon">⚖</div>
+        <div class="btn-label">Ethical Decision Simulator</div>
+        <div class="btn-sub">5 Scenarios</div>
+      </div>
+      <div class="home-nav-btn" onclick="showScreen('screen-inclusion')">
+        <div class="btn-icon">🌍</div>
+        <div class="btn-label">Diversity &amp; Inclusion</div>
+        <div class="btn-sub">Reflection Tracker</div>
+      </div>
+      <div class="home-nav-btn" onclick="showScreen('screen-democracy')">
+        <div class="btn-icon">🗳</div>
+        <div class="btn-label">Democratic Participation</div>
+        <div class="btn-sub">Simulator</div>
+      </div>
+      <div class="home-nav-btn" onclick="showScreen('screen-dashboard')">
+        <div class="btn-icon">📊</div>
+        <div class="btn-label">Civic Dashboard</div>
+        <div class="btn-sub">Your Profile</div>
+      </div>
+      <div class="home-nav-btn" onclick="showScreen('screen-growth')">
+        <div class="btn-icon">📈</div>
+        <div class="btn-label">Growth Tracker</div>
+        <div class="btn-sub">Longitudinal</div>
+      </div>
+    </div>
+
+    <!-- Report Button -->
+    <button class="btn-primary btn-block" onclick="showScreen('screen-report')" style="margin-top:0.5rem;">
+      📄 Generate Citizenship Development Report
+    </button>
+
+    <!-- Reset -->
+    <button class="btn-secondary" onclick="confirmReset()" style="font-size:0.78rem; padding:0.4rem 1rem; margin-top:0.25rem;">
+      🔄 Reset All Data
+    </button>
+
+    <div style="font-family:'Rajdhani',sans-serif; font-size:0.72rem; color:rgba(248,246,240,0.4); text-align:center; padding-bottom:1rem;">
+      All data stored locally on your device. No internet required. PWA-enabled.
+    </div>
+  </div>
+</div>
+
+<!-- ============================================================ -->
+<!-- SCREEN: FOUNDATIONS (20 Pages) -->
+<!-- ============================================================ -->
+<div id="screen-foundations" class="screen">
+  <div class="section-header">
+    <div class="sect-icon">📚</div>
+    <h2>Foundations of Values &amp; Civic Education</h2>
+    <div class="sub">20 Structured Content Pages · Reflection &amp; Classroom Activities</div>
+  </div>
+  <div class="section-body">
+
+    <div class="page-nav" id="pageNav"></div>
+    <div class="section-progress" id="readProgress"></div>
+
+    <!-- All 20 pages injected by JS -->
+    <div id="foundationPages"></div>
+
+    <div class="page-footer-nav">
+      <button id="btnPrevPage" onclick="changePage(-1)" disabled>← Previous</button>
+      <button id="btnNextPage" onclick="changePage(1)">Next →</button>
+    </div>
+  </div>
+</div>
+
+<!-- ============================================================ -->
+<!-- SCREEN: CONSTITUTIONAL LITERACY -->
+<!-- ============================================================ -->
+<div id="screen-constitution" class="screen">
+  <div class="section-header">
+    <div class="sect-icon">🏛</div>
+    <h2>Constitutional Literacy Module</h2>
+    <div class="sub">Preamble · Rights · Duties · DPSP · Governance</div>
+  </div>
+  <div class="section-body">
+    <div class="tab-bar">
+      <button class="tab-btn active" onclick="switchTab('constitution','tab-preamble',this)">Preamble</button>
+      <button class="tab-btn" onclick="switchTab('constitution','tab-rights',this)">Fundamental Rights</button>
+      <button class="tab-btn" onclick="switchTab('constitution','tab-duties',this)">Fundamental Duties</button>
+      <button class="tab-btn" onclick="switchTab('constitution','tab-dpsp',this)">DPSP</button>
+      <button class="tab-btn" onclick="switchTab('constitution','tab-governance',this)">Governance</button>
+      <button class="tab-btn" onclick="switchTab('constitution','tab-quiz',this)">📝 Quiz</button>
+    </div>
+
+    <!-- TAB: PREAMBLE -->
+    <div id="tab-preamble" class="tab-content active">
+      <div class="card">
+        <h3>The Preamble — Soul of the Constitution</h3>
+        <p>The Preamble serves as the introduction to the Indian Constitution, encapsulating the ideals and aspirations of the nation. It declares India to be a <strong style="color:var(--gold)">Sovereign, Socialist, Secular, Democratic Republic</strong> committed to securing Justice, Liberty, Equality, and Fraternity for all citizens.</p>
+        <div style="margin:1rem 0; padding:1rem; background:rgba(201,168,76,0.08); border:1px solid var(--border); border-radius:8px; font-style:italic; line-height:2; font-size:0.88rem; color:var(--gold-light);">
+          "WE, THE PEOPLE OF INDIA, having solemnly resolved to constitute India into a SOVEREIGN SOCIALIST SECULAR DEMOCRATIC REPUBLIC and to secure to all its citizens: JUSTICE, social, economic and political; LIBERTY of thought, expression, belief, faith and worship; EQUALITY of status and of opportunity; and to promote among them all FRATERNITY assuring the dignity of the individual and the unity and integrity of the Nation..."
+        </div>
+        <p style="margin-top:0.75rem;"><strong style="color:var(--gold)">Sovereign</strong> — India is independent and not under any foreign control. <strong style="color:var(--gold)">Socialist</strong> — The state seeks to reduce inequalities of income and status. <strong style="color:var(--gold)">Secular</strong> — The state has no official religion; all religions are treated equally. <strong style="color:var(--gold)">Democratic</strong> — Government is elected by the people. <strong style="color:var(--gold)">Republic</strong> — Head of state is elected, not hereditary.</p>
+      </div>
+      <div class="card">
+        <h3>Core Values of the Preamble</h3>
+        <p><strong style="color:var(--gold)">Justice</strong> encompasses social justice (elimination of caste, gender, religious discrimination), economic justice (equitable distribution of resources), and political justice (equal voting rights, right to contest elections).</p>
+        <p style="margin-top:0.75rem;"><strong style="color:var(--gold)">Liberty</strong> guarantees freedom of thought, expression, belief, faith, and worship — not absolute but reasonable and subject to constitutional limits.</p>
+        <p style="margin-top:0.75rem;"><strong style="color:var(--gold)">Equality</strong> ensures equal status and opportunity for all citizens regardless of religion, caste, sex, or place of birth.</p>
+        <p style="margin-top:0.75rem;"><strong style="color:var(--gold)">Fraternity</strong> promotes a sense of brotherhood among all citizens, reinforcing dignity of individuals and unity of the nation.</p>
+      </div>
+    </div>
+
+    <!-- TAB: FUNDAMENTAL RIGHTS -->
+    <div id="tab-rights" class="tab-content">
+      <div class="card">
+        <h3>Fundamental Rights (Articles 12–35)</h3>
+        <p>The Constitution guarantees six fundamental rights that protect citizens against arbitrary state actions:</p>
+      </div>
+      <div class="card">
+        <h3>1. Right to Equality (Art. 14–18)</h3>
+        <p>Guarantees equality before law, prohibits discrimination on grounds of religion, race, caste, sex or place of birth, ensures equality of opportunity in public employment, abolishes untouchability, and prohibits titles except military/academic.</p>
+      </div>
+      <div class="card">
+        <h3>2. Right to Freedom (Art. 19–22)</h3>
+        <p>Includes freedom of speech and expression, assembly, association, movement, residence, and profession. Also protects against arbitrary arrest through right to life and personal liberty (Art. 21).</p>
+      </div>
+      <div class="card">
+        <h3>3. Right Against Exploitation (Art. 23–24)</h3>
+        <p>Prohibits trafficking, forced labour, and child labour in hazardous industries (below age 14).</p>
+      </div>
+      <div class="card">
+        <h3>4. Right to Freedom of Religion (Art. 25–28)</h3>
+        <p>Guarantees freedom of conscience and free profession, practice and propagation of religion. Allows religious communities to manage religious affairs.</p>
+      </div>
+      <div class="card">
+        <h3>5. Cultural and Educational Rights (Art. 29–30)</h3>
+        <p>Protects the rights of minorities to conserve their culture, language, and script, and to establish and administer educational institutions.</p>
+      </div>
+      <div class="card">
+        <h3>6. Right to Constitutional Remedies (Art. 32)</h3>
+        <p>Called the "heart and soul of the Constitution" by Dr. B.R. Ambedkar, this right allows citizens to move the Supreme Court directly for enforcement of fundamental rights through writs like Habeas Corpus, Mandamus, Certiorari, Prohibition, and Quo Warranto.</p>
+      </div>
+    </div>
+
+    <!-- TAB: FUNDAMENTAL DUTIES -->
+    <div id="tab-duties" class="tab-content">
+      <div class="card">
+        <h3>Fundamental Duties (Article 51A)</h3>
+        <p>Added by the 42nd Amendment (1976), there are 11 Fundamental Duties. These are moral obligations of every citizen. While not legally enforceable, they reflect the responsibilities that come with citizenship:</p>
+        <ol style="padding-left:1.5rem; margin-top:0.75rem; line-height:2.2; font-size:0.88rem; color:rgba(248,246,240,0.85);">
+          <li>Abide by the Constitution and respect national flag &amp; anthem</li>
+          <li>Cherish and follow the noble ideals of the freedom struggle</li>
+          <li>Uphold and protect the sovereignty, unity and integrity of India</li>
+          <li>Defend the country and render national service when called upon</li>
+          <li>Promote harmony and the spirit of common brotherhood</li>
+          <li>Value and preserve the rich heritage of our composite culture</li>
+          <li>Protect and improve the natural environment</li>
+          <li>Develop scientific temper, humanism and spirit of inquiry and reform</li>
+          <li>Safeguard public property and abjure violence</li>
+          <li>Strive towards excellence in all individual and collective activity</li>
+          <li>Provide opportunities for education to children (6–14 years) [added 2002]</li>
+        </ol>
+      </div>
+      <div class="card">
+        <h3>Significance in Daily Life</h3>
+        <p>Fundamental duties bridge the gap between rights and responsibilities. A responsible citizen not only exercises their rights but also fulfills duties. Examples: paying taxes honestly (duty 10), not destroying public property (duty 9), promoting communal harmony (duty 5), and encouraging children's education (duty 11).</p>
+      </div>
+    </div>
+
+    <!-- TAB: DPSP -->
+    <div id="tab-dpsp" class="tab-content">
+      <div class="card">
+        <h3>Directive Principles of State Policy (Art. 36–51)</h3>
+        <p>DPSPs are guidelines to the central and state governments for establishing a just society. Though not justiciable (non-enforceable by courts), they are fundamental to governance. Borrowed from Ireland's constitution, they aim to establish social and economic democracy.</p>
+      </div>
+      <div class="card">
+        <h3>Key Directives</h3>
+        <p><strong style="color:var(--gold)">Socio-Economic (Socialistic):</strong> Equal pay for equal work (Art. 39d), free legal aid (Art. 39A), right to work and education (Art. 41), living wage for workers (Art. 43), early childhood care (Art. 45).</p>
+        <p style="margin-top:0.75rem;"><strong style="color:var(--gold)">Gandhian Principles:</strong> Organize village panchayats (Art. 40), promote cottage industries, prohibit cow slaughter (Art. 48), promote welfare of SC/ST (Art. 46).</p>
+        <p style="margin-top:0.75rem;"><strong style="color:var(--gold)">Liberal-Intellectual:</strong> Uniform Civil Code (Art. 44), separate judiciary from executive (Art. 50), protect monuments (Art. 49), foster international peace (Art. 51).</p>
+      </div>
+    </div>
+
+    <!-- TAB: GOVERNANCE -->
+    <div id="tab-governance" class="tab-content">
+      <div class="card">
+        <h3>Structure of Indian Governance</h3>
+        <p>India follows a federal system with unitary features. The Constitution provides for three branches of government:</p>
+        <p style="margin-top:0.75rem;"><strong style="color:var(--gold)">Legislature:</strong> Parliament (Lok Sabha + Rajya Sabha) at the centre, State Assemblies at state level. Makes laws.</p>
+        <p style="margin-top:0.75rem;"><strong style="color:var(--gold)">Executive:</strong> President (constitutional head), Prime Minister &amp; Council of Ministers (actual power). Implements laws.</p>
+        <p style="margin-top:0.75rem;"><strong style="color:var(--gold)">Judiciary:</strong> Supreme Court, High Courts, District Courts. Interprets laws and protects fundamental rights.</p>
+      </div>
+      <div class="card">
+        <h3>Three-Tier Government &amp; PRIs</h3>
+        <p>India has a three-tier structure: Central, State, and Local. The 73rd &amp; 74th Amendments (1992) gave constitutional status to Panchayati Raj Institutions (PRIs) and Urban Local Bodies, bringing democracy to the grassroots. This enables local self-governance and citizen participation at village level.</p>
+      </div>
+    </div>
+
+    <!-- TAB: QUIZ -->
+    <div id="tab-quiz" class="tab-content">
+      <div id="constitutionQuizContainer"></div>
+      <div id="constitutionScoreCard" class="hidden">
+        <div class="score-card">
+          <div class="score-val" id="constScoreVal">0</div>
+          <div class="score-label">Constitutional Literacy Score</div>
+          <div class="score-bar-wrap"><div class="score-bar-fill" id="constScoreBar" style="width:0%"></div></div>
+          <div style="font-family:'Rajdhani',sans-serif;font-size:0.85rem;color:rgba(248,246,240,0.7);margin-top:0.5rem;" id="constScoreMsg"></div>
+        </div>
+        <button class="btn-secondary btn-block" onclick="resetConstitutionQuiz()">Retake Quiz</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ============================================================ -->
+<!-- SCREEN: CIVIC RESPONSIBILITY LAB -->
+<!-- ============================================================ -->
+<div id="screen-civic-lab" class="screen">
+  <div class="section-header">
+    <div class="sect-icon">🤝</div>
+    <h2>Civic Responsibility Lab</h2>
+    <div class="sub">Track Your Civic Participation &amp; Community Contribution</div>
+  </div>
+  <div class="section-body">
+    <div class="card">
+      <h3>Log Your Civic Activities</h3>
+      <p style="font-size:0.85rem;color:rgba(248,246,240,0.7);margin-bottom:1rem;">Record your participation in school and community activities. The system will calculate your Civic Engagement Index.</p>
+
+      <div class="range-group">
+        <label>School Activities (events, council, clubs) <span id="v-school">5</span>/10</label>
+        <input type="range" min="0" max="10" value="5" oninput="document.getElementById('v-school').textContent=this.value; updateCivicLab()"/>
+      </div>
+      <div class="range-group">
+        <label>Community Service (clean-up, volunteering) <span id="v-community">5</span>/10</label>
+        <input type="range" min="0" max="10" value="5" oninput="document.getElementById('v-community').textContent=this.value; updateCivicLab()"/>
+      </div>
+      <div class="range-group">
+        <label>Environmental Actions (plantation, conservation) <span id="v-env">5</span>/10</label>
+        <input type="range" min="0" max="10" value="5" oninput="document.getElementById('v-env').textContent=this.value; updateCivicLab()"/>
+      </div>
+      <div class="range-group">
+        <label>Peer Mediation &amp; Conflict Resolution <span id="v-peer">5</span>/10</label>
+        <input type="range" min="0" max="10" value="5" oninput="document.getElementById('v-peer').textContent=this.value; updateCivicLab()"/>
+      </div>
+      <div class="range-group">
+        <label>Awareness Campaigns (posters, rallies, talks) <span id="v-aware">5</span>/10</label>
+        <input type="range" min="0" max="10" value="5" oninput="document.getElementById('v-aware').textContent=this.value; updateCivicLab()"/>
+      </div>
+      <div class="range-group">
+        <label>Helping Peers &amp; Classmates <span id="v-help">5</span>/10</label>
+        <input type="range" min="0" max="10" value="5" oninput="document.getElementById('v-help').textContent=this.value; updateCivicLab()"/>
+      </div>
+
+      <button class="btn-primary btn-block mt-4" onclick="saveCivicLab()">💾 Save &amp; Calculate</button>
+    </div>
+
+    <div id="civicLabResults" class="hidden">
+      <div class="score-card">
+        <div class="score-val" id="civicEngIdx">0</div>
+        <div class="score-label">Civic Engagement Index</div>
+        <div class="score-bar-wrap"><div class="score-bar-fill" id="civicEngBar" style="width:0%"></div></div>
+      </div>
+      <div class="score-card" style="margin-top:0.75rem;">
+        <div class="score-val" id="communityContrib">0</div>
+        <div class="score-label">Community Contribution Score</div>
+        <div class="score-bar-wrap"><div class="score-bar-fill" id="communityContribBar" style="width:0%"></div></div>
+      </div>
+      <div class="card" id="civicLabFeedback"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ============================================================ -->
+<!-- SCREEN: ETHICAL DECISION SIMULATOR -->
+<!-- ============================================================ -->
+<div id="screen-ethics" class="screen">
+  <div class="section-header">
+    <div class="sect-icon">⚖</div>
+    <h2>Ethical Decision Simulator</h2>
+    <div class="sub">5 Real-Life Scenarios · Deterministic Ethical Scoring</div>
+  </div>
+  <div class="section-body">
+    <div id="ethicsProgress" class="section-progress"></div>
+    <div id="ethicsScenariosContainer"></div>
+    <div id="ethicsResultCard" class="hidden">
+      <div class="score-card">
+        <div class="score-val" id="ethicsConsistency">0</div>
+        <div class="score-label">Ethical Consistency Score</div>
+        <div class="score-bar-wrap"><div class="score-bar-fill" id="ethicsConsBar" style="width:0%"></div></div>
+      </div>
+      <div class="score-card" style="margin-top:0.75rem;">
+        <div class="score-val" id="civicCourage">0</div>
+        <div class="score-label">Civic Courage Index</div>
+        <div class="score-bar-wrap"><div class="score-bar-fill" id="civicCourageBar" style="width:0%"></div></div>
+      </div>
+      <div class="score-card" style="margin-top:0.75rem;">
+        <div class="score-val" id="socialResp">0</div>
+        <div class="score-label">Social Responsibility Rating</div>
+        <div class="score-bar-wrap"><div class="score-bar-fill" id="socialRespBar" style="width:0%"></div></div>
+      </div>
+      <button class="btn-secondary btn-block mt-4" onclick="resetEthics()">🔄 Redo Scenarios</button>
+    </div>
+  </div>
+</div>
+
+<!-- ============================================================ -->
+<!-- SCREEN: DIVERSITY & INCLUSION TRACKER -->
+<!-- ============================================================ -->
+<div id="screen-inclusion" class="screen">
+  <div class="section-header">
+    <div class="sect-icon">🌍</div>
+    <h2>Diversity &amp; Inclusion Tracker</h2>
+    <div class="sub">Reflection · Empathy · Social Harmony</div>
+  </div>
+  <div class="section-body">
+    <div class="card">
+      <h3>Reflect on Your Inclusiveness</h3>
+      <p style="font-size:0.85rem;color:rgba(248,246,240,0.7);margin-bottom:1.25rem;">Answer honestly to understand your awareness of diversity, gender sensitivity, and social harmony.</p>
+
+      <div id="inclusionQuestions"></div>
+
+      <button class="btn-primary btn-block mt-4" onclick="calculateInclusion()">📊 Calculate My Inclusion Score</button>
+    </div>
+
+    <div id="inclusionResults" class="hidden">
+      <div class="score-card">
+        <div class="score-val" id="inclusionIdx">0</div>
+        <div class="score-label">Inclusion Awareness Index</div>
+        <div class="score-bar-wrap"><div class="score-bar-fill" id="inclusionIdxBar" style="width:0%"></div></div>
+      </div>
+      <div class="score-card" style="margin-top:0.75rem;">
+        <div class="score-val" id="harmonyScore">0</div>
+        <div class="score-label">Social Harmony Score</div>
+        <div class="score-bar-wrap"><div class="score-bar-fill" id="harmonyBar" style="width:0%"></div></div>
+      </div>
+      <div class="card" id="inclusionFeedback"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ============================================================ -->
+<!-- SCREEN: DEMOCRATIC PARTICIPATION SIMULATOR -->
+<!-- ============================================================ -->
+<div id="screen-democracy" class="screen">
+  <div class="section-header">
+    <div class="sect-icon">🗳</div>
+    <h2>Democratic Participation Simulator</h2>
+    <div class="sub">School Election · Resource Debate · Community Problem-Solving</div>
+  </div>
+  <div class="section-body">
+    <div class="tab-bar">
+      <button class="tab-btn active" onclick="switchTab('democracy','tab-election',this)">🗳 School Election</button>
+      <button class="tab-btn" onclick="switchTab('democracy','tab-resource',this)">💰 Resource Debate</button>
+      <button class="tab-btn" onclick="switchTab('democracy','tab-community',this)">🏘 Community Problem</button>
+      <button class="tab-btn" onclick="switchTab('democracy','tab-demo-result',this)">📊 My Scores</button>
+    </div>
+
+    <!-- Election Simulation -->
+    <div id="tab-election" class="tab-content active">
+      <div class="sim-stage">
+        <h4>🗳 School Student Council Election</h4>
+        <p style="font-size:0.88rem;color:rgba(248,246,240,0.8);line-height:1.7;margin-bottom:1rem;">You are a student in your school. An election for Student Council President is happening. Consider the candidates and vote thoughtfully based on their platforms:</p>
+        <div id="electionCandidates"></div>
+        <div id="electionFeedback" class="hidden"></div>
+      </div>
+      <div class="sim-stage">
+        <h4>📢 Would You Campaign?</h4>
+        <div class="range-group">
+          <label>Effort in understanding candidates' platforms <span id="v-campaign">5</span>/10</label>
+          <input type="range" min="0" max="10" value="5" oninput="document.getElementById('v-campaign').textContent=this.value"/>
+        </div>
+        <div class="range-group">
+          <label>Encouraging peers to participate in voting <span id="v-encourage">5</span>/10</label>
+          <input type="range" min="0" max="10" value="5" oninput="document.getElementById('v-encourage').textContent=this.value"/>
+        </div>
+        <button class="btn-primary mt-4" onclick="saveElectionData()">Submit Election Participation</button>
+      </div>
+    </div>
+
+    <!-- Resource Debate -->
+    <div id="tab-resource" class="tab-content">
+      <div class="sim-stage">
+        <h4>💰 School Resource Allocation Debate</h4>
+        <p style="font-size:0.88rem;color:rgba(248,246,240,0.8);line-height:1.7;margin-bottom:1rem;">Your school receives ₹2,00,000 for improvement. As a student representative, allocate the budget across these needs. Total must sum to 100%:</p>
+        <div id="resourceAllocation">
+          <div class="range-group">
+            <label>Library &amp; Books <span id="v-library">20</span>%</label>
+            <input type="range" min="0" max="100" value="20" oninput="updateBudget('library',this.value)"/>
+          </div>
+          <div class="range-group">
+            <label>Sports &amp; Games <span id="v-sports">20</span>%</label>
+            <input type="range" min="0" max="100" value="20" oninput="updateBudget('sports',this.value)"/>
+          </div>
+          <div class="range-group">
+            <label>Science Lab <span id="v-science">20</span>%</label>
+            <input type="range" min="0" max="100" value="20" oninput="updateBudget('science',this.value)"/>
+          </div>
+          <div class="range-group">
+            <label>Sanitation &amp; Hygiene <span id="v-sanitation">20</span>%</label>
+            <input type="range" min="0" max="100" value="20" oninput="updateBudget('sanitation',this.value)"/>
+          </div>
+          <div class="range-group">
+            <label>Arts &amp; Culture <span id="v-arts">20</span>%</label>
+            <input type="range" min="0" max="100" value="20" oninput="updateBudget('arts',this.value)"/>
+          </div>
+          <div style="font-family:'Rajdhani',sans-serif;font-size:0.85rem;margin:0.5rem 0;">
+            Total: <span id="budgetTotal" style="color:var(--gold);font-weight:700;">100</span>% 
+            <span id="budgetWarn" style="color:#e06060;display:none;"> ⚠ Must equal 100%</span>
+          </div>
+        </div>
+        <div class="form-group">
+          <label>Justify your allocation strategy (in a few words)</label>
+          <textarea id="budgetJustification" rows="3" placeholder="Why did you prioritize these areas?..."></textarea>
+        </div>
+        <button class="btn-primary" onclick="saveResourceData()">Submit Budget Plan</button>
+        <div id="resourceFeedback" class="hidden" style="margin-top:1rem;"></div>
+      </div>
+    </div>
+
+    <!-- Community Problem -->
+    <div id="tab-community" class="tab-content">
+      <div class="sim-stage">
+        <h4>🏘 Community Problem-Solving Simulation</h4>
+        <p style="font-size:0.88rem;color:rgba(248,246,240,0.8);line-height:1.7;margin-bottom:1rem;">A pond in your village is being used as a garbage dump. It is causing disease and environmental damage. As an active citizen, what would you do?</p>
+        <div id="communityOptions"></div>
+        <div id="communityFeedback" class="hidden" style="margin-top:1rem;"></div>
+      </div>
+      <div class="sim-stage" style="margin-top:1rem;">
+        <h4>🤝 Deliberation Quality</h4>
+        <div class="range-group">
+          <label>Listening to all community voices <span id="v-listen">5</span>/10</label>
+          <input type="range" min="0" max="10" value="5" oninput="document.getElementById('v-listen').textContent=this.value"/>
+        </div>
+        <div class="range-group">
+          <label>Finding common ground / consensus <span id="v-consensus">5</span>/10</label>
+          <input type="range" min="0" max="10" value="5" oninput="document.getElementById('v-consensus').textContent=this.value"/>
+        </div>
+        <div class="range-group">
+          <label>Taking responsibility for implementation <span id="v-implement">5</span>/10</label>
+          <input type="range" min="0" max="10" value="5" oninput="document.getElementById('v-implement').textContent=this.value"/>
+        </div>
+        <button class="btn-primary mt-4" onclick="saveCommunityData()">Submit Community Action</button>
+      </div>
+    </div>
+
+    <!-- Democracy Results -->
+    <div id="tab-demo-result" class="tab-content">
+      <div id="democracyScores">
+        <div class="score-card">
+          <div class="score-val" id="deliberationScore">--</div>
+          <div class="score-label">Deliberation Quality Score</div>
+          <div class="score-bar-wrap"><div class="score-bar-fill" id="deliberationBar" style="width:0%"></div></div>
+        </div>
+        <div class="score-card" style="margin-top:0.75rem;">
+          <div class="score-val" id="participationEffIdx">--</div>
+          <div class="score-label">Participation Effectiveness Index</div>
+          <div class="score-bar-wrap"><div class="score-bar-fill" id="participationBar" style="width:0%"></div></div>
+        </div>
+        <div class="score-card" style="margin-top:0.75rem;">
+          <div class="score-val" id="consensusBuildScore">--</div>
+          <div class="score-label">Consensus-Building Score</div>
+          <div class="score-bar-wrap"><div class="score-bar-fill" id="consensusBar" style="width:0%"></div></div>
+        </div>
+        <p style="font-family:'Rajdhani',sans-serif;font-size:0.8rem;color:rgba(248,246,240,0.5);text-align:center;margin-top:0.5rem;">Complete the simulations to see your scores</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ============================================================ -->
+<!-- SCREEN: CIVIC DASHBOARD -->
+<!-- ============================================================ -->
+<div id="screen-dashboard" class="screen">
+  <div class="section-header">
+    <div class="sect-icon">📊</div>
+    <h2>Civic Development Dashboard</h2>
+    <div class="sub">Your Complete Civic Profile</div>
+  </div>
+  <div class="section-body">
+    <canvas id="radarChart" class="radar-canvas" width="300" height="300"></canvas>
+
+    <div style="margin-top:1.5rem;">
+      <div class="metric-row">
+        <div class="m-label">📜 Constitutional Literacy</div>
+        <div class="m-bar-wrap"><div class="m-bar" id="dash-const" style="width:0%"></div></div>
+        <div class="m-val" id="dash-const-val">0</div>
+      </div>
+      <div class="metric-row">
+        <div class="m-label">⚖ Ethical Consistency</div>
+        <div class="m-bar-wrap"><div class="m-bar" id="dash-ethics" style="width:0%"></div></div>
+        <div class="m-val" id="dash-ethics-val">0</div>
+      </div>
+      <div class="metric-row">
+        <div class="m-label">🤝 Civic Engagement</div>
+        <div class="m-bar-wrap"><div class="m-bar" id="dash-civic" style="width:0%"></div></div>
+        <div class="m-val" id="dash-civic-val">0</div>
+      </div>
+      <div class="metric-row">
+        <div class="m-label">🌍 Inclusion Awareness</div>
+        <div class="m-bar-wrap"><div class="m-bar" id="dash-inclusion" style="width:0%"></div></div>
+        <div class="m-val" id="dash-inclusion-val">0</div>
+      </div>
+      <div class="metric-row">
+        <div class="m-label">🗳 Participation Quality</div>
+        <div class="m-bar-wrap"><div class="m-bar" id="dash-demo" style="width:0%"></div></div>
+        <div class="m-val" id="dash-demo-val">0</div>
+      </div>
+      <div class="metric-row">
+        <div class="m-label">💪 Civic Courage</div>
+        <div class="m-bar-wrap"><div class="m-bar" id="dash-courage" style="width:0%"></div></div>
+        <div class="m-val" id="dash-courage-val">0</div>
+      </div>
+    </div>
+
+    <div class="score-card" style="margin-top:1.5rem;">
+      <div class="score-val" id="overallCivicScore">0</div>
+      <div class="score-label">Overall Civic Development Score</div>
+      <div class="score-bar-wrap"><div class="score-bar-fill" id="overallBar" style="width:0%"></div></div>
+      <div id="overallGrade" style="font-family:'Rajdhani',sans-serif;font-size:1rem;margin-top:0.5rem;font-weight:700;"></div>
+    </div>
+
+    <button class="btn-secondary btn-block mt-4" onclick="refreshDashboard()">🔄 Refresh Dashboard</button>
+  </div>
+</div>
+
+<!-- ============================================================ -->
+<!-- SCREEN: GROWTH TRACKER -->
+<!-- ============================================================ -->
+<div id="screen-growth" class="screen">
+  <div class="section-header">
+    <div class="sect-icon">📈</div>
+    <h2>Longitudinal Civic Growth Tracker</h2>
+    <div class="sub">Track Progress Across Terms · Responsibility Maturity</div>
+  </div>
+  <div class="section-body">
+    <div class="card">
+      <h3>Record This Term's Progress</h3>
+      <div class="form-group">
+        <label>Select Term</label>
+        <select id="termSelect">
+          <option value="Term 1 (Apr–Jun)">Term 1 (Apr–Jun)</option>
+          <option value="Term 2 (Jul–Sep)">Term 2 (Jul–Sep)</option>
+          <option value="Term 3 (Oct–Dec)">Term 3 (Oct–Dec)</option>
+          <option value="Term 4 (Jan–Mar)">Term 4 (Jan–Mar)</option>
+        </select>
+      </div>
+      <div class="range-group">
+        <label>Ethical Reasoning Maturity <span id="v-ethical-m">5</span>/10</label>
+        <input type="range" min="0" max="10" value="5" oninput="document.getElementById('v-ethical-m').textContent=this.value"/>
+      </div>
+      <div class="range-group">
+        <label>Civic Participation Progression <span id="v-part-p">5</span>/10</label>
+        <input type="range" min="0" max="10" value="5" oninput="document.getElementById('v-part-p').textContent=this.value"/>
+      </div>
+      <div class="range-group">
+        <label>Constitutional Knowledge Growth <span id="v-const-g">5</span>/10</label>
+        <input type="range" min="0" max="10" value="5" oninput="document.getElementById('v-const-g').textContent=this.value"/>
+      </div>
+      <div class="range-group">
+        <label>Community Contribution Level <span id="v-contrib">5</span>/10</label>
+        <input type="range" min="0" max="10" value="5" oninput="document.getElementById('v-contrib').textContent=this.value"/>
+      </div>
+      <button class="btn-primary btn-block mt-4" onclick="saveGrowthRecord()">💾 Save Term Record</button>
+    </div>
+
+    <div id="growthRecordsList"></div>
+
+    <div id="growthScores" class="hidden">
+      <div class="score-card">
+        <div class="score-val" id="civicGrowthIdx">0</div>
+        <div class="score-label">Civic Growth Index</div>
+        <div class="score-bar-wrap"><div class="score-bar-fill" id="growthIdxBar" style="width:0%"></div></div>
+      </div>
+      <div class="score-card" style="margin-top:0.75rem;">
+        <div class="score-val" id="responsibilityMaturity">0</div>
+        <div class="score-label">Responsibility Maturity Score</div>
+        <div class="score-bar-wrap"><div class="score-bar-fill" id="maturityBar" style="width:0%"></div></div>
+      </div>
+      <canvas id="growthChart" width="340" height="200" style="margin-top:1rem;border-radius:8px;background:rgba(255,255,255,0.03);"></canvas>
+    </div>
+  </div>
+</div>
+
+<!-- ============================================================ -->
+<!-- SCREEN: CITIZENSHIP REPORT -->
+<!-- ============================================================ -->
+<div id="screen-report" class="screen">
+  <div class="section-header">
+    <div class="sect-icon">📄</div>
+    <h2>Citizenship Development Report</h2>
+    <div class="sub">Comprehensive Civic Profile &amp; Development Plan</div>
+  </div>
+  <div class="section-body">
+    <div id="reportContainer"></div>
+    <div style="display:flex;gap:0.75rem;flex-wrap:wrap;margin-top:1.5rem;">
+      <button class="btn-primary" onclick="window.print()">🖨 Print Report</button>
+      <button class="btn-secondary" onclick="generateReport()">🔄 Refresh Report</button>
+    </div>
+  </div>
+</div>
+
+<!-- ============================================================ -->
+<!-- JAVASCRIPT ENGINE -->
+<!-- ============================================================ -->
+<script>
+'use strict';
+
+// ===== APP STATE =====
+const APP = {
+  currentScreen: 'screen-home',
+  currentPage: 0,
+  pagesRead: new Set(),
+  scores: {},
+  civicLab: {},
+  ethics: {},
+  inclusion: {},
+  democracy: {},
+  growth: []
+};
+
+// ===== LOCAL STORAGE KEYS =====
+const KEYS = {
+  literacyScores: 'cs_literacy',
+  civicLogs: 'cs_civic_logs',
+  decisionHistory: 'cs_decisions',
+  growthRecords: 'cs_growth',
+  inclusionData: 'cs_inclusion',
+  democracyData: 'cs_democracy',
+  pagesRead: 'cs_pages_read'
+};
+
+// ===== STORAGE =====
+const store = {
+  get: k => { try { return JSON.parse(localStorage.getItem(k)); } catch { return null; } },
+  set: (k, v) => { try { localStorage.setItem(k, JSON.stringify(v)); } catch {} },
+  del: k => localStorage.removeItem(k)
+};
+
+// ===== LOAD ALL DATA ON INIT =====
+function loadAllData() {
+  APP.scores = store.get(KEYS.literacyScores) || {};
+  APP.civicLab = store.get(KEYS.civicLogs) || {};
+  APP.ethics = store.get(KEYS.decisionHistory) || {};
+  APP.growth = store.get(KEYS.growthRecords) || [];
+  APP.inclusion = store.get(KEYS.inclusionData) || {};
+  APP.democracy = store.get(KEYS.democracyData) || {};
+  const pr = store.get(KEYS.pagesRead);
+  if (pr) APP.pagesRead = new Set(pr);
+}
+
+// ===== NAVIGATION =====
+function showScreen(id) {
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  APP.currentScreen = id;
+  const navbar = document.getElementById('navbar');
+  if (id === 'screen-home') {
+    navbar.classList.add('hidden');
+    updateHomeStats();
+  } else {
+    navbar.classList.remove('hidden');
+  }
+  window.scrollTo(0,0);
+
+  // Screen-specific init
+  if (id === 'screen-foundations') initFoundations();
+  if (id === 'screen-constitution') initConstitutionQuiz();
+  if (id === 'screen-ethics') initEthics();
+  if (id === 'screen-inclusion') initInclusion();
+  if (id === 'screen-democracy') initDemocracy();
+  if (id === 'screen-dashboard') { setTimeout(refreshDashboard, 200); }
+  if (id === 'screen-growth') initGrowth();
+  if (id === 'screen-report') generateReport();
+}
+
+function goHome() { showScreen('screen-home'); }
+
+function switchTab(section, tabId, btn) {
+  const parent = document.getElementById('screen-' + section);
+  parent.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+  parent.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById(tabId).classList.add('active');
+  btn.classList.add('active');
+  if (tabId === 'tab-demo-result') updateDemocracyScores();
+}
+
+function updateHomeStats() {
+  const ls = APP.scores.constitutionScore ?? '--';
+  const es = APP.ethics.consistencyScore ?? '--';
+  const cs = APP.civicLab.engagementIndex ?? '--';
+  document.getElementById('statLiteracy').textContent = ls !== '--' ? ls + '%' : '--';
+  document.getElementById('statEthics').textContent = es !== '--' ? es + '%' : '--';
+  document.getElementById('statCivic').textContent = cs !== '--' ? cs + '%' : '--';
+}
+
+function confirmReset() {
+  if (confirm('Reset ALL civic data? This cannot be undone.')) {
+    Object.values(KEYS).forEach(k => store.del(k));
+    loadAllData();
+    updateHomeStats();
+    alert('All data has been reset.');
+  }
+}
+
+// ===== ANALYTICS FORMULAS =====
+const FORMULAS = {
+  constitutionalLiteracy: (correct, total) => Math.round((correct / total) * 100),
+
+  civicEngagementIndex: (vals) => {
+    const weights = [0.25, 0.25, 0.2, 0.15, 0.1, 0.05];
+    return Math.round(vals.reduce((s,v,i) => s + v * weights[i], 0) * 10);
+  },
+
+  communityContributionScore: (school, community, env, peer) => {
+    return Math.round(((school + community + env + peer) / 40) * 100);
+  },
+
+  ethicalConsistencyScore: (choices) => {
+    const ethical = choices.filter(c => c === 'ethical').length;
+    return Math.round((ethical / choices.length) * 100);
+  },
+
+  civicCourageIndex: (choices) => {
+    const courageous = choices.filter(c => c === 'courageous').length;
+    return Math.round((courageous / choices.length) * 100);
+  },
+
+  socialResponsibilityRating: (ethical, civic, community) => {
+    return Math.round((ethical * 0.4 + civic * 0.35 + community * 0.25));
+  },
+
+  inclusionAwarenessIndex: (responses) => {
+    const avg = responses.reduce((a,b) => a+b, 0) / responses.length;
+    return Math.round((avg / 5) * 100);
+  },
+
+  socialHarmonyScore: (inclusion, empathy, cooperation) => {
+    return Math.round((inclusion * 0.4 + empathy * 0.35 + cooperation * 0.25));
+  },
+
+  deliberationQualityScore: (listen, consensus, implement) => {
+    return Math.round(((listen + consensus + implement) / 30) * 100);
+  },
+
+  participationEffectivenessIndex: (campaign, encourage, voted) => {
+    return Math.round(((campaign + encourage + (voted?10:0)) / 30) * 100);
+  },
+
+  consensusBuildingScore: (resourceFairness, communityChoice) => {
+    return Math.round((resourceFairness * 0.5 + communityChoice * 0.5));
+  },
+
+  civicGrowthIndex: (records) => {
+    if (records.length < 2) return records.length === 1 ? records[0].avg : 0;
+    const first = records[0].avg;
+    const last = records[records.length - 1].avg;
+    const growth = Math.max(0, last - first);
+    return Math.round(Math.min(100, last * 60 + growth * 40));
+  },
+
+  responsibilityMaturityScore: (records) => {
+    if (!records.length) return 0;
+    const latest = records[records.length - 1];
+    return Math.round(latest.avg * 10);
+  },
+
+  overallCivicScore: (scores) => {
+    const s = [
+      scores.constitutionScore || 0,
+      scores.ethicsScore || 0,
+      scores.civicScore || 0,
+      scores.inclusionScore || 0,
+      scores.democracyScore || 0,
+      scores.courageScore || 0
+    ];
+    return Math.round(s.reduce((a,b) => a+b) / s.length);
+  }
+};
+
+// ===== FOUNDATION PAGES DATA =====
+const FOUNDATION_PAGES = [
+  {
+    title: "Why Civic Education Matters",
+    body: `Civic education is the foundation of a healthy democracy. It equips citizens with the knowledge, skills, and values needed to participate meaningfully in public life. In India, a nation of extraordinary diversity and democratic aspiration, civic education is not just an academic subject — it is a lifeline for the republic itself.
+
+Consider what happens when citizens are unaware of their rights: they cannot protect themselves from arbitrary power. Consider what happens when they are unaware of their duties: public spaces deteriorate, elections are manipulated, and social trust collapses. Civic education bridges this gap between aspiration and action.
+
+According to the National Education Policy (NEP) 2020, education must develop "responsible citizens" who understand constitutional values, possess democratic awareness, and contribute to national development. This is not merely rhetorical — it reflects decades of evidence showing that societies with strong civic education have lower corruption, higher voter participation, stronger rule of law, and better human development outcomes.
+
+A real-life example: In 2011, the Anna Hazare-led anti-corruption movement mobilized millions of ordinary citizens who knew their rights and exercised civic pressure. That movement succeeded not because of any single leader but because of an informed citizenry. Similarly, the RTI Act (Right to Information, 2005) has only been effective because ordinary citizens learned to use it.
+
+Civic education also nurtures critical thinking. A student who understands how laws are made, how elections work, and how courts function is less vulnerable to propaganda, manipulation, and misinformation. They can ask: "Is this policy constitutional? Does this leader represent my interests? Am I fulfilling my duties as a citizen?"
+
+In classrooms across Kashmir and India, civic education takes on special meaning. Young people growing up in complex political environments need to understand not just their local context but the broader constitutional framework that protects all citizens equally regardless of religion, language, region, or gender.
+
+The goal is not to produce obedient subjects but active participants — people who vote, question, serve, protect others, and work toward a more just and humane society. This is the promise of civic education.`,
+    reflections: [
+      "Can you name one right that you exercise daily without realizing it?",
+      "What would change in your school if students understood their duties better?",
+      "Think of one civic problem in your community. How might better civic education help solve it?"
+    ],
+    classroom: [
+      "Host a 'Rights and Duties' exhibition where students present one right and its corresponding duty",
+      "Ask students to find a news article where a citizen exercised a constitutional right",
+      "Conduct a debate: 'Civic education should be made compulsory at all levels'"
+    ]
+  },
+  {
+    title: "NEP 2020 & Constitutional Values",
+    body: `The National Education Policy 2020 represents the most significant reform to India's education system in three decades. At its heart lies a profound recognition: education must go beyond rote learning to develop whole citizens — ethical, creative, constitutionally aware, and socially responsible.
+
+NEP 2020 explicitly states that the aim of education is not merely cognitive development but character formation aligned with constitutional values. This includes honesty, sensitivity, respect for diversity, scientific temper, compassion, and civic responsibility. These are not ornamental additions to the curriculum — they are its core purpose.
+
+The constitutional values that NEP 2020 seeks to promote are drawn directly from the Preamble, Fundamental Rights, and Fundamental Duties: justice, liberty, equality, fraternity, sovereignty, democratic participation, and secularism. These values must be "embedded" in the learning process across all subjects and all stages of education.
+
+One of the most significant departures from the old education model is NEP 2020's emphasis on experiential learning. Students should not just learn about civic values in textbooks — they should practice them. This is why programs like school parliaments, eco-clubs, community service activities, and peer mediation are not "extra-curricular" but central to NEP's vision.
+
+The policy also calls for integration of vocational education, mother tongue instruction, multilingualism, and focus on arts and culture — all of which reflect constitutional values of diversity, dignity, and inclusion.
+
+For teachers, NEP 2020 is a call to transform pedagogy. Instead of transmitting information, teachers must facilitate learning that asks: How do we live together in a diverse society? What do we owe each other? How do we hold power accountable? How do we build a just future?
+
+Understanding NEP 2020 is itself a civic act — it helps educators and students become co-architects of a more equitable educational system, aligned with the constitutional dream of India.`,
+    reflections: [
+      "How does NEP 2020's vision differ from traditional rote-learning approaches to civics?",
+      "Which constitutional value do you think your school best embodies? Which needs improvement?",
+      "How can a math or science teacher incorporate constitutional values into their teaching?"
+    ],
+    classroom: [
+      "Map your current curriculum against NEP 2020 values — which subjects address which values?",
+      "Create a 'Constitutional Values Wall' where students add examples from daily life",
+      "Invite a school administrator to discuss how NEP 2020 is being implemented"
+    ]
+  },
+  {
+    title: "What is Responsible Citizenship?",
+    body: `Citizenship is not simply a legal status — it is a way of being in the world. A responsible citizen is someone who takes their rights seriously, fulfills their duties consistently, participates in democratic processes, cares for public resources, respects fellow citizens, and works toward the common good.
+
+In India, citizenship carries a rich and complex meaning. It connects to a history of colonial subjugation, a freedom struggle built on civic courage and non-violent resistance, and a constitutional promise of equality and justice for all. To be a responsible citizen today is to honor and extend that promise.
+
+What does responsible citizenship look like in practice? It looks like a student who picks up litter in the school corridor because public spaces belong to everyone. It looks like a voter who researches candidates before elections. It looks like a neighbor who reports a pothole to the municipal authority instead of just complaining about it. It looks like a teacher who treats all students with equal dignity regardless of their caste, religion, or gender.
+
+Responsible citizenship has multiple dimensions. Civic knowledge means understanding the Constitution, laws, and government structure. Civic skills include the ability to communicate, negotiate, deliberate, and participate. Civic values include honesty, empathy, respect, and commitment to justice. Civic action means actually doing something — voting, volunteering, advocating, protesting peacefully when needed.
+
+One important distinction: responsible citizenship is not blind patriotism. It does not require uncritical acceptance of authority. In fact, one of the most important forms of civic responsibility is holding power accountable — through legal means, democratic participation, and peaceful dissent. The Constitution itself protects this right.
+
+Young people often wonder whether they can make a difference before they turn 18. The answer is a resounding yes. A student who mediates a conflict between classmates, organizes a clean-up drive, raises awareness about discrimination, or explains voting procedures to their family is already practicing responsible citizenship.
+
+Responsible citizenship is not a destination — it is a practice, a daily commitment to the shared project of building a just society together.`,
+    reflections: [
+      "List three specific actions you took last week that reflect responsible citizenship.",
+      "Is there a difference between being a 'good person' and a 'good citizen'? Explain.",
+      "What civic responsibility do you find most difficult to practice? Why?"
+    ],
+    classroom: [
+      "Have students create a 'Citizenship Pledge' specific to their school community",
+      "Analyze a case study of a civic hero — what made their citizenship 'responsible'?",
+      "Role-play: Students act as municipal officers responding to citizen complaints"
+    ]
+  },
+  {
+    title: "Democracy & Participation",
+    body: `Democracy is more than a system of government — it is a way of life. At its core, democracy rests on a simple but profound idea: that every person has equal worth and therefore an equal voice in decisions that affect their lives. This idea, when practiced genuinely, requires active participation from all citizens.
+
+India is the world's largest democracy, yet democratic participation remains uneven. Voter turnout varies widely across regions; many citizens, especially from marginalized communities, face barriers to political participation; and civic disengagement is growing among youth. Understanding democracy deeply — not just its procedures but its spirit — is essential for reversing these trends.
+
+The Indian Constitution establishes democracy at multiple levels: parliamentary democracy at the national level, state legislatures at the regional level, and Panchayati Raj Institutions at the grassroots. Each level provides opportunities for participation. Elections are the most visible form of participation, but they are far from the only one.
+
+Democratic participation includes: attending public meetings and gram sabhas, filing RTI applications, joining civil society organizations, participating in protests and demonstrations (peacefully), writing to representatives, signing petitions, serving on school or community committees, and running for office.
+
+The quality of democracy depends on the quality of participation. A democracy where citizens only vote once every five years and otherwise disengage is a thin democracy. A democracy where citizens are active, informed, and engaged in multiple arenas between elections is a vibrant democracy.
+
+One of democracy's greatest challenges is the gap between formal rights and substantive participation. A Dalit woman technically has the right to vote and run for office, but if she faces social pressure, lacks information, or cannot access polling stations, her formal rights are not yet real rights. This is why civic education must address not just rules but barriers and power.
+
+For young people, democratic participation begins in school. Student councils, class discussions, school parliaments, and participation in decision-making — these are not trivial activities. They are practice for lifelong democratic citizenship.
+
+Democracy is not self-maintaining. It requires constant care, participation, and defense by its citizens. As Abraham Lincoln said, democracy is "government of the people, by the people, for the people" — but this only works when the people actually show up.`,
+    reflections: [
+      "What forms of democratic participation are available to you as a student?",
+      "Why might some people choose not to participate in democracy? What can be done?",
+      "Is silence in the face of injustice a form of political choice? Why or why not?"
+    ],
+    classroom: [
+      "Simulate a gram sabha or school parliament to practice democratic procedures",
+      "Analyze voter turnout data from different Indian states and discuss patterns",
+      "Research one local democratic achievement — a community that used participation to bring about change"
+    ]
+  },
+  {
+    title: "Rights & Duties Balance",
+    body: `One of the most important insights in civic philosophy is that rights and duties are inseparable. Every right implies a corresponding duty — not just of the state toward the citizen, but of each citizen toward others. A healthy democracy requires both.
+
+The Indian Constitution recognizes this balance. Fundamental Rights protect individual citizens from state overreach and guarantee freedoms essential to human dignity. Fundamental Duties, added by the 42nd Amendment in 1976, remind citizens that these freedoms come with responsibilities.
+
+Consider the right to freedom of speech. This right is essential for democracy — without it, citizens cannot criticize government, journalists cannot expose wrongdoing, and students cannot question ideas. But this right comes with a duty: to speak truthfully and responsibly, not to spread hate, not to incite violence. The right does not protect defamation or inflammatory speech that endangers others.
+
+Similarly, the right to free movement comes with the duty to respect public order and not trespass on others' property. The right to education comes with the duty to actually attend school and make good use of educational resources. The right to vote comes with the duty to vote thoughtfully and not be swayed by money or false promises.
+
+Some critics argue that emphasizing duties undermines rights by giving governments an excuse to restrict freedoms. This concern is valid — historically, authoritarian governments have used "duty to the state" language to suppress dissent. The key distinction is that duties in a democracy flow toward other citizens and toward public goods, not as subordination to authority but as obligations of shared citizenship.
+
+The deeper philosophical point is that rights are not gifts from the state — they are inherent to human dignity. And human dignity applies equally to everyone. So when I claim my rights, I must simultaneously recognize that others have the same rights. My freedom ends where your equal freedom begins. This mutual recognition is what duties formalize.
+
+In practice, the rights-duties balance means: Exercise your right to vote AND encourage others to vote. Claim your right to equal treatment AND refuse to discriminate against others. Demand accountability from government AND hold yourself accountable as a citizen.
+
+Teaching this balance is one of the most important tasks of civic education. Citizens who understand both sides of the equation are equipped to both assert their rights and contribute to the common good.`,
+    reflections: [
+      "For each right you know, identify the corresponding duty it implies.",
+      "When does the exercise of one person's rights conflict with another's? How should such conflicts be resolved?",
+      "Is there a right that comes with duties you haven't been fulfilling? What would change if you did?"
+    ],
+    classroom: [
+      "Create a two-column chart matching fundamental rights with corresponding duties",
+      "Debate: 'Rights without duties lead to a broken society'",
+      "Case study: Find a news story where someone's rights were violated — what duty failure contributed?"
+    ]
+  },
+  {
+    title: "Ethical Reasoning in Daily Life",
+    body: `Ethics is the study of what is right and wrong, good and bad, fair and unfair. But ethical reasoning is not an abstract philosophical exercise — it is something we do (or fail to do) every day, in dozens of small and large decisions.
+
+What does ethical reasoning look like in practice? It looks like a student deciding whether to share answers during an exam. It looks like a shopkeeper deciding whether to return extra change to a customer. It looks like a community leader deciding whether to speak out about a wrong committed by a powerful person. It looks like a citizen deciding whether to dump waste on the roadside when no one is watching.
+
+Ethical reasoning involves several capacities: recognizing an ethical dimension in a situation (not all situations have one, but many do); identifying the relevant values and principles at stake; considering consequences for all affected parties; thinking about rules or duties that apply; consulting one's conscience; and making a judgment — then acting on it.
+
+One of the most important insights of ethical philosophy is that doing the right thing is not always easy or costless. It may require courage, sacrifice, or tolerance of uncertainty. Ethical consistency means making principled choices even when it is inconvenient — and this is what we call moral integrity.
+
+Several ethical frameworks help us reason through difficult situations. Consequentialism asks: what action produces the best outcomes for the most people? Deontology asks: what duties and rules apply, regardless of outcomes? Virtue ethics asks: what would a person of good character do? All three perspectives have value and can illuminate different aspects of ethical dilemmas.
+
+In an Indian civic context, ethical reasoning is shaped by both constitutional values and cultural traditions. Gandhian ethics emphasizes truth (satya) and non-violence (ahimsa) as foundational principles. Constitutional ethics emphasizes equality, dignity, and justice as non-negotiable values. Traditional ethics in diverse Indian communities may emphasize duty, compassion, and community welfare.
+
+Students who develop strong ethical reasoning abilities are better equipped to navigate complex situations, resist peer pressure and corrupt incentives, stand up for the vulnerable, and contribute to a culture of honesty and accountability.
+
+Ultimately, ethical reasoning is not about finding perfect answers — moral dilemmas are rarely that simple. It is about developing the habit of asking: Is this right? Who does this affect? What would a good person do? And then having the courage to act accordingly.`,
+    reflections: [
+      "Describe a recent situation where you faced an ethical choice. How did you decide?",
+      "Is there a difference between something being legal and something being ethical? Give an example.",
+      "What makes it hard to do the right thing even when you know what it is?"
+    ],
+    classroom: [
+      "Present ethical dilemma scenarios and have students argue different ethical frameworks",
+      "Analyze famous historical ethical choices — what reasoning did the person use?",
+      "Create an 'Ethics Jar' — students anonymously submit ethical dilemmas they face; discuss as a class"
+    ]
+  },
+  {
+    title: "Respect for Diversity",
+    body: `India is one of the most diverse societies on earth — home to hundreds of languages, dozens of major religions, vast regional variations, and an immense range of cultural traditions, foods, clothing, music, and ways of life. This diversity is not a problem to be solved — it is a treasure to be celebrated and protected.
+
+The Constitution reflects this understanding. Article 29 protects the rights of minorities to conserve their culture and language. Article 30 guarantees minorities the right to establish educational institutions. The principle of secularism ensures that the state treats all religions with equal respect. The anti-discrimination provisions of Article 15 prohibit the state from treating citizens differently based on religion, race, caste, sex, or place of birth.
+
+But constitutional protection is only the beginning. Real respect for diversity requires a culture — in schools, families, communities, and public life — where difference is genuinely valued rather than merely tolerated.
+
+What does respect for diversity look like in practice? It means learning about festivals and traditions of communities different from your own. It means speaking up when someone makes a derogatory joke about a particular community. It means ensuring that all voices are heard in group discussions, not just those of the dominant group. It means being curious about difference rather than afraid of it.
+
+Diversity has many dimensions beyond religion and language. It includes caste, tribal identity, socioeconomic background, disability, gender, age, rural/urban background, and more. Intersectionality — the idea that people belong to multiple groups simultaneously and face compound disadvantages — is crucial for understanding social justice.
+
+The concept of "unity in diversity" is central to Indian national identity. But this unity must be genuine, not forced — it cannot be achieved by erasing difference but only by creating space for all forms of difference to coexist with dignity. The school is one of the most important spaces for building this culture.
+
+Research consistently shows that students who learn in diverse environments and are explicitly taught to respect difference are better prepared for life in a globalized, plural society. They are more empathetic, better communicators, and more effective collaborators. Respect for diversity is not just a civic virtue — it is a practical asset.`,
+    reflections: [
+      "What is one cultural tradition of a community different from yours that you find interesting?",
+      "Have you ever witnessed disrespect for diversity in your school or community? How did you respond?",
+      "Why might someone fear diversity? How can that fear be addressed?"
+    ],
+    classroom: [
+      "Host a 'Cultural Diversity Day' where students share traditions, foods, or stories from their communities",
+      "Map the linguistic diversity of the classroom and discuss how languages are connected to identity",
+      "Analyze: What does the Indian national flag symbolize in terms of diversity?"
+    ]
+  },
+  {
+    title: "Gender Sensitivity",
+    body: `Gender sensitivity refers to the awareness and respect for the roles, responsibilities, needs, and experiences of people of all genders. In the context of civic education, it means understanding how gender shapes access to rights, opportunities, and participation in public life — and working to create a more equitable society.
+
+India's Constitution guarantees equality regardless of sex (Article 15). It prohibits discrimination in public employment (Article 16). It guarantees equal pay for equal work (Article 39d). Despite these constitutional protections, gender inequality persists at every level of Indian society — in education, employment, health, political participation, and personal freedom.
+
+Gender sensitivity begins with recognizing that these inequalities exist and are not natural or inevitable — they are products of culture, history, and social structures that can be changed. It means rejecting stereotypes about what boys and girls "should" do, be, or aspire to. It means understanding that gender-based violence — from harassment to domestic abuse — is not a private matter but a public concern with civic and legal dimensions.
+
+In schools, gender sensitivity manifests in multiple ways: in classroom seating arrangements and participation patterns, in which students are called on more often, in the books and heroes that are studied, in how sports facilities are allocated, in how discipline is applied differently to boys and girls, in whether sexual harassment is taken seriously.
+
+Teachers and students both play a role. A gender-sensitive classroom is one where all students are encouraged to participate equally, where stereotypes are explicitly challenged, where boys are taught empathy and emotional intelligence alongside academic subjects, and where girls are mentored for leadership, not just domestic roles.
+
+Gender sensitivity also means recognizing the experiences of transgender and non-binary people, who face severe discrimination and violence despite constitutional protections affirmed by the Supreme Court in the NALSA judgment (2014).
+
+Ultimately, gender sensitivity is not about disadvantaging any group — it is about building a society where every person, regardless of their gender, can live with full dignity, freedom, and opportunity. This aligns directly with constitutional values of equality, liberty, and fraternity.`,
+    reflections: [
+      "Can you identify three ways gender inequality appears in your school or community?",
+      "How do stereotypes about gender affect both boys and girls negatively?",
+      "What can a male student do concretely to support gender equality?"
+    ],
+    classroom: [
+      "Analyze textbooks for gender stereotypes — count how many times women are shown in professional vs domestic roles",
+      "Invite a woman leader from the community to speak about her experiences",
+      "Create a campaign addressing one specific gender inequality issue in school"
+    ]
+  },
+  {
+    title: "Environmental Responsibility",
+    body: `Environmental responsibility is increasingly recognized as a fundamental civic virtue. The health of our environment is directly connected to the health of our democracy, our economy, and our communities. Citizens who care for the environment are practicing one of the most important forms of civic engagement.
+
+India's Constitution, through Article 48A (DPSP), directs the state to "protect and improve the environment and safeguard forests and wild life." Fundamental Duty 7 (Article 51A-g) calls on citizens to "protect and improve the natural environment including forests, lakes, rivers and wild life." More recently, the Supreme Court has recognized the right to a clean environment as part of the right to life under Article 21.
+
+Environmental responsibility connects to multiple civic values. It is fundamentally about intergenerational justice — the idea that we have a duty not to deplete resources and damage ecosystems in ways that harm future generations. It involves social justice — poor and marginalized communities typically bear the heaviest burden of environmental degradation. It requires collective action — no individual can solve environmental problems alone; they require community, government, and global cooperation.
+
+In India, environmental challenges are acute: air pollution kills hundreds of thousands annually; water scarcity affects hundreds of millions; deforestation and soil degradation threaten agricultural livelihoods; climate change is amplifying floods, droughts, and extreme weather events. These are not abstract problems — they affect real communities, real children, real lives.
+
+Environmental civic action takes many forms: reducing personal consumption and waste; participating in clean-up drives; planting trees; advocating for stronger environmental policies; holding polluting industries accountable through legal and civic means; supporting sustainable livelihoods; and educating peers about environmental issues.
+
+For students in Kashmir, environmental responsibility has particular significance. The Kashmir Valley — its rivers, lakes, forests, and glaciers — faces severe environmental threats from pollution, deforestation, climate change, and unregulated tourism. The Dal Lake, once pristine, has shrunk significantly due to encroachment and pollution. These local realities make environmental civic education both urgent and personally meaningful.
+
+Environmental responsibility teaches students a crucial civic lesson: we are not separate from nature but part of it, and our fate as communities and as a civilization depends on how we treat the natural systems that sustain us.`,
+    reflections: [
+      "What environmental problem in your immediate surroundings most concerns you? What can you do about it?",
+      "How is environmental degradation connected to inequality and poverty?",
+      "What environmental duty are you personally neglecting? How will you change this?"
+    ],
+    classroom: [
+      "Conduct an environmental audit of the school — what changes would reduce its ecological footprint?",
+      "Plant a school garden and maintain it as a shared responsibility",
+      "Research a local environmental success story — a community that successfully protected its environment"
+    ]
+  },
+  {
+    title: "Rule of Law & Justice",
+    body: `The rule of law is one of the most foundational principles of constitutional democracy. It means that no one — not the government, not powerful individuals, not wealthy corporations — is above the law. All are subject to the same legal rules, applied consistently and impartially.
+
+In practice, rule of law requires several conditions: laws must be publicly known, clear, and accessible; they must be applied equally regardless of who is involved; there must be independent courts that can enforce laws without political interference; citizens must have access to legal remedies when their rights are violated; and law enforcement must operate within legal limits, not above them.
+
+India's Constitution establishes an extensive framework for rule of law. Article 14 guarantees equality before the law and equal protection of the laws. Article 21 protects the right to life and personal liberty. Articles 32 and 226 allow citizens to approach the Supreme Court and High Courts directly for enforcement of rights. The judiciary is constitutionally designed to be independent.
+
+However, formal constitutional provisions do not automatically produce justice. India faces significant challenges in delivering justice: courts are backlogged with millions of pending cases; access to justice is expensive and complex; marginalized communities often lack legal literacy and representation; police and other law enforcement actors sometimes operate outside legal bounds; and corruption undermines equal application of law.
+
+These gaps make civic education about rule of law both urgent and complex. Students need to understand not just the formal constitutional framework but also its real-world limitations and the civic actions needed to close the gap.
+
+Justice has multiple dimensions. Procedural justice refers to fair processes — the right to a fair hearing, presumption of innocence, right to counsel. Substantive justice refers to fair outcomes — not just that processes were followed but that people received what they were rightfully due. Restorative justice focuses on healing, not just punishment — repairing harm and restoring relationships.
+
+For students, understanding rule of law means understanding that laws exist to serve human dignity, not the other way around. An unjust law — one that systematically discriminates or protects privilege — can and should be challenged through democratic means. This is why figures like B.R. Ambedkar, who used the law as a tool for justice, are so important as civic models.
+
+The rule of law is not a technical matter for lawyers — it is the bedrock on which all other rights and freedoms rest. When it erodes, everything else becomes precarious.`,
+    reflections: [
+      "Can you think of a situation where the rule of law was violated in your community? What were the consequences?",
+      "Is there a difference between following the law and acting justly? Give an example.",
+      "What would you do if you witnessed a law enforcement officer acting illegally?"
+    ],
+    classroom: [
+      "Conduct a mock trial to experience judicial processes",
+      "Research a landmark Supreme Court case and analyze its significance for citizens",
+      "Invite a lawyer or judge to speak about the Indian justice system"
+    ]
+  },
+  {
+    title: "Public Resource Ethics",
+    body: `Public resources — roads, parks, schools, hospitals, water systems, public buildings, government funds — belong to all citizens collectively. How we treat these resources reflects our civic character and directly affects the quality of life of our entire community.
+
+Public resource ethics refers to the principles and values that should guide our relationship with resources held in common. These include: not misusing or destroying public property; not taking more than one's fair share; contributing to the maintenance of shared resources; opposing corruption and theft of public funds; demanding accountability from those who manage public resources on our behalf.
+
+India faces significant challenges around public resource management. Corruption costs the economy enormously — funds meant for schools, roads, and hospitals are siphoned away. Public spaces are frequently vandalized, littered, and encroached upon. Government facilities are sometimes used for private benefit by those entrusted with public responsibility.
+
+But the picture is not entirely bleak. India also has remarkable examples of public resource protection and civic engagement. The village commons system (gram sabha land) has in many places been protected by community action. The Mahatma Gandhi National Rural Employment Guarantee Act (MGNREGA) has been made more accountable through social audits led by civil society. Forest rights have been defended by tribal communities through legal and political action.
+
+Public resource ethics begins with a simple shift in perspective: from "this is the government's problem" to "this belongs to all of us, including me." A student who removes a nail from the school wall rather than leaving it for someone else to get hurt on is practicing public resource ethics. A citizen who uses RTI to track where public funds went is practicing public resource ethics. A community that organizes to protect its water source is practicing public resource ethics.
+
+The connection to constitutional values is direct. Fundamental Duty 9 calls on citizens to "safeguard public property and abjure violence." Directive Principle Article 39 calls for prevention of concentration of resources. The right to life (Article 21) has been interpreted to include the right to a clean environment and access to basic public services.
+
+Teaching public resource ethics is teaching students to see themselves as stakeholders in the common good — not passive consumers of government services but active custodians of shared resources.`,
+    reflections: [
+      "What public resources do you use daily? Are you using them responsibly?",
+      "Have you ever damaged or misused public property? What would you do differently?",
+      "How can students hold school authorities accountable for proper use of school resources?"
+    ],
+    classroom: [
+      "Audit the school's public resources — identify waste and suggest improvements",
+      "Create an anti-corruption awareness campaign for younger students",
+      "Learn to file an RTI application and understand what information citizens can access"
+    ]
+  },
+  {
+    title: "Social Harmony & Conflict Resolution",
+    body: `Social harmony is not the absence of difference or disagreement — it is the ability of a diverse society to manage its conflicts peacefully, equitably, and without violence. In a country as diverse as India, social harmony is both a constitutional imperative and a daily civic achievement that requires constant work.
+
+The Constitution's commitment to fraternity — "assuring the dignity of the individual and the unity and integrity of the Nation" — reflects the founding generation's awareness that India's diversity required active cultivation of social bonds. The experience of Partition and communal violence was fresh in their minds. The constitutional project was, among other things, a project of social harmony across caste, religion, language, and region.
+
+Conflicts are inevitable in any diverse society. They arise from competition for resources, historical injustices, cultural misunderstandings, political manipulation, economic inequality, and simple human differences of personality and interest. The question is not whether conflicts will arise but how they will be managed.
+
+Conflict resolution involves several civic skills. Active listening — genuinely hearing the perspective of the other side without interrupting or dismissing. Empathy — understanding the feelings and interests of those who are different from you, even when you disagree. Negotiation — finding solutions that address the legitimate interests of all parties. Mediation — helping others in conflict to reach a mutually acceptable resolution. Non-violence — committing to resolve conflicts without physical or verbal aggression.
+
+India has rich traditions of conflict resolution: from the Panchayat system to Gandhian satyagraha to the constitutional mechanisms of courts and elections. These traditions provide resources for thinking about how to manage conflict in ways that strengthen rather than damage community bonds.
+
+In schools, conflict resolution education has proven highly effective at reducing bullying, improving classroom climate, and preparing students for adult civic life. Peer mediation programs, restorative justice practices, and structured dialogue are all evidence-based approaches.
+
+Social harmony also requires addressing the root causes of conflict: poverty, discrimination, historical injustice, and political manipulation. Promoting social harmony is not just about calming people down — it is about building the conditions in which people can live together with dignity, mutual respect, and genuine equality.`,
+    reflections: [
+      "Describe a conflict you witnessed or were part of. How was it resolved? Could it have been resolved better?",
+      "What is the difference between compromise and capitulation in conflict resolution?",
+      "How does economic inequality contribute to social conflict?"
+    ],
+    classroom: [
+      "Role-play a community conflict involving two groups with competing interests",
+      "Learn and practice active listening techniques in pairs",
+      "Research a successful case of social harmony across communities in India"
+    ]
+  },
+  {
+    title: "Civic Courage",
+    body: `Civic courage is the willingness to do what is right in public life even when it is risky, uncomfortable, or costly. It is the quality that turns civic knowledge into civic action — that transforms awareness into engagement.
+
+History is full of examples of civic courage: B.R. Ambedkar's lifelong fight against caste discrimination despite intense social hostility; the freedom fighters who faced imprisonment and death to demand independence; the journalists who report on corruption despite threats; the ordinary villagers who file RTI applications against powerful officials; the students who speak up when a classmate is bullied.
+
+What makes civic courage different from ordinary personal courage is its public dimension — it involves taking a stand on issues that affect the community, not just oneself. It requires placing the common good above personal comfort or safety.
+
+Civic courage takes many forms, not all of them dramatic. It can mean disagreeing with a majority view in a classroom discussion. It can mean reporting a case of cheating even when the cheater is a friend. It can mean standing up for a student who is being discriminated against even if no one else does. It can mean writing a petition, attending a public meeting, or asking an uncomfortable question of a powerful person.
+
+Fear is the main obstacle to civic courage. Fear of social exclusion, of retaliation, of being wrong, of conflict, of failure. Civic education can help by creating safe spaces where dissent is normalized, where different views are respected, and where students practice the skills of principled disagreement.
+
+One of the most important lessons of civic courage is that it is not a fixed personality trait but a skill that can be developed. Studies show that people become more civically courageous when they have strong values, social support from peers, knowledge of their rights, and experience standing up in lower-stakes situations.
+
+The Indian freedom struggle is an inexhaustible source of inspiration for civic courage. Gandhi did not begin as a global icon — he began as an ordinary lawyer who had the courage to refuse injustice on a train in South Africa. Courage scales from small daily choices to historic transformations.
+
+Civic courage is ultimately about taking democracy seriously — understanding that the health of democratic society depends on citizens who are willing to speak truth to power, stand by their values, and act in the common interest even when it is hard.`,
+    reflections: [
+      "Think of a time when you showed civic courage — or wish you had. What held you back?",
+      "What conditions make civic courage easier or harder to practice?",
+      "Is civic courage always admirable? Can it be misused?"
+    ],
+    classroom: [
+      "Study the biography of a civic hero and identify the acts of civic courage that defined them",
+      "Practice 'speaking up' through structured role-plays in progressively challenging situations",
+      "Create a 'Civic Courage Wall' highlighting historical and contemporary examples"
+    ]
+  },
+  {
+    title: "Media Literacy & Misinformation",
+    body: `In the digital age, the ability to critically evaluate information is one of the most important civic skills. Media literacy — the ability to access, analyze, evaluate, and create media — is essential for informed democratic participation and protection against manipulation.
+
+The information environment has changed dramatically. Social media platforms allow anyone to publish and distribute content instantly, at massive scale, at near-zero cost. This democratization of publishing has many benefits but also creates enormous risks: misinformation, disinformation, propaganda, hate speech, and manufactured outrage spread faster than corrections and can have devastating real-world consequences.
+
+India has experienced multiple episodes of social violence triggered by viral misinformation — including mob lynchings sparked by false rumors spread on WhatsApp. Understanding how misinformation spreads and how to counter it is not just an academic exercise but a matter of public safety.
+
+Media literacy begins with understanding that all media content — news articles, social media posts, videos, images, podcasts — is produced by someone, for some purpose, with choices about what to include and what to leave out. "Seeing it" does not mean it is true; "many people sharing it" does not mean it is accurate.
+
+Critical evaluation of media requires several skills: checking the source (who published this and are they credible?); looking for evidence (what facts are cited and can they be verified?); seeking multiple perspectives (what other sources say about this?); distinguishing between facts and opinions; recognizing emotional manipulation; using fact-checking tools.
+
+India has several excellent fact-checking organizations: BOOM, Alt News, Factly, and others. The Press Council of India and the National Broadcasting Standards Authority regulate traditional media. But these institutions can only do so much — informed citizens are the first and most important line of defense against misinformation.
+
+Media literacy also includes understanding how social media algorithms work — how they create "filter bubbles" that reinforce existing beliefs, how outrage and sensationalism get more engagement than accuracy, and how political and commercial interests shape information flows.
+
+Creating good media — sharing accurate information, correcting misinformation respectfully, producing original content that serves the public interest — is also part of media literacy. Students who understand media are not just better consumers of information; they are better producers and citizens of the digital public sphere.`,
+    reflections: [
+      "When was the last time you shared something online without verifying it? What could be done differently?",
+      "How do you decide whether to trust a piece of news or information?",
+      "What are the civic responsibilities of social media users?"
+    ],
+    classroom: [
+      "Practice fact-checking a viral WhatsApp message using available tools",
+      "Analyze a misleading headline and discuss how it distorts reality",
+      "Create a guide on 'How to Spot Fake News' for younger students"
+    ]
+  },
+  {
+    title: "Youth Leadership & Participation",
+    body: `Young people are not just the future of democracy — they are active participants in the present. Youth leadership and participation are not optional extras to civic education; they are central to it.
+
+India is one of the youngest nations on earth, with over 600 million people under the age of 25. This demographic reality gives youth participation enormous potential significance. Young people who develop leadership skills, civic knowledge, and participatory habits in school and college will carry those dispositions into adult life, shaping the direction of Indian democracy for generations.
+
+Youth leadership takes many forms. It includes elected student government, peer education programs, community service projects, environmental initiatives, cultural activities, sports organizations, and advocacy for specific causes. It also includes informal leadership: the student who speaks up in class, the peer who helps resolve a conflict, the young person who organizes a neighborhood clean-up.
+
+Barriers to youth participation are real and must be addressed directly. Many young people feel that their voices don't matter — that decisions are made by adults without consulting them. This disempowerment is civic damage: it teaches young people that participation is futile, which becomes a self-fulfilling prophecy.
+
+Schools can counter this by genuinely empowering student councils with real decision-making authority — not just symbolic roles. Teachers and administrators who take student input seriously, who explain decisions rather than imposing them, and who model democratic practices in classroom management send powerful messages about what participation can achieve.
+
+The National Service Scheme (NSS), Nehru Yuva Kendra Sangathan (NYKS), and various state youth programs provide structured opportunities for youth participation. Many schools run eco-clubs, health clubs, and peer education programs. These are not peripheral activities but core components of civic education.
+
+Research consistently shows that young people who participate in structured civic activities in school are more likely to vote, volunteer, and engage in community affairs as adults. The habits of participation, once formed, tend to persist. The reverse is also true: young people who never experience meaningful participation often disengage permanently.
+
+Youth leadership is not about creating exceptional individuals — it is about normalizing the idea that every young person has something to contribute and a right to participate. This is the democratic promise.`,
+    reflections: [
+      "What leadership role, formal or informal, have you played in your school or community?",
+      "What prevents more young people from participating in civic life? What can change?",
+      "Design a student-led initiative that would address a real problem in your school."
+    ],
+    classroom: [
+      "Strengthen the student council by giving it real input on one school decision",
+      "Start a peer mentoring program connecting older and younger students",
+      "Connect with a youth organization in your district and participate in one of their activities"
+    ]
+  },
+  {
+    title: "Service & Community Engagement",
+    body: `Service to community is one of the oldest and deepest expressions of civic responsibility. It is the practice of contributing one's time, skills, and energy to the common good — not for payment but because we recognize our interdependence and our obligations to one another.
+
+Community service has deep roots in Indian culture and tradition. The concept of seva — selfless service — is central to many of India's major religious and philosophical traditions, including Hinduism, Sikhism, Islam, and Buddhism. Mahatma Gandhi's concept of the "Sarvodaya" — the welfare of all — placed service at the heart of his political and social vision. The modern constitutional framework continues this tradition through Directive Principles, Fundamental Duties, and institutions like the NSS.
+
+What distinguishes civic service from charity is its orientation toward systemic change rather than individual relief. While helping a person in immediate need is valuable, civic service also asks: Why is this need unmet? What structural conditions created it? What can we do collectively to address root causes, not just symptoms?
+
+Service learning — integrating community service with academic learning — is one of the most powerful pedagogical approaches in civic education. When students help a community and then reflect on what they learned, connect it to broader civic knowledge, and propose action, the impact on both civic knowledge and civic identity is dramatically greater than either service or learning alone.
+
+Forms of community engagement are varied: tutoring younger students, helping with health awareness campaigns, supporting environmental conservation, assisting at community events, working with elderly or disabled community members, contributing to disaster relief, and participating in local governance activities.
+
+The benefits of service and community engagement flow in multiple directions. Communities receive help with real needs. Students develop empathy, skills, and civic identity. Schools build relationships with the communities they serve. And society as a whole benefits from a culture of mutual aid and shared responsibility.
+
+For students in Kashmir and across India, community engagement offers something deeper than skill development — it offers a sense of belonging to something larger than oneself, a sense of purpose that transcends individual achievement, and a direct experience of the connection between personal action and social change.`,
+    reflections: [
+      "What community service have you done? What did you learn from it?",
+      "What is the difference between charity and systemic civic service?",
+      "Design a service project that addresses a real community need you've identified."
+    ],
+    classroom: [
+      "Design and implement a one-month community service project with reflection activities",
+      "Interview community members about their needs and priorities",
+      "Create a 'service learning portfolio' where students document their service and its impact"
+    ]
+  },
+  {
+    title: "Constitutional Morality",
+    body: `Constitutional morality is a concept most powerfully articulated by Dr. B.R. Ambedkar, who contrasted it with what he called "popular morality" — the moral norms and prejudices of the majority at any given time.
+
+Popular morality can be deeply unjust. At various points in Indian history, popular morality supported caste discrimination, untouchability, child marriage, sati, and the subordination of women. If courts and governments had simply followed popular morality, these injustices would never have been challenged.
+
+Constitutional morality, by contrast, refers to the values and principles embedded in the Constitution — equality, dignity, fraternity, justice, liberty — which serve as a check on both popular prejudice and governmental overreach. Constitutional morality demands that we evaluate laws, policies, and social practices not by whether they are popular but by whether they conform to constitutional values.
+
+The Supreme Court of India has increasingly invoked constitutional morality in landmark judgments. In the Navtej Singh Johar case (2018), the court decriminalized consensual same-sex relations, explicitly stating that constitutional morality must prevail over popular morality that discriminated against LGBTQ+ persons. In the Sabrimala case (2018), the court invoked constitutional morality to challenge traditional practices that excluded women of certain ages from places of worship.
+
+Constitutional morality has several components: commitment to individual rights even when they are unpopular; protection of minorities against majority oppression; insistence on rational and evidence-based law-making; rejection of discrimination based on birth or identity; and a fundamental commitment to equal human dignity.
+
+For students and citizens, constitutional morality offers a framework for ethical evaluation that transcends sectarian, caste-based, or religiously-specific moral frameworks. It asks: Does this practice respect the equal dignity of all? Does it conform to constitutional values? These questions can be applied to laws, institutions, community practices, and personal behavior.
+
+Understanding constitutional morality is understanding why the Constitution is not just a legal document but a moral one — a statement of the kind of society we aspire to build, one that may sometimes challenge deeply held but unjust traditions.`,
+    reflections: [
+      "Can you think of a popular social practice that conflicts with constitutional morality?",
+      "Why might Ambedkar have considered constitutional morality more reliable than popular morality?",
+      "How should a citizen respond when the law and their tradition conflict?"
+    ],
+    classroom: [
+      "Analyze a Supreme Court judgment that invoked constitutional morality",
+      "Discuss: Is it democratic to overrule popular majority opinion in the name of constitutional values?",
+      "Create a visual representation of the relationship between constitutional and popular morality"
+    ]
+  },
+  {
+    title: "Ethical Dilemmas in Society",
+    body: `Ethical dilemmas are situations where two or more moral principles or values come into genuine conflict, and there is no option available that is perfect from every ethical standpoint. They are not simply hard choices — they are situations where every available option involves some moral cost.
+
+Real-world civic life is full of ethical dilemmas. A journalist must decide whether to publish information that is in the public interest but may endanger a source. A doctor must decide how to allocate scarce medical resources between patients with equal needs. A citizen must decide whether to report a friend's illegal activity. A government must decide how to balance economic development against environmental protection. A teacher must decide how to treat a student who has both broken a rule and is clearly in psychological distress.
+
+These dilemmas are important to study not because we expect perfect answers but because grappling with them develops the moral reasoning skills, empathy, and judgment that civic life requires. The process of ethical deliberation — taking all relevant considerations seriously, weighing competing values, consulting different perspectives, and making a principled judgment while acknowledging uncertainty — is itself a civic skill.
+
+Several dimensions make ethical dilemmas challenging. Uncertainty about consequences: we rarely know for certain how our choices will turn out. Competing legitimate values: different ethical frameworks may point in different directions. Power dynamics: the person choosing may have interests in a particular outcome. Social pressure: dominant social norms may push toward a particular choice that may not be the most ethical.
+
+One useful approach to ethical dilemmas is stakeholder analysis: identifying all parties affected by the decision, understanding their interests and rights, and trying to find solutions that treat all stakeholders with appropriate respect.
+
+Another approach is to apply the "newspaper test": would I be comfortable if my decision were reported on the front page of tomorrow's newspaper? This test works in both directions — decisions that are harmful should fail it, but so should decisions that are cowardly or unprincipled.
+
+Studying ethical dilemmas also teaches intellectual humility — the recognition that good people can reason carefully and still reach different conclusions on difficult moral questions. This humility is itself a civic virtue, enabling respectful engagement across moral differences.`,
+    reflections: [
+      "Describe a genuine ethical dilemma you have faced or observed. What made it difficult?",
+      "When two important values conflict, how do you decide which takes priority?",
+      "Is there such a thing as a 'right answer' to an ethical dilemma?"
+    ],
+    classroom: [
+      "Present a real civic ethical dilemma and have students argue multiple positions",
+      "Apply different ethical frameworks (consequentialist, deontological, virtue) to the same dilemma",
+      "Reflect: has your view on a moral question changed after careful deliberation?"
+    ]
+  },
+  {
+    title: "Civic Literacy Across Grades",
+    body: `Civic literacy — the knowledge, skills, and dispositions needed for active and informed citizenship — must be developed systematically across all grades, not confined to a single subject or level. Different aspects of civic literacy are appropriate and accessible at different developmental stages.
+
+In the primary grades (1–5), civic literacy focuses on the immediate environment: family, school, and community. Children learn to follow rules, take turns, share resources, resolve small conflicts, and understand basic concepts like fairness, helping others, and respect. The constitutional value of fraternity — living together in harmony — can be taught through simple cooperation exercises and community celebrations.
+
+In the middle grades (6–8), civic literacy expands to local governance, district administration, the structure of state government, and basic constitutional concepts like rights and duties. Students begin to understand that rules are not arbitrary but reflect values and negotiated agreements. They can grapple with more complex concepts like justice, equality, and representation.
+
+In the secondary grades (9–10), civic literacy engages with the full constitutional framework — preamble, fundamental rights, directive principles, structure of government, federalism, judiciary, elections. Students can analyze case studies, debate policy questions, and understand the historical context of India's democratic development.
+
+At the senior secondary level (11–12), civic literacy reaches its most sophisticated form: understanding political philosophy, comparative democratic systems, contemporary policy debates, constitutional jurisprudence, and students' role as emerging adult citizens. This is also the stage where civic action — voting, advocacy, public participation — becomes directly relevant.
+
+Across all grades, effective civic literacy education has several common features: it is active and participatory, not passive and memorization-based; it connects constitutional principles to real-life examples and current events; it practices civic skills (deliberation, negotiation, media evaluation) not just civic knowledge; it creates space for disagreement and debate; and it takes students' questions and concerns seriously as civic inputs.
+
+NEP 2020's emphasis on "reduced content load" combined with "deeper learning" applies particularly well to civic education — better to deeply understand five constitutional principles and their real-world implications than to superficially memorize fifty constitutional articles.
+
+The goal of civic literacy across grades is to graduate citizens who are knowledgeable about their rights and duties, skilled in democratic participation, committed to constitutional values, and motivated to contribute to the common good.`,
+    reflections: [
+      "How has your understanding of civic concepts changed as you have gotten older?",
+      "What civic concepts do you wish you had learned earlier? Why?",
+      "Design a civic literacy activity appropriate for a grade lower than yours."
+    ],
+    classroom: [
+      "Create a civic literacy scope-and-sequence for your school",
+      "Peer-teach a civic concept to younger students",
+      "Reflect: what is the most important civic lesson you have learned this year?"
+    ]
+  },
+  {
+    title: "Designing a Democratic School Culture",
+    body: `A school cannot effectively teach democratic values if its own culture is authoritarian. The most powerful civic education happens not in classrooms alone but through the lived experience of democratic participation, equal treatment, voice, and responsibility across the entire school culture.
+
+A democratic school culture is one where: student voices are genuinely heard in decisions that affect them; rules are made transparently and with student input; discipline is fair, consistent, and explains reasoning rather than simply demanding compliance; teachers model democratic values in their own professional relationships; diversity is visible and celebrated across school displays, curriculum, and activities; and students have meaningful opportunities to exercise responsibility and leadership.
+
+Creating such a culture requires deliberate design and sustained commitment. It begins with leadership: school principals who model transparency, accountability, and respect create conditions for democratic culture. It requires teacher professional development that includes not just content knowledge but civic pedagogy. It requires structural changes — genuine student councils, participatory budgeting, transparent grievance mechanisms — not just symbolic gestures.
+
+The relationship between teacher and student is itself a civic relationship. A teacher who treats students with equal dignity, explains reasoning, invites questions, acknowledges mistakes, and models intellectual humility is teaching democratic values more effectively than any textbook can. Conversely, a classroom culture of fear, silencing, and blind obedience is civic miseducation regardless of what the curriculum says.
+
+Democratic school culture also means taking seriously the equity dimensions of school life. Are all students treated equally regardless of caste, religion, gender, disability, or family background? Are school events and celebrations inclusive of all communities? Are disciplinary practices applied consistently or do some students receive harsher treatment?
+
+Designing a democratic school culture is not a one-time project but an ongoing practice of reflection, adjustment, and renewal. Schools that have successfully built such cultures consistently report better academic outcomes, lower conflict, higher student engagement, and stronger civic identity among graduates.
+
+For teachers reading this, the invitation is to reflect: What aspects of my classroom practice are democratic? What aspects are not? What one change could I make this week to move toward a more democratic learning environment?
+
+The school is society in miniature. The culture we create there shapes the citizens we send out into the world.`,
+    reflections: [
+      "What are the most democratic aspects of your school culture? What are the least democratic?",
+      "If you could change one structural feature of your school to make it more democratic, what would it be?",
+      "What does your own classroom experience teach you about democracy and its challenges?"
+    ],
+    classroom: [
+      "Conduct a school culture audit from a democratic values perspective",
+      "Convene a student-teacher committee to propose improvements to school governance",
+      "Design a classroom charter with student input that reflects constitutional values"
+    ]
+  }
+];
+
+// ===== CONSTITUTIONAL QUIZ DATA =====
+const CONST_QUIZ = [
+  { q: "The Preamble describes India as a 'Socialist' republic. What does this primarily mean?", opts: ["India follows communism", "The state seeks to reduce economic inequalities", "Private property is abolished", "Only government can run businesses"], correct: 1, explain: "Socialist in the Indian context means the state works to reduce inequalities of income and status, not a communist system. Private property and free enterprise continue." },
+  { q: "Article 21 of the Indian Constitution guarantees:", opts: ["Right to vote", "Right to life and personal liberty", "Right to equal pay", "Right to education"], correct: 1, explain: "Article 21 is one of the most important articles, protecting every person's right to life and personal liberty. Courts have interpreted it very broadly to include dignity, privacy, and a clean environment." },
+  { q: "Which article is known as the 'Heart and Soul of the Constitution'?", opts: ["Article 14", "Article 19", "Article 21", "Article 32"], correct: 3, explain: "Article 32 (Right to Constitutional Remedies) was called the 'heart and soul' by B.R. Ambedkar. It allows citizens to directly approach the Supreme Court to enforce fundamental rights." },
+  { q: "Fundamental Duties were added to the Constitution by which Amendment?", opts: ["24th Amendment", "42nd Amendment", "44th Amendment", "73rd Amendment"], correct: 1, explain: "The 42nd Amendment (1976) added Part IV-A containing Article 51A with 10 Fundamental Duties. An 11th duty was added by the 86th Amendment in 2002." },
+  { q: "Which DPSP requires the state to ensure 'equal pay for equal work'?", opts: ["Article 39a", "Article 39d", "Article 41", "Article 43"], correct: 1, explain: "Article 39d directs the state to ensure equal pay for equal work for men and women. Though not enforceable in court, courts consider it when interpreting labor laws." },
+  { q: "Untouchability is abolished and made a punishable offence under:", opts: ["Article 14", "Article 15", "Article 17", "Article 23"], correct: 2, explain: "Article 17 abolishes untouchability in all its forms and declares its practice a punishable offence. The Protection of Civil Rights Act, 1955 gives this teeth." },
+  { q: "The concept of 'Secularism' in India's constitution primarily means:", opts: ["The state follows Hindu traditions", "All religions are banned from public life", "The state treats all religions with equal respect", "Citizens must be non-religious"], correct: 2, explain: "Indian secularism means the state has no official religion and treats all religions equally. This is different from Western secularism which may mean strict separation of religion from public life." },
+  { q: "Panchayati Raj Institutions received constitutional status through which Amendment?", opts: ["42nd Amendment", "44th Amendment", "73rd Amendment", "86th Amendment"], correct: 2, explain: "The 73rd Amendment (1992) gave constitutional status to Panchayati Raj Institutions, enabling the third tier of democracy at the grassroots level." },
+  { q: "Which fundamental right allows minorities to establish and administer educational institutions?", opts: ["Article 29", "Article 30", "Article 25", "Article 28"], correct: 1, explain: "Article 30 gives all minorities (religious and linguistic) the right to establish and administer educational institutions of their choice." },
+  { q: "The Right to Information Act, 2005 derives its force from which article?", opts: ["Article 14", "Article 19", "Article 21", "Article 32"], correct: 1, explain: "RTI Act flows from Article 19(1)(a) — freedom of speech and expression — which the Supreme Court has interpreted to include the right to information necessary for exercising that freedom." }
+];
+
+// ===== ETHICAL SCENARIOS DATA =====
+const ETHICAL_SCENARIOS = [
+  {
+    id: 'S1', tag: 'Public Property Misuse',
+    desc: "You are in a park and see a group of your classmates carving their names into a newly planted tree and vandalizing a bench. They invite you to join them saying it is harmless fun. What do you do?",
+    actions: [
+      { text: "Join them — it is just fun", ethical: false, courageous: false, explain: "Public property belongs to everyone. Vandalism is both illegal and harms the community. Joining normalizes destructive behavior." },
+      { text: 'Walk away silently', ethical: false, courageous: false, explain: "Silence can enable harm. While not joining is better, not speaking up allows the damage to continue." },
+      { text: "Tell them it is wrong and walk away", ethical: true, courageous: false, explain: "Speaking up is good, though stronger action could prevent more damage. This reflects both ethical awareness and some civic courage." },
+      { text: 'Tell them to stop and report to park authority', ethical: true, courageous: true, explain: "This is the most responsible action — stopping the damage and using civic channels to address it. It requires civic courage to report peers." }
+    ]
+  },
+  {
+    id: 'S2', tag: 'Exam Malpractice',
+    desc: 'During a board examination, you notice the student next to you opening a cheat sheet. The invigilator is not watching. The student is your friend. What do you do?',
+    actions: [
+      { text: 'Help them by sharing answers', ethical: false, courageous: false, explain: 'This makes you complicit in malpractice. It harms honest students, undermines the value of certificates, and violates your own integrity.' },
+      { text: 'Ignore it — not your problem', ethical: false, courageous: false, explain: 'Remaining passive normalizes cheating culture. If everyone ignores malpractice, examinations lose their meaning.' },
+      { text: 'Quietly whisper to stop before it goes further', ethical: true, courageous: false, explain: 'Warning your friend is ethical and shows care, though it doesn\'t stop them from continuing. A mixed but understandable response.' },
+      { text: 'Inform the invigilator after the exam to avoid disruption', ethical: true, courageous: true, explain: 'Reporting malpractice — even of a friend — upholds fairness for all students. This is civic courage: doing the right thing even when difficult.' }
+    ]
+  },
+  {
+    id: 'S3', tag: 'Online Misinformation',
+    desc: 'Your family WhatsApp group receives a viral message claiming a particular religious community is poisoning water supplies. The message is emotional and many relatives are reacting with anger. What do you do?',
+    actions: [
+      { text: 'Forward it to others quickly', ethical: false, courageous: false, explain: 'Forwarding unverified claims that target a community can contribute to real-world violence. This is deeply irresponsible.' },
+      { text: 'Stay silent to avoid family conflict', ethical: false, courageous: false, explain: 'Silence in the face of dangerous misinformation is a form of complicity. It allows harmful false beliefs to take root.' },
+      { text: 'Privately tell one relative it might be false', ethical: true, courageous: false, explain: 'Private correction is better than nothing, but the false message is still circulating and others are reading it.' },
+      { text: 'Research the claim, find the truth, and post a polite correction with evidence in the group', ethical: true, courageous: true, explain: 'This is responsible digital citizenship. It uses evidence, corrects misinformation publicly, and protects community members from being misled.' }
+    ]
+  },
+  {
+    id: 'S4', tag: 'Peer Discrimination',
+    desc: 'In your classroom, a student from a different state is consistently mocked and excluded for their accent and eating habits. The teacher seems unaware. Other students are laughing. What do you do?',
+    actions: [
+      { text: 'Laugh along to fit in with the group', ethical: false, courageous: false, explain: 'Participating in discrimination harms the victim and violates constitutional values of dignity and fraternity. Fitting in cannot justify cruelty.' },
+      { text: 'Stay quiet — it\'s not your fight', ethical: false, courageous: false, explain: 'Bystanders who do nothing enable discrimination to continue. The excluded student needs someone to stand with them.' },
+      { text: 'Befriend the excluded student privately but say nothing to others', ethical: true, courageous: false, explain: 'This is kind but incomplete. The discrimination continues publicly while you provide private support.' },
+      { text: 'Speak up in class and report it to the teacher', ethical: true, courageous: true, explain: 'This is civic courage: defending another person\'s dignity publicly at personal social cost. It also uses the proper authority (teacher) to address systemic issues.' }
+    ]
+  },
+  {
+    id: 'S5', tag: 'Environmental Neglect',
+    desc: 'Your neighbor runs a small factory that is dumping waste water into a stream that supplies water to several families downstream. They are your family\'s close friend and employer of several relatives. What do you do?',
+    actions: [
+      { text: 'Say nothing — family relationships matter more', ethical: false, courageous: false, explain: 'People downstream are being harmed by poisoned water. Placing personal loyalty above public health is a failure of civic responsibility.' },
+      { text: 'Complain privately to the neighbor only', ethical: true, courageous: false, explain: 'Private complaint is a starting point but may not be effective. If ignored, escalation is required.' },
+      { text: 'Organize affected families to collectively approach the neighbor', ethical: true, courageous: true, explain: 'Collective civic action is powerful and appropriate. Organizing the affected community amplifies pressure and demonstrates democratic problem-solving.' },
+      { text: 'Report to Pollution Control Board while also telling the neighbor', ethical: true, courageous: true, explain: 'This uses formal civic channels while also giving the neighbor a chance to comply. It protects public health while being fair. This is the most responsible civic action.' }
+    ]
+  }
+];
+
+// ===== INCLUSION QUESTIONS =====
+const INCLUSION_QUESTIONS = [
+  { q: "I actively learn about cultures, religions, and traditions different from my own.", key: 'curiosity' },
+  { q: "When I hear a discriminatory joke, I speak up rather than laugh along.", key: 'action' },
+  { q: "I believe boys and girls should have exactly equal opportunities in school and life.", key: 'gender' },
+  { q: "I make an effort to include students who seem left out in my group activities.", key: 'empathy' },
+  { q: "I judge people based on their actions and character, not their religion or caste.", key: 'equality' },
+  { q: "I am comfortable working with and learning from people very different from me.", key: 'cooperation' },
+  { q: "I understand that caste-based discrimination still exists and must be actively fought.", key: 'awareness' },
+  { q: "I believe students with disabilities deserve the same educational opportunities as others.", key: 'disability' }
+];
+
+// ===== DEMOCRACY SIMULATION DATA =====
+const ELECTION_CANDIDATES = [
+  { name: "Priya Sharma", platform: "Focus on school library, mental health support, and anti-bullying program. Runs on inclusion and student welfare.", icon: "👩‍💼", score: 85 },
+  { name: "Arjun Singh", platform: "Wants to improve sports facilities, organize inter-school competitions, and negotiate better lunch menu.", icon: "👨‍🎓", score: 72 },
+  { name: "Zara Khan", platform: "Digital literacy center, coding club, and improved internet access for all students. Focus on future skills.", icon: "👩‍💻", score: 78 },
+  { name: "Rohan Meena", platform: "Environment-first: school garden, zero-waste program, nature walks. Pushes for solar panels on school roof.", icon: "🌱", score: 70 }
+];
+
+const COMMUNITY_OPTIONS = [
+  { text: "Report it to the local Gram Panchayat or municipal authority", ethical: true, courageous: true, explain: "Using formal civic channels is exactly what responsible citizenship looks like. Government agencies have authority to enforce environmental laws." },
+  { text: "Organize a community clean-up drive", ethical: true, courageous: false, explain: "Community action is valuable for immediate improvement, but doesn't address the root cause. It needs to be combined with advocacy." },
+  { text: "Ignore it — someone else's responsibility", ethical: false, courageous: false, explain: "Environmental problems that affect a community are everyone's responsibility. Passing responsibility fuels the tragedy of the commons." },
+  { text: "Start a petition and awareness campaign, then approach authorities", ethical: true, courageous: true, explain: "This combines civic awareness, collective action, and use of democratic channels. This is the most comprehensive civic response." }
+];
+
+// ===== INIT FOUNDATIONS =====
+let currentPageIndex = 0;
+
+function initFoundations() {
+  const pagesRead = APP.pagesRead;
+  const pageNav = document.getElementById('pageNav');
+  const readProgress = document.getElementById('readProgress');
+  const container = document.getElementById('foundationPages');
+
+  // Create pills
+  pageNav.innerHTML = FOUNDATION_PAGES.map((p,i) =>
+    `<button class="page-pill ${i===currentPageIndex?'active':''}" onclick="jumpPage(${i})">${i+1}</button>`
+  ).join('');
+
+  // Create progress dots
+  readProgress.innerHTML = FOUNDATION_PAGES.map((_,i) =>
+    `<div class="prog-dot ${pagesRead.has(i)?'done':i===currentPageIndex?'current':''}" title="Page ${i+1}"></div>`
+  ).join('');
+
+  // Render pages
+  container.innerHTML = FOUNDATION_PAGES.map((p,i) => `
+    <div id="fpage-${i}" class="content-page ${i===currentPageIndex?'active':''}">
+      <h3>${i+1}. ${p.title}</h3>
+      <div class="body-text">${p.body.split('\n\n').map(para => `<p style="margin-bottom:0.85rem;">${para}</p>`).join('')}</div>
+      <div class="reflection-box">
+        <div class="ref-title">🤔 Reflection Prompts</div>
+        <ul>${p.reflections.map(r => `<li>${r}</li>`).join('')}</ul>
+      </div>
+      <div class="class-box">
+        <div class="cls-title">🏫 Classroom Application Ideas</div>
+        <ul>${p.classroom.map(c => `<li>${c}</li>`).join('')}</ul>
+      </div>
+    </div>
+  `).join('');
+
+  updatePageNav();
+}
+
+function jumpPage(idx) {
+  currentPageIndex = idx;
+  APP.pagesRead.add(idx);
+  store.set(KEYS.pagesRead, [...APP.pagesRead]);
+  document.querySelectorAll('.content-page').forEach(p => p.classList.remove('active'));
+  document.getElementById('fpage-' + idx).classList.add('active');
+  document.querySelectorAll('.page-pill').forEach((p,i) => p.classList.toggle('active', i===idx));
+  // Update dots
+  const dots = document.querySelectorAll('.prog-dot');
+  dots.forEach((d,i) => {
+    d.className = 'prog-dot ' + (APP.pagesRead.has(i)?'done':i===idx?'current':'');
+  });
+  updatePageNav();
+  window.scrollTo(0,0);
+}
+
+function changePage(dir) {
+  const newIdx = currentPageIndex + dir;
+  if (newIdx < 0 || newIdx >= FOUNDATION_PAGES.length) return;
+  jumpPage(newIdx);
+}
+
+function updatePageNav() {
+  document.getElementById('btnPrevPage').disabled = currentPageIndex === 0;
+  document.getElementById('btnNextPage').disabled = currentPageIndex === FOUNDATION_PAGES.length - 1;
+}
+
+// ===== INIT CONSTITUTION QUIZ =====
+let constAnswers = [];
+
+function initConstitutionQuiz() {
+  const saved = APP.scores;
+  if (saved && saved.constitutionScore !== undefined) {
+    // Show score card
+  }
+  renderConstitutionQuiz();
+}
+
+function renderConstitutionQuiz() {
+  constAnswers = new Array(CONST_QUIZ.length).fill(null);
+  const container = document.getElementById('constitutionQuizContainer');
+  container.innerHTML = CONST_QUIZ.map((q, qi) => `
+    <div class="quiz-card" id="qcard-${qi}">
+      <div class="q-num">Question ${qi+1} of ${CONST_QUIZ.length}</div>
+      <div class="q-text">${q.q}</div>
+      <div class="options-list">
+        ${q.opts.map((opt, oi) =>
+          `<button class="option-btn" id="qopt-${qi}-${oi}" onclick="answerConstQuestion(${qi},${oi})">${opt}</button>`
+        ).join('')}
+      </div>
+      <div id="qfeedback-${qi}" class="hidden"></div>
+    </div>
+  `).join('') + `<button class="btn-primary btn-block mt-4" onclick="submitConstitutionQuiz()">Submit Quiz</button>`;
+
+  document.getElementById('constitutionScoreCard').classList.add('hidden');
+  container.classList.remove('hidden');
+}
+
+function answerConstQuestion(qi, oi) {
+  if (constAnswers[qi] !== null) return;
+  constAnswers[qi] = oi;
+  const q = CONST_QUIZ[qi];
+  const opts = document.querySelectorAll(`#qcard-${qi} .option-btn`);
+  opts.forEach((btn, i) => {
+    btn.disabled = true;
+    if (i === q.correct) btn.classList.add('correct');
+    else if (i === oi && i !== q.correct) btn.classList.add('wrong');
+  });
+  const fb = document.getElementById('qfeedback-' + qi);
+  fb.className = 'q-feedback ' + (oi === q.correct ? 'correct' : 'wrong');
+  fb.textContent = (oi === q.correct ? '✓ Correct! ' : '✗ Incorrect. ') + q.explain;
+  fb.classList.remove('hidden');
+}
+
+function submitConstitutionQuiz() {
+  const unanswered = constAnswers.filter(a => a === null).length;
+  if (unanswered > 0 && !confirm(`${unanswered} questions unanswered. Submit anyway?`)) return;
+
+  const correct = constAnswers.filter((a,i) => a === CONST_QUIZ[i].correct).length;
+  const score = FORMULAS.constitutionalLiteracy(correct, CONST_QUIZ.length);
+
+  APP.scores.constitutionScore = score;
+  store.set(KEYS.literacyScores, APP.scores);
+
+  document.getElementById('constitutionQuizContainer').classList.add('hidden');
+  document.getElementById('constitutionScoreCard').classList.remove('hidden');
+  document.getElementById('constScoreVal').textContent = score + '%';
+  setTimeout(() => {
+    document.getElementById('constScoreBar').style.width = score + '%';
+  }, 100);
+
+  const msgs = { 90: '🏆 Outstanding constitutional literacy!', 70: '⭐ Good understanding. Keep learning!', 50: '📚 Developing literacy. Review the content and retake!', 0: '📖 Begin with the content tabs to build your knowledge.' };
+  const grade = Object.entries(msgs).reverse().find(([t]) => score >= parseInt(t));
+  document.getElementById('constScoreMsg').textContent = grade ? grade[1] : msgs[0];
+}
+
+function resetConstitutionQuiz() {
+  document.getElementById('constitutionScoreCard').classList.add('hidden');
+  renderConstitutionQuiz();
+}
+
+// ===== CIVIC LAB =====
+function updateCivicLab() { /* live update if needed */ }
+
+function saveCivicLab() {
+  const vals = [
+    +document.querySelector('#screen-civic-lab input[oninput*="v-school"]').value,
+    +document.querySelector('#screen-civic-lab input[oninput*="v-community"]').value,
+    +document.querySelector('#screen-civic-lab input[oninput*="v-env"]').value,
+    +document.querySelector('#screen-civic-lab input[oninput*="v-peer"]').value,
+    +document.querySelector('#screen-civic-lab input[oninput*="v-aware"]').value,
+    +document.querySelector('#screen-civic-lab input[oninput*="v-help"]').value
+  ];
+
+  const engIdx = FORMULAS.civicEngagementIndex(vals);
+  const commContrib = FORMULAS.communityContributionScore(vals[0], vals[1], vals[2], vals[3]);
+
+  APP.civicLab = { vals, engagementIndex: engIdx, communityContribution: commContrib };
+  APP.scores.civicScore = engIdx;
+  store.set(KEYS.civicLogs, APP.civicLab);
+  store.set(KEYS.literacyScores, APP.scores);
+
+  document.getElementById('civicLabResults').classList.remove('hidden');
+  document.getElementById('civicEngIdx').textContent = engIdx + '%';
+  document.getElementById('communityContrib').textContent = commContrib + '%';
+  setTimeout(() => {
+    document.getElementById('civicEngBar').style.width = engIdx + '%';
+    document.getElementById('communityContribBar').style.width = commContrib + '%';
+  }, 100);
+
+  const fb = document.getElementById('civicLabFeedback');
+  let msg = '';
+  if (engIdx >= 80) msg = '🏆 Exceptional civic engagement! You are a model active citizen.';
+  else if (engIdx >= 60) msg = '⭐ Good civic participation. Identify one area to strengthen further.';
+  else if (engIdx >= 40) msg = '📈 Developing. Focus on community service and school activities.';
+  else msg = '📚 Emerging. Start small: join one school activity and one community initiative.';
+  fb.innerHTML = `<h3>Feedback</h3><p>${msg}</p><p style="margin-top:0.5rem;font-size:0.82rem;color:rgba(248,246,240,0.6);">Formula: CEI = 0.25×School + 0.25×Community + 0.20×Environmental + 0.15×PeerMediation + 0.10×Awareness + 0.05×Helping × 10</p>`;
+}
+
+// ===== ETHICS =====
+let ethicsAnswers = {};
+
+function initEthics() {
+  const saved = APP.ethics;
+  ethicsAnswers = saved.choices || {};
+  renderEthicsScenarios();
+}
+
+function renderEthicsScenarios() {
+  const container = document.getElementById('ethicsScenariosContainer');
+  container.innerHTML = ETHICAL_SCENARIOS.map((sc, si) => `
+    <div class="scenario-card" id="sc-${sc.id}">
+      <div class="sc-tag">${sc.tag}</div>
+      <div class="sc-desc"><strong>Scenario ${si+1}:</strong> ${sc.desc}</div>
+      <div class="action-grid">
+        ${sc.actions.map((act, ai) => `
+          <button class="action-btn ${ethicsAnswers[sc.id]===ai?'selected':''}" id="actbtn-${sc.id}-${ai}" onclick="selectEthicsAction('${sc.id}',${ai})">${act.text}</button>
+        `).join('')}
+      </div>
+      <div id="sc-feedback-${sc.id}" class="hidden" style="margin-top:0.75rem;font-size:0.83rem;line-height:1.6;padding:0.75rem;border-radius:6px;background:rgba(201,168,76,0.08);border:1px solid var(--border);color:rgba(248,246,240,0.85);"></div>
+    </div>
+  `).join('') + `<button class="btn-primary btn-block mt-4" onclick="submitEthics()">📊 Calculate Ethical Scores</button>`;
+
+  // Update progress
+  const prog = document.getElementById('ethicsProgress');
+  prog.innerHTML = ETHICAL_SCENARIOS.map((sc,i) =>
+    `<div class="prog-dot ${ethicsAnswers[sc.id]!==undefined?'done':''}"></div>`
+  ).join('');
+}
+
+function selectEthicsAction(scId, actionIdx) {
+  const sc = ETHICAL_SCENARIOS.find(s => s.id === scId);
+  const act = sc.actions[actionIdx];
+
+  ethicsAnswers[scId] = actionIdx;
+
+  // Highlight selected
+  document.querySelectorAll(`[id^="actbtn-${scId}-"]`).forEach((btn, i) => {
+    btn.className = 'action-btn';
+    if (i === actionIdx) {
+      btn.className += act.ethical ? ' ethical' : ' unethical';
+    }
+  });
+
+  // Show feedback
+  const fb = document.getElementById('sc-feedback-' + scId);
+  fb.textContent = (act.ethical ? '✓ ' : '✗ ') + act.explain;
+  fb.style.borderColor = act.ethical ? 'rgba(93,203,136,0.4)' : 'rgba(224,96,96,0.4)';
+  fb.style.color = act.ethical ? '#5dcb88' : '#e06060';
+  fb.classList.remove('hidden');
+
+  // Update progress dots
+  const dots = document.querySelectorAll('#ethicsProgress .prog-dot');
+  const scIdx = ETHICAL_SCENARIOS.findIndex(s => s.id === scId);
+  if (dots[scIdx]) dots[scIdx].classList.add('done');
+}
+
+function submitEthics() {
+  const answered = Object.keys(ethicsAnswers).length;
+  if (answered < ETHICAL_SCENARIOS.length && !confirm(`Only ${answered}/${ETHICAL_SCENARIOS.length} scenarios answered. Submit?`)) return;
+
+  const choices = ETHICAL_SCENARIOS.map(sc => {
+    const ai = ethicsAnswers[sc.id];
+    if (ai === undefined) return 'unethical';
+    return sc.actions[ai].ethical ? 'ethical' : 'unethical';
+  });
+
+  const courageChoices = ETHICAL_SCENARIOS.map(sc => {
+    const ai = ethicsAnswers[sc.id];
+    if (ai === undefined) return 'not-courageous';
+    return sc.actions[ai].courageous ? 'courageous' : 'not-courageous';
+  });
+
+  const consScore = FORMULAS.ethicalConsistencyScore(choices);
+  const courageScore = FORMULAS.civicCourageIndex(courageChoices);
+  const socialScore = FORMULAS.socialResponsibilityRating(consScore, APP.civicLab.engagementIndex||50, APP.civicLab.communityContribution||50);
+
+  APP.ethics = { choices: ethicsAnswers, consistencyScore: consScore, courageScore, socialScore };
+  APP.scores.ethicsScore = consScore;
+  APP.scores.courageScore = courageScore;
+  store.set(KEYS.decisionHistory, APP.ethics);
+  store.set(KEYS.literacyScores, APP.scores);
+
+  document.getElementById('ethicsResultCard').classList.remove('hidden');
+  document.getElementById('ethicsConsistency').textContent = consScore + '%';
+  document.getElementById('civicCourage').textContent = courageScore + '%';
+  document.getElementById('socialResp').textContent = socialScore + '%';
+
+  setTimeout(() => {
+    document.getElementById('ethicsConsBar').style.width = consScore + '%';
+    document.getElementById('civicCourageBar').style.width = courageScore + '%';
+    document.getElementById('socialRespBar').style.width = socialScore + '%';
+  }, 100);
+}
+
+function resetEthics() {
+  ethicsAnswers = {};
+  APP.ethics = {};
+  store.set(KEYS.decisionHistory, {});
+  document.getElementById('ethicsResultCard').classList.add('hidden');
+  renderEthicsScenarios();
+}
+
+// ===== INCLUSION =====
+let inclusionResponses = {};
+
+function initInclusion() {
+  inclusionResponses = APP.inclusion.responses || {};
+  renderInclusionQuestions();
+}
+
+function renderInclusionQuestions() {
+  const container = document.getElementById('inclusionQuestions');
+  container.innerHTML = INCLUSION_QUESTIONS.map((q, i) => `
+    <div style="margin-bottom:1.25rem;">
+      <div style="font-size:0.9rem;line-height:1.6;color:rgba(248,246,240,0.85);margin-bottom:0.5rem;">${i+1}. ${q.q}</div>
+      <div class="emotion-scale">
+        ${[1,2,3,4,5].map(v => `
+          <button class="emotion-btn ${(inclusionResponses[q.key]||0)===v?'selected':''}"
+            onclick="setInclusionResponse('${q.key}',${v},this)"
+            title="${['Strongly Disagree','Disagree','Neutral','Agree','Strongly Agree'][v-1]}">
+            ${['😞','😕','😐','🙂','😊'][v-1]}
+          </button>
+        `).join('')}
+      </div>
+      <div style="display:flex;justify-content:space-between;font-family:'Rajdhani',sans-serif;font-size:0.7rem;color:rgba(248,246,240,0.4);">
+        <span>Strongly Disagree</span><span>Strongly Agree</span>
+      </div>
+    </div>
+  `).join('');
+}
+
+function setInclusionResponse(key, val, btn) {
+  inclusionResponses[key] = val;
+  const scale = btn.parentElement;
+  scale.querySelectorAll('.emotion-btn').forEach(b => b.classList.remove('selected'));
+  btn.classList.add('selected');
+}
+
+function calculateInclusion() {
+  const responses = INCLUSION_QUESTIONS.map(q => inclusionResponses[q.key] || 3);
+  const inclIdx = FORMULAS.inclusionAwarenessIndex(responses);
+  const empathyAvg = responses.slice(0,4).reduce((a,b)=>a+b)/4;
+  const cooperAvg = responses.slice(4).reduce((a,b)=>a+b)/4;
+  const harmScore = FORMULAS.socialHarmonyScore((empathyAvg/5)*100, (cooperAvg/5)*100, inclIdx);
+
+  APP.inclusion = { responses: inclusionResponses, inclusionIndex: inclIdx, harmonyScore: harmScore };
+  APP.scores.inclusionScore = inclIdx;
+  store.set(KEYS.inclusionData, APP.inclusion);
+  store.set(KEYS.literacyScores, APP.scores);
+
+  document.getElementById('inclusionResults').classList.remove('hidden');
+  document.getElementById('inclusionIdx').textContent = inclIdx + '%';
+  document.getElementById('harmonyScore').textContent = harmScore + '%';
+  setTimeout(() => {
+    document.getElementById('inclusionIdxBar').style.width = inclIdx + '%';
+    document.getElementById('harmonyBar').style.width = harmScore + '%';
+  }, 100);
+
+  const fb = document.getElementById('inclusionFeedback');
+  let msg = '';
+  if (inclIdx >= 85) msg = '🌍 Exceptional inclusion awareness! You are a champion of diversity and dignity.';
+  else if (inclIdx >= 65) msg = '⭐ Strong inclusion awareness. One growth area to focus on: speaking up in group settings.';
+  else if (inclIdx >= 45) msg = '📈 Developing. Actively seek experiences with communities different from your own.';
+  else msg = '📚 Emerging. Begin with listening more carefully to perspectives different from yours.';
+  fb.innerHTML = `<h3>Feedback</h3><p>${msg}</p>`;
+}
+
+// ===== DEMOCRACY =====
+function initDemocracy() {
+  renderElectionCandidates();
+  renderCommunityOptions();
+}
+
+function renderElectionCandidates() {
+  const container = document.getElementById('electionCandidates');
+  const saved = (APP.democracy.election || {}).voted;
+  container.innerHTML = ELECTION_CANDIDATES.map((c, i) => `
+    <div style="background:var(--card-bg);border:1px solid ${saved===i?'var(--gold)':'var(--border)'};border-radius:8px;padding:1rem;margin-bottom:0.75rem;">
+      <div style="display:flex;gap:0.75rem;align-items:flex-start;">
+        <div style="font-size:2rem;">${c.icon}</div>
+        <div style="flex:1;">
+          <div style="font-family:'Rajdhani',sans-serif;font-weight:700;color:var(--gold);font-size:1rem;">${c.name}</div>
+          <div style="font-size:0.83rem;color:rgba(248,246,240,0.8);line-height:1.6;margin:0.3rem 0;">${c.platform}</div>
+          <button class="btn-secondary" style="padding:0.35rem 0.8rem;font-size:0.8rem;" onclick="castVote(${i})">
+            ${saved===i?'✓ Voted':'Cast Vote'}
+          </button>
+        </div>
+      </div>
+    </div>
+  `).join('');
+}
+
+function castVote(candidateIdx) {
+  if (!APP.democracy.election) APP.democracy.election = {};
+  APP.democracy.election.voted = candidateIdx;
+  const candidate = ELECTION_CANDIDATES[candidateIdx];
+  store.set(KEYS.democracyData, APP.democracy);
+  renderElectionCandidates();
+
+  const fb = document.getElementById('electionFeedback');
+  fb.className = 'card';
+  fb.innerHTML = `<h3>Your Vote: ${candidate.name}</h3><p>You voted for ${candidate.name}. This candidate's platform focuses on: ${candidate.platform} In a real election, researching candidates thoroughly and voting based on policies rather than personality is essential civic practice.</p>`;
+  fb.classList.remove('hidden');
+}
+
+let budgetVals = { library: 20, sports: 20, science: 20, sanitation: 20, arts: 20 };
+
+function updateBudget(key, val) {
+  budgetVals[key] = parseInt(val);
+  document.getElementById('v-' + key).textContent = val;
+  const total = Object.values(budgetVals).reduce((a,b) => a+b, 0);
+  document.getElementById('budgetTotal').textContent = total;
+  document.getElementById('budgetWarn').style.display = total !== 100 ? 'inline' : 'none';
+}
+
+function saveResourceData() {
+  const total = Object.values(budgetVals).reduce((a,b) => a+b, 0);
+  if (total !== 100) { alert('Budget must total exactly 100%'); return; }
+
+  // Fairness score based on balanced distribution
+  const vals = Object.values(budgetVals);
+  const maxDev = Math.max(...vals) - Math.min(...vals);
+  const fairness = Math.max(0, 100 - maxDev * 2);
+
+  if (!APP.democracy.resource) APP.democracy.resource = {};
+  APP.democracy.resource = { allocation: {...budgetVals}, fairness };
+  store.set(KEYS.democracyData, APP.democracy);
+
+  const fb = document.getElementById('resourceFeedback');
+  fb.className = 'card';
+  fb.innerHTML = `<h3>Budget Analysis</h3><p><strong style="color:var(--gold)">Fairness Score: ${fairness}%</strong></p><p>Your allocation reflects your priorities. A balanced distribution across needs scores higher on equity. The highest allocation was to <strong>${Object.entries(budgetVals).sort((a,b)=>b[1]-a[1])[0][0]}</strong>. Democratic resource allocation considers all stakeholders equitably.</p>`;
+  fb.classList.remove('hidden');
+}
+
+function renderCommunityOptions() {
+  const container = document.getElementById('communityOptions');
+  const saved = (APP.democracy.community || {}).choice;
+  container.innerHTML = COMMUNITY_OPTIONS.map((opt, i) => `
+    <button class="action-btn ${saved===i?(opt.ethical?'ethical':'unethical'):''}" style="width:100%;margin-bottom:0.5rem;text-align:left;padding:0.75rem 1rem;"
+      onclick="selectCommunityOption(${i})">${opt.text}</button>
+  `).join('');
+}
+
+function selectCommunityOption(idx) {
+  const opt = COMMUNITY_OPTIONS[idx];
+  if (!APP.democracy.community) APP.democracy.community = {};
+  APP.democracy.community.choice = idx;
+  store.set(KEYS.democracyData, APP.democracy);
+
+  renderCommunityOptions();
+  const fb = document.getElementById('communityFeedback');
+  fb.className = 'card';
+  fb.style.borderColor = opt.ethical ? 'rgba(93,203,136,0.4)' : 'rgba(224,96,96,0.4)';
+  fb.innerHTML = `<p style="color:${opt.ethical?'#5dcb88':'#e06060'}">${opt.ethical?'✓ Good choice!':'✗ Consider a different approach.'} ${opt.explain}</p>`;
+  fb.classList.remove('hidden');
+}
+
+function saveElectionData() {
+  const campaign = +document.querySelector('#screen-democracy input[oninput*="v-campaign"]').value;
+  const encourage = +document.querySelector('#screen-democracy input[oninput*="v-encourage"]').value;
+  const voted = (APP.democracy.election || {}).voted !== undefined;
+
+  const partEff = FORMULAS.participationEffectivenessIndex(campaign, encourage, voted);
+
+  if (!APP.democracy.election) APP.democracy.election = {};
+  APP.democracy.election.participation = partEff;
+  store.set(KEYS.democracyData, APP.democracy);
+  alert(`Election participation logged! Participation Effectiveness: ${partEff}%`);
+  updateDemocracyScores();
+}
+
+function saveCommunityData() {
+  const listen = +document.querySelector('#screen-democracy input[oninput*="v-listen"]').value;
+  const consensus = +document.querySelector('#screen-democracy input[oninput*="v-consensus"]').value;
+  const implement = +document.querySelector('#screen-democracy input[oninput*="v-implement"]').value;
+
+  const delibScore = FORMULAS.deliberationQualityScore(listen, consensus, implement);
+  if (!APP.democracy.deliberation) APP.democracy.deliberation = {};
+  APP.democracy.deliberation = { listen, consensus, implement, score: delibScore };
+  store.set(KEYS.democracyData, APP.democracy);
+  updateDemocracyScores();
+  alert(`Community action logged! Deliberation Quality: ${delibScore}%`);
+}
+
+function updateDemocracyScores() {
+  const d = APP.democracy;
+  const delib = (d.deliberation || {}).score || 0;
+  const part = (d.election || {}).participation || 0;
+  const fairness = (d.resource || {}).fairness || 0;
+  const commChoice = COMMUNITY_OPTIONS[((d.community||{}).choice)];
+  const commScore = commChoice ? (commChoice.ethical ? 75 : 25) : 0;
+  const cons = FORMULAS.consensusBuildingScore(fairness, commScore);
+
+  APP.scores.democracyScore = Math.round((delib + part + cons) / 3);
+  store.set(KEYS.literacyScores, APP.scores);
+  store.set(KEYS.democracyData, APP.democracy);
+
+  document.getElementById('deliberationScore').textContent = delib + '%';
+  document.getElementById('participationEffIdx').textContent = part + '%';
+  document.getElementById('consensusBuildScore').textContent = cons + '%';
+  setTimeout(() => {
+    document.getElementById('deliberationBar').style.width = delib + '%';
+    document.getElementById('participationBar').style.width = part + '%';
+    document.getElementById('consensusBar').style.width = cons + '%';
+  }, 100);
+}
+
+// ===== DASHBOARD =====
+function refreshDashboard() {
+  const s = APP.scores;
+  const metrics = {
+    'const': s.constitutionScore || 0,
+    'ethics': s.ethicsScore || 0,
+    'civic': s.civicScore || 0,
+    'inclusion': s.inclusionScore || 0,
+    'demo': s.democracyScore || 0,
+    'courage': s.courageScore || 0
+  };
+
+  Object.entries(metrics).forEach(([k, v]) => {
+    const bar = document.getElementById('dash-' + k);
+    const val = document.getElementById('dash-' + k + '-val');
+    if (bar) setTimeout(() => bar.style.width = v + '%', 100);
+    if (val) val.textContent = v;
+  });
+
+  const overall = FORMULAS.overallCivicScore(s);
+  APP.scores.overallScore = overall;
+  store.set(KEYS.literacyScores, APP.scores);
+
+  document.getElementById('overallCivicScore').textContent = overall + '%';
+  setTimeout(() => document.getElementById('overallBar').style.width = overall + '%', 200);
+
+  const grades = { 90: '🏆 Outstanding Civic Profile — Model Citizen', 75: '⭐ Excellent Civic Development', 60: '👍 Good Civic Profile — Keep Growing', 45: '📈 Developing Civic Profile', 0: '📚 Beginning Your Civic Journey' };
+  const grade = Object.entries(grades).reverse().find(([t]) => overall >= parseInt(t));
+  document.getElementById('overallGrade').textContent = grade ? grade[1] : '';
+  document.getElementById('overallGrade').style.color = overall >= 75 ? 'var(--gold)' : overall >= 50 ? 'var(--saffron)' : 'rgba(248,246,240,0.7)';
+
+  drawRadar(metrics);
+}
+
+function drawRadar(metrics) {
+  const canvas = document.getElementById('radarChart');
+  if (!canvas) return;
+  const ctx = canvas.getContext('2d');
+  const W = canvas.width, H = canvas.height;
+  const cx = W/2, cy = H/2, R = Math.min(W,H)/2 - 30;
+
+  ctx.clearRect(0, 0, W, H);
+
+  const labels = ['Constitution', 'Ethics', 'Civic Eng', 'Inclusion', 'Democracy', 'Courage'];
+  const vals = Object.values(metrics).map(v => v/100);
+  const N = labels.length;
+  const angleStep = (Math.PI * 2) / N;
+
+  // Grid
+  for (let level = 1; level <= 5; level++) {
+    ctx.beginPath();
+    ctx.strokeStyle = 'rgba(201,168,76,0.15)';
+    ctx.lineWidth = 1;
+    for (let i = 0; i <= N; i++) {
+      const angle = i * angleStep - Math.PI/2;
+      const r = R * level / 5;
+      const x = cx + r * Math.cos(angle);
+      const y = cy + r * Math.sin(angle);
+      i === 0 ? ctx.moveTo(x,y) : ctx.lineTo(x,y);
+    }
+    ctx.closePath();
+    ctx.stroke();
+  }
+
+  // Axes
+  for (let i = 0; i < N; i++) {
+    const angle = i * angleStep - Math.PI/2;
+    ctx.beginPath();
+    ctx.strokeStyle = 'rgba(201,168,76,0.2)';
+    ctx.moveTo(cx, cy);
+    ctx.lineTo(cx + R * Math.cos(angle), cy + R * Math.sin(angle));
+    ctx.stroke();
+  }
+
+  // Data polygon
+  ctx.beginPath();
+  ctx.fillStyle = 'rgba(201,168,76,0.15)';
+  ctx.strokeStyle = 'rgba(201,168,76,0.8)';
+  ctx.lineWidth = 2;
+  for (let i = 0; i < N; i++) {
+    const angle = i * angleStep - Math.PI/2;
+    const r = R * vals[i];
+    const x = cx + r * Math.cos(angle);
+    const y = cy + r * Math.sin(angle);
+    i === 0 ? ctx.moveTo(x,y) : ctx.lineTo(x,y);
+  }
+  ctx.closePath();
+  ctx.fill();
+  ctx.stroke();
+
+  // Points
+  for (let i = 0; i < N; i++) {
+    const angle = i * angleStep - Math.PI/2;
+    const r = R * vals[i];
+    ctx.beginPath();
+    ctx.fillStyle = 'rgba(201,168,76,1)';
+    ctx.arc(cx + r * Math.cos(angle), cy + r * Math.sin(angle), 4, 0, Math.PI*2);
+    ctx.fill();
+  }
+
+  // Labels
+  ctx.font = '600 10px Rajdhani, sans-serif';
+  ctx.fillStyle = 'rgba(248,246,240,0.8)';
+  ctx.textAlign = 'center';
+  for (let i = 0; i < N; i++) {
+    const angle = i * angleStep - Math.PI/2;
+    const r = R + 18;
+    ctx.fillText(labels[i], cx + r * Math.cos(angle), cy + r * Math.sin(angle) + 4);
+  }
+}
+
+// ===== GROWTH TRACKER =====
+function initGrowth() {
+  renderGrowthRecords();
+}
+
+function saveGrowthRecord() {
+  const term = document.getElementById('termSelect').value;
+  const ethicalM = +document.querySelector('#screen-growth input[oninput*="v-ethical-m"]').value;
+  const partP = +document.querySelector('#screen-growth input[oninput*="v-part-p"]').value;
+  const constG = +document.querySelector('#screen-growth input[oninput*="v-const-g"]').value;
+  const contrib = +document.querySelector('#screen-growth input[oninput*="v-contrib"]').value;
+  const avg = Math.round((ethicalM + partP + constG + contrib) / 4 * 10);
+
+  const record = { term, ethicalM, partP, constG, contrib, avg, date: new Date().toLocaleDateString('en-IN') };
+
+  // Remove existing record for same term
+  APP.growth = APP.growth.filter(r => r.term !== term);
+  APP.growth.push(record);
+  APP.growth.sort((a,b) => ['Term 1','Term 2','Term 3','Term 4'].indexOf(a.term.split(' ')[0]+' '+a.term.split(' ')[1]) -
+    ['Term 1','Term 2','Term 3','Term 4'].indexOf(b.term.split(' ')[0]+' '+b.term.split(' ')[1]));
+
+  store.set(KEYS.growthRecords, APP.growth);
+  renderGrowthRecords();
+  alert(`${term} record saved!`);
+}
+
+function renderGrowthRecords() {
+  const container = document.getElementById('growthRecordsList');
+  if (!APP.growth.length) {
+    container.innerHTML = '<p style="font-family:Rajdhani,sans-serif;font-size:0.85rem;color:rgba(248,246,240,0.5);text-align:center;margin:1rem 0;">No records yet. Add your first term record above.</p>';
+    document.getElementById('growthScores').classList.add('hidden');
+    return;
+  }
+
+  container.innerHTML = APP.growth.map(r => `
+    <div class="term-card">
+      <div class="term-label">${r.term} <span style="font-size:0.75rem;color:rgba(248,246,240,0.5);">${r.date}</span></div>
+      <div class="metric-row"><div class="m-label">Ethical Reasoning</div><div class="m-bar-wrap"><div class="m-bar" style="width:${r.ethicalM*10}%"></div></div><div class="m-val">${r.ethicalM}/10</div></div>
+      <div class="metric-row"><div class="m-label">Civic Participation</div><div class="m-bar-wrap"><div class="m-bar" style="width:${r.partP*10}%"></div></div><div class="m-val">${r.partP}/10</div></div>
+      <div class="metric-row"><div class="m-label">Constitutional Knowledge</div><div class="m-bar-wrap"><div class="m-bar" style="width:${r.constG*10}%"></div></div><div class="m-val">${r.constG}/10</div></div>
+      <div class="metric-row"><div class="m-label">Community Contribution</div><div class="m-bar-wrap"><div class="m-bar" style="width:${r.contrib*10}%"></div></div><div class="m-val">${r.contrib}/10</div></div>
+      <div style="font-family:'Rajdhani',sans-serif;font-size:0.8rem;color:var(--gold);font-weight:700;text-align:right;">Average Score: ${r.avg}%</div>
+    </div>
+  `).join('');
+
+  const growthIdx = FORMULAS.civicGrowthIndex(APP.growth);
+  const maturity = FORMULAS.responsibilityMaturityScore(APP.growth);
+
+  document.getElementById('growthScores').classList.remove('hidden');
+  document.getElementById('civicGrowthIdx').textContent = growthIdx + '%';
+  document.getElementById('responsibilityMaturity').textContent = maturity + '%';
+  setTimeout(() => {
+    document.getElementById('growthIdxBar').style.width = growthIdx + '%';
+    document.getElementById('maturityBar').style.width = maturity + '%';
+  }, 100);
+
+  drawGrowthChart();
+}
+
+function drawGrowthChart() {
+  const canvas = document.getElementById('growthChart');
+  if (!canvas || APP.growth.length < 2) return;
+  const ctx = canvas.getContext('2d');
+  const W = canvas.width, H = canvas.height;
+  const pad = 30;
+
+  ctx.clearRect(0,0,W,H);
+
+  const records = APP.growth;
+  const points = records.map((r,i) => ({
+    x: pad + (i/(records.length-1)) * (W - pad*2),
+    y: H - pad - (r.avg/100) * (H - pad*2)
+  }));
+
+  // Grid
+  for (let i = 0; i <= 4; i++) {
+    const y = pad + i * (H - pad*2)/4;
+    ctx.beginPath();
+    ctx.strokeStyle = 'rgba(201,168,76,0.1)';
+    ctx.moveTo(pad, y); ctx.lineTo(W-pad, y);
+    ctx.stroke();
+    ctx.fillStyle = 'rgba(248,246,240,0.4)';
+    ctx.font = '9px Rajdhani';
+    ctx.fillText(100 - i*25 + '%', 2, y+3);
+  }
+
+  // Line
+  ctx.beginPath();
+  ctx.strokeStyle = 'rgba(201,168,76,0.8)';
+  ctx.lineWidth = 2.5;
+  points.forEach((p,i) => i===0 ? ctx.moveTo(p.x,p.y) : ctx.lineTo(p.x,p.y));
+  ctx.stroke();
+
+  // Fill
+  ctx.beginPath();
+  ctx.fillStyle = 'rgba(201,168,76,0.1)';
+  ctx.moveTo(points[0].x, H-pad);
+  points.forEach(p => ctx.lineTo(p.x, p.y));
+  ctx.lineTo(points[points.length-1].x, H-pad);
+  ctx.closePath();
+  ctx.fill();
+
+  // Points & labels
+  points.forEach((p,i) => {
+    ctx.beginPath();
+    ctx.fillStyle = 'var(--gold)';
+    ctx.arc(p.x, p.y, 5, 0, Math.PI*2);
+    ctx.fill();
+    ctx.fillStyle = 'rgba(248,246,240,0.7)';
+    ctx.font = '9px Rajdhani';
+    ctx.textAlign = 'center';
+    ctx.fillText(records[i].term.split('(')[0].trim(), p.x, H-5);
+    ctx.fillText(records[i].avg+'%', p.x, p.y-10);
+  });
+}
+
+// ===== REPORT =====
+function generateReport() {
+  const s = APP.scores;
+  const overall = FORMULAS.overallCivicScore(s);
+  const container = document.getElementById('reportContainer');
+
+  const now = new Date().toLocaleDateString('en-IN', {year:'numeric',month:'long',day:'numeric'});
+
+  const getLevel = (score) => {
+    if (score >= 85) return 'Outstanding';
+    if (score >= 70) return 'Excellent';
+    if (score >= 55) return 'Good';
+    if (score >= 40) return 'Developing';
+    return 'Beginning';
+  };
+
+  const strengths = [];
+  const growth = [];
+
+  if ((s.constitutionScore||0) >= 70) strengths.push('Strong constitutional literacy and knowledge of fundamental rights and duties');
+  else growth.push('Deepen constitutional knowledge through the literacy module and related content pages');
+
+  if ((s.ethicsScore||0) >= 70) strengths.push('Consistent ethical decision-making aligned with civic values');
+  else growth.push('Practice ethical reasoning through the scenario simulator and reflection exercises');
+
+  if ((s.civicScore||0) >= 70) strengths.push('Active civic engagement across school and community activities');
+  else growth.push('Increase participation in school and community service activities');
+
+  if ((s.inclusionScore||0) >= 70) strengths.push('Strong awareness of diversity, inclusion, and social harmony');
+  else growth.push('Engage more actively with communities different from your own to build inclusion awareness');
+
+  if ((s.democracyScore||0) >= 70) strengths.push('Effective democratic participation and deliberation skills');
+  else growth.push('Practice democratic participation through school council and community engagement');
+
+  if ((s.courageScore||0) >= 70) strengths.push('Demonstrated civic courage in facing ethical challenges');
+  else growth.push('Build civic courage through progressively challenging situations requiring principled action');
+
+  container.innerHTML = `
+    <div class="report-section" style="background:linear-gradient(135deg,rgba(26,58,107,0.4),rgba(42,82,152,0.3));border-color:var(--gold);">
+      <div style="display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:1rem;">
+        <div>
+          <h4 style="font-size:1.3rem;border:none;padding:0;">Citizenship Development Report</h4>
+          <p style="color:rgba(248,246,240,0.6);font-size:0.82rem;margin-top:0.25rem;">Generated: ${now} | Platform: Values, Citizenship &amp; Constitutional Literacy Development Studio</p>
+          <p style="color:rgba(248,246,240,0.6);font-size:0.82rem;">Developed by Mateen Yousuf, Teacher, School Education Department Kashmir</p>
+        </div>
+        <div style="text-align:center;">
+          <div style="font-family:'Playfair Display',serif;font-size:3rem;font-weight:900;color:var(--gold);">${overall}%</div>
+          <div style="font-family:'Rajdhani',sans-serif;font-size:0.85rem;color:rgba(248,246,240,0.7);">Overall Civic Score</div>
+          <div style="font-family:'Rajdhani',sans-serif;font-size:1rem;font-weight:700;color:var(--gold-light);">${getLevel(overall)}</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="report-section">
+      <h4>📊 Civic Profile Summary</h4>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.75rem;">
+        ${[
+          ['📜 Constitutional Literacy', s.constitutionScore||0],
+          ['⚖ Ethical Consistency', s.ethicsScore||0],
+          ['🤝 Civic Engagement', s.civicScore||0],
+          ['🌍 Inclusion Awareness', s.inclusionScore||0],
+          ['🗳 Democratic Participation', s.democracyScore||0],
+          ['💪 Civic Courage', s.courageScore||0]
+        ].map(([label, score]) => `
+          <div style="background:rgba(255,255,255,0.04);border:1px solid var(--border);border-radius:8px;padding:0.75rem;">
+            <div style="font-family:'Rajdhani',sans-serif;font-size:0.8rem;color:rgba(248,246,240,0.7);">${label}</div>
+            <div style="font-family:'Playfair Display',serif;font-size:1.5rem;font-weight:700;color:var(--gold);">${score}%</div>
+            <div style="height:4px;background:rgba(255,255,255,0.08);border-radius:2px;margin-top:0.25rem;overflow:hidden;">
+              <div style="height:100%;width:${score}%;background:linear-gradient(90deg,var(--gold),var(--saffron));border-radius:2px;"></div>
+            </div>
+            <div style="font-family:'Rajdhani',sans-serif;font-size:0.75rem;color:rgba(248,246,240,0.5);margin-top:0.25rem;">${getLevel(score)}</div>
+          </div>
+        `).join('')}
+      </div>
+    </div>
+
+    <div class="report-section">
+      <h4>✅ Ethical Strengths</h4>
+      ${strengths.length ? `<ul>${strengths.map(s => `<li style="margin-bottom:0.5rem;">${s}</li>`).join('')}</ul>` : '<p>Complete the modules to identify your ethical strengths.</p>'}
+    </div>
+
+    <div class="report-section">
+      <h4>📈 Growth Areas</h4>
+      ${growth.length ? `<ul>${growth.map(g => `<li style="margin-bottom:0.5rem;">${g}</li>`).join('')}</ul>` : '<p>Excellent! All areas are strong. Continue developing through consistent civic practice.</p>'}
+    </div>
+
+    <div class="report-section">
+      <h4>🗓 Longitudinal Growth</h4>
+      ${APP.growth.length ? `
+        <p>${APP.growth.length} term record(s) logged. Growth trajectory: ${APP.growth.length > 1 ? (APP.growth[APP.growth.length-1].avg > APP.growth[0].avg ? '📈 Improving' : '📉 Needs attention') : 'Baseline established'}.</p>
+        ${APP.growth.map(r => `<p style="font-size:0.83rem;margin-top:0.25rem;"><strong style="color:var(--gold)">${r.term}:</strong> Average Score ${r.avg}%</p>`).join('')}
+      ` : '<p>Complete the Growth Tracker across multiple terms to see longitudinal data.</p>'}
+    </div>
+
+    <div class="report-section">
+      <h4>🗺 Long-Term Civic Development Plan</h4>
+      <ul>
+        <li><strong style="color:var(--gold)">Next 30 days:</strong> Complete all 20 foundation pages and retake the constitutional literacy quiz to achieve 80%+ score.</li>
+        <li><strong style="color:var(--gold)">Next 3 months:</strong> Join one school civic initiative (student council, eco-club, or peer mediation program).</li>
+        <li><strong style="color:var(--gold)">Next 6 months:</strong> Lead one community service project addressing a real need in your locality.</li>
+        <li><strong style="color:var(--gold)">Next 1 year:</strong> Build a habit of daily civic practice — reading one news article critically, acting on one civic observation per week.</li>
+        <li><strong style="color:var(--gold)">Lifelong:</strong> Vote in every election. Stay informed. Speak truth to power. Serve others. Honor the Constitution.</li>
+      </ul>
+    </div>
+
+    <div class="report-section">
+      <h4>📝 NEP 2020 Alignment Note</h4>
+      <p>This report is generated by the Values, Citizenship &amp; Constitutional Literacy Development Studio, aligned with NEP 2020's emphasis on constitutional values, democratic spirit, ethical grounding, social responsibility, and national development. Scores are calculated using deterministic algorithms applied to student inputs. Regular use and honest reflection will yield the most meaningful results.</p>
+    </div>
+  `;
+}
+
+// ===== SERVICE WORKER REGISTRATION =====
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.register('./service-worker.js').catch(() => {});
+}
+
+// ===== INIT =====
+document.addEventListener('DOMContentLoaded', () => {
+  loadAllData();
+  updateHomeStats();
+  renderInclusionQuestions();
+  initDemocracy();
+});
+</script>
+</body>
+</html>

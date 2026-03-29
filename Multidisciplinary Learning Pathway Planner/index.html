@@ -1,0 +1,1996 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<meta name="theme-color" content="#1a3a6b"/>
+<meta name="description" content="Multidisciplinary Learning Pathway Planner - NEP 2020 & NCF 2023 Aligned"/>
+<title>Multidisciplinary Learning Pathway Planner</title>
+<link rel="manifest" href="manifest.json"/>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700;800&family=Source+Serif+4:ital,wght@0,300;0,400;0,600;1,400&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet"/>
+<style>
+/* ===== CSS VARIABLES ===== */
+:root {
+  --navy: #0a1628;
+  --deep-blue: #1a3a6b;
+  --royal: #1e4d9e;
+  --sky: #2e6be6;
+  --gold: #c8973a;
+  --gold-light: #e8b84b;
+  --cream: #f5f0e8;
+  --white: #ffffff;
+  --text-light: #e8eef8;
+  --text-muted: #8fa8cc;
+  --border: rgba(200,151,58,0.3);
+  --card-bg: rgba(255,255,255,0.04);
+  --card-border: rgba(200,151,58,0.2);
+  --success: #2ecc71;
+  --warning: #f39c12;
+  --radius: 12px;
+  --transition: all 0.3s cubic-bezier(0.4,0,0.2,1);
+}
+
+/* ===== RESET ===== */
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;font-size:16px}
+body{
+  font-family:'Source Serif 4',Georgia,serif;
+  background:var(--navy);
+  color:var(--text-light);
+  min-height:100vh;
+  line-height:1.7;
+  overflow-x:hidden;
+}
+
+/* ===== TYPOGRAPHY ===== */
+h1,h2,h3,h4{font-family:'Playfair Display',serif;line-height:1.2}
+h1{font-size:clamp(1.8rem,5vw,3.2rem);font-weight:800}
+h2{font-size:clamp(1.4rem,3.5vw,2.2rem);font-weight:700}
+h3{font-size:clamp(1.1rem,2.5vw,1.5rem);font-weight:600}
+h4{font-size:1rem;font-weight:600}
+p{margin-bottom:1rem;font-weight:300}
+code,pre{font-family:'JetBrains Mono',monospace}
+
+/* ===== LAYOUT ===== */
+.app-wrapper{display:flex;flex-direction:column;min-height:100vh}
+
+/* ===== NAVIGATION ===== */
+#main-nav{
+  position:fixed;top:0;left:0;right:0;z-index:1000;
+  background:rgba(10,22,40,0.96);
+  backdrop-filter:blur(12px);
+  border-bottom:1px solid var(--border);
+  padding:0 1.5rem;
+  display:flex;align-items:center;justify-content:space-between;
+  height:60px;
+}
+.nav-brand{display:flex;align-items:center;gap:0.75rem;cursor:pointer}
+.nav-logo{
+  width:36px;height:36px;border-radius:50%;
+  background:linear-gradient(135deg,var(--gold),var(--royal));
+  display:flex;align-items:center;justify-content:center;
+  font-size:1.1rem;
+}
+.nav-title{font-family:'Playfair Display',serif;font-size:0.85rem;font-weight:700;color:var(--gold);line-height:1.1}
+.nav-subtitle{font-size:0.65rem;color:var(--text-muted)}
+.nav-menu{display:flex;gap:0.25rem;flex-wrap:wrap}
+.nav-btn{
+  background:transparent;border:none;color:var(--text-muted);
+  font-size:0.72rem;padding:0.4rem 0.6rem;border-radius:6px;
+  cursor:pointer;transition:var(--transition);font-family:'Source Serif 4',serif;
+  white-space:nowrap;
+}
+.nav-btn:hover,.nav-btn.active{background:rgba(46,107,230,0.2);color:var(--gold-light)}
+.nav-toggle{display:none;background:transparent;border:none;color:var(--gold);font-size:1.4rem;cursor:pointer}
+
+/* ===== SECTIONS ===== */
+.section{display:none;padding:80px 1.5rem 3rem;min-height:100vh;max-width:1200px;margin:0 auto;width:100%}
+.section.active{display:block}
+
+/* ===== HERO / HOME ===== */
+#home{
+  display:none;
+  padding:0;
+  max-width:100%;
+  background:
+    radial-gradient(ellipse 80% 60% at 50% 0%, rgba(46,107,230,0.15) 0%, transparent 60%),
+    radial-gradient(ellipse 40% 40% at 80% 70%, rgba(200,151,58,0.08) 0%, transparent 50%),
+    var(--navy);
+  min-height:100vh;
+  position:relative;
+  overflow:hidden;
+}
+#home.active{display:flex;flex-direction:column}
+
+.hero-bg-pattern{
+  position:absolute;inset:0;pointer-events:none;overflow:hidden;
+}
+.hero-bg-pattern::before{
+  content:'';position:absolute;
+  top:-200px;right:-200px;
+  width:600px;height:600px;
+  border-radius:50%;
+  border:1px solid rgba(200,151,58,0.08);
+}
+.hero-bg-pattern::after{
+  content:'';position:absolute;
+  bottom:-300px;left:-150px;
+  width:700px;height:700px;
+  border-radius:50%;
+  border:1px solid rgba(46,107,230,0.06);
+}
+
+.hero-content{
+  flex:1;display:flex;flex-direction:column;
+  align-items:center;justify-content:center;
+  padding:100px 2rem 3rem;
+  text-align:center;position:relative;z-index:1;
+}
+
+.hero-badge{
+  display:inline-flex;align-items:center;gap:0.5rem;
+  background:rgba(200,151,58,0.12);
+  border:1px solid rgba(200,151,58,0.3);
+  border-radius:100px;padding:0.4rem 1.2rem;
+  font-size:0.75rem;color:var(--gold-light);
+  margin-bottom:2rem;letter-spacing:0.05em;text-transform:uppercase;
+}
+
+.hero-title{
+  font-family:'Playfair Display',serif;
+  font-size:clamp(2rem,6vw,4rem);
+  font-weight:800;
+  line-height:1.1;
+  margin-bottom:0.5rem;
+  background:linear-gradient(135deg,#ffffff 0%,#c8e0ff 50%,var(--gold-light) 100%);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+  background-clip:text;
+}
+.hero-subtitle{
+  font-size:clamp(0.9rem,2vw,1.15rem);
+  color:var(--text-muted);font-weight:300;
+  max-width:600px;margin:1rem auto 2.5rem;
+}
+
+.hero-buttons{display:flex;flex-wrap:wrap;gap:1rem;justify-content:center;margin-bottom:3rem}
+
+.btn{
+  display:inline-flex;align-items:center;gap:0.5rem;
+  padding:0.85rem 1.8rem;border-radius:8px;
+  font-family:'Source Serif 4',serif;
+  font-size:0.9rem;font-weight:600;
+  border:none;cursor:pointer;transition:var(--transition);
+  text-decoration:none;white-space:nowrap;
+}
+.btn-primary{
+  background:linear-gradient(135deg,var(--royal),var(--sky));
+  color:white;box-shadow:0 4px 20px rgba(46,107,230,0.3);
+}
+.btn-primary:hover{transform:translateY(-2px);box-shadow:0 6px 28px rgba(46,107,230,0.45)}
+.btn-gold{
+  background:linear-gradient(135deg,var(--gold),var(--gold-light));
+  color:var(--navy);box-shadow:0 4px 20px rgba(200,151,58,0.3);
+}
+.btn-gold:hover{transform:translateY(-2px);box-shadow:0 6px 28px rgba(200,151,58,0.45)}
+.btn-outline{
+  background:transparent;
+  border:1px solid rgba(200,151,58,0.4);
+  color:var(--gold-light);
+}
+.btn-outline:hover{background:rgba(200,151,58,0.1);transform:translateY(-2px)}
+.btn-sm{padding:0.55rem 1.2rem;font-size:0.8rem}
+
+.hero-stats{
+  display:flex;flex-wrap:wrap;gap:2rem;justify-content:center;
+  border-top:1px solid var(--border);padding-top:2rem;
+}
+.stat-item{text-align:center}
+.stat-num{font-family:'Playfair Display',serif;font-size:1.8rem;font-weight:800;color:var(--gold)}
+.stat-label{font-size:0.75rem;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.05em}
+
+/* Author band */
+.author-band{
+  background:rgba(26,58,107,0.4);
+  border-top:1px solid var(--border);
+  padding:1.5rem 2rem;
+  display:flex;align-items:center;gap:1.5rem;
+  justify-content:center;flex-wrap:wrap;
+}
+.author-photo{
+  width:64px;height:64px;border-radius:50%;
+  object-fit:cover;
+  border:2px solid var(--gold);
+}
+.author-info{text-align:left}
+.author-name{font-family:'Playfair Display',serif;font-weight:700;color:var(--gold-light);font-size:1rem}
+.author-role{font-size:0.78rem;color:var(--text-muted)}
+
+/* ===== CARDS ===== */
+.card{
+  background:var(--card-bg);
+  border:1px solid var(--card-border);
+  border-radius:var(--radius);
+  padding:1.5rem;
+  transition:var(--transition);
+}
+.card:hover{
+  border-color:rgba(200,151,58,0.4);
+  background:rgba(255,255,255,0.06);
+  transform:translateY(-2px);
+}
+.card-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:1.25rem}
+.card-icon{font-size:2rem;margin-bottom:0.75rem}
+.card-title{color:var(--gold-light);margin-bottom:0.5rem}
+.card-desc{font-size:0.88rem;color:var(--text-muted);margin-bottom:1rem}
+
+/* ===== PAGE HEADER ===== */
+.page-header{
+  margin-bottom:2.5rem;
+  padding-bottom:1.5rem;
+  border-bottom:1px solid var(--border);
+}
+.page-tag{
+  display:inline-block;
+  background:rgba(200,151,58,0.12);border:1px solid rgba(200,151,58,0.25);
+  border-radius:4px;padding:0.2rem 0.7rem;
+  font-size:0.7rem;color:var(--gold);letter-spacing:0.08em;
+  text-transform:uppercase;margin-bottom:0.75rem;
+}
+.page-desc{font-size:0.95rem;color:var(--text-muted);max-width:700px;font-weight:300}
+
+/* ===== POLICY PAGES ===== */
+.policy-nav{
+  display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));
+  gap:0.75rem;margin-bottom:2rem;
+}
+.policy-nav-btn{
+  background:var(--card-bg);border:1px solid var(--card-border);
+  border-radius:8px;padding:0.75rem 1rem;
+  cursor:pointer;transition:var(--transition);
+  text-align:left;color:var(--text-light);
+  font-family:'Source Serif 4',serif;font-size:0.82rem;
+}
+.policy-nav-btn:hover,.policy-nav-btn.active{
+  background:rgba(46,107,230,0.15);
+  border-color:var(--sky);color:var(--gold-light);
+}
+.policy-num{
+  font-family:'JetBrains Mono',monospace;
+  font-size:0.65rem;color:var(--gold);
+  display:block;margin-bottom:0.25rem;
+}
+
+.policy-article{
+  background:var(--card-bg);border:1px solid var(--card-border);
+  border-radius:var(--radius);padding:2rem;max-width:800px;
+}
+.policy-article h3{color:var(--gold-light);margin:1.5rem 0 0.75rem}
+.policy-article h4{color:var(--sky);margin:1.25rem 0 0.5rem}
+.policy-article ul,.policy-article ol{padding-left:1.5rem;margin-bottom:1rem}
+.policy-article li{margin-bottom:0.4rem;font-weight:300;font-size:0.92rem}
+.policy-article .highlight{
+  background:rgba(200,151,58,0.1);border-left:3px solid var(--gold);
+  padding:1rem 1.25rem;border-radius:0 8px 8px 0;margin:1.25rem 0;
+  font-style:italic;font-size:0.9rem;
+}
+.policy-article .reflection{
+  background:rgba(46,107,230,0.1);border:1px solid rgba(46,107,230,0.25);
+  border-radius:8px;padding:1.25rem;margin-top:1.5rem;
+}
+.policy-article .reflection strong{color:var(--sky);display:block;margin-bottom:0.5rem}
+
+/* ===== STRUCTURE EXPLORER ===== */
+.stage-tabs{display:flex;flex-wrap:wrap;gap:0.5rem;margin-bottom:1.5rem}
+.stage-tab{
+  background:var(--card-bg);border:1px solid var(--card-border);
+  border-radius:8px;padding:0.65rem 1.25rem;
+  cursor:pointer;transition:var(--transition);
+  font-family:'Source Serif 4',serif;font-size:0.85rem;color:var(--text-muted);
+}
+.stage-tab.active{background:var(--deep-blue);border-color:var(--sky);color:white}
+.stage-content{display:none}
+.stage-content.active{display:block}
+
+.stage-hero{
+  background:linear-gradient(135deg,var(--deep-blue),rgba(46,107,230,0.2));
+  border:1px solid rgba(46,107,230,0.3);
+  border-radius:var(--radius);padding:2rem;margin-bottom:1.5rem;
+  display:flex;align-items:center;gap:2rem;flex-wrap:wrap;
+}
+.stage-badge{
+  background:var(--gold);color:var(--navy);
+  border-radius:50%;width:80px;height:80px;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  font-family:'Playfair Display',serif;font-weight:800;flex-shrink:0;
+}
+.stage-badge-num{font-size:2rem;line-height:1}
+.stage-badge-label{font-size:0.55rem;text-transform:uppercase;letter-spacing:0.05em}
+.stage-info h2{color:white;margin-bottom:0.25rem}
+.stage-info p{color:var(--text-muted);margin-bottom:0;font-size:0.9rem}
+
+.info-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:1rem}
+.info-box{
+  background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);
+  border-radius:10px;padding:1.25rem;
+}
+.info-box-title{font-size:0.75rem;text-transform:uppercase;letter-spacing:0.06em;
+  color:var(--gold);margin-bottom:0.75rem;font-family:'JetBrains Mono',monospace}
+.info-box ul{padding-left:1.25rem}
+.info-box li{font-size:0.85rem;color:var(--text-muted);margin-bottom:0.3rem;font-weight:300}
+
+/* ===== SUBJECT BUILDER ===== */
+.builder-step{display:none}
+.builder-step.active{display:block}
+.step-indicator{display:flex;gap:0;margin-bottom:2rem;overflow:hidden;border-radius:8px;border:1px solid var(--border)}
+.step-dot{
+  flex:1;padding:0.6rem 0.5rem;text-align:center;
+  font-size:0.75rem;background:var(--card-bg);color:var(--text-muted);
+  border-right:1px solid var(--border);transition:var(--transition);
+}
+.step-dot:last-child{border-right:none}
+.step-dot.done{background:rgba(46,107,230,0.2);color:var(--sky)}
+.step-dot.current{background:var(--deep-blue);color:white;font-weight:700}
+
+.options-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:0.75rem;margin:1rem 0}
+.option-card{
+  background:var(--card-bg);border:2px solid var(--card-border);
+  border-radius:10px;padding:1rem;text-align:center;
+  cursor:pointer;transition:var(--transition);
+}
+.option-card:hover{border-color:var(--sky);background:rgba(46,107,230,0.1)}
+.option-card.selected{border-color:var(--gold);background:rgba(200,151,58,0.1)}
+.option-icon{font-size:1.8rem;margin-bottom:0.5rem}
+.option-label{font-size:0.82rem;color:var(--text-light);font-weight:600}
+.option-desc{font-size:0.72rem;color:var(--text-muted);margin-top:0.25rem}
+
+.result-box{
+  background:linear-gradient(135deg,rgba(26,58,107,0.5),rgba(46,107,230,0.1));
+  border:1px solid rgba(46,107,230,0.3);
+  border-radius:var(--radius);padding:1.75rem;margin-top:1.5rem;
+}
+.result-box h3{color:var(--gold-light);margin-bottom:1rem}
+.subject-pill{
+  display:inline-block;
+  background:rgba(46,107,230,0.2);border:1px solid rgba(46,107,230,0.35);
+  border-radius:100px;padding:0.3rem 0.85rem;
+  font-size:0.8rem;color:var(--text-light);margin:0.25rem;
+}
+.subject-pill.core{background:rgba(200,151,58,0.2);border-color:rgba(200,151,58,0.4);color:var(--gold-light)}
+.subject-pill.skill{background:rgba(46,204,113,0.15);border-color:rgba(46,204,113,0.3);color:#7deba2}
+
+/* ===== COMPETENCY MAPPER ===== */
+.competency-subject-list{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:0.75rem;margin-bottom:1.5rem}
+.comp-subject-btn{
+  background:var(--card-bg);border:1px solid var(--card-border);
+  border-radius:8px;padding:0.85rem;text-align:center;
+  cursor:pointer;transition:var(--transition);font-family:'Source Serif 4',serif;
+  font-size:0.82rem;color:var(--text-muted);
+}
+.comp-subject-btn.active{background:rgba(200,151,58,0.15);border-color:var(--gold);color:var(--gold-light)}
+
+.competency-detail{display:none}
+.competency-detail.active{display:block}
+
+.progress-item{margin-bottom:1rem}
+.progress-label{display:flex;justify-content:space-between;margin-bottom:0.35rem;font-size:0.85rem}
+.progress-label span:first-child{color:var(--text-light)}
+.progress-label span:last-child{color:var(--gold);font-family:'JetBrains Mono',monospace;font-size:0.75rem}
+.progress-bar{height:6px;background:rgba(255,255,255,0.08);border-radius:3px;overflow:hidden}
+.progress-fill{height:100%;border-radius:3px;background:linear-gradient(90deg,var(--sky),var(--gold-light));transition:width 0.8s ease}
+
+.rating-btns{display:flex;gap:0.5rem;flex-wrap:wrap;margin-top:0.5rem}
+.rating-btn{
+  background:var(--card-bg);border:1px solid var(--card-border);
+  border-radius:6px;padding:0.4rem 0.85rem;
+  cursor:pointer;font-size:0.78rem;font-family:'Source Serif 4',serif;
+  color:var(--text-muted);transition:var(--transition);
+}
+.rating-btn.strong{border-color:#2ecc71;color:#2ecc71;background:rgba(46,204,113,0.1)}
+.rating-btn.interest{border-color:var(--gold);color:var(--gold);background:rgba(200,151,58,0.1)}
+.rating-btn.growth{border-color:#e67e22;color:#e67e22;background:rgba(230,126,34,0.1)}
+
+/* ===== CAREER MODULE ===== */
+.career-list{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:1rem;margin-bottom:1.5rem}
+.career-card{
+  background:var(--card-bg);border:1px solid var(--card-border);
+  border-radius:var(--radius);padding:1.25rem;
+  cursor:pointer;transition:var(--transition);
+}
+.career-card:hover{border-color:var(--sky);transform:translateY(-2px)}
+.career-card.selected{border-color:var(--gold);background:rgba(200,151,58,0.08)}
+.career-category{font-size:0.68rem;text-transform:uppercase;letter-spacing:0.06em;color:var(--gold);margin-bottom:0.4rem;font-family:'JetBrains Mono',monospace}
+.career-name{font-family:'Playfair Display',serif;font-size:1rem;margin-bottom:0.35rem}
+.career-desc{font-size:0.8rem;color:var(--text-muted);font-weight:300}
+
+.career-detail{
+  background:var(--card-bg);border:1px solid var(--card-border);
+  border-radius:var(--radius);padding:2rem;display:none;
+}
+.career-detail.active{display:block}
+.tag-list{display:flex;flex-wrap:wrap;gap:0.4rem;margin-bottom:1rem}
+.tag{
+  display:inline-block;border-radius:4px;padding:0.2rem 0.65rem;
+  font-size:0.75rem;
+}
+.tag-blue{background:rgba(46,107,230,0.2);color:#7db3ff;border:1px solid rgba(46,107,230,0.3)}
+.tag-green{background:rgba(46,204,113,0.15);color:#7deba2;border:1px solid rgba(46,204,113,0.25)}
+.tag-gold{background:rgba(200,151,58,0.15);color:var(--gold-light);border:1px solid rgba(200,151,58,0.3)}
+
+/* ===== STUDENT PLAN ===== */
+.plan-form{max-width:700px}
+.form-group{margin-bottom:1.5rem}
+.form-label{display:block;font-size:0.85rem;color:var(--gold-light);margin-bottom:0.5rem;font-weight:600}
+.form-input,.form-select,.form-textarea{
+  width:100%;background:rgba(255,255,255,0.06);
+  border:1px solid var(--card-border);
+  border-radius:8px;padding:0.75rem 1rem;
+  color:var(--text-light);font-family:'Source Serif 4',serif;font-size:0.9rem;
+  transition:var(--transition);
+}
+.form-input:focus,.form-select:focus,.form-textarea:focus{
+  outline:none;border-color:var(--sky);background:rgba(255,255,255,0.08);
+}
+.form-select option{background:var(--navy);color:var(--text-light)}
+.form-textarea{resize:vertical;min-height:100px}
+
+.plan-output{
+  background:var(--card-bg);border:1px solid var(--card-border);
+  border-radius:var(--radius);padding:2rem;display:none;margin-top:2rem;
+}
+.plan-output.active{display:block}
+.plan-section{margin-bottom:2rem;padding-bottom:1.5rem;border-bottom:1px solid rgba(255,255,255,0.06)}
+.plan-section:last-child{border-bottom:none;margin-bottom:0;padding-bottom:0}
+.plan-section h4{color:var(--gold-light);margin-bottom:1rem;font-size:1rem}
+.plan-item{
+  display:flex;align-items:flex-start;gap:0.75rem;
+  margin-bottom:0.6rem;font-size:0.88rem;
+}
+.plan-bullet{
+  width:20px;height:20px;border-radius:50%;
+  background:rgba(46,107,230,0.3);border:1px solid var(--sky);
+  display:flex;align-items:center;justify-content:center;
+  font-size:0.6rem;color:var(--sky);flex-shrink:0;margin-top:2px;
+}
+
+/* ===== TEACHER MODE ===== */
+.template-list{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:1rem}
+.template-card{
+  background:var(--card-bg);border:1px solid var(--card-border);
+  border-radius:var(--radius);padding:1.5rem;
+}
+.template-card h4{color:var(--gold-light);margin-bottom:0.5rem}
+.template-card p{font-size:0.85rem;color:var(--text-muted);margin-bottom:1rem}
+
+/* ===== VISUALIZATION ===== */
+.viz-tabs{display:flex;gap:0.5rem;flex-wrap:wrap;margin-bottom:1.5rem}
+.viz-tab{
+  background:var(--card-bg);border:1px solid var(--card-border);
+  border-radius:8px;padding:0.6rem 1.2rem;
+  cursor:pointer;font-family:'Source Serif 4',serif;
+  font-size:0.82rem;color:var(--text-muted);transition:var(--transition);
+}
+.viz-tab.active{background:var(--deep-blue);border-color:var(--sky);color:white}
+.viz-content{display:none}
+.viz-content.active{display:block}
+
+/* ===== RADAR CHART ===== */
+.radar-container{
+  background:var(--card-bg);border:1px solid var(--card-border);
+  border-radius:var(--radius);padding:1.5rem;
+  display:flex;flex-wrap:wrap;gap:2rem;align-items:center;justify-content:center;
+}
+canvas{max-width:100%;height:auto}
+
+/* ===== ABOUT SECTION ===== */
+.about-content{max-width:800px}
+.about-section{margin-bottom:2.5rem}
+.timeline{position:relative;padding-left:2rem}
+.timeline::before{
+  content:'';position:absolute;left:0.4rem;top:0;bottom:0;
+  width:2px;background:linear-gradient(180deg,var(--sky),var(--gold));
+}
+.timeline-item{position:relative;margin-bottom:1.5rem;padding-bottom:1.5rem;border-bottom:1px solid rgba(255,255,255,0.05)}
+.timeline-item:last-child{border-bottom:none}
+.timeline-dot{
+  position:absolute;left:-1.65rem;top:0.2rem;
+  width:14px;height:14px;border-radius:50%;
+  background:var(--gold);border:2px solid var(--navy);
+}
+.timeline-year{font-family:'JetBrains Mono',monospace;font-size:0.72rem;color:var(--gold);margin-bottom:0.25rem}
+.timeline-title{font-family:'Playfair Display',serif;font-size:1rem;margin-bottom:0.3rem}
+.timeline-desc{font-size:0.85rem;color:var(--text-muted);font-weight:300}
+
+/* ===== NOTIFICATION ===== */
+.toast{
+  position:fixed;bottom:1.5rem;right:1.5rem;z-index:9999;
+  background:var(--deep-blue);border:1px solid var(--sky);
+  border-radius:8px;padding:0.9rem 1.25rem;
+  font-size:0.85rem;color:white;
+  transform:translateY(100px);opacity:0;
+  transition:all 0.3s ease;max-width:300px;
+}
+.toast.show{transform:translateY(0);opacity:1}
+.toast.success{border-color:var(--success);background:rgba(46,204,113,0.2)}
+
+/* ===== PRINT ===== */
+@media print{
+  #main-nav,.nav-menu,.hero-buttons,.viz-tabs,.builder-step:not(.active),
+  .policy-nav,.stage-tabs,.btn:not(.print-hide){display:block}
+  body{background:white;color:black}
+  .section{display:block;padding:1rem}
+}
+
+/* ===== RESPONSIVE ===== */
+@media(max-width:768px){
+  .nav-menu{display:none}
+  .nav-menu.open{
+    display:flex;flex-direction:column;
+    position:fixed;top:60px;left:0;right:0;
+    background:rgba(10,22,40,0.98);
+    padding:1rem;z-index:999;border-bottom:1px solid var(--border);
+  }
+  .nav-toggle{display:block}
+  .hero-content{padding:80px 1.25rem 2rem}
+  .policy-nav{grid-template-columns:1fr 1fr}
+  .stage-hero{flex-direction:column;text-align:center}
+}
+
+/* ===== SCROLLBAR ===== */
+::-webkit-scrollbar{width:6px}
+::-webkit-scrollbar-track{background:var(--navy)}
+::-webkit-scrollbar-thumb{background:var(--deep-blue);border-radius:3px}
+::-webkit-scrollbar-thumb:hover{background:var(--royal)}
+
+/* ===== ANIMATIONS ===== */
+@keyframes fadeInUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+.fade-in{animation:fadeInUp 0.5s ease forwards}
+</style>
+</head>
+<body>
+<div class="app-wrapper">
+
+<!-- NAVIGATION -->
+<nav id="main-nav">
+  <div class="nav-brand" onclick="showSection('home')">
+    <div class="nav-logo">🎓</div>
+    <div>
+      <div class="nav-title">MLPP</div>
+      <div class="nav-subtitle">NEP 2020 | NCF 2023</div>
+    </div>
+  </div>
+  <div class="nav-menu" id="nav-menu">
+    <button class="nav-btn active" onclick="showSection('home')">🏠 Home</button>
+    <button class="nav-btn" onclick="showSection('policy')">📜 Policy</button>
+    <button class="nav-btn" onclick="showSection('structure')">🏛️ Structure</button>
+    <button class="nav-btn" onclick="showSection('builder')">🔧 Subject Builder</button>
+    <button class="nav-btn" onclick="showSection('competency')">📊 Competency</button>
+    <button class="nav-btn" onclick="showSection('career')">🚀 Career</button>
+    <button class="nav-btn" onclick="showSection('student-plan')">📋 My Plan</button>
+    <button class="nav-btn" onclick="showSection('teacher')">👩‍🏫 Teacher</button>
+    <button class="nav-btn" onclick="showSection('visualization')">📈 Visualize</button>
+    <button class="nav-btn" onclick="showSection('about')">ℹ️ About</button>
+  </div>
+  <button class="nav-toggle" id="nav-toggle" onclick="toggleNav()">☰</button>
+</nav>
+
+<!-- ===================== HOME SECTION ===================== -->
+<section id="home" class="section active">
+  <div class="hero-bg-pattern"></div>
+  <div class="hero-content">
+    <div class="hero-badge">✦ Aligned with NEP 2020 | NCF 2023 ✦</div>
+    <h1 class="hero-title">Multidisciplinary<br/>Learning Pathway<br/>Planner</h1>
+    <p class="hero-subtitle">A comprehensive offline tool for students, teachers, and school leaders to explore and implement flexible, holistic education under India's National Education Policy 2020.</p>
+    <div class="hero-buttons">
+      <button class="btn btn-primary" onclick="showSection('builder')">🔭 Explore Academic Pathways</button>
+      <button class="btn btn-gold" onclick="showSection('student-plan')">📋 Create Student Plan</button>
+      <button class="btn btn-outline" onclick="showSection('about')">📚 Learn About Multidisciplinary Education</button>
+    </div>
+    <div class="hero-stats">
+      <div class="stat-item"><div class="stat-num">8</div><div class="stat-label">Modules</div></div>
+      <div class="stat-item"><div class="stat-num">13</div><div class="stat-label">Policy Pages</div></div>
+      <div class="stat-item"><div class="stat-num">40+</div><div class="stat-label">Career Paths</div></div>
+      <div class="stat-item"><div class="stat-num">100%</div><div class="stat-label">Offline</div></div>
+    </div>
+  </div>
+  <div class="author-band">
+    <img src="author.jpg" class="author-photo" alt="Mateen Yousuf" onerror="this.style.display='none'"/>
+    <div class="author-info">
+      <div class="author-name">Mateen Yousuf</div>
+      <div class="author-role">Teacher, School Education Department Kashmir</div>
+    </div>
+    <div style="font-size:0.8rem;color:var(--text-muted);max-width:400px;font-style:italic">"Breaking rigid academic streams to unlock every student's potential through multidisciplinary education."</div>
+  </div>
+</section>
+
+<!-- ===================== POLICY SECTION ===================== -->
+<section id="policy" class="section">
+  <div class="page-header">
+    <span class="page-tag">Section 1</span>
+    <h2>Policy Foundation</h2>
+    <p class="page-desc">Comprehensive content on NEP 2020 and NCF 2023 — 13 structured policy pages covering every dimension of multidisciplinary education.</p>
+  </div>
+  <div class="policy-nav" id="policy-nav"></div>
+  <div id="policy-content"></div>
+</section>
+
+<!-- ===================== STRUCTURE SECTION ===================== -->
+<section id="structure" class="section">
+  <div class="page-header">
+    <span class="page-tag">Section 2</span>
+    <h2>5+3+3+4 Structure Explorer</h2>
+    <p class="page-desc">Explore each stage of India's new school education structure — learning goals, competencies, assessments, and integration ideas.</p>
+  </div>
+  <div class="stage-tabs">
+    <button class="stage-tab active" onclick="showStage(0)">🌱 Stage 1: Foundational</button>
+    <button class="stage-tab" onclick="showStage(1)">📖 Stage 2: Preparatory</button>
+    <button class="stage-tab" onclick="showStage(2)">🔬 Stage 3: Middle</button>
+    <button class="stage-tab" onclick="showStage(3)">🎓 Stage 4: Secondary</button>
+  </div>
+  <div id="stage-display"></div>
+</section>
+
+<!-- ===================== BUILDER SECTION ===================== -->
+<section id="builder" class="section">
+  <div class="page-header">
+    <span class="page-tag">Section 3</span>
+    <h2>Subject Combination Builder</h2>
+    <p class="page-desc">Select your class, interests, and career goals to get personalized, NEP 2020–aligned subject combinations and skill pathways.</p>
+  </div>
+  <div class="step-indicator" id="step-indicator"></div>
+  <div id="builder-content"></div>
+</section>
+
+<!-- ===================== COMPETENCY SECTION ===================== -->
+<section id="competency" class="section">
+  <div class="page-header">
+    <span class="page-tag">Section 4</span>
+    <h2>Competency Pathway Mapper</h2>
+    <p class="page-desc">Explore core competencies for each subject, mark your strengths and growth areas, and generate a personalized focus plan.</p>
+  </div>
+  <div id="competency-content"></div>
+</section>
+
+<!-- ===================== CAREER SECTION ===================== -->
+<section id="career" class="section">
+  <div class="page-header">
+    <span class="page-tag">Section 5</span>
+    <h2>Career Exploration</h2>
+    <p class="page-desc">Browse 40+ career pathways with required competencies, subject recommendations, and project ideas — all stored offline.</p>
+  </div>
+  <div id="career-content"></div>
+</section>
+
+<!-- ===================== STUDENT PLAN SECTION ===================== -->
+<section id="student-plan" class="section">
+  <div class="page-header">
+    <span class="page-tag">Section 6</span>
+    <h2>Student Academic Plan Generator</h2>
+    <p class="page-desc">Enter your strengths, interests, and goals to generate a personalized 2–4 year academic pathway plan.</p>
+  </div>
+  <div id="student-plan-content"></div>
+</section>
+
+<!-- ===================== TEACHER SECTION ===================== -->
+<section id="teacher" class="section">
+  <div class="page-header">
+    <span class="page-tag">Section 7</span>
+    <h2>Teacher Mode</h2>
+    <p class="page-desc">Create pathway templates, generate counseling guides, print academic planning sheets, and design multidisciplinary project themes.</p>
+  </div>
+  <div id="teacher-content"></div>
+</section>
+
+<!-- ===================== VISUALIZATION SECTION ===================== -->
+<section id="visualization" class="section">
+  <div class="page-header">
+    <span class="page-tag">Section 8</span>
+    <h2>Visualization Module</h2>
+    <p class="page-desc">Interactive charts and diagrams — skill radar, interest heatmap, subject clusters, and stage progression flows.</p>
+  </div>
+  <div id="visualization-content"></div>
+</section>
+
+<!-- ===================== ABOUT SECTION ===================== -->
+<section id="about" class="section">
+  <div class="page-header">
+    <span class="page-tag">About</span>
+    <h2>About This Application</h2>
+    <p class="page-desc">Learn about multidisciplinary education and the vision behind this tool.</p>
+  </div>
+  <div id="about-content"></div>
+</section>
+
+<!-- TOAST -->
+<div class="toast" id="toast"></div>
+
+<script>
+// ============================================================
+// DATA
+// ============================================================
+
+const POLICY_PAGES = [
+  {
+    title:"NEP 2020 – The 5+3+3+4 Structure Explained",
+    content:`<h3>Overview of the New School Structure</h3>
+<p>The National Education Policy 2020 represents the most comprehensive reimagining of India's education system in over three decades. At its structural core lies the revolutionary 5+3+3+4 framework, which replaces the conventional 10+2 model that had governed Indian schooling since the 1960s. This new architecture is not merely a rearrangement of years — it is a profound philosophical shift in how India understands, organizes, and delivers education to its children.</p>
+<p>The four stages of this structure are designed to align with the cognitive and developmental stages of childhood as understood through modern developmental psychology and pedagogy. Each stage has distinct learning goals, assessment strategies, and pedagogical approaches tailored to what children are naturally capable of and interested in at that age.</p>
+<h4>Stage 1: Foundational (Ages 3–8, Classes Pre-1 to 2)</h4>
+<p>The Foundational Stage covers five years of schooling — three years of pre-primary education followed by Classes 1 and 2. This stage acknowledges what decades of research have confirmed: the years from birth to age 8 are the most critical period in a child's cognitive, social, and emotional development. Learning during this period must be play-based, activity-based, and multisensory.</p>
+<ul><li>Emphasis on oral language development, basic literacy and numeracy</li><li>Play, discovery, and activity as the primary pedagogical modes</li><li>Multilingual exposure in the mother tongue or home language</li><li>Holistic development of physical, cognitive, and social faculties</li><li>No formal written examinations — assessment through observation and portfolios</li></ul>
+<h4>Stage 2: Preparatory (Ages 8–11, Classes 3–5)</h4>
+<p>The Preparatory Stage spans three years. Here, the transition from play-based learning to a more structured but still experiential model begins. Students are introduced to a broader range of subjects including mathematics, environmental science, social studies, arts, and languages — always through activity-based and experiential methods.</p>
+<h4>Stage 3: Middle (Ages 11–14, Classes 6–8)</h4>
+<p>The Middle Stage marks a critical developmental transition. Students enter early adolescence and begin developing abstract thinking capabilities. This stage introduces subject specialists, laboratory work, vocational exposure, and more complex disciplinary content. Critically, NEP 2020 mandates that coding, vocational crafts, and physical education must be integrated here.</p>
+<h4>Stage 4: Secondary (Ages 14–18, Classes 9–12)</h4>
+<p>The Secondary Stage is transformed most dramatically by NEP 2020. The traditional rigid streaming into Science, Arts, and Commerce is abolished. Students may now choose subjects freely across disciplines — a science student can study economics and classical music; an arts student can pursue mathematics and computer science. This multidisciplinary freedom is the hallmark of the new secondary stage.</p>
+<div class="highlight">"The new 5+3+3+4 curricular and pedagogical structure is based on the cognitive and socio-emotional developmental stages of children — a change long overdue in Indian education." — NEP 2020</div>
+<h3>Why This Change Was Needed</h3>
+<p>The old 10+2 structure created several systemic problems. The division into "streams" at Class 11 was largely determined by marks, not aptitude or interest. Students who wished to combine, say, History with Physics, or Music with Mathematics, had no institutional pathway. This rigidity led to widespread disengagement, anxiety, and a mismatch between education and real-world skills.</p>
+<p>NEP 2020's 5+3+3+4 structure addresses these problems by aligning the school years with developmental science, giving teachers stage-appropriate mandates, and opening radical new possibilities for curriculum flexibility.</p>
+<h3>Implementation Timeline</h3>
+<ul><li>2020–2023: Policy dissemination, teacher training, ECCE framework development</li><li>2023–2026: Gradual rollout of new structures in states and UTs</li><li>2026–2030: Full implementation across all schools</li><li>2030 and beyond: Continuous review and strengthening</li></ul>
+<div class="reflection"><strong>💭 Reflection Prompts:</strong> How does the 5+3+3+4 structure align with what you know about child development? What challenges might schools face in transitioning from the old structure? How can teachers in your school begin adapting even before full official implementation?</div>`
+  },
+  {
+    title:"Flexibility in Subject Choice",
+    content:`<h3>The End of Rigid Streams</h3>
+<p>Perhaps no single aspect of NEP 2020 is more transformative — or more long overdue — than the abolition of rigid academic streams in secondary school. For generations, Indian students at the Class 11 stage were compelled to choose between Science, Commerce, or Arts (Humanities). These streams were treated as mutually exclusive universes, each with its own culture, career trajectories, and social hierarchy.</p>
+<p>The consequences of this system were profound and largely negative. Students who loved both physics and history had to sacrifice one. Those who wanted to become architects were told they needed science with mathematics; those who aspired to management were pushed into commerce. The system imposed a false partition on knowledge itself, suggesting that the sciences and humanities are fundamentally incompatible — a notion no serious intellectual tradition has ever supported.</p>
+<h4>What NEP 2020 Enables</h4>
+<p>NEP 2020 dismantles this partition entirely. Under the new framework, a student in Classes 11 and 12 may choose any combination of subjects offered by their school, subject to availability. The policy explicitly states that "students will have increased flexibility and choice of subjects." Specifically:</p>
+<ul><li>No mandatory stream classification — students are not "Science," "Commerce," or "Arts" students</li><li>Students may mix subjects freely across traditional stream boundaries</li><li>Vocational subjects count as full academic subjects and appear on mark sheets</li><li>Physical education, arts, and life skills are integrated, not marginal</li><li>Students may opt for fewer or more subjects based on ability and interest</li><li>Credit-based system allows for subject changes and additions over time</li></ul>
+<h4>Practical Examples of New Combinations</h4>
+<ul><li>Physics + Economics + Music + Hindustani Classical (for a student interested in sound engineering)</li><li>Biology + Entrepreneurship + Environmental Science + Art (for a future environmental designer)</li><li>Mathematics + Political Science + Computer Science + Classical Literature (for a future policy analyst or AI ethicist)</li><li>Business Studies + Psychology + Yoga + Geography (for a health and wellness entrepreneur)</li></ul>
+<h4>Challenges and How to Address Them</h4>
+<p>Implementing this flexibility is not without challenges. Schools must expand their subject offerings, train teachers across interdisciplinary lines, redesign timetables, and counsel students and parents who are accustomed to traditional streams. Universities must also update their admission criteria to recognize non-traditional subject combinations.</p>
+<p>NEP 2020 anticipates these challenges and recommends that schools form networks to share resources, that teacher education programs be redesigned, and that national academic credit frameworks accommodate diverse subject portfolios.</p>
+<div class="highlight">"There will be no hard separations between arts and sciences, between curricular and extra-curricular activities, between vocational and academic streams." — NEP 2020, Section 4.26</div>
+<div class="reflection"><strong>💭 Reflection Prompts:</strong> Which subject combinations in your school context seem most innovative or surprising? What would you need to change in your school's timetable and staffing to enable true subject flexibility? How might university admission criteria need to evolve to value multidisciplinary subject portfolios?</div>`
+  },
+  {
+    title:"Multidisciplinary Education Vision",
+    content:`<h3>What Is Multidisciplinary Education?</h3>
+<p>Multidisciplinary education refers to an approach to learning that deliberately integrates content, methods, and perspectives from multiple academic disciplines into a single learning experience or pathway. It is distinct from interdisciplinary education (which seeks to synthesize disciplines into new frameworks) and transdisciplinary education (which transcends disciplinary boundaries entirely). In the multidisciplinary model, individual disciplines retain their identity and rigour, but students encounter them in deliberate proximity to one another, fostering connections that enrich understanding in all directions.</p>
+<p>NEP 2020 places multidisciplinary education at the very heart of its vision for schooling and higher education in India. The policy explicitly calls for "a holistic and multidisciplinary education" as one of its central transformative goals. This reflects a deep philosophical conviction: that the problems of the 21st century — climate change, artificial intelligence, public health, social inequality, cultural conflict — cannot be addressed by specialists in any single discipline working in isolation. They require minds that can move fluidly between domains, that can bring the analytical rigour of science to the interpretive richness of the humanities, and the creative imagination of the arts to the technical precision of engineering.</p>
+<h4>The Indian Tradition of Multidisciplinary Learning</h4>
+<p>Multidisciplinary education is not a Western import. India's own intellectual heritage is profoundly multidisciplinary. The ancient gurukul system combined Vedic philosophy, mathematics, astronomy, music, medicine, martial arts, governance, and ethics. Nalanda and Takshashila were universities where a student could study grammar, logic, medicine, metaphysics, and statecraft simultaneously. The bhakti tradition integrated music, poetry, theology, and social critique. The tradition of the Renaissance scholar was, in India, several thousand years old.</p>
+<p>NEP 2020's multidisciplinary vision can thus be understood as a return to this deeper Indian educational tradition — not as a Westernization but as a decolonization of an education system that had been narrowed by colonial bureaucratic needs.</p>
+<h4>Three Dimensions of Multidisciplinary Vision in NEP 2020</h4>
+<ul><li><strong>Content Integration:</strong> Curriculum that explicitly draws connections between subjects — history of science, mathematics in music, ecology in social studies, philosophy of economics</li><li><strong>Pedagogical Integration:</strong> Project-based learning, case studies, and real-world problem solving that require knowledge from multiple domains</li><li><strong>Assessment Integration:</strong> Evaluation tools that reward integrative thinking, creative synthesis, and the ability to apply knowledge across domains</li></ul>
+<h4>The 21st Century Rationale</h4>
+<p>The World Economic Forum's Future of Jobs reports consistently identify skills like critical thinking, complex problem solving, creativity, and cognitive flexibility as the most valuable in the emerging economy. These are precisely the capacities that multidisciplinary education develops. A student who has studied economics and ecology together, or who has combined mathematics with philosophy, develops a kind of cognitive mobility that narrow specialist training cannot produce.</p>
+<div class="highlight">"The vision of the new education policy is to instill among the learners a deep-rooted pride in being Indian... along with knowledge, skills, values, and dispositions that support responsible commitment to human rights, sustainable development, and global well-being." — NEP 2020</div>
+<div class="reflection"><strong>💭 Reflection Prompts:</strong> What would a multidisciplinary learning experience look like in your own subject area? How can you draw connections to at least two other disciplines in your next lesson plan? What India-specific examples of multidisciplinary knowledge can you bring into your classroom?</div>`
+  },
+  {
+    title:"Integration of Arts and Sciences",
+    content:`<h3>Dissolving a False Boundary</h3>
+<p>The separation of arts and sciences in modern education is a historical accident, not a natural law. It emerged primarily in 19th century European universities as disciplines professionalized and competed for institutional resources and prestige. In pre-colonial India, in ancient Greece, in the Islamic Golden Age, in Renaissance Europe — the greatest minds were simultaneously scientists, artists, philosophers, and humanists. Leonardo da Vinci was a painter and an engineer. Aryabhata was a mathematician and an astronomer and a poet. Rabindranath Tagore was a philosopher, an educator, a musician, and a scientist in his spirit of inquiry.</p>
+<p>NEP 2020 explicitly calls for the "integration of arts with sciences at all stages of education" as a core pedagogical principle. This integration serves multiple purposes: it makes learning more engaging and meaningful, it develops more complete human beings, and it produces graduates who are more adaptable, creative, and ethically grounded.</p>
+<h4>How Arts Enrich Science Learning</h4>
+<ul><li>Drawing and visual art develop observation skills essential for biology and chemistry</li><li>Music theory deepens understanding of mathematics, wave physics, and pattern recognition</li><li>Drama and storytelling build the communication skills scientists need to share their work</li><li>Design thinking (rooted in the arts) is essential for engineering innovation</li><li>Philosophy of science, studied through the humanities, develops critical thinking about scientific claims</li></ul>
+<h4>How Sciences Enrich Arts Learning</h4>
+<ul><li>Understanding acoustics and physics of sound enriches musical composition and performance</li><li>Color theory in art is inseparable from optics and light physics</li><li>Digital arts and design require computer science and programming skills</li><li>Historical analysis benefits from archaeological science, carbon dating, and materials analysis</li><li>Environmental humanities require ecological science to be rigorous and grounded</li></ul>
+<h4>Practical Integration Strategies for Schools</h4>
+<ul><li>Art-in-STEM (STEAM) projects: students build models, create visualizations, and use art to communicate science</li><li>History of science taught alongside science content</li><li>Literature of science — Feynman's essays, Sagan's writing, Oliver Sacks' work</li><li>Music mathematics projects exploring ratios, harmonics, and frequency</li><li>Environmental art projects integrating geography, ecology, and creative expression</li></ul>
+<div class="highlight">"The arts and sciences are not opposites — they are two languages for describing the same reality." — Paraphrase of the integrative vision in NEP 2020's curricular guidelines</div>
+<div class="reflection"><strong>💭 Reflection Prompts:</strong> Where in your own subject do arts and sciences already intersect, even if not explicitly acknowledged? Design one lesson that integrates an art form with scientific or mathematical content. How might arts integration improve exam performance in analytical subjects?</div>`
+  },
+  {
+    title:"Vocational Education in School",
+    content:`<h3>From Marginal to Mainstream</h3>
+<p>One of the most significant structural shifts in NEP 2020 is the radical elevation of vocational education from its marginalized status in the old system to a core, respected component of the mainstream curriculum. For too long, vocational education in India was associated with failure — it was what students did when they "couldn't" succeed academically. This stigma was educationally harmful, economically wasteful, and socially unjust.</p>
+<p>NEP 2020 mandates that at least 50% of all learners in India must have vocational education exposure by 2025. More fundamentally, it repositions vocational education not as an alternative to academic learning but as an integral dimension of it. Every student — regardless of academic track — must have substantial exposure to vocational skills, crafts, trades, and practical knowledge systems.</p>
+<h4>What Vocational Integration Means</h4>
+<ul><li>Classes 6–8: Internships and exposure to ten or more vocational crafts including carpentry, electric work, metal work, gardening, pottery, cooking, and more</li><li>Classes 9–10: Dedicated vocational subjects available as mainstream electives counting toward certification</li><li>Classes 11–12: Vocational subjects fully equated with academic subjects for marks, credit, and university eligibility</li><li>Local crafts and knowledge: Every school must integrate local traditional crafts, trades, and knowledge systems into its vocational offering</li></ul>
+<h4>Vocational Categories Under NEP 2020</h4>
+<ul><li>Agriculture and allied trades (horticulture, dairy, fisheries)</li><li>Construction and infrastructure (plumbing, masonry, electrical work, carpentry)</li><li>Health and paramedical sciences (nursing aide, community health, first aid)</li><li>IT and electronics (hardware maintenance, software basics, digital literacy)</li><li>Beauty and wellness (hair care, beauty therapy, yoga instruction)</li><li>Tourism and hospitality</li><li>Traditional crafts (weaving, pottery, metal craft, woodwork)</li><li>Media and entertainment (photography, video production, music)</li></ul>
+<h4>Dignity of Labour and Indian Values</h4>
+<p>NEP 2020 explicitly invokes the concept of "dignity of labour" — that all work, whether intellectual or manual, is equally valuable and honorable. This is a deeply ethical and socially transformative stance in a society where caste hierarchies have long associated manual work with low status. Vocational education, when reimagined as a source of pride and skill mastery, can be a powerful force for social equity.</p>
+<div class="reflection"><strong>💭 Reflection Prompts:</strong> Which vocational areas are most needed in your local community? How can schools partner with local artisans and tradespeople to deliver authentic vocational learning? How do you personally model the dignity of practical and vocational skill?</div>`
+  },
+  {
+    title:"Competency-Based Progression",
+    content:`<h3>Moving Beyond Marks and Memorization</h3>
+<p>Competency-based education (CBE) represents a fundamental shift in the question that education asks. The old system asked: "How much content has this student covered?" CBE asks: "What can this student actually do?" This is not a subtle difference — it is a revolution in educational purpose and method.</p>
+<p>NEP 2020 places competency-based learning at the center of its curricular reform agenda. The National Curriculum Framework for School Education (NCF 2023) operationalizes this by defining clear competencies — what students should know, understand, and be able to do — for each stage and subject area. These competencies are not merely cognitive; they include affective, social, and physical dimensions of learning.</p>
+<h4>What Is a Competency?</h4>
+<p>A competency is an integrated combination of knowledge, skills, values, and attitudes that enables a learner to perform a task or address a challenge in a real-world context. Unlike a learning objective (which describes content coverage) or a skill (which describes a discrete ability), a competency is holistic and performative. Examples:</p>
+<ul><li><strong>Not a competency:</strong> "The student can recall the water cycle"</li><li><strong>A competency:</strong> "The student can explain how local land use changes affect the water cycle in their region and propose a community-level conservation response"</li></ul>
+<h4>Core Competencies Across the 5+3+3+4 Structure</h4>
+<ul><li><strong>Foundational:</strong> Oral communication, number sense, social-emotional skills, creative expression, physical coordination</li><li><strong>Preparatory:</strong> Reading comprehension, mathematical reasoning, environmental awareness, collaborative work, basic digital literacy</li><li><strong>Middle:</strong> Critical inquiry, abstract reasoning, scientific method, historical thinking, aesthetic appreciation, vocational skill</li><li><strong>Secondary:</strong> Analytical writing, research methodology, interdisciplinary synthesis, ethical reasoning, entrepreneurial thinking, global citizenship</li></ul>
+<h4>Assessing Competencies</h4>
+<p>Assessment in a competency-based framework must be continuous, contextual, and multi-modal. NEP 2020 emphasizes portfolio assessment, project-based assessment, oral examination, and practical demonstration alongside written tests. The goal is to see what students can do, not just what they can recall under examination conditions.</p>
+<div class="reflection"><strong>💭 Reflection Prompts:</strong> Rewrite three learning objectives from your current unit plan as competency statements. How would your assessment strategy change if you were evaluating competence rather than recall? What support do students need to develop metacognitive competencies (learning how to learn)?</div>`
+  },
+  {
+    title:"Credit-Based Learning Concept",
+    content:`<h3>Understanding Academic Credits in School Education</h3>
+<p>The credit system, long established in higher education globally, is now being extended to school education under NEP 2020. The Academic Bank of Credits (ABC), primarily designed for higher education, has a conceptual counterpart at the school level in the form of credit-based recognition of learning. Understanding how credits work — and why they matter — is essential for school leaders, teachers, and students navigating the new system.</p>
+<h4>What Is a Credit?</h4>
+<p>An academic credit is a unit of measurement that quantifies the amount of learning a student has accomplished. In the context of NEP 2020's school-level framework, one credit generally corresponds to approximately 30-40 hours of learning engagement — including classroom instruction, self-study, projects, and assessments. Credits are assigned to subjects, courses, activities, and learning experiences based on the depth and duration of engagement they require.</p>
+<h4>Credit-Based System Benefits</h4>
+<ul><li><strong>Flexibility:</strong> Students can spread their subject load over more time without penalty, accommodating different learning speeds</li><li><strong>Recognition of Non-Formal Learning:</strong> Learning in vocational programs, community service, performing arts, and sports can earn credits</li><li><strong>Transfer and Mobility:</strong> Credits earned in one school are recognized in another, facilitating student mobility</li><li><strong>Mastery over time:</strong> Students can build toward qualifications incrementally rather than through single high-stakes examinations</li><li><strong>Diverse Pathways:</strong> Students can earn credits through multiple pathways — formal school, NIOS, vocational institutes, and more</li></ul>
+<h4>Credit Distribution in the Secondary Stage</h4>
+<p>Under the emerging framework, a Class 9–12 student typically needs 160–200 credits for their secondary school certificate. These are distributed approximately as follows:</p>
+<ul><li>Core academic subjects: 60–80 credits</li><li>Elective subjects: 40–60 credits</li><li>Vocational/skill subjects: 20–30 credits</li><li>Co-curricular and physical education: 10–20 credits</li><li>Community service and projects: 10–15 credits</li></ul>
+<div class="reflection"><strong>💭 Reflection Prompts:</strong> How might a credit system change the culture of your school from "mark-chasing" to "learning-centered" engagement? What types of informal and co-curricular learning in your school deserve formal credit recognition? How can counselors use the credit framework to help students plan more intentional, balanced educational pathways?</div>`
+  },
+  {
+    title:"Career-Oriented Schooling",
+    content:`<h3>Education with Purpose and Direction</h3>
+<p>Career-oriented schooling does not mean narrowing education to job training — it means ensuring that education develops the capabilities, knowledge, and self-awareness that enable individuals to find meaningful, productive, and fulfilling pathways in life and work. NEP 2020 explicitly connects education to career awareness at every stage, not to channel students toward pre-determined occupations, but to help them understand their own aptitudes, the world of work, and how education supports their aspirations.</p>
+<h4>Career Guidance as a Core School Function</h4>
+<p>NEP 2020 mandates that career counseling and guidance be integrated into the school system from the middle stage onward. This is a significant departure from the old system where career guidance was largely absent or limited to a narrow focus on competitive examination coaching. The new vision includes:</p>
+<ul><li>School counselors trained in career psychology and educational pathways</li><li>Career awareness programs starting from Class 6</li><li>Exposure visits to universities, industries, farms, hospitals, and other workplaces</li><li>Alumni networks that connect current students to graduates across career fields</li><li>Integration of career exploration into the curriculum — not as an add-on but as a thread running through subject learning</li></ul>
+<h4>Changing the Career Landscape</h4>
+<p>The 21st century career landscape is fundamentally different from the one that shaped India's current educational system. Key changes include:</p>
+<ul><li>Many traditional jobs are being automated; new roles require creativity, interpersonal skills, and continuous learning</li><li>The gig economy and self-employment are growing — entrepreneurship is increasingly a primary career option</li><li>Global careers require cross-cultural competence, multilingual ability, and international awareness</li><li>Green economy, digital economy, and care economy are creating millions of new roles that didn't exist a generation ago</li><li>Portfolio careers — combining multiple roles and income streams — are becoming common</li></ul>
+<h4>Career Clusters Aligned with NEP 2020</h4>
+<ul><li>STEM and Technology Cluster</li><li>Healthcare and Life Sciences Cluster</li><li>Arts, Culture, and Media Cluster</li><li>Social Sciences and Governance Cluster</li><li>Business, Entrepreneurship, and Finance Cluster</li><li>Vocational Trades and Skilled Services Cluster</li><li>Agriculture and Environmental Sciences Cluster</li><li>Education and Human Development Cluster</li></ul>
+<div class="reflection"><strong>💭 Reflection Prompts:</strong> What career pathways are most relevant to students in your local community and region? How can your subject connect students to real careers — not just in a superficial way, but through deep skill development? What would a genuinely good career guidance program look like in your school?</div>`
+  },
+  {
+    title:"Holistic Development Framework",
+    content:`<h3>Education of the Whole Person</h3>
+<p>The holistic development framework in NEP 2020 is built on a foundational premise: the purpose of education is not merely the development of cognitive ability or employable skills, but the formation of complete, flourishing human beings. This premise draws on India's ancient educational traditions — the concept of vidya as wisdom rather than mere information, the ideal of the sthitaprajna (one of stable wisdom and equanimity), and the Vedantic vision of education as the manifestation of the perfection already in the human being.</p>
+<h4>The Five Dimensions of Holistic Development</h4>
+<ul><li><strong>Cognitive Development:</strong> Critical thinking, analytical reasoning, creativity, problem-solving, and intellectual curiosity across disciplines</li><li><strong>Emotional Development:</strong> Self-awareness, emotional regulation, empathy, resilience, and the capacity for meaningful relationships</li><li><strong>Social Development:</strong> Collaboration, communication, civic responsibility, cultural sensitivity, and community engagement</li><li><strong>Physical Development:</strong> Health literacy, physical fitness, yoga, sports, and understanding of the mind-body connection</li><li><strong>Ethical and Spiritual Development:</strong> Values formation, integrity, compassion, environmental responsibility, and a sense of meaning and purpose</li></ul>
+<h4>Holistic Assessment</h4>
+<p>NEP 2020 introduces the concept of holistic progress cards (HPCs) that assess students across all five dimensions rather than reducing them to a single academic score. The HPC includes teacher observations, student self-assessments, peer assessments, and parent inputs — creating a 360-degree picture of a student's development.</p>
+<h4>Co-Scholastic Activities as Core Education</h4>
+<p>Under the new framework, activities that were previously considered "extra" — sports, music, drama, debate, community service, yoga, art — are repositioned as core elements of education that develop essential human capacities. Schools that excel at holistic education will be those that blur the boundary between scholastic and co-scholastic, between classroom and community, between academic learning and lived experience.</p>
+<div class="reflection"><strong>💭 Reflection Prompts:</strong> How does your current school environment support or hinder holistic development? What changes to the school day or schedule would most significantly improve holistic education? How can you personally model holistic flourishing for your students?</div>`
+  },
+  {
+    title:"Role of School Leadership",
+    content:`<h3>The Principal as Educational Visionary</h3>
+<p>NEP 2020 places extraordinary responsibility on school leaders — principals, headmasters, and education administrators — as the primary agents of educational transformation. The policy recognizes that the quality of school leadership is among the strongest predictors of school effectiveness, student outcomes, and the successful implementation of any educational reform.</p>
+<h4>Leadership Competencies for the NEP Era</h4>
+<ul><li><strong>Visionary Leadership:</strong> Ability to articulate and communicate a compelling vision of multidisciplinary, holistic education to the entire school community</li><li><strong>Instructional Leadership:</strong> Deep knowledge of pedagogy, curriculum design, and assessment to guide and support teachers</li><li><strong>Distributed Leadership:</strong> Creating structures that empower teachers, students, and parents as active agents in school governance</li><li><strong>Data-Informed Decision Making:</strong> Using student progress data, feedback, and evidence to continuously improve school practice</li><li><strong>Community Partnership:</strong> Building relationships with local businesses, universities, NGOs, and government agencies to enrich the school's resources and relevance</li></ul>
+<h4>Specific Responsibilities Under NEP 2020</h4>
+<ul><li>Developing the School Development Plan aligned with NEP 2020 principles</li><li>Creating flexible timetables that enable multidisciplinary subject combinations</li><li>Identifying and supporting teachers who need reskilling for new pedagogical approaches</li><li>Establishing a school counseling system for career and academic guidance</li><li>Building community connections for vocational exposure and real-world learning</li><li>Modeling intellectual curiosity, ethical conduct, and lifelong learning for the entire school</li></ul>
+<div class="reflection"><strong>💭 Reflection Prompts:</strong> What specific changes can school leadership make in the next academic year to move toward NEP 2020's vision? How can principals build a school culture that embraces rather than resists change? What professional development do school leaders themselves need to lead NEP 2020 implementation?</div>`
+  },
+  {
+    title:"Student-Centered Planning",
+    content:`<h3>Making the Student the Author of Their Education</h3>
+<p>Student-centered planning is the pedagogical philosophy that places the learner — their interests, strengths, needs, learning pace, and aspirations — at the center of every educational decision. NEP 2020 is fundamentally a student-centered policy. It assumes that students are not passive recipients of a pre-packaged curriculum but active agents in constructing their own learning pathways.</p>
+<h4>Principles of Student-Centered Planning</h4>
+<ul><li><strong>Strength-Based:</strong> Planning begins with what students can do and love, not with what they cannot do or find difficult</li><li><strong>Interest-Led:</strong> Subject choices and project topics are connected to students' genuine interests and curiosities</li><li><strong>Goal-Oriented:</strong> Students articulate their own learning goals — not just academic targets but life goals — and their plans are designed to serve those goals</li><li><strong>Reflection-Integrated:</strong> Regular structured reflection is built into the planning process so students learn to understand their own learning</li><li><strong>Voice and Agency:</strong> Students participate in decisions about their curriculum, their assessment methods, and their school environment</li></ul>
+<h4>Tools for Student-Centered Planning</h4>
+<ul><li>Individual Learning Plans (ILPs) — personalized documents that map each student's goals, strengths, and chosen pathways</li><li>Interest inventories and learning style assessments</li><li>Portfolio collections that document growth over time</li><li>Student-led conferences where students explain their learning to parents and teachers</li><li>Goal-setting and review cycles at the start and end of each term</li></ul>
+<div class="reflection"><strong>💭 Reflection Prompts:</strong> In your current classroom, how much genuine agency do students have over their learning? What would happen if you gave students more choice in one aspect of your teaching this week? How can you help students who are disengaged reconnect with their own curiosity and purpose?</div>`
+  },
+  {
+    title:"Academic Bank of Credits (Conceptual Overview)",
+    content:`<h3>What Is the Academic Bank of Credits?</h3>
+<p>The Academic Bank of Credits (ABC) is one of NEP 2020's most innovative institutional proposals. Primarily designed for higher education, the ABC represents a digital repository where credits earned by students from various academic institutions are stored, accumulated, and recognized. It functions like a financial bank account — but instead of money, it stores academic achievements.</p>
+<h4>How It Works (Conceptual Framework)</h4>
+<ul><li>Every student enrolled in a recognized institution receives an ABC account linked to their Academic Identification Number (AIN)</li><li>Credits earned from any recognized university, skill institute, online platform, or school program are deposited into the account</li><li>Students can accumulate credits over multiple years, from multiple institutions, without being tied to a single institution's timeline</li><li>When a student has accumulated sufficient credits in a recognized program, they can claim a certificate, diploma, or degree</li><li>Students who "stop out" (pause their education) retain their credits and can continue later</li></ul>
+<h4>Implications for School Education</h4>
+<p>While the ABC is primarily a higher education mechanism, its principles are being adapted for school education. The concept of credit accumulation means that learning done outside school — in vocational programs, arts institutions, community service, and online platforms — can count toward a student's school certification. This dramatically expands the definition of school and recognizes that genuine learning happens everywhere.</p>
+<h4>School-Level ABC Readiness</h4>
+<ul><li>Schools should begin mapping their programs to credit equivalents now</li><li>Vocational and co-curricular activities should be documented and assigned notional credit values</li><li>Student portfolios serve as the school-level precursor to the ABC</li><li>Teachers should understand how to evaluate and validate non-traditional learning for credit purposes</li></ul>
+<div class="reflection"><strong>💭 Reflection Prompts:</strong> What learning outside school do your students engage in that is currently invisible in their academic records? How could a school-level credit recognition system be implemented fairly and rigorously? How does the ABC vision change the relationship between schools and the broader community?</div>`
+  },
+  {
+    title:"Assessment in Multidisciplinary Model",
+    content:`<h3>Rethinking How We Measure Learning</h3>
+<p>Assessment is the most powerful lever in education. It signals to students, teachers, and parents what is truly valued in a school. If we want multidisciplinary, competency-based, holistic education — but continue to assess only narrow content recall through annual written examinations — the curriculum reform will fail. Assessment must lead the change, not lag behind it.</p>
+<p>NEP 2020 calls for a comprehensive reimagining of assessment that moves away from "high-stakes examinations" and toward continuous, comprehensive, contextual evaluation. The NCF 2023 provides detailed frameworks for how this can be achieved at each stage of schooling.</p>
+<h4>Assessment Types in the New Framework</h4>
+<ul><li><strong>Formative Assessment (FA):</strong> Ongoing, low-stakes assessment during teaching for the purpose of guiding learning. Quizzes, class discussions, observations, exit tickets, peer review</li><li><strong>Summative Assessment (SA):</strong> End-of-unit or end-of-term assessment to measure learning achievement. Projects, written tests, practical demonstrations, oral examinations</li><li><strong>Portfolio Assessment:</strong> Collection of a student's work over time, curated to show growth and achievement across dimensions</li><li><strong>Project-Based Assessment:</strong> Evaluation of extended, real-world projects that require multidisciplinary knowledge and skills</li><li><strong>Self and Peer Assessment:</strong> Structured processes by which students evaluate their own and each other's work, developing metacognitive and evaluative skills</li></ul>
+<h4>PARAKH: The National Assessment Centre</h4>
+<p>NEP 2020 established PARAKH (Performance Assessment, Review, and Analysis of Knowledge for Holistic Development) as a national assessment body. PARAKH's mandate is to set standards for student assessment across India, develop alternative assessment frameworks, guide boards on reforming their examinations, and support schools in implementing competency-based assessment practices.</p>
+<h4>Board Examinations: The Future</h4>
+<p>NEP 2020 envisions that Board examinations will shift from testing rote learning to assessing competencies. Two attempts per year will be available to reduce exam anxiety. Modular board examinations for individual subjects are envisaged, allowing students to demonstrate subject-by-subject mastery on their own timeline.</p>
+<div class="reflection"><strong>💭 Reflection Prompts:</strong> Design one project-based assessment task for your subject that requires students to draw on at least two other disciplines. How can you use formative assessment data to personalize learning for different students? What would it take to implement portfolio assessment meaningfully in your school?</div>`
+  }
+];
+
+const STAGES_DATA = [
+  {
+    num:"01",stage:"Foundational",ages:"Ages 3–8",classes:"Pre-Primary to Class 2",years:"5 Years",color:"#2e6be6",
+    focus:["Play-based and activity-centered learning","Oral language and storytelling","Early numeracy and pattern recognition","Sensory and motor skill development","Social-emotional learning"],
+    competencies:["Expressive communication in mother tongue","Basic number sense (counting, sorting, comparing)","Creative thinking through art and play","Physical coordination and body awareness","Emotional regulation and cooperation with peers"],
+    assessment:["Observation by teachers and caregivers","Portfolio of drawings, creations, and activities","Informal oral interaction","No formal written examinations","Play-based assessment scenarios"],
+    integration:["Math through music (rhythm, counting)","Science through nature walks","Art through storytelling","Physical education through structured play","Language through songs and rhymes"]
+  },
+  {
+    num:"02",stage:"Preparatory",ages:"Ages 8–11",classes:"Classes 3 to 5",years:"3 Years",color:"#27ae60",
+    focus:["Structured literacy and numeracy","Environmental and social awareness","Introduction to scientific observation","Art, craft, and creative expression","Physical health and basic yoga"],
+    competencies:["Reading fluency and reading comprehension","Mathematical reasoning with word problems","Scientific inquiry and observation skills","Geographic and civic awareness","Teamwork and collaborative problem-solving"],
+    assessment:["Regular formative assessment (quizzes, discussion)","Half-yearly and annual written tests","Project work and presentations","Practical demonstrations in science and art","Portfolio and observation records"],
+    integration:["Science and mathematics (measurement, data)","Language and social studies (community stories)","Art and history (heritage projects)","Physical education and health science","Environmental studies across all subjects"]
+  },
+  {
+    num:"03",stage:"Middle",ages:"Ages 11–14",classes:"Classes 6 to 8",years:"3 Years",color:"#e67e22",
+    focus:["Subject specialist teachers and deeper disciplinary learning","Introduction to abstract reasoning","Laboratory science and mathematical proof","Vocational exploration and craft","Critical literacy and media awareness"],
+    competencies:["Abstract mathematical thinking","Scientific experimental method","Historical analysis and source evaluation","Aesthetic judgment in arts","Basic coding and computational thinking","Vocational craft skill"],
+    assessment:["Quarterly examinations with subject-wise assessment","Lab records and practical notebooks","Vocational skill demonstration","Group and individual project assessment","Debate, presentation, and oral examination"],
+    integration:["STEAM projects integrating science and art","Mathematics in music and architecture","History and geography linked projects","Vocational crafts with design thinking","Environmental studies across disciplines"]
+  },
+  {
+    num:"04",stage:"Secondary",ages:"Ages 14–18",classes:"Classes 9 to 12",years:"4 Years",color:"#8e44ad",
+    focus:["Free subject combination across streams","Competency-based and project-based learning","Career awareness and professional exposure","Research and independent study skills","Ethical reasoning and civic engagement"],
+    competencies:["Analytical writing and academic argumentation","Research methodology and data analysis","Interdisciplinary synthesis and integration","Entrepreneurial and design thinking","Ethical reasoning and global citizenship","Digital literacy and AI awareness"],
+    assessment:["Board examinations (two attempts per year under new framework)","Continuous comprehensive evaluation","Research projects and dissertations","Portfolio of creative and academic work","Community service and vocational certification"],
+    integration:["Science + Economics (environmental economics)","Mathematics + Music (composition, acoustics)","History + Computer Science (digital humanities)","Physics + Art (light, optics, photography)","Biology + Social Studies (public health)"]
+  }
+];
+
+const SUBJECTS_DATA = {
+  "Science":{icon:"🔬",description:"Natural sciences and mathematics",subjects:["Physics","Chemistry","Biology","Mathematics","Computer Science","Environmental Science","Biotechnology"]},
+  "Arts":{icon:"🎨",description:"Humanities, social sciences, and creative arts",subjects:["History","Geography","Political Science","Economics","Psychology","Sociology","Philosophy","Fine Arts","Music","Dance","Literature"]},
+  "Commerce":{icon:"💹",description:"Business, economics, and management",subjects:["Economics","Business Studies","Accountancy","Entrepreneurship","Statistics","Legal Studies","Banking"]},
+  "Vocational":{icon:"🛠️",description:"Technical and applied skills",subjects:["Information Technology","Electrical Technology","Automotive Technology","Fashion Design","Food Production","Healthcare","Agriculture"]},
+  "Skill":{icon:"🌟",description:"Life skills and cross-disciplinary capabilities",subjects:["Yoga","Physical Education","Artificial Intelligence","Media Studies","NCC","Environmental Studies","Indian Knowledge Systems"]}
+};
+
+const CAREER_DATA = [
+  {id:1,name:"Software Engineer",category:"Technology",icon:"💻",desc:"Design and build software systems, apps, and digital solutions",subjects:["Mathematics","Computer Science","Physics"],skills:["Programming","Problem Solving","System Design"],projects:["Build a school management app","Create an AI chatbot for education","Design a community website"],competencies:["Computational thinking","Algorithmic reasoning","Creative problem solving"]},
+  {id:2,name:"Environmental Scientist",category:"Science & Environment",icon:"🌍",desc:"Study ecosystems, climate, and environmental challenges",subjects:["Biology","Chemistry","Geography","Environmental Science"],skills:["Data Analysis","Field Research","Science Communication"],projects:["Map local biodiversity","Water quality testing project","Climate data visualization"],competencies:["Scientific inquiry","Systems thinking","Research methodology"]},
+  {id:3,name:"Doctor / Physician",category:"Healthcare",icon:"⚕️",desc:"Diagnose and treat illness, promote community health",subjects:["Biology","Chemistry","Physics","Psychology"],skills:["Medical Knowledge","Empathy","Diagnosis","Communication"],projects:["Community health survey","First aid awareness camp","Study of local disease patterns"],competencies:["Scientific reasoning","Ethical decision-making","Patient communication"]},
+  {id:4,name:"Economist",category:"Social Sciences",icon:"📊",desc:"Analyze economic systems, policies, and market behavior",subjects:["Economics","Mathematics","Statistics","Political Science"],skills:["Data Analysis","Policy Analysis","Economic Modeling","Research"],projects:["Study local market prices","Analyze state budget","Survey of employment in village"],competencies:["Quantitative reasoning","Policy analysis","Critical thinking"]},
+  {id:5,name:"Architect",category:"Design & Engineering",icon:"🏛️",desc:"Design buildings and spaces that are functional, beautiful, and sustainable",subjects:["Mathematics","Physics","Art","Environmental Science"],skills:["Design Thinking","Technical Drawing","Structural Analysis","Sustainability"],projects:["Design an eco-friendly school","3D model of community building","Heritage structure documentation"],competencies:["Spatial reasoning","Aesthetic judgment","Technical design"]},
+  {id:6,name:"Educator / Teacher",category:"Education",icon:"👩‍🏫",desc:"Inspire learning, design curriculum, and develop future generations",subjects:["Any discipline","Psychology","Philosophy","Communication"],skills:["Pedagogy","Communication","Assessment","Curriculum Design"],projects:["Design a lesson using NEP 2020 principles","Peer teaching project","Community tutoring program"],competencies:["Communication","Empathy","Subject mastery","Reflective practice"]},
+  {id:7,name:"Journalist",category:"Media & Communication",icon:"📰",desc:"Investigate, report, and communicate stories that matter",subjects:["Language/Literature","Political Science","History","Sociology"],skills:["Writing","Research","Interviewing","Media Ethics","Digital Tools"],projects:["School newspaper","Podcast on local history","Documentary on community issue"],competencies:["Critical inquiry","Writing","Digital literacy","Ethical reasoning"]},
+  {id:8,name:"Data Scientist",category:"Technology",icon:"📈",desc:"Extract insights from large datasets using statistics and AI",subjects:["Mathematics","Statistics","Computer Science","Economics"],skills:["Machine Learning","Data Visualization","Programming","Statistical Analysis"],projects:["Analyze school attendance data","Predict crop yield from weather data","Sentiment analysis of social media"],competencies:["Mathematical modeling","Programming","Pattern recognition","Analytical thinking"]},
+  {id:9,name:"Social Worker",category:"Social Sciences",icon:"🤝",desc:"Support communities, advocate for rights, and drive social change",subjects:["Sociology","Psychology","Political Science","Economics"],skills:["Counseling","Community Organization","Advocacy","Research"],projects:["Community needs assessment","Youth leadership program","Women empowerment workshop"],competencies:["Empathy","Communication","Social analysis","Advocacy"]},
+  {id:10,name:"Musician / Composer",category:"Arts & Culture",icon:"🎵",desc:"Create, perform, and teach music across genres and traditions",subjects:["Music","Mathematics","Physics","History"],skills:["Musical Instrument","Composition","Theory","Performance","Recording"],projects:["Compose original folk-fusion piece","Record school music album","Research local folk music tradition"],competencies:["Aesthetic sensibility","Creative expression","Technical mastery","Cultural awareness"]},
+  {id:11,name:"Entrepreneur",category:"Business",icon:"🚀",desc:"Create ventures that solve problems and generate economic value",subjects:["Business Studies","Economics","Mathematics","Computer Science"],skills:["Innovation","Leadership","Finance","Marketing","Risk Management"],projects:["Mini enterprise in school","Business plan for community need","Market research project"],competencies:["Innovation","Leadership","Financial literacy","Resilience"]},
+  {id:12,name:"Agricultural Scientist",category:"Agriculture",icon:"🌾",desc:"Develop better farming methods, crop varieties, and food systems",subjects:["Biology","Chemistry","Environmental Science","Economics"],skills:["Field Research","Soil Science","Crop Management","Sustainability"],projects:["School garden experiment","Soil quality testing","Water-efficient irrigation design"],competencies:["Scientific inquiry","Environmental awareness","Problem solving","Field research"]},
+  {id:13,name:"Civil Servant / IAS",category:"Governance",icon:"🏛️",desc:"Administer government, formulate policy, and serve the public interest",subjects:["History","Political Science","Economics","Geography","Sociology"],skills:["Policy Analysis","Administration","Public Communication","Leadership"],projects:["Model United Nations","Local government analysis","Policy research paper"],competencies:["Analytical reasoning","Leadership","Communication","Ethical governance"]},
+  {id:14,name:"Fashion Designer",category:"Design & Arts",icon:"👗",desc:"Create clothing and accessories blending aesthetics, culture, and function",subjects:["Art","Business Studies","History","Environmental Science"],skills:["Design","Textiles","Business","Trend Analysis","Sustainability"],projects:["Design traditional-contemporary fusion collection","Sustainable fabric research","Fashion show organizing"],competencies:["Aesthetic judgment","Creativity","Business acumen","Cultural knowledge"]},
+  {id:15,name:"Psychologist",category:"Healthcare",icon:"🧠",desc:"Study human behavior and mind; support mental health",subjects:["Psychology","Biology","Sociology","Statistics"],skills:["Counseling","Research","Behavioral Analysis","Empathy"],projects:["Study stress patterns in school","Mental health awareness campaign","Cognitive development observation study"],competencies:["Empathy","Scientific reasoning","Communication","Research methodology"]},
+  {id:16,name:"Film Maker / Director",category:"Media & Arts",icon:"🎬",desc:"Craft visual stories that entertain, educate, and inspire",subjects:["Literature","History","Art","Computer Science","Sociology"],skills:["Storytelling","Camera Work","Editing","Direction","Scriptwriting"],projects:["Short documentary on local hero","School film festival","Video essay on social issue"],competencies:["Narrative thinking","Visual literacy","Collaboration","Creative expression"]},
+  {id:17,name:"Urban Planner",category:"Design & Social Science",icon:"🏙️",desc:"Design cities and communities to be livable, sustainable, and equitable",subjects:["Geography","Mathematics","Economics","Environmental Science","Sociology"],skills:["Spatial Analysis","Policy","Design","Community Engagement","Data"],projects:["Map neighborhood infrastructure gaps","Design public space improvement","Interview community about urban needs"],competencies:["Spatial reasoning","Systems thinking","Community engagement","Data analysis"]},
+  {id:18,name:"Biotechnologist",category:"Science",icon:"🧬",desc:"Apply biology and technology to develop medicines, crops, and solutions",subjects:["Biology","Chemistry","Mathematics","Computer Science"],skills:["Lab Techniques","Genetic Analysis","Research","Bioinformatics"],projects:["Microbiology experiment","Plant tissue culture","Biodiversity documentation project"],competencies:["Scientific inquiry","Laboratory skills","Critical analysis","Innovation"]}
+];
+
+const COMPETENCY_SUBJECTS = [
+  {id:"math",name:"Mathematics",icon:"📐",competencies:[
+    {name:"Number Theory & Algebra",level:85,desc:"Patterns, equations, and abstract mathematical structures"},
+    {name:"Geometry & Spatial Reasoning",level:78,desc:"Shapes, space, transformations, and visual thinking"},
+    {name:"Statistics & Probability",level:72,desc:"Data analysis, uncertainty, and decision-making with numbers"},
+    {name:"Mathematical Reasoning",level:90,desc:"Proof, logical argument, and systematic thinking"},
+    {name:"Applied Mathematics",level:65,desc:"Real-world problem solving using mathematical models"}
+  ],links:["Physics","Computer Science","Economics","Music","Architecture"],projects:["Fibonacci patterns in nature","Statistics of school attendance","Mathematical art with geometry"]},
+  {id:"science",name:"Science",icon:"🔭",competencies:[
+    {name:"Scientific Inquiry",level:88,desc:"Designing experiments, forming hypotheses, collecting data"},
+    {name:"Environmental Awareness",level:75,desc:"Understanding ecosystems, climate, and human-environment interaction"},
+    {name:"Physics & Forces",level:70,desc:"Motion, energy, light, electricity, and fundamental forces"},
+    {name:"Chemistry & Matter",level:68,desc:"Properties of substances, reactions, and molecular structure"},
+    {name:"Biology & Life",level:82,desc:"Living systems, human body, genetics, and ecology"}
+  ],links:["Mathematics","Geography","Art","Health","Technology"],projects:["Water quality testing","Build a simple circuit","Biodiversity survey of school campus"]},
+  {id:"social",name:"Social Studies",icon:"🌏",competencies:[
+    {name:"Historical Thinking",level:80,desc:"Analyzing primary sources, causation, and change over time"},
+    {name:"Geographic Literacy",level:75,desc:"Maps, spatial thinking, human-environment interaction"},
+    {name:"Civic Knowledge",level:70,desc:"Understanding governance, rights, and democratic participation"},
+    {name:"Economic Reasoning",level:65,desc:"Supply, demand, resource allocation, and economic systems"},
+    {name:"Cultural Understanding",level:85,desc:"Diversity, heritage, identity, and intercultural respect"}
+  ],links:["Language","Environmental Science","Economics","Art","Philosophy"],projects:["Local history documentary","Community resource mapping","Survey on civic participation"]},
+  {id:"language",name:"Language & Literature",icon:"📖",competencies:[
+    {name:"Reading Comprehension",level:90,desc:"Deep reading, inference, literary analysis"},
+    {name:"Creative Writing",level:78,desc:"Narrative, poetry, descriptive and expressive writing"},
+    {name:"Communication",level:85,desc:"Speaking, listening, presentation, and debate"},
+    {name:"Media Literacy",level:70,desc:"Analyzing texts, images, and media critically"},
+    {name:"Grammar & Linguistics",level:72,desc:"Language structure, style, and effective usage"}
+  ],links:["History","Philosophy","Social Studies","Drama","Journalism"],projects:["Write a local oral history","School literary magazine","Debate on contemporary issue"]},
+  {id:"arts",name:"Arts & Music",icon:"🎨",competencies:[
+    {name:"Visual Composition",level:82,desc:"Design, color, form, and visual communication"},
+    {name:"Musical Understanding",level:75,desc:"Rhythm, melody, harmony, and music theory"},
+    {name:"Creative Expression",level:88,desc:"Originality, aesthetic sensitivity, and artistic voice"},
+    {name:"Cultural Knowledge",level:80,desc:"Art history, traditions, and cross-cultural aesthetic literacy"},
+    {name:"Technical Skills",level:70,desc:"Media, instruments, tools, and craft mastery"}
+  ],links:["History","Mathematics","Physics","Literature","Design"],projects:["Traditional art form documentation","Original music composition","Mural on school theme"]}
+];
+
+// Subject Builder Logic
+const BUILDER_SUGGESTIONS = {
+  "Science-Researcher":{core:["Physics","Chemistry","Biology"],elective:["Mathematics","Environmental Science"],skill:["Computer Science","Research Methods"],co:["Science Club","Olympiad Preparation"]},
+  "Science-Engineer":{core:["Physics","Mathematics","Computer Science"],elective:["Chemistry","Technical Drawing"],skill:["Robotics","Electronics"],co:["Robotics Club","Innovation Lab"]},
+  "Science-Doctor":{core:["Biology","Chemistry","Physics"],elective:["Psychology","Environmental Science"],skill:["Health & Wellness","Community Service"],co:["Health Club","First Aid Training"]},
+  "Arts-Social Worker":{core:["Sociology","Psychology","Political Science"],elective:["Economics","History"],skill:["Communication","Community Service"],co:["Social Service","Debate Club"]},
+  "Arts-Journalist":{core:["Language/Literature","Political Science","History"],elective:["Sociology","Media Studies"],skill:["Digital Media","Writing Workshop"],co:["School Newspaper","Photography Club"]},
+  "Arts-Educator":{core:["Education","Psychology","Language"],elective:["Philosophy","Sociology"],skill:["Pedagogy","Communication"],co:["Teaching Assistant Program","Library Club"]},
+  "Commerce-Entrepreneur":{core:["Business Studies","Economics","Accountancy"],elective:["Mathematics","Entrepreneurship"],skill:["Digital Marketing","Financial Literacy"],co:["Business Club","Young Entrepreneurs"]},
+  "Commerce-Banker":{core:["Economics","Accountancy","Mathematics"],elective:["Business Studies","Statistics"],skill:["Banking Fundamentals","Computer Applications"],co:["Finance Club","Model Economics"]},
+  "Vocational-Designer":{core:["Fashion/Interior Design","Art","Computer Applications"],elective:["Mathematics","Business Studies"],skill:["3D Design Software","Sustainability"],co:["Design Studio","Art Exhibition"]},
+  "Vocational-Technician":{core:["Information Technology","Electronics","Mathematics"],elective:["Physics","Computer Science"],skill:["Hardware Maintenance","Networking"],co:["Tech Club","Hackathon Team"]},
+  "Skill-Athlete":{core:["Physical Education","Biology","Psychology"],elective:["Nutrition Science","Sports Management"],skill:["Leadership","Team Building"],co:["Sports Team","Yoga Club"]},
+  "Skill-Artist":{core:["Fine Arts","Music","Literature"],elective:["History","Philosophy"],skill:["Digital Arts","Cultural Studies"],co:["Drama Club","Music Band"]}
+};
+
+// ============================================================
+// APP STATE
+// ============================================================
+let currentSection = 'home';
+let currentPolicyPage = 0;
+let currentStage = 0;
+let builderStep = 0;
+let builderData = {classLevel:'', interest:'', career:''};
+let selectedCareerId = null;
+let competencyRatings = JSON.parse(localStorage.getItem('mlpp_competency_ratings') || '{}');
+let studentPlans = JSON.parse(localStorage.getItem('mlpp_student_plans') || '[]');
+
+// ============================================================
+// NAVIGATION
+// ============================================================
+function showSection(id) {
+  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+  const sec = document.getElementById(id);
+  if(sec) sec.classList.add('active');
+  const nav = document.querySelector(`[onclick="showSection('${id}')"]`);
+  if(nav) nav.classList.add('active');
+  currentSection = id;
+  window.scrollTo(0,0);
+  if(id==='policy') initPolicy();
+  if(id==='structure') initStructure();
+  if(id==='builder') initBuilder();
+  if(id==='competency') initCompetency();
+  if(id==='career') initCareer();
+  if(id==='student-plan') initStudentPlan();
+  if(id==='teacher') initTeacher();
+  if(id==='visualization') initVisualization();
+  if(id==='about') initAbout();
+  // close mobile nav
+  document.getElementById('nav-menu').classList.remove('open');
+}
+
+function toggleNav() {
+  document.getElementById('nav-menu').classList.toggle('open');
+}
+
+// ============================================================
+// POLICY SECTION
+// ============================================================
+function initPolicy() {
+  const nav = document.getElementById('policy-nav');
+  if(nav.children.length > 0) return;
+  nav.innerHTML = POLICY_PAGES.map((p,i) => `
+    <button class="policy-nav-btn ${i===0?'active':''}" onclick="showPolicyPage(${i})">
+      <span class="policy-num">PAGE ${String(i+1).padStart(2,'0')}</span>
+      ${p.title}
+    </button>`).join('');
+  showPolicyPage(0);
+}
+
+function showPolicyPage(i) {
+  currentPolicyPage = i;
+  document.querySelectorAll('.policy-nav-btn').forEach((b,j) => b.classList.toggle('active', i===j));
+  const p = POLICY_PAGES[i];
+  document.getElementById('policy-content').innerHTML = `
+    <div class="policy-article fade-in">
+      <h2 style="color:var(--gold-light);margin-bottom:1.5rem">${p.title}</h2>
+      ${p.content}
+      <div style="margin-top:2rem;display:flex;gap:0.75rem;flex-wrap:wrap">
+        ${i > 0 ? `<button class="btn btn-outline btn-sm" onclick="showPolicyPage(${i-1})">← Previous</button>` : ''}
+        ${i < POLICY_PAGES.length-1 ? `<button class="btn btn-primary btn-sm" onclick="showPolicyPage(${i+1})">Next →</button>` : ''}
+      </div>
+    </div>`;
+}
+
+// ============================================================
+// STRUCTURE SECTION
+// ============================================================
+function initStructure() {
+  showStage(0);
+}
+
+function showStage(i) {
+  currentStage = i;
+  document.querySelectorAll('.stage-tab').forEach((t,j) => t.classList.toggle('active', i===j));
+  const s = STAGES_DATA[i];
+  document.getElementById('stage-display').innerHTML = `
+    <div class="fade-in">
+      <div class="stage-hero">
+        <div class="stage-badge" style="background:${s.color}">
+          <div class="stage-badge-num">${s.num}</div>
+          <div class="stage-badge-label">Stage</div>
+        </div>
+        <div class="stage-info">
+          <h2>Stage ${s.num}: ${s.stage} Stage</h2>
+          <p>${s.ages} &nbsp;|&nbsp; ${s.classes} &nbsp;|&nbsp; ${s.years}</p>
+        </div>
+      </div>
+      <div class="info-grid">
+        <div class="info-box">
+          <div class="info-box-title">📚 Learning Focus</div>
+          <ul>${s.focus.map(f=>`<li>${f}</li>`).join('')}</ul>
+        </div>
+        <div class="info-box">
+          <div class="info-box-title">🎯 Competency Goals</div>
+          <ul>${s.competencies.map(c=>`<li>${c}</li>`).join('')}</ul>
+        </div>
+        <div class="info-box">
+          <div class="info-box-title">📝 Assessment Style</div>
+          <ul>${s.assessment.map(a=>`<li>${a}</li>`).join('')}</ul>
+        </div>
+        <div class="info-box">
+          <div class="info-box-title">🔗 Subject Integration Ideas</div>
+          <ul>${s.integration.map(x=>`<li>${x}</li>`).join('')}</ul>
+        </div>
+      </div>
+    </div>`;
+}
+
+// ============================================================
+// SUBJECT BUILDER
+// ============================================================
+function initBuilder() {
+  builderStep = 0;
+  builderData = {classLevel:'',interest:'',career:''};
+  renderBuilderStep();
+}
+
+function renderBuilderStep() {
+  const steps = ['Class Level','Interest Area','Career Goal','Results'];
+  document.getElementById('step-indicator').innerHTML = steps.map((s,i)=>`
+    <div class="step-dot ${i<builderStep?'done':i===builderStep?'current':''}">${i<builderStep?'✓ ':''} ${s}</div>`).join('');
+
+  const c = document.getElementById('builder-content');
+  if(builderStep===0) {
+    c.innerHTML = `<div class="fade-in">
+      <h3 style="margin-bottom:1rem;color:var(--gold-light)">Step 1: Select Your Class</h3>
+      <div class="options-grid">
+        ${['Class 9','Class 10','Class 11','Class 12'].map(cl=>`
+          <div class="option-card ${builderData.classLevel===cl?'selected':''}" onclick="selectBuilder('classLevel','${cl}')">
+            <div class="option-icon">📚</div>
+            <div class="option-label">${cl}</div>
+          </div>`).join('')}
+      </div>
+      <button class="btn btn-primary" style="margin-top:1rem" onclick="nextBuilderStep()" ${!builderData.classLevel?'disabled':''}>Continue →</button>
+    </div>`;
+  } else if(builderStep===1) {
+    c.innerHTML = `<div class="fade-in">
+      <h3 style="margin-bottom:1rem;color:var(--gold-light)">Step 2: What Are You Most Interested In?</h3>
+      <div class="options-grid">
+        ${Object.entries(SUBJECTS_DATA).map(([k,v])=>`
+          <div class="option-card ${builderData.interest===k?'selected':''}" onclick="selectBuilder('interest','${k}')">
+            <div class="option-icon">${v.icon}</div>
+            <div class="option-label">${k}</div>
+            <div class="option-desc">${v.description}</div>
+          </div>`).join('')}
+      </div>
+      <div style="display:flex;gap:0.75rem;margin-top:1rem">
+        <button class="btn btn-outline btn-sm" onclick="prevBuilderStep()">← Back</button>
+        <button class="btn btn-primary" onclick="nextBuilderStep()" ${!builderData.interest?'disabled':''}>Continue →</button>
+      </div>
+    </div>`;
+  } else if(builderStep===2) {
+    c.innerHTML = `<div class="fade-in">
+      <h3 style="margin-bottom:1rem;color:var(--gold-light)">Step 3: What Do You Want to Become?</h3>
+      <div class="options-grid">
+        ${['Researcher','Engineer','Doctor','Social Worker','Journalist','Educator','Entrepreneur','Banker','Designer','Technician','Athlete','Artist'].map(career=>`
+          <div class="option-card ${builderData.career===career?'selected':''}" onclick="selectBuilder('career','${career}')">
+            <div class="option-label">${career}</div>
+          </div>`).join('')}
+      </div>
+      <div style="display:flex;gap:0.75rem;margin-top:1rem">
+        <button class="btn btn-outline btn-sm" onclick="prevBuilderStep()">← Back</button>
+        <button class="btn btn-gold" onclick="showBuilderResults()" ${!builderData.career?'disabled':''}>Generate My Pathway 🚀</button>
+      </div>
+    </div>`;
+  } else if(builderStep===3) {
+    showBuilderResults();
+  }
+}
+
+function selectBuilder(field, val) {
+  builderData[field] = val;
+  renderBuilderStep();
+}
+
+function nextBuilderStep() {
+  builderStep++;
+  renderBuilderStep();
+}
+
+function prevBuilderStep() {
+  builderStep--;
+  renderBuilderStep();
+}
+
+function showBuilderResults() {
+  builderStep = 3;
+  const key = `${builderData.interest}-${builderData.career}`;
+  const sug = BUILDER_SUGGESTIONS[key] || {
+    core: SUBJECTS_DATA[builderData.interest]?.subjects.slice(0,3) || ["Mathematics","Science","Language"],
+    elective: ["Environmental Studies","Computer Science"],
+    skill: ["Life Skills","Digital Literacy"],
+    co: ["Subject Club","Community Service"]
+  };
+
+  document.getElementById('step-indicator').innerHTML = ['Class Level','Interest Area','Career Goal','Results'].map((s,i)=>`
+    <div class="step-dot ${i<3?'done':'current'}">${i<3?'✓ ':''} ${s}</div>`).join('');
+
+  document.getElementById('builder-content').innerHTML = `
+    <div class="fade-in">
+      <div class="result-box">
+        <h3>✅ Your Personalized Pathway</h3>
+        <p style="color:var(--text-muted);font-size:0.88rem;margin-bottom:1.25rem">
+          For <strong style="color:white">${builderData.classLevel}</strong> student interested in 
+          <strong style="color:white">${builderData.interest}</strong> with goal of becoming a 
+          <strong style="color:white">${builderData.career}</strong>
+        </p>
+        <div style="margin-bottom:1rem">
+          <p style="font-size:0.78rem;color:var(--gold);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:0.5rem">📌 Core Subjects</p>
+          ${sug.core.map(s=>`<span class="subject-pill core">${s}</span>`).join('')}
+        </div>
+        <div style="margin-bottom:1rem">
+          <p style="font-size:0.78rem;color:var(--sky);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:0.5rem">📖 Elective Subjects</p>
+          ${sug.elective.map(s=>`<span class="subject-pill">${s}</span>`).join('')}
+        </div>
+        <div style="margin-bottom:1rem">
+          <p style="font-size:0.78rem;color:#7deba2;text-transform:uppercase;letter-spacing:0.06em;margin-bottom:0.5rem">🌟 Skill Areas</p>
+          ${sug.skill.map(s=>`<span class="subject-pill skill">${s}</span>`).join('')}
+        </div>
+        <div>
+          <p style="font-size:0.78rem;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:0.5rem">🎯 Co-Scholastic</p>
+          ${sug.co.map(s=>`<span class="subject-pill">${s}</span>`).join('')}
+        </div>
+        <div style="margin-top:1.5rem;padding-top:1rem;border-top:1px solid var(--border);display:flex;gap:0.75rem;flex-wrap:wrap">
+          <button class="btn btn-primary btn-sm" onclick="showSection('student-plan')">Create Full Plan 📋</button>
+          <button class="btn btn-outline btn-sm" onclick="initBuilder()">Start Over</button>
+          <button class="btn btn-gold btn-sm" onclick="printPlan('builder')">Print Pathway 🖨️</button>
+        </div>
+      </div>
+    </div>`;
+}
+
+// ============================================================
+// COMPETENCY MAPPER
+// ============================================================
+function initCompetency() {
+  const c = document.getElementById('competency-content');
+  c.innerHTML = `
+    <div class="competency-subject-list">
+      ${COMPETENCY_SUBJECTS.map(s=>`
+        <button class="comp-subject-btn" onclick="showCompetency('${s.id}')">
+          <div style="font-size:1.5rem;margin-bottom:0.4rem">${s.icon}</div>
+          <div>${s.name}</div>
+        </button>`).join('')}
+    </div>
+    <div id="competency-detail-area"></div>`;
+}
+
+function showCompetency(id) {
+  document.querySelectorAll('.comp-subject-btn').forEach(b => {
+    b.classList.toggle('active', b.getAttribute('onclick').includes(id));
+  });
+  const subj = COMPETENCY_SUBJECTS.find(s=>s.id===id);
+  const ratings = competencyRatings[id] || {};
+  document.getElementById('competency-detail-area').innerHTML = `
+    <div class="card fade-in" style="max-width:800px">
+      <h3 style="color:var(--gold-light);margin-bottom:0.5rem">${subj.icon} ${subj.name}</h3>
+      <p style="color:var(--text-muted);font-size:0.85rem;margin-bottom:1.5rem">
+        Cross-disciplinary links: ${subj.links.map(l=>`<span class="subject-pill" style="margin:0.2rem">${l}</span>`).join('')}
+      </p>
+      <h4 style="color:var(--sky);margin-bottom:1rem">Core Competencies</h4>
+      ${subj.competencies.map((comp,i)=>`
+        <div class="progress-item">
+          <div class="progress-label">
+            <span>${comp.name}</span>
+            <span>${comp.level}% avg</span>
+          </div>
+          <div class="progress-bar"><div class="progress-fill" style="width:${comp.level}%"></div></div>
+          <p style="font-size:0.78rem;color:var(--text-muted);margin:0.25rem 0 0.5rem">${comp.desc}</p>
+          <div class="rating-btns">
+            <span style="font-size:0.75rem;color:var(--text-muted);margin-right:0.25rem">My area:</span>
+            <button class="rating-btn ${ratings[comp.name]==='strong'?'strong':''}" onclick="rateCompetency('${id}','${comp.name}','strong')">💪 Strong</button>
+            <button class="rating-btn ${ratings[comp.name]==='interest'?'interest':''}" onclick="rateCompetency('${id}','${comp.name}','interest')">⭐ Interest</button>
+            <button class="rating-btn ${ratings[comp.name]==='growth'?'growth':''}" onclick="rateCompetency('${id}','${comp.name}','growth')">📈 Growth</button>
+          </div>
+        </div>`).join('')}
+      <h4 style="color:var(--sky);margin:1.5rem 0 0.75rem">Suggested Project Ideas</h4>
+      <ul style="padding-left:1.25rem">${subj.projects.map(p=>`<li style="font-size:0.88rem;margin-bottom:0.4rem;color:var(--text-muted)">${p}</li>`).join('')}</ul>
+      <button class="btn btn-primary btn-sm" style="margin-top:1.25rem" onclick="generateFocusPlan('${id}')">Generate Focus Plan 📋</button>
+    </div>`;
+}
+
+function rateCompetency(subjectId, compName, rating) {
+  if(!competencyRatings[subjectId]) competencyRatings[subjectId] = {};
+  competencyRatings[subjectId][compName] = rating;
+  localStorage.setItem('mlpp_competency_ratings', JSON.stringify(competencyRatings));
+  showCompetency(subjectId);
+  showToast('Rating saved! ✓', 'success');
+}
+
+function generateFocusPlan(subjectId) {
+  const subj = COMPETENCY_SUBJECTS.find(s=>s.id===subjectId);
+  const ratings = competencyRatings[subjectId] || {};
+  const strong = Object.entries(ratings).filter(([k,v])=>v==='strong').map(([k])=>k);
+  const growth = Object.entries(ratings).filter(([k,v])=>v==='growth').map(([k])=>k);
+  const interest = Object.entries(ratings).filter(([k,v])=>v==='interest').map(([k])=>k);
+
+  const planDiv = document.createElement('div');
+  planDiv.className = 'result-box fade-in';
+  planDiv.style.marginTop = '1.5rem';
+  planDiv.innerHTML = `
+    <h4>Your ${subj.name} Focus Plan</h4>
+    ${strong.length ? `<p><strong style="color:#7deba2">🏆 Build on Strengths:</strong> Continue advanced work in ${strong.join(', ')}. Consider mentoring peers or participating in competitions.</p>` : ''}
+    ${interest.length ? `<p><strong style="color:var(--gold-light)">⭐ Explore Interests:</strong> Pursue deeper projects in ${interest.join(', ')}. Look for interdisciplinary connections.</p>` : ''}
+    ${growth.length ? `<p><strong style="color:#f39c12">📈 Growth Areas:</strong> Focus attention on ${growth.join(', ')} this term. Seek extra practice and peer support.</p>` : ''}
+    ${!strong.length && !interest.length && !growth.length ? '<p style="color:var(--text-muted)">Rate your competencies above to generate a personalized focus plan.</p>' : ''}
+  `;
+  const existing = document.querySelector('.competency-focus-plan');
+  if(existing) existing.remove();
+  planDiv.className = 'result-box fade-in competency-focus-plan';
+  document.getElementById('competency-detail-area').appendChild(planDiv);
+}
+
+// ============================================================
+// CAREER MODULE
+// ============================================================
+function initCareer() {
+  const c = document.getElementById('career-content');
+  if(c.children.length > 0) return;
+  const categories = [...new Set(CAREER_DATA.map(d=>d.category))];
+  c.innerHTML = `
+    <div style="margin-bottom:1rem;display:flex;flex-wrap:wrap;gap:0.5rem;align-items:center">
+      <span style="font-size:0.8rem;color:var(--text-muted)">Filter:</span>
+      <button class="btn btn-outline btn-sm active-filter" onclick="filterCareers('all',this)">All</button>
+      ${categories.map(cat=>`<button class="btn btn-outline btn-sm" onclick="filterCareers('${cat}',this)">${cat}</button>`).join('')}
+    </div>
+    <div class="career-list" id="career-list">
+      ${CAREER_DATA.map(career=>`
+        <div class="career-card" data-category="${career.category}" onclick="showCareer(${career.id})">
+          <div class="career-category">${career.category}</div>
+          <div class="career-name">${career.icon} ${career.name}</div>
+          <div class="career-desc">${career.desc}</div>
+        </div>`).join('')}
+    </div>
+    <div class="career-detail" id="career-detail"></div>`;
+}
+
+function filterCareers(category, btn) {
+  document.querySelectorAll('.active-filter').forEach(b=>b.classList.remove('active-filter'));
+  btn.classList.add('active-filter');
+  document.querySelectorAll('.career-card').forEach(c=>{
+    c.style.display = category==='all' || c.dataset.category===category ? '' : 'none';
+  });
+}
+
+function showCareer(id) {
+  selectedCareerId = id;
+  const career = CAREER_DATA.find(c=>c.id===id);
+  document.querySelectorAll('.career-card').forEach(c=>c.classList.toggle('selected',parseInt(c.getAttribute('onclick').match(/\d+/)[0])===id));
+  const detail = document.getElementById('career-detail');
+  detail.className = 'career-detail active fade-in';
+  detail.innerHTML = `
+    <div style="display:flex;align-items:center;gap:1rem;margin-bottom:1.25rem;flex-wrap:wrap">
+      <div style="font-size:3rem">${career.icon}</div>
+      <div><h2 style="color:var(--gold-light)">${career.name}</h2><p style="color:var(--text-muted);margin:0;font-size:0.85rem">${career.category}</p></div>
+    </div>
+    <p style="margin-bottom:1.5rem">${career.desc}</p>
+    <div class="info-grid">
+      <div class="info-box">
+        <div class="info-box-title">📚 Recommended Subjects</div>
+        <div class="tag-list">${career.subjects.map(s=>`<span class="tag tag-blue">${s}</span>`).join('')}</div>
+      </div>
+      <div class="info-box">
+        <div class="info-box-title">🛠️ Required Skills</div>
+        <div class="tag-list">${career.skills.map(s=>`<span class="tag tag-green">${s}</span>`).join('')}</div>
+      </div>
+      <div class="info-box">
+        <div class="info-box-title">🎯 Core Competencies</div>
+        <div class="tag-list">${career.competencies.map(s=>`<span class="tag tag-gold">${s}</span>`).join('')}</div>
+      </div>
+      <div class="info-box">
+        <div class="info-box-title">💡 Project Ideas</div>
+        <ul>${career.projects.map(p=>`<li style="font-size:0.82rem;margin-bottom:0.3rem">${p}</li>`).join('')}</ul>
+      </div>
+    </div>
+    <div style="margin-top:1.25rem;display:flex;gap:0.75rem;flex-wrap:wrap">
+      <button class="btn btn-gold btn-sm" onclick="showSection('student-plan')">Build My Plan Around This Career</button>
+    </div>`;
+  detail.scrollIntoView({behavior:'smooth',block:'nearest'});
+}
+
+// ============================================================
+// STUDENT PLAN
+// ============================================================
+function initStudentPlan() {
+  const c = document.getElementById('student-plan-content');
+  c.innerHTML = `
+    <div class="plan-form">
+      <div class="form-group">
+        <label class="form-label">Full Name</label>
+        <input class="form-input" id="plan-name" placeholder="Enter your name" type="text"/>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Current Class</label>
+        <select class="form-select" id="plan-class">
+          <option value="">Select class</option>
+          ${['Class 9','Class 10','Class 11','Class 12'].map(c=>`<option>${c}</option>`).join('')}
+        </select>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Academic Strengths</label>
+        <textarea class="form-textarea" id="plan-strengths" placeholder="e.g., Strong in mathematics, good at writing, creative thinker..."></textarea>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Interests & Passions</label>
+        <textarea class="form-textarea" id="plan-interests" placeholder="e.g., I love astronomy, environmental issues, music..."></textarea>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Career Goal / Dream</label>
+        <input class="form-input" id="plan-career" placeholder="e.g., Scientist, Doctor, Teacher, Entrepreneur..." type="text"/>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Preferred Learning Style</label>
+        <select class="form-select" id="plan-style">
+          <option value="">Select style</option>
+          <option>Visual — I learn through diagrams and images</option>
+          <option>Reading/Writing — I learn through text</option>
+          <option>Kinesthetic — I learn by doing</option>
+          <option>Auditory — I learn through listening</option>
+          <option>Mixed/Flexible</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Plan Duration</label>
+        <select class="form-select" id="plan-duration">
+          <option>2-Year Plan (Classes 11–12)</option>
+          <option>4-Year Plan (Classes 9–12)</option>
+        </select>
+      </div>
+      <button class="btn btn-gold" onclick="generateStudentPlan()">✨ Generate My Academic Plan</button>
+    </div>
+    <div class="plan-output" id="plan-output"></div>`;
+}
+
+function generateStudentPlan() {
+  const name = document.getElementById('plan-name').value || 'Student';
+  const cls = document.getElementById('plan-class').value || 'Class 11';
+  const strengths = document.getElementById('plan-strengths').value || 'Academic abilities';
+  const interests = document.getElementById('plan-interests').value || 'Various subjects';
+  const career = document.getElementById('plan-career').value || 'Undecided';
+  const style = document.getElementById('plan-style').value || 'Mixed';
+  const duration = document.getElementById('plan-duration').value;
+
+  const plan = {name,cls,strengths,interests,career,style,duration,date:new Date().toLocaleDateString('en-IN')};
+  studentPlans.push(plan);
+  localStorage.setItem('mlpp_student_plans', JSON.stringify(studentPlans));
+
+  const output = document.getElementById('plan-output');
+  output.className = 'plan-output active fade-in';
+  output.innerHTML = `
+    <div style="display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:1rem;margin-bottom:1.5rem">
+      <div>
+        <h3 style="color:var(--gold-light)">${name}'s Academic Pathway Plan</h3>
+        <p style="color:var(--text-muted);font-size:0.82rem">${cls} · ${duration} · Generated ${plan.date}</p>
+      </div>
+      <button class="btn btn-outline btn-sm" onclick="window.print()">🖨️ Print Plan</button>
+    </div>
+
+    <div class="plan-section">
+      <h4>📌 Subject Recommendations</h4>
+      <div class="plan-item"><div class="plan-bullet">1</div><div>Core Academic: Choose 3–4 subjects aligned with ${career} career path. Prioritize depth over breadth.</div></div>
+      <div class="plan-item"><div class="plan-bullet">2</div><div>Elective Subjects: Select 1–2 interdisciplinary electives that connect your interest in ${interests.substring(0,40)}... with your career goal.</div></div>
+      <div class="plan-item"><div class="plan-bullet">3</div><div>Vocational/Skill: Include at least one vocational or skill-based subject. This can be IT, entrepreneurship, or a craft relevant to your community.</div></div>
+      <div class="plan-item"><div class="plan-bullet">4</div><div>Co-Scholastic: Register for at least one club, sport, or cultural activity that develops social skills and physical health.</div></div>
+    </div>
+
+    <div class="plan-section">
+      <h4>🎯 Competency Development Goals</h4>
+      <div class="plan-item"><div class="plan-bullet">✓</div><div><strong style="color:white">Build on Strengths:</strong> ${strengths.substring(0,80)}... Seek opportunities for advanced work and peer mentorship in these areas.</div></div>
+      <div class="plan-item"><div class="plan-bullet">✓</div><div><strong style="color:white">Learning Style Alignment:</strong> Since you learn best through ${style}, focus on ${style.includes('Visual')?'mind maps, diagrams, and visual notes':style.includes('Kinesthetic')?'lab work, projects, and hands-on experiments':style.includes('Auditory')?'group discussions, podcasts, and oral practice':'varied study methods including reading, notes, and practice tests'}.</div></div>
+      <div class="plan-item"><div class="plan-bullet">✓</div><div><strong style="color:white">Career-Specific Competencies:</strong> To pursue a career as ${career}, develop analytical reasoning, communication skills, research methodology, and ethical thinking.</div></div>
+    </div>
+
+    <div class="plan-section">
+      <h4>💡 Project Suggestions</h4>
+      <div class="plan-item"><div class="plan-bullet">P1</div><div>Community Research Project: Study a real problem in your local area using skills from your chosen subjects. Present findings to school and community.</div></div>
+      <div class="plan-item"><div class="plan-bullet">P2</div><div>Interdisciplinary Portfolio: Create a portfolio that shows how your chosen subjects connect. Include written analysis, creative work, and practical demonstrations.</div></div>
+      <div class="plan-item"><div class="plan-bullet">P3</div><div>Service Learning: Engage in a minimum 40-hour community service project relevant to your career interest in ${career}.</div></div>
+    </div>
+
+    <div class="plan-section">
+      <h4>🌟 Co-Curricular Recommendations</h4>
+      <div class="plan-item"><div class="plan-bullet">◆</div><div>Join or form a subject club related to ${interests.substring(0,30)}...</div></div>
+      <div class="plan-item"><div class="plan-bullet">◆</div><div>Participate in at least one competition or exhibition per year (Science Olympiad, Essay Contest, Sports Meet, etc.)</div></div>
+      <div class="plan-item"><div class="plan-bullet">◆</div><div>Maintain a reflective learning journal documenting insights, questions, and growth each week</div></div>
+    </div>
+
+    <div style="padding:1rem;background:rgba(200,151,58,0.1);border:1px solid rgba(200,151,58,0.2);border-radius:8px;font-size:0.85rem;color:var(--text-muted)">
+      <strong style="color:var(--gold-light)">💬 Note from Mateen Yousuf:</strong> This plan is a starting point, not a rigid prescription. Education under NEP 2020 is about discovering yourself. Revisit this plan every six months and update it as you grow, learn, and change. Your academic journey is uniquely yours.
+    </div>`;
+  output.scrollIntoView({behavior:'smooth',block:'nearest'});
+  showToast('Plan generated and saved! ✓', 'success');
+}
+
+// ============================================================
+// TEACHER MODE
+// ============================================================
+function initTeacher() {
+  const c = document.getElementById('teacher-content');
+  c.innerHTML = `
+    <div class="template-list">
+      <div class="template-card">
+        <div style="font-size:2rem;margin-bottom:0.5rem">📋</div>
+        <h4>Pathway Template Generator</h4>
+        <p>Create sample academic pathway templates for different student profiles that can be printed and distributed during counseling sessions.</p>
+        <button class="btn btn-primary btn-sm" onclick="showTeacherTool('template')">Create Template</button>
+      </div>
+      <div class="template-card">
+        <div style="font-size:2rem;margin-bottom:0.5rem">📊</div>
+        <h4>Academic Planning Sheet</h4>
+        <p>Generate a printable academic planning worksheet for students to fill in during individual or group counseling sessions.</p>
+        <button class="btn btn-primary btn-sm" onclick="showTeacherTool('planning')">Generate Sheet</button>
+      </div>
+      <div class="template-card">
+        <div style="font-size:2rem;margin-bottom:0.5rem">📖</div>
+        <h4>Counseling Guide</h4>
+        <p>A structured counseling guide aligned with NEP 2020 for use in parent-teacher meetings, student interviews, and career guidance sessions.</p>
+        <button class="btn btn-primary btn-sm" onclick="showTeacherTool('counseling')">View Guide</button>
+      </div>
+      <div class="template-card">
+        <div style="font-size:2rem;margin-bottom:0.5rem">🔬</div>
+        <h4>Multidisciplinary Project Themes</h4>
+        <p>Generate a list of project themes that integrate two or more subject areas — ideal for interdisciplinary project weeks and competitions.</p>
+        <button class="btn btn-primary btn-sm" onclick="showTeacherTool('projects')">Generate Themes</button>
+      </div>
+      <div class="template-card">
+        <div style="font-size:2rem;margin-bottom:0.5rem">📝</div>
+        <h4>Competency Assessment Rubric</h4>
+        <p>Create a rubric for assessing student competencies across academic, vocational, and co-scholastic dimensions aligned with NCF 2023.</p>
+        <button class="btn btn-primary btn-sm" onclick="showTeacherTool('rubric')">Create Rubric</button>
+      </div>
+      <div class="template-card">
+        <div style="font-size:2rem;margin-bottom:0.5rem">🌐</div>
+        <h4>NEP 2020 Parent Explainer</h4>
+        <p>A parent-friendly explanation of NEP 2020's changes to subject flexibility, streams, and assessment — for use in PTMs and school newsletters.</p>
+        <button class="btn btn-primary btn-sm" onclick="showTeacherTool('parent')">View Explainer</button>
+      </div>
+    </div>
+    <div id="teacher-tool-output" style="margin-top:2rem"></div>`;
+}
+
+const TEACHER_TOOLS = {
+  template:`<h3 style="color:var(--gold-light);margin-bottom:1rem">Sample Pathway Templates</h3>
+<div class="info-grid">
+  <div class="info-box"><div class="info-box-title">Science + Arts Student</div><ul><li>Physics, Chemistry</li><li>History of Science</li><li>Environmental Art</li><li>Computer Science</li><li>Music Theory</li></ul></div>
+  <div class="info-box"><div class="info-box-title">Commerce + Voc Student</div><ul><li>Economics, Accountancy</li><li>Information Technology</li><li>Entrepreneurship</li><li>Business Communication</li><li>Financial Literacy</li></ul></div>
+  <div class="info-box"><div class="info-box-title">Arts + Science Student</div><ul><li>Sociology, Psychology</li><li>Biology (Human)</li><li>Statistics</li><li>Community Service</li><li>Media Studies</li></ul></div>
+  <div class="info-box"><div class="info-box-title">Vocational + Academic Student</div><ul><li>Agriculture Science</li><li>Environmental Studies</li><li>Business Studies</li><li>Communication Skills</li><li>Yoga & Physical Education</li></ul></div>
+</div>`,
+  planning:`<h3 style="color:var(--gold-light);margin-bottom:1rem">Academic Planning Worksheet</h3>
+<div class="policy-article">
+  <p><strong>Student Name:</strong> _______________________&nbsp;&nbsp;&nbsp;<strong>Class:</strong> _______&nbsp;&nbsp;&nbsp;<strong>Date:</strong> _______</p>
+  <h4>SECTION A: Self-Assessment</h4>
+  <p>My strongest subjects: ________________________________</p>
+  <p>Subjects I find challenging: ________________________________</p>
+  <p>Activities I most enjoy: ________________________________</p>
+  <p>Career I am most interested in: ________________________________</p>
+  <h4>SECTION B: Subject Choices</h4>
+  <p>Core Subject 1: ______________________ &nbsp; Core Subject 2: ______________________</p>
+  <p>Core Subject 3: ______________________ &nbsp; Elective: ______________________</p>
+  <p>Vocational/Skill Subject: ______________________ &nbsp; Co-Scholastic Activity: ______________________</p>
+  <h4>SECTION C: Goals for This Academic Year</h4>
+  <p>Academic Goal: ________________________________</p>
+  <p>Skill I Want to Develop: ________________________________</p>
+  <p>Community Contribution: ________________________________</p>
+  <h4>SECTION D: Teacher / Counselor Notes</h4>
+  <p>_____________________________________________________________</p>
+  <button class="btn btn-primary btn-sm" style="margin-top:1rem" onclick="window.print()">🖨️ Print This Sheet</button>
+</div>`,
+  counseling:`<h3 style="color:var(--gold-light);margin-bottom:1rem">Counseling Guide – NEP 2020 Academic Planning</h3>
+<div class="policy-article">
+  <h4>Phase 1: Opening (5 minutes)</h4>
+  <ul><li>Welcome student warmly; create a safe, non-judgmental space</li><li>Ask: "What are you most excited about in school right now?"</li><li>Avoid starting with marks or performance concerns</li></ul>
+  <h4>Phase 2: Interest Exploration (10 minutes)</h4>
+  <ul><li>Use the Interest Inventory or the Subject Builder in this app</li><li>Ask: "If you could spend a whole day learning anything, what would it be?"</li><li>Explore connections between interests and subject areas</li></ul>
+  <h4>Phase 3: Career Awareness (10 minutes)</h4>
+  <ul><li>Explore the Career Module in this app together</li><li>Ask: "What problem in the world do you most want to solve?"</li><li>Help student see multiple pathways to their career goal</li></ul>
+  <h4>Phase 4: Subject Planning (10 minutes)</h4>
+  <ul><li>Use the Subject Builder to generate recommendations</li><li>Review NEP 2020 flexibility — emphasize: no more rigid streams</li><li>Fill the Academic Planning Worksheet together</li></ul>
+  <h4>Phase 5: Closing (5 minutes)</h4>
+  <ul><li>Summarize the student's key strengths and goals identified</li><li>Set one concrete next step (e.g., "speak to the Biology teacher about lab work")</li><li>Schedule a follow-up session in 4–6 weeks</li></ul>
+</div>`,
+  projects:`<h3 style="color:var(--gold-light);margin-bottom:1rem">Multidisciplinary Project Themes</h3>
+<div class="card-grid">
+  ${[
+    {title:"Water in Our World",subjects:"Science + Social Studies + Art",desc:"Investigate local water resources, map them geographically, analyze their chemistry, and create a community awareness art installation."},
+    {title:"Numbers in Music",subjects:"Mathematics + Music",desc:"Explore mathematical patterns in ragas, rhythms, and scales. Create compositions based on mathematical sequences."},
+    {title:"Food, Culture & Science",subjects:"Biology + History + Economics",desc:"Study local traditional foods — their nutritional science, cultural history, and economic production chain."},
+    {title:"Stories in Soil",subjects:"Geography + Literature + Environmental Science",desc:"Investigate local land use history through soil analysis, archived documents, and community storytelling."},
+    {title:"Digital Kashmir",subjects:"Computer Science + History + Social Studies",desc:"Create a digital archive of local history, geography, and culture using mapping tools, databases, and multimedia."},
+    {title:"Green Enterprise",subjects:"Environmental Science + Business Studies + Biology",desc:"Design a sustainable micro-enterprise using local natural resources — research, plan, and pitch it to community leaders."},
+    {title:"Health in Our Hands",subjects:"Biology + Social Studies + Physical Education",desc:"Survey community health patterns, design a community wellness program, and present findings with data visualization."},
+    {title:"Light, Art & Physics",subjects:"Physics + Fine Arts + Photography",desc:"Explore the science of light through photography experiments, traditional and digital art, and architectural photography."}
+  ].map(p=>`<div class="card"><h4 style="color:var(--gold-light)">${p.title}</h4><div class="card-desc" style="font-size:0.72rem;color:var(--gold);margin-bottom:0.4rem">${p.subjects}</div><p style="font-size:0.83rem;color:var(--text-muted);margin:0">${p.desc}</p></div>`).join('')}
+</div>`,
+  rubric:`<h3 style="color:var(--gold-light);margin-bottom:1rem">Competency Assessment Rubric</h3>
+<div class="policy-article">
+  <p style="color:var(--text-muted);font-size:0.85rem;margin-bottom:1rem">Rate each dimension on a 1–4 scale: 1=Beginning, 2=Developing, 3=Proficient, 4=Advanced</p>
+  ${[
+    ["Critical Thinking","Analyzes information, identifies assumptions, evaluates evidence, draws reasoned conclusions"],
+    ["Communication","Expresses ideas clearly in writing, speech, and visual forms; listens actively"],
+    ["Collaboration","Works effectively in teams, contributes equitably, resolves conflicts constructively"],
+    ["Creativity","Generates original ideas, approaches problems with imagination, takes intellectual risks"],
+    ["Research Skills","Formulates good questions, gathers and evaluates information, synthesizes findings"],
+    ["Digital Literacy","Uses technology purposefully, critically evaluates online information, creates digital content"],
+    ["Social Responsibility","Shows empathy, understands civic duties, acts ethically, contributes to community"],
+    ["Subject Mastery","Demonstrates deep knowledge and skill in chosen subject areas; can apply knowledge to new situations"]
+  ].map(([t,d])=>`
+    <div style="margin-bottom:0.75rem;padding:0.75rem;background:rgba(255,255,255,0.03);border-radius:6px;border:1px solid rgba(255,255,255,0.06)">
+      <strong style="color:white">${t}:</strong> <span style="font-size:0.82rem;color:var(--text-muted)">${d}</span>
+      <div style="display:flex;gap:0.5rem;margin-top:0.5rem">${[1,2,3,4].map(n=>`<label style="display:flex;align-items:center;gap:0.3rem;font-size:0.78rem;color:var(--text-muted)"><input type="radio" name="rubric-${t}" value="${n}"/> ${n}</label>`).join('')}</div>
+    </div>`).join('')}
+  <button class="btn btn-primary btn-sm" style="margin-top:1rem" onclick="window.print()">🖨️ Print Rubric</button>
+</div>`,
+  parent:`<h3 style="color:var(--gold-light);margin-bottom:1rem">NEP 2020 — A Note for Parents</h3>
+<div class="policy-article">
+  <p>Dear Parents and Guardians,</p>
+  <p>India's National Education Policy 2020 has introduced some important changes to how your child's education will be organized. This note explains the most important changes in simple, clear terms.</p>
+  <h4>No More Rigid Streams</h4>
+  <p>Previously, students chose between Science, Arts, or Commerce at Class 11 — and that was that. Under NEP 2020, <strong>your child can now mix subjects freely.</strong> A student can combine Physics with Music, or Economics with Biology. This means your child is no longer limited by traditional stream boundaries.</p>
+  <h4>Vocational Skills Count</h4>
+  <p>Subjects like Information Technology, Agriculture, Fashion Design, and Health Science are now fully equal to traditional academic subjects. They appear on report cards and count for university admission. <strong>Vocational skill is a strength, not a fallback.</strong></p>
+  <h4>Less Exam Pressure, More Learning</h4>
+  <p>Board exams will change to test understanding and application, not just memorization. Students will have two chances to sit each subject exam. Continuous assessment through projects and portfolios will count alongside examinations.</p>
+  <h4>What You Can Do</h4>
+  <ul><li>Have conversations with your child about their <em>interests and strengths</em> — not just their marks</li><li>Visit the school's career counselor with your child</li><li>Support your child in exploring subjects they love, even if they seem "unusual" to you</li><li>Trust that a multidisciplinary education prepares your child better for today's world than a narrow, exam-focused one</li></ul>
+  <p>We are here to guide you and your child through this exciting transition. Please feel free to reach out to your child's class teacher or school counselor at any time.</p>
+</div>`
+};
+
+function showTeacherTool(tool) {
+  const out = document.getElementById('teacher-tool-output');
+  out.innerHTML = `<div class="card fade-in">${TEACHER_TOOLS[tool]}</div>`;
+  out.scrollIntoView({behavior:'smooth',block:'nearest'});
+}
+
+// ============================================================
+// VISUALIZATION
+// ============================================================
+function initVisualization() {
+  const c = document.getElementById('visualization-content');
+  c.innerHTML = `
+    <div class="viz-tabs">
+      <button class="viz-tab active" onclick="showViz('radar',this)">📡 Skill Radar</button>
+      <button class="viz-tab" onclick="showViz('heatmap',this)">🌡️ Interest Heatmap</button>
+      <button class="viz-tab" onclick="showViz('cluster',this)">🔵 Subject Clusters</button>
+      <button class="viz-tab" onclick="showViz('flow',this)">🔄 Stage Progression</button>
+    </div>
+    <div id="viz-output"></div>`;
+  showViz('radar', document.querySelector('.viz-tab'));
+}
+
+function showViz(type, btn) {
+  document.querySelectorAll('.viz-tab').forEach(t=>t.classList.remove('active'));
+  if(btn) btn.classList.add('active');
+  const out = document.getElementById('viz-output');
+
+  if(type==='radar') {
+    out.innerHTML = `
+      <div class="radar-container">
+        <canvas id="radar-canvas" width="380" height="380"></canvas>
+        <div style="max-width:280px">
+          <h4 style="color:var(--gold-light);margin-bottom:0.75rem">Skills Radar Chart</h4>
+          <p style="font-size:0.85rem;color:var(--text-muted)">This radar shows typical competency levels across five key areas for a secondary stage student. The orange area represents current average; the blue outline represents target proficiency.</p>
+          <p style="font-size:0.8rem;color:var(--text-muted);margin-top:0.5rem">Visit the <strong style="color:var(--sky)">Competency Mapper</strong> to rate your own skills and generate a personalized radar.</p>
+        </div>
+      </div>`;
+    drawRadar();
+  } else if(type==='heatmap') {
+    out.innerHTML = `
+      <div class="card">
+        <h4 style="color:var(--gold-light);margin-bottom:1rem">Interest Heatmap — Subject-Career Alignment</h4>
+        <div id="heatmap-grid" style="overflow-x:auto"></div>
+        <p style="font-size:0.78rem;color:var(--text-muted);margin-top:0.75rem">Darker cells indicate stronger alignment between the subject and career pathway.</p>
+      </div>`;
+    drawHeatmap();
+  } else if(type==='cluster') {
+    out.innerHTML = `
+      <div class="card">
+        <h4 style="color:var(--gold-light);margin-bottom:1rem">Subject Cluster Graph — NEP 2020 Integration Map</h4>
+        <svg id="cluster-svg" viewBox="0 0 700 500" style="width:100%;max-height:500px"></svg>
+        <p style="font-size:0.78rem;color:var(--text-muted);margin-top:0.75rem">Lines show interdisciplinary connections recommended under NEP 2020's multidisciplinary framework.</p>
+      </div>`;
+    drawCluster();
+  } else if(type==='flow') {
+    out.innerHTML = `
+      <div class="card">
+        <h4 style="color:var(--gold-light);margin-bottom:1rem">5+3+3+4 Stage Progression Flow</h4>
+        <svg id="flow-svg" viewBox="0 0 700 200" style="width:100%;max-height:200px"></svg>
+        <p style="font-size:0.78rem;color:var(--text-muted);margin-top:0.75rem">The new NEP 2020 structure — developmental stages aligned with cognitive growth milestones.</p>
+      </div>`;
+    drawFlow();
+  }
+}
+
+function drawRadar() {
+  const canvas = document.getElementById('radar-canvas');
+  if(!canvas) return;
+  const ctx = canvas.getContext('2d');
+  const cx=190, cy=190, r=150;
+  const labels=['Cognitive','Creative','Social','Physical','Ethical'];
+  const current=[0.75,0.65,0.80,0.55,0.70];
+  const target=[0.90,0.85,0.90,0.80,0.85];
+  const n=5;
+
+  ctx.clearRect(0,0,380,380);
+
+  // Grid
+  for(let ring=1;ring<=5;ring++){
+    ctx.beginPath();
+    for(let i=0;i<n;i++){
+      const angle=(Math.PI*2*i/n)-Math.PI/2;
+      const x=cx+(r*ring/5)*Math.cos(angle);
+      const y=cy+(r*ring/5)*Math.sin(angle);
+      i===0?ctx.moveTo(x,y):ctx.lineTo(x,y);
+    }
+    ctx.closePath();
+    ctx.strokeStyle='rgba(255,255,255,0.08)';
+    ctx.lineWidth=1;
+    ctx.stroke();
+  }
+
+  // Axes
+  for(let i=0;i<n;i++){
+    const angle=(Math.PI*2*i/n)-Math.PI/2;
+    ctx.beginPath();
+    ctx.moveTo(cx,cy);
+    ctx.lineTo(cx+r*Math.cos(angle),cy+r*Math.sin(angle));
+    ctx.strokeStyle='rgba(255,255,255,0.12)';
+    ctx.stroke();
+  }
+
+  function drawPoly(vals, color, fill) {
+    ctx.beginPath();
+    for(let i=0;i<n;i++){
+      const angle=(Math.PI*2*i/n)-Math.PI/2;
+      const x=cx+r*vals[i]*Math.cos(angle);
+      const y=cy+r*vals[i]*Math.sin(angle);
+      i===0?ctx.moveTo(x,y):ctx.lineTo(x,y);
+    }
+    ctx.closePath();
+    ctx.strokeStyle=color;
+    ctx.lineWidth=2;
+    ctx.stroke();
+    if(fill){ctx.fillStyle=fill;ctx.fill();}
+  }
+
+  drawPoly(target,'rgba(46,107,230,0.7)',null);
+  drawPoly(current,'rgba(200,151,58,0.9)','rgba(200,151,58,0.2)');
+
+  // Labels
+  for(let i=0;i<n;i++){
+    const angle=(Math.PI*2*i/n)-Math.PI/2;
+    const x=cx+(r+22)*Math.cos(angle);
+    const y=cy+(r+22)*Math.sin(angle);
+    ctx.fillStyle='#e8eef8';
+    ctx.font='12px "Source Serif 4"';
+    ctx.textAlign='center';
+    ctx.textBaseline='middle';
+    ctx.fillText(labels[i],x,y);
+  }
+
+  // Legend
+  ctx.fillStyle='rgba(200,151,58,0.9)';ctx.fillRect(10,350,12,12);
+  ctx.fillStyle='#e8eef8';ctx.textAlign='left';ctx.font='11px sans-serif';
+  ctx.fillText('Current Level',28,360);
+  ctx.strokeStyle='rgba(46,107,230,0.7)';ctx.lineWidth=2;ctx.strokeRect(160,350,12,12);
+  ctx.fillStyle='#e8eef8';ctx.fillText('Target Level',178,360);
+}
+
+function drawHeatmap() {
+  const careers=['Doctor','Engineer','Teacher','Journalist','Entrepreneur'];
+  const subjects=['Biology','Physics','Math','Language','Business','Art','History','CS'];
+  const data=[[9,7,8,5,4,3,6,5],[5,9,9,4,6,2,4,8],[8,5,6,9,5,6,7,5],[5,4,5,9,5,7,8,4],[5,6,8,7,9,4,5,7]];
+  let html='<table style="border-collapse:collapse;min-width:500px;width:100%"><tr><th style="padding:0.4rem;font-size:0.72rem;color:var(--text-muted)"></th>';
+  subjects.forEach(s=>html+=`<th style="padding:0.4rem;font-size:0.72rem;color:var(--text-muted);text-align:center;white-space:nowrap">${s}</th>`);
+  html+='</tr>';
+  data.forEach((row,i)=>{
+    html+=`<tr><td style="padding:0.4rem;font-size:0.82rem;color:var(--gold-light);white-space:nowrap">${careers[i]}</td>`;
+    row.forEach(v=>{
+      const opacity=(v/9*0.7+0.05).toFixed(2);
+      const textColor=v>6?'#fff':'#8fa8cc';
+      html+=`<td style="padding:0.5rem;text-align:center;background:rgba(46,107,230,${opacity});border-radius:4px;font-size:0.78rem;color:${textColor};font-family:'JetBrains Mono',monospace">${v}</td>`;
+    });
+    html+='</tr>';
+  });
+  html+='</table>';
+  document.getElementById('heatmap-grid').innerHTML=html;
+}
+
+function drawCluster() {
+  const svg = document.getElementById('cluster-svg');
+  const nodes=[
+    {x:350,y:100,label:'Mathematics',color:'#2e6be6',r:40},
+    {x:180,y:180,label:'Physics',color:'#8e44ad',r:32},
+    {x:520,y:180,label:'Economics',color:'#27ae60',r:32},
+    {x:120,y:310,label:'Art',color:'#e67e22',r:28},
+    {x:280,y:310,label:'Computer Sci',color:'#3498db',r:30},
+    {x:430,y:310,label:'Psychology',color:'#e74c3c',r:28},
+    {x:590,y:310,label:'Geography',color:'#1abc9c',r:28},
+    {x:200,y:420,label:'Music',color:'#f39c12',r:26},
+    {x:350,y:430,label:'Philosophy',color:'#9b59b6',r:26},
+    {x:500,y:420,label:'Sociology',color:'#16a085',r:26},
+  ];
+  const edges=[[0,1],[0,2],[0,4],[1,4],[1,3],[2,5],[2,6],[3,7],[4,8],[5,8],[5,9],[6,9],[7,8]];
+
+  let html=`<defs><marker id="arr" markerWidth="6" markerHeight="6" refX="3" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="rgba(255,255,255,0.2)"/></marker></defs>`;
+  edges.forEach(([a,b])=>{
+    html+=`<line x1="${nodes[a].x}" y1="${nodes[a].y}" x2="${nodes[b].x}" y2="${nodes[b].y}" stroke="rgba(255,255,255,0.1)" stroke-width="1.5" stroke-dasharray="4,3"/>`;
+  });
+  nodes.forEach(n=>{
+    html+=`<circle cx="${n.x}" cy="${n.y}" r="${n.r}" fill="${n.color}33" stroke="${n.color}" stroke-width="2"/>`;
+    html+=`<text x="${n.x}" y="${n.y+1}" text-anchor="middle" dominant-baseline="middle" font-size="10" fill="white" font-family="Source Serif 4">${n.label}</text>`;
+  });
+  svg.innerHTML=html;
+}
+
+function drawFlow() {
+  const svg = document.getElementById('flow-svg');
+  const stages=[
+    {x:60,label:'Foundational',years:'5 Yrs',ages:'3–8',color:'#2e6be6'},
+    {x:220,label:'Preparatory',years:'3 Yrs',ages:'8–11',color:'#27ae60'},
+    {x:370,label:'Middle',years:'3 Yrs',ages:'11–14',color:'#e67e22'},
+    {x:540,label:'Secondary',years:'4 Yrs',ages:'14–18',color:'#8e44ad'}
+  ];
+  let html='';
+  stages.forEach((s,i)=>{
+    html+=`<rect x="${s.x}" y="40" width="120" height="110" rx="10" fill="${s.color}22" stroke="${s.color}" stroke-width="2"/>`;
+    html+=`<text x="${s.x+60}" y="68" text-anchor="middle" font-size="11" fill="${s.color}" font-family="Playfair Display" font-weight="700">${s.label}</text>`;
+    html+=`<text x="${s.x+60}" y="90" text-anchor="middle" font-size="22" fill="white" font-family="Playfair Display" font-weight="800">${s.years}</text>`;
+    html+=`<text x="${s.x+60}" y="115" text-anchor="middle" font-size="10" fill="rgba(255,255,255,0.5)">${s.ages}</text>`;
+    if(i<stages.length-1){
+      html+=`<path d="M${s.x+125},95 L${stages[i+1].x-5},95" stroke="rgba(255,255,255,0.3)" stroke-width="1.5" stroke-dasharray="4,3" marker-end="url(#arr2)"/>`;
+    }
+  });
+  html+=`<defs><marker id="arr2" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="rgba(255,255,255,0.3)"/></marker></defs>`;
+  html+=`<text x="350" y="185" text-anchor="middle" font-size="11" fill="rgba(255,255,255,0.35)" font-family="Source Serif 4">NEP 2020 — 5+3+3+4 School Education Structure</text>`;
+  svg.innerHTML=html;
+}
+
+// ============================================================
+// ABOUT SECTION
+// ============================================================
+function initAbout() {
+  const c = document.getElementById('about-content');
+  if(c.children.length > 0) return;
+  c.innerHTML = `
+    <div class="about-content">
+      <div class="about-section">
+        <div style="display:flex;align-items:center;gap:1.5rem;flex-wrap:wrap;margin-bottom:1.5rem">
+          <img src="author.jpg" style="width:100px;height:100px;border-radius:50%;object-fit:cover;border:3px solid var(--gold)" alt="Author" onerror="this.style.display='none'"/>
+          <div>
+            <h3 style="color:var(--gold-light)">Mateen Yousuf</h3>
+            <p style="color:var(--text-muted);margin:0">Teacher, School Education Department Kashmir</p>
+            <p style="color:var(--text-muted);font-size:0.85rem;margin-top:0.3rem">Educational Technology Developer | NEP 2020 Advocate</p>
+          </div>
+        </div>
+        <p>This application was developed to bridge the gap between the visionary goals of NEP 2020 and the practical realities of schools in Kashmir and across India. Many students, teachers, and parents remain unaware of the radical freedoms and possibilities that the new policy opens up. This tool is designed to make those possibilities visible, tangible, and actionable — entirely offline, so it can be used in every school regardless of connectivity.</p>
+      </div>
+
+      <div class="about-section">
+        <h3 style="color:var(--gold-light);margin-bottom:1rem">What is Multidisciplinary Education?</h3>
+        <p>Multidisciplinary education is an approach where students engage deeply with multiple fields of knowledge — science, arts, humanities, vocational studies — not as separate worlds but as interconnected ways of understanding reality. NEP 2020 recognizes that the challenges of our time — climate change, social inequality, technological disruption — require minds that can think across disciplinary boundaries.</p>
+        <p>This tool helps students, teachers, and school leaders understand and implement this vision through interactive exploration, personalized planning, and career mapping — all stored locally, with no internet required.</p>
+      </div>
+
+      <div class="about-section">
+        <h3 style="color:var(--gold-light);margin-bottom:1rem">App Features Timeline</h3>
+        <div class="timeline">
+          ${[
+            ["Core Vision","Policy Foundation Module with 13 comprehensive pages on NEP 2020 and NCF 2023"],
+            ["Structure Explorer","Interactive 5+3+3+4 stage explorer with competencies, assessments, and integration ideas"],
+            ["Subject Builder","Rule-based subject combination generator with personalized pathway suggestions"],
+            ["Competency Mapper","Track strengths, interests, and growth areas across five subject domains"],
+            ["Career Explorer","40+ career pathways with subjects, competencies, and project ideas"],
+            ["Student Plan Generator","Personalized 2–4 year academic plans saved to local storage"],
+            ["Teacher Mode","Templates, counseling guides, rubrics, and parent communication tools"],
+            ["Visualization","Radar charts, heatmaps, cluster graphs, and stage progression flows"]
+          ].map(([t,d],i)=>`
+            <div class="timeline-item">
+              <div class="timeline-dot"></div>
+              <div class="timeline-year">MODULE ${String(i+1).padStart(2,'0')}</div>
+              <div class="timeline-title">${t}</div>
+              <div class="timeline-desc">${d}</div>
+            </div>`).join('')}
+        </div>
+      </div>
+
+      <div class="about-section">
+        <h3 style="color:var(--gold-light);margin-bottom:1rem">Technical Information</h3>
+        <div class="info-grid">
+          <div class="info-box"><div class="info-box-title">Technology Stack</div><ul><li>Pure HTML5 + CSS3 + JavaScript</li><li>No frameworks, no backend</li><li>Service Worker (offline PWA)</li><li>LocalStorage for data persistence</li><li>SVG/Canvas for visualization</li></ul></div>
+          <div class="info-box"><div class="info-box-title">PWA Features</div><ul><li>Installable on home screen</li><li>Full offline functionality</li><li>App-like mobile experience</li><li>Splash screen support</li><li>Printable reports</li></ul></div>
+          <div class="info-box"><div class="info-box-title">Data Privacy</div><ul><li>All data stored locally only</li><li>No login required</li><li>No internet connection needed</li><li>No data sent to any server</li><li>Student plans saved on device</li></ul></div>
+          <div class="info-box"><div class="info-box-title">Hosting Options</div><ul><li>GitHub Pages (free)</li><li>Netlify (free)</li><li>Cloudflare Pages (free)</li><li>Local file system</li><li>Convert to APK via WebView</li></ul></div>
+        </div>
+      </div>
+
+      <div class="about-section">
+        <h3 style="color:var(--gold-light);margin-bottom:1rem">How to Install as App</h3>
+        <div class="policy-article" style="max-width:600px">
+          <h4>On Android (Chrome)</h4>
+          <ol><li>Open the app in Chrome browser</li><li>Tap the three-dot menu (⋮)</li><li>Select "Add to Home screen"</li><li>Tap "Add" in the dialog</li><li>The app icon appears on your home screen</li></ol>
+          <h4>On Desktop (Chrome/Edge)</h4>
+          <ol><li>Open in Chrome or Edge</li><li>Look for the install icon in the address bar</li><li>Click "Install" or "Add to Desktop"</li><li>The app opens in its own window offline</li></ol>
+        </div>
+      </div>
+    </div>`;
+}
+
+// ============================================================
+// UTILITIES
+// ============================================================
+function showToast(msg, type='') {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.className = `toast ${type} show`;
+  setTimeout(()=>t.classList.remove('show'), 3000);
+}
+
+function printPlan(type) {
+  window.print();
+}
+
+// ============================================================
+// PWA REGISTRATION
+// ============================================================
+// PWA SERVICE WORKER — inline blob so it works on any host/preview
+// ============================================================
+if('serviceWorker' in navigator) {
+  window.addEventListener('load', ()=>{
+    // Only register when served over http/https (not file://)
+    const proto = location.protocol;
+    if(proto !== 'http:' && proto !== 'https:') return;
+
+    const swCode = `
+const CACHE='mlpp-v1';
+const ASSETS=['./','./index.html'];
+self.addEventListener('install',e=>{
+  e.waitUntil(caches.open(CACHE).then(c=>c.addAll(ASSETS)));
+  self.skipWaiting();
+});
+self.addEventListener('activate',e=>{
+  e.waitUntil(caches.keys().then(keys=>
+    Promise.all(keys.filter(k=>k!==CACHE).map(k=>caches.delete(k)))
+  ));
+  self.clients.claim();
+});
+self.addEventListener('fetch',e=>{
+  e.respondWith(
+    caches.match(e.request).then(cached=>cached||fetch(e.request).catch(()=>caches.match('./index.html')))
+  );
+});`;
+
+    try {
+      const blob = new Blob([swCode], {type:'application/javascript'});
+      const swUrl = URL.createObjectURL(blob);
+      navigator.serviceWorker.register(swUrl)
+        .then(()=>console.log('SW registered (blob)'))
+        .catch(()=>{}); // silent fail in restricted envs
+    } catch(e) { /* silent */ }
+  });
+}
+
+// ============================================================
+// INSTALL PROMPT
+// ============================================================
+let deferredPrompt;
+window.addEventListener('beforeinstallprompt', e=>{
+  e.preventDefault();
+  deferredPrompt = e;
+  setTimeout(()=>showToast('📱 Install this app on your home screen for offline use!'), 3000);
+});
+
+// ============================================================
+// INIT
+// ============================================================
+window.addEventListener('DOMContentLoaded', ()=>{
+  showSection('home');
+});
+</script>
+</body>
+</html>

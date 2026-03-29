@@ -1,0 +1,2211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1"/>
+<meta name="theme-color" content="#1e3a6e"/>
+<meta name="description" content="Critical Thinking & Competency Lab - NEP 2020 Aligned"/>
+<title>Critical Thinking & Competency Lab</title>
+<link rel="manifest" href="manifest.json"/>
+<link rel="apple-touch-icon" href="author.jpg"/>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700;900&family=Source+Serif+4:wght@300;400;600&family=JetBrains+Mono:wght@400;600&display=swap');
+
+:root {
+  --navy: #0a1628;
+  --deep: #1e3a6e;
+  --mid: #2d5099;
+  --accent: #4a90d9;
+  --gold: #c9a84c;
+  --gold-light: #f0cc6e;
+  --white: #f5f7fa;
+  --soft: #dde4f0;
+  --text: #e8edf5;
+  --muted: #8899bb;
+  --success: #2ecc71;
+  --warn: #e67e22;
+  --danger: #e74c3c;
+  --card: rgba(30,58,110,0.45);
+  --card-border: rgba(74,144,217,0.25);
+  --radius: 12px;
+  --shadow: 0 8px 32px rgba(0,0,0,0.35);
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: 'Source Serif 4', Georgia, serif;
+  background: var(--navy);
+  color: var(--text);
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* ─── BACKGROUNDS ─────────────────────────────────── */
+.bg-pattern {
+  position: fixed; inset: 0; pointer-events: none; z-index: 0;
+  background:
+    radial-gradient(ellipse 80% 50% at 20% 20%, rgba(45,80,153,0.3) 0%, transparent 60%),
+    radial-gradient(ellipse 60% 80% at 80% 80%, rgba(74,144,217,0.15) 0%, transparent 60%),
+    radial-gradient(ellipse 40% 40% at 50% 50%, rgba(201,168,76,0.05) 0%, transparent 50%);
+}
+.bg-grid {
+  position: fixed; inset: 0; pointer-events: none; z-index: 0;
+  background-image: linear-gradient(rgba(74,144,217,0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(74,144,217,0.04) 1px, transparent 1px);
+  background-size: 40px 40px;
+}
+
+/* ─── SCREENS ──────────────────────────────────────── */
+.screen { display: none; position: relative; z-index: 1; min-height: 100vh; }
+.screen.active { display: block; }
+
+/* ─── HEADER ───────────────────────────────────────── */
+.app-header {
+  background: rgba(10,22,40,0.95);
+  border-bottom: 1px solid var(--card-border);
+  padding: 12px 20px;
+  display: flex; align-items: center; justify-content: space-between;
+  position: sticky; top: 0; z-index: 100;
+  backdrop-filter: blur(10px);
+}
+.app-header h1 {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.1rem;
+  color: var(--gold-light);
+  letter-spacing: 0.01em;
+}
+.back-btn {
+  background: rgba(74,144,217,0.15);
+  border: 1px solid var(--card-border);
+  color: var(--accent);
+  padding: 8px 14px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 0.85rem;
+  font-family: 'Source Serif 4', serif;
+  transition: all 0.2s;
+}
+.back-btn:hover { background: rgba(74,144,217,0.3); }
+
+/* ─── HOME SCREEN ──────────────────────────────────── */
+#home {
+  min-height: 100vh;
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  padding: 24px 20px;
+  text-align: center;
+}
+.home-badge {
+  display: inline-flex; align-items: center; gap: 8px;
+  background: rgba(201,168,76,0.12);
+  border: 1px solid rgba(201,168,76,0.4);
+  border-radius: 50px;
+  padding: 6px 16px;
+  font-size: 0.72rem;
+  color: var(--gold-light);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  margin-bottom: 24px;
+  font-family: 'JetBrains Mono', monospace;
+}
+.home-badge span { width: 6px; height: 6px; background: var(--gold); border-radius: 50%; }
+.home-title {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(2rem, 6vw, 3.2rem);
+  font-weight: 900;
+  line-height: 1.1;
+  color: var(--white);
+  margin-bottom: 8px;
+}
+.home-title em { font-style: normal; color: var(--gold-light); }
+.home-subtitle {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(1.1rem, 3vw, 1.6rem);
+  color: var(--accent);
+  margin-bottom: 4px;
+  font-weight: 600;
+}
+.home-author {
+  font-size: 0.9rem; color: var(--muted); margin-bottom: 6px;
+}
+.home-author strong { color: var(--soft); }
+.home-dept {
+  font-size: 0.8rem; color: var(--muted); margin-bottom: 28px;
+  font-style: italic;
+}
+.author-photo-wrap {
+  width: 100px; height: 100px; border-radius: 50%;
+  border: 3px solid var(--gold);
+  overflow: hidden; margin: 0 auto 20px;
+  box-shadow: 0 0 30px rgba(201,168,76,0.3);
+}
+.author-photo-wrap img { width: 100%; height: 100%; object-fit: cover; }
+.nep-badge {
+  display: flex; gap: 8px; flex-wrap: wrap; justify-content: center;
+  margin-bottom: 32px;
+}
+.nep-tag {
+  background: rgba(74,144,217,0.12);
+  border: 1px solid rgba(74,144,217,0.3);
+  color: var(--accent);
+  padding: 5px 12px; border-radius: 20px; font-size: 0.72rem;
+  font-family: 'JetBrains Mono', monospace; letter-spacing: 0.05em;
+}
+.home-buttons { display: flex; flex-direction: column; gap: 12px; width: 100%; max-width: 360px; }
+.btn-primary {
+  background: linear-gradient(135deg, var(--mid), var(--deep));
+  border: 1px solid var(--accent);
+  color: var(--white);
+  padding: 15px 24px;
+  border-radius: var(--radius);
+  font-size: 1rem;
+  font-family: 'Playfair Display', serif;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.25s;
+  box-shadow: 0 4px 20px rgba(74,144,217,0.25);
+  display: flex; align-items: center; justify-content: center; gap: 8px;
+}
+.btn-primary:hover {
+  background: linear-gradient(135deg, var(--accent), var(--mid));
+  transform: translateY(-2px);
+  box-shadow: 0 6px 28px rgba(74,144,217,0.4);
+}
+.btn-gold {
+  background: linear-gradient(135deg, #8b6914, var(--gold));
+  border: 1px solid var(--gold-light);
+  color: var(--navy);
+  padding: 13px 24px;
+  border-radius: var(--radius);
+  font-size: 0.95rem;
+  font-family: 'Playfair Display', serif;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.25s;
+}
+.btn-gold:hover { filter: brightness(1.1); transform: translateY(-2px); }
+.btn-outline {
+  background: transparent;
+  border: 1px solid var(--muted);
+  color: var(--muted);
+  padding: 12px 24px;
+  border-radius: var(--radius);
+  font-size: 0.9rem;
+  font-family: 'Source Serif 4', serif;
+  cursor: pointer;
+  transition: all 0.25s;
+}
+.btn-outline:hover { border-color: var(--accent); color: var(--accent); }
+
+/* ─── SKILL TRACKER MINI ────────────────────────────── */
+.home-tracker {
+  margin-top: 28px; width: 100%; max-width: 360px;
+  background: var(--card);
+  border: 1px solid var(--card-border);
+  border-radius: var(--radius);
+  padding: 16px;
+}
+.tracker-title { font-size: 0.75rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 12px; font-family: 'JetBrains Mono', monospace; }
+.skill-bars { display: flex; flex-direction: column; gap: 8px; }
+.skill-bar-row { display: flex; align-items: center; gap: 10px; font-size: 0.8rem; }
+.skill-bar-label { width: 120px; color: var(--soft); font-size: 0.78rem; }
+.skill-bar-track { flex: 1; height: 6px; background: rgba(255,255,255,0.08); border-radius: 3px; overflow: hidden; }
+.skill-bar-fill { height: 100%; border-radius: 3px; transition: width 1s ease; }
+.skill-bar-val { width: 28px; text-align: right; color: var(--accent); font-family: 'JetBrains Mono', monospace; font-size: 0.78rem; }
+
+/* ─── NAV SCREEN ────────────────────────────────────── */
+#nav-screen { padding: 0; }
+.nav-header {
+  padding: 20px 20px 16px;
+  background: rgba(10,22,40,0.7);
+  border-bottom: 1px solid var(--card-border);
+}
+.nav-header h2 { font-family: 'Playfair Display', serif; color: var(--gold-light); font-size: 1.3rem; }
+.nav-header p { color: var(--muted); font-size: 0.85rem; margin-top: 4px; }
+.nav-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; padding: 16px; }
+.nav-card {
+  background: var(--card);
+  border: 1px solid var(--card-border);
+  border-radius: var(--radius);
+  padding: 18px 14px;
+  cursor: pointer;
+  transition: all 0.25s;
+  text-align: center;
+}
+.nav-card:hover {
+  background: rgba(45,80,153,0.6);
+  border-color: var(--accent);
+  transform: translateY(-3px);
+  box-shadow: var(--shadow);
+}
+.nav-card .icon { font-size: 2rem; margin-bottom: 8px; display: block; }
+.nav-card h3 { font-family: 'Playfair Display', serif; font-size: 0.9rem; color: var(--white); margin-bottom: 4px; }
+.nav-card p { font-size: 0.72rem; color: var(--muted); line-height: 1.4; }
+.nav-card.featured { grid-column: 1 / -1; background: rgba(45,80,153,0.3); border-color: rgba(201,168,76,0.3); }
+.nav-card.featured h3 { color: var(--gold-light); font-size: 1rem; }
+
+/* ─── POLICY READER ─────────────────────────────────── */
+#policy-screen { padding: 0; }
+.policy-toc { padding: 16px; }
+.policy-toc h2 { font-family: 'Playfair Display', serif; color: var(--gold-light); font-size: 1.2rem; margin-bottom: 14px; }
+.toc-list { list-style: none; }
+.toc-item {
+  background: var(--card);
+  border: 1px solid var(--card-border);
+  border-radius: 8px;
+  margin-bottom: 8px;
+  padding: 12px 16px;
+  cursor: pointer;
+  display: flex; align-items: center; gap: 12px;
+  transition: all 0.2s;
+}
+.toc-item:hover { background: rgba(45,80,153,0.5); border-color: var(--accent); }
+.toc-num { font-family: 'JetBrains Mono', monospace; color: var(--gold); font-size: 0.85rem; min-width: 28px; }
+.toc-item h3 { font-family: 'Playfair Display', serif; font-size: 0.9rem; color: var(--white); }
+.toc-item p { font-size: 0.75rem; color: var(--muted); margin-top: 2px; }
+
+#policy-article { display: none; padding: 0; }
+.article-content { padding: 20px; max-width: 700px; margin: 0 auto; }
+.article-content h2 { font-family: 'Playfair Display', serif; font-size: 1.5rem; color: var(--gold-light); margin-bottom: 6px; }
+.article-meta { font-size: 0.78rem; color: var(--muted); margin-bottom: 20px; font-family: 'JetBrains Mono', monospace; }
+.article-content h3 { font-family: 'Playfair Display', serif; color: var(--accent); font-size: 1.05rem; margin: 22px 0 8px; }
+.article-content p { line-height: 1.8; margin-bottom: 14px; color: var(--soft); font-size: 0.95rem; }
+.article-content ul { margin: 10px 0 16px 20px; }
+.article-content li { line-height: 1.7; color: var(--soft); font-size: 0.93rem; margin-bottom: 4px; }
+.reflection-box {
+  background: rgba(201,168,76,0.08);
+  border: 1px solid rgba(201,168,76,0.3);
+  border-left: 4px solid var(--gold);
+  border-radius: 8px;
+  padding: 16px;
+  margin: 20px 0;
+}
+.reflection-box h4 { color: var(--gold-light); font-family: 'Playfair Display', serif; margin-bottom: 10px; font-size: 0.95rem; }
+.reflection-box p { color: var(--soft); font-size: 0.88rem; line-height: 1.7; margin-bottom: 6px; }
+.classroom-box {
+  background: rgba(74,144,217,0.08);
+  border: 1px solid rgba(74,144,217,0.25);
+  border-radius: 8px;
+  padding: 16px;
+  margin: 20px 0;
+}
+.classroom-box h4 { color: var(--accent); font-family: 'Playfair Display', serif; margin-bottom: 8px; font-size: 0.92rem; }
+.classroom-box p { color: var(--soft); font-size: 0.88rem; line-height: 1.7; }
+
+/* ─── MODULE LAYOUT ─────────────────────────────────── */
+.module-wrap { padding: 16px; }
+.module-card {
+  background: var(--card);
+  border: 1px solid var(--card-border);
+  border-radius: var(--radius);
+  padding: 20px;
+  margin-bottom: 16px;
+}
+.module-card h3 { font-family: 'Playfair Display', serif; color: var(--gold-light); font-size: 1.1rem; margin-bottom: 12px; }
+.module-card h4 { font-family: 'Playfair Display', serif; color: var(--accent); font-size: 0.95rem; margin: 16px 0 8px; }
+.module-card p { color: var(--soft); font-size: 0.9rem; line-height: 1.7; margin-bottom: 10px; }
+.q-stem { color: var(--white); font-size: 0.95rem; margin-bottom: 14px; line-height: 1.6; }
+.options-list { list-style: none; display: flex; flex-direction: column; gap: 8px; margin-bottom: 14px; }
+.option-btn {
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.12);
+  color: var(--soft);
+  padding: 12px 16px;
+  border-radius: 8px;
+  cursor: pointer;
+  text-align: left;
+  font-family: 'Source Serif 4', serif;
+  font-size: 0.88rem;
+  transition: all 0.2s;
+  line-height: 1.5;
+}
+.option-btn:hover { background: rgba(74,144,217,0.15); border-color: var(--accent); color: var(--white); }
+.option-btn.correct { background: rgba(46,204,113,0.15); border-color: var(--success); color: #7deba0; }
+.option-btn.wrong { background: rgba(231,76,60,0.15); border-color: var(--danger); color: #f08070; }
+.option-btn.selected { background: rgba(74,144,217,0.2); border-color: var(--accent); }
+.feedback-box {
+  background: rgba(74,144,217,0.08);
+  border: 1px solid rgba(74,144,217,0.25);
+  border-radius: 8px;
+  padding: 14px;
+  font-size: 0.88rem;
+  color: var(--soft);
+  margin-top: 10px;
+  line-height: 1.6;
+  display: none;
+}
+.feedback-box.show { display: block; }
+.score-display {
+  text-align: center;
+  padding: 20px;
+  font-family: 'Playfair Display', serif;
+}
+.score-display .score-num { font-size: 3.5rem; color: var(--gold-light); font-weight: 700; }
+.score-display p { color: var(--muted); font-size: 0.9rem; }
+.prog-bar-wrap { margin-bottom: 12px; }
+.prog-label { font-size: 0.78rem; color: var(--muted); margin-bottom: 5px; display: flex; justify-content: space-between; }
+.prog-track { height: 8px; background: rgba(255,255,255,0.08); border-radius: 4px; overflow: hidden; }
+.prog-fill { height: 100%; background: linear-gradient(90deg, var(--mid), var(--accent)); border-radius: 4px; transition: width 0.5s ease; }
+.tag-pill {
+  display: inline-block;
+  background: rgba(74,144,217,0.15);
+  border: 1px solid rgba(74,144,217,0.3);
+  color: var(--accent);
+  padding: 4px 10px; border-radius: 20px;
+  font-size: 0.72rem; font-family: 'JetBrains Mono', monospace;
+  margin: 2px;
+}
+.btn-sm {
+  background: linear-gradient(135deg, var(--mid), var(--deep));
+  border: 1px solid var(--accent);
+  color: var(--white);
+  padding: 10px 18px;
+  border-radius: 8px;
+  font-size: 0.88rem;
+  font-family: 'Source Serif 4', serif;
+  cursor: pointer;
+  transition: all 0.2s;
+  margin-top: 8px;
+}
+.btn-sm:hover { background: linear-gradient(135deg, var(--accent), var(--mid)); }
+.btn-sm.gold { background: linear-gradient(135deg, #8b6914, var(--gold)); color: var(--navy); border-color: var(--gold); }
+.btn-sm.danger { background: rgba(231,76,60,0.2); border-color: var(--danger); color: #f08070; }
+textarea.journal-input {
+  width: 100%; min-height: 140px;
+  background: rgba(255,255,255,0.04);
+  border: 1px solid var(--card-border);
+  border-radius: 8px;
+  color: var(--text);
+  padding: 14px;
+  font-family: 'Source Serif 4', serif;
+  font-size: 0.92rem;
+  line-height: 1.7;
+  resize: vertical;
+  margin-bottom: 10px;
+}
+textarea.journal-input:focus { outline: none; border-color: var(--accent); }
+input.text-input {
+  width: 100%;
+  background: rgba(255,255,255,0.04);
+  border: 1px solid var(--card-border);
+  border-radius: 8px;
+  color: var(--text);
+  padding: 10px 14px;
+  font-family: 'Source Serif 4', serif;
+  font-size: 0.9rem;
+  margin-bottom: 10px;
+}
+input.text-input:focus { outline: none; border-color: var(--accent); }
+select.styled-select {
+  width: 100%;
+  background: rgba(10,22,40,0.8);
+  border: 1px solid var(--card-border);
+  border-radius: 8px;
+  color: var(--text);
+  padding: 10px 14px;
+  font-family: 'Source Serif 4', serif;
+  font-size: 0.9rem;
+  margin-bottom: 12px;
+  cursor: pointer;
+}
+select.styled-select:focus { outline: none; border-color: var(--accent); }
+.divider { height: 1px; background: var(--card-border); margin: 16px 0; }
+.journal-entry {
+  background: rgba(255,255,255,0.04);
+  border: 1px solid var(--card-border);
+  border-radius: 8px;
+  padding: 14px;
+  margin-bottom: 10px;
+}
+.journal-entry .je-date { font-size: 0.72rem; color: var(--muted); font-family: 'JetBrains Mono', monospace; margin-bottom: 6px; }
+.journal-entry .je-text { font-size: 0.88rem; color: var(--soft); line-height: 1.7; }
+.alert {
+  padding: 12px 16px;
+  border-radius: 8px;
+  font-size: 0.88rem;
+  margin-bottom: 12px;
+}
+.alert.success { background: rgba(46,204,113,0.12); border: 1px solid rgba(46,204,113,0.3); color: #7deba0; }
+.alert.info { background: rgba(74,144,217,0.12); border: 1px solid rgba(74,144,217,0.3); color: var(--accent); }
+.consequence-card {
+  border-radius: 8px;
+  padding: 14px;
+  margin-bottom: 10px;
+}
+.consequence-card.immediate { background: rgba(230,126,34,0.12); border: 1px solid rgba(230,126,34,0.3); }
+.consequence-card.longterm { background: rgba(74,144,217,0.12); border: 1px solid rgba(74,144,217,0.3); }
+.consequence-card.ethical { background: rgba(201,168,76,0.12); border: 1px solid rgba(201,168,76,0.3); }
+.consequence-card h4 { font-family: 'Playfair Display', serif; font-size: 0.88rem; margin-bottom: 6px; }
+.consequence-card.immediate h4 { color: var(--warn); }
+.consequence-card.longterm h4 { color: var(--accent); }
+.consequence-card.ethical h4 { color: var(--gold-light); }
+.consequence-card p { font-size: 0.85rem; color: var(--soft); line-height: 1.6; }
+.radar-wrap { max-width: 300px; margin: 0 auto; padding: 10px; }
+.tab-bar { display: flex; gap: 8px; margin-bottom: 16px; flex-wrap: wrap; }
+.tab-btn {
+  background: rgba(255,255,255,0.05);
+  border: 1px solid var(--card-border);
+  color: var(--muted);
+  padding: 8px 14px;
+  border-radius: 8px;
+  font-size: 0.82rem;
+  cursor: pointer;
+  font-family: 'Source Serif 4', serif;
+  transition: all 0.2s;
+}
+.tab-btn.active { background: rgba(74,144,217,0.2); border-color: var(--accent); color: var(--white); }
+.tab-content { display: none; }
+.tab-content.active { display: block; }
+.pagination {
+  display: flex; justify-content: space-between; align-items: center;
+  margin-top: 16px; padding: 12px 0;
+}
+.page-info { font-family: 'JetBrains Mono', monospace; font-size: 0.8rem; color: var(--muted); }
+/* ── TEACHER MODE ── */
+.stat-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 16px; }
+.stat-box {
+  background: var(--card);
+  border: 1px solid var(--card-border);
+  border-radius: 8px;
+  padding: 14px;
+  text-align: center;
+}
+.stat-box .stat-val { font-family: 'Playfair Display', serif; font-size: 1.8rem; color: var(--gold-light); font-weight: 700; }
+.stat-box .stat-label { font-size: 0.72rem; color: var(--muted); margin-top: 2px; }
+/* ── RADAR CHART SVG ── */
+.radar-svg text { font-family: 'Source Serif 4', serif; font-size: 9px; fill: var(--muted); }
+
+/* scrollbar */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: var(--navy); }
+::-webkit-scrollbar-thumb { background: var(--deep); border-radius: 3px; }
+
+/* Install banner */
+#install-banner {
+  display: none;
+  position: fixed; bottom: 16px; left: 16px; right: 16px;
+  background: linear-gradient(135deg, var(--deep), var(--mid));
+  border: 1px solid var(--accent);
+  border-radius: var(--radius);
+  padding: 14px 16px;
+  z-index: 1000;
+  box-shadow: var(--shadow);
+  align-items: center; gap: 12px;
+}
+#install-banner.show { display: flex; }
+#install-banner p { flex: 1; font-size: 0.88rem; color: var(--soft); }
+
+@media (min-width: 600px) {
+  .nav-grid { grid-template-columns: repeat(3, 1fr); }
+  .stat-grid { grid-template-columns: repeat(4, 1fr); }
+}
+</style>
+</head>
+<body>
+<div class="bg-pattern"></div>
+<div class="bg-grid"></div>
+
+<!-- ════════════════════════════════════════════════════════
+     HOME SCREEN
+════════════════════════════════════════════════════════ -->
+<div id="home" class="screen active">
+  <div class="author-photo-wrap">
+    <img src="author.jpg" alt="Mateen Yousuf" onerror="this.style.display='none'"/>
+  </div>
+  <div class="home-badge"><span></span>Offline Educational PWA<span></span></div>
+  <h1 class="home-title"><em>Critical Thinking</em> &<br/>Competency Lab</h1>
+  <p class="home-subtitle">NEP 2020 Aligned Skill Platform</p>
+  <p class="home-author">Developed by <strong>Mateen Yousuf</strong></p>
+  <p class="home-dept">Teacher, School Education Department Kashmir</p>
+  <div class="nep-badge">
+    <span class="nep-tag">NEP 2020</span>
+    <span class="nep-tag">NCF 2023</span>
+    <span class="nep-tag">PARAKH</span>
+    <span class="nep-tag">Grades 6–12</span>
+  </div>
+  <div class="home-buttons">
+    <button class="btn-primary" onclick="showNav()">🧠 Start Skill Lab</button>
+    <button class="btn-gold" onclick="showScreen('teacher-screen')">📊 Teacher Mode</button>
+    <button class="btn-outline" onclick="showScreen('policy-screen')">📖 Policy Foundation</button>
+    <button class="btn-outline" onclick="showScreen('about-screen')">ℹ️ About Competency-Based Learning</button>
+  </div>
+  <div class="home-tracker">
+    <div class="tracker-title">Your Skill Progress</div>
+    <div class="skill-bars" id="home-skill-bars">
+      <div class="skill-bar-row">
+        <span class="skill-bar-label">Critical Thinking</span>
+        <div class="skill-bar-track"><div class="skill-bar-fill" id="bar-ct" style="width:0%;background:#4a90d9"></div></div>
+        <span class="skill-bar-val" id="val-ct">0%</span>
+      </div>
+      <div class="skill-bar-row">
+        <span class="skill-bar-label">Decision Making</span>
+        <div class="skill-bar-track"><div class="skill-bar-fill" id="bar-dm" style="width:0%;background:#c9a84c"></div></div>
+        <span class="skill-bar-val" id="val-dm">0%</span>
+      </div>
+      <div class="skill-bar-row">
+        <span class="skill-bar-label">Analytical Skill</span>
+        <div class="skill-bar-track"><div class="skill-bar-fill" id="bar-an" style="width:0%;background:#2ecc71"></div></div>
+        <span class="skill-bar-val" id="val-an">0%</span>
+      </div>
+      <div class="skill-bar-row">
+        <span class="skill-bar-label">Ethical Awareness</span>
+        <div class="skill-bar-track"><div class="skill-bar-fill" id="bar-ea" style="width:0%;background:#e67e22"></div></div>
+        <span class="skill-bar-val" id="val-ea">0%</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════════════════
+     NAVIGATION SCREEN
+════════════════════════════════════════════════════════ -->
+<div id="nav-screen" class="screen">
+  <div class="app-header">
+    <button class="back-btn" onclick="showScreen('home')">← Home</button>
+    <h1>Skill Lab Modules</h1>
+    <span style="width:70px"></span>
+  </div>
+  <div class="nav-header">
+    <h2>Choose a Learning Module</h2>
+    <p>10 interactive modules aligned with NEP 2020 competencies</p>
+  </div>
+  <div class="nav-grid">
+    <div class="nav-card featured" onclick="showModule('logic')">
+      <span class="icon">🔷</span>
+      <h3>Logical Reasoning Lab</h3>
+      <p>Pattern recognition, series completion, analogies with auto-check</p>
+    </div>
+    <div class="nav-card" onclick="showModule('case')">
+      <span class="icon">📋</span>
+      <h3>Case Study Analyzer</h3>
+      <p>Analyze real-life scenarios across social, scientific & ethical domains</p>
+    </div>
+    <div class="nav-card" onclick="showModule('decision')">
+      <span class="icon">⚖️</span>
+      <h3>Decision Simulator</h3>
+      <p>Interactive decision making with consequence mapping</p>
+    </div>
+    <div class="nav-card" onclick="showModule('evidence')">
+      <span class="icon">🔍</span>
+      <h3>Evidence Evaluator</h3>
+      <p>Identify claims, evidence, bias, and assumptions</p>
+    </div>
+    <div class="nav-card" onclick="showModule('debate')">
+      <span class="icon">💬</span>
+      <h3>Debate Builder</h3>
+      <p>Explore for & against arguments on key topics</p>
+    </div>
+    <div class="nav-card" onclick="showModule('problem')">
+      <span class="icon">🛠️</span>
+      <h3>Problem-Solving Trainer</h3>
+      <p>6-step structured problem solving framework</p>
+    </div>
+    <div class="nav-card" onclick="showModule('ethics')">
+      <span class="icon">🌐</span>
+      <h3>Ethical Dilemma Lab</h3>
+      <p>Navigate dilemmas through multiple ethical lenses</p>
+    </div>
+    <div class="nav-card" onclick="showModule('quiz')">
+      <span class="icon">📝</span>
+      <h3>Analytical Thinking Quiz</h3>
+      <p>Scored MCQ + short answer with instant feedback</p>
+    </div>
+    <div class="nav-card" onclick="showModule('multi')">
+      <span class="icon">🔗</span>
+      <h3>Multidisciplinary Challenge</h3>
+      <p>Connect science, ethics, economics & policy</p>
+    </div>
+    <div class="nav-card featured" onclick="showModule('journal')">
+      <span class="icon">📓</span>
+      <h3>Reflection Journal</h3>
+      <p>Save offline reflections & track your learning journey</p>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════════════════
+     POLICY SCREEN
+════════════════════════════════════════════════════════ -->
+<div id="policy-screen" class="screen">
+  <div class="app-header">
+    <button class="back-btn" onclick="showScreen('home')">← Home</button>
+    <h1>Policy Foundation</h1>
+    <span style="width:70px"></span>
+  </div>
+  <div id="policy-toc" class="policy-toc">
+    <h2>📖 12 Academic Pages</h2>
+    <ul class="toc-list" id="toc-list"></ul>
+  </div>
+  <div id="policy-article">
+    <div class="app-header">
+      <button class="back-btn" onclick="showToc()">← Contents</button>
+      <h1 id="article-header-title">Page</h1>
+      <span style="width:70px"></span>
+    </div>
+    <div class="article-content" id="article-body"></div>
+    <div class="pagination" style="padding:0 20px 30px">
+      <button class="btn-sm" id="prev-pg" onclick="navPage(-1)">← Previous</button>
+      <span class="page-info" id="pg-info"></span>
+      <button class="btn-sm" id="next-pg" onclick="navPage(1)">Next →</button>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════════════════
+     MODULE SCREENS (all share this wrapper, rendered by JS)
+════════════════════════════════════════════════════════ -->
+<div id="module-screen" class="screen">
+  <div class="app-header">
+    <button class="back-btn" onclick="showNav()">← Modules</button>
+    <h1 id="module-header-title">Module</h1>
+    <span style="width:70px"></span>
+  </div>
+  <div class="module-wrap" id="module-content"></div>
+</div>
+
+<!-- ════════════════════════════════════════════════════════
+     TEACHER SCREEN
+════════════════════════════════════════════════════════ -->
+<div id="teacher-screen" class="screen">
+  <div class="app-header">
+    <button class="back-btn" onclick="showScreen('home')">← Home</button>
+    <h1>Teacher Dashboard</h1>
+    <span style="width:70px"></span>
+  </div>
+  <div class="module-wrap">
+    <div class="module-card">
+      <h3>📊 Student Activity Overview</h3>
+      <p style="font-size:0.8rem;color:var(--muted)">Data from this device only (no login required)</p>
+      <div class="stat-grid" id="teacher-stats"></div>
+    </div>
+    <div class="module-card">
+      <h3>🎯 Skill Score Summary</h3>
+      <div id="teacher-skills"></div>
+    </div>
+    <div class="module-card">
+      <h3>📄 Classroom Activity Sheets</h3>
+      <p>Download discussion sheets for each module:</p>
+      <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:10px">
+        <button class="btn-sm" onclick="printSheet('logic')">Logic Sheet</button>
+        <button class="btn-sm" onclick="printSheet('case')">Case Study Sheet</button>
+        <button class="btn-sm" onclick="printSheet('ethics')">Ethics Sheet</button>
+        <button class="btn-sm" onclick="printSheet('debate')">Debate Sheet</button>
+      </div>
+    </div>
+    <div class="module-card">
+      <h3>📋 Journal Entries Preview</h3>
+      <div id="teacher-journal"></div>
+    </div>
+    <div class="module-card">
+      <h3>🗑️ Reset Student Data</h3>
+      <p>Clear all locally stored progress and journal entries.</p>
+      <button class="btn-sm danger" onclick="resetData()">Reset All Data</button>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════════════════
+     ABOUT SCREEN
+════════════════════════════════════════════════════════ -->
+<div id="about-screen" class="screen">
+  <div class="app-header">
+    <button class="back-btn" onclick="showScreen('home')">← Home</button>
+    <h1>About CBL</h1>
+    <span style="width:70px"></span>
+  </div>
+  <div class="article-content">
+    <h2>Competency-Based Learning</h2>
+    <p class="article-meta">Understanding the philosophy behind NEP 2020</p>
+    <p>Competency-Based Learning (CBL) is an educational approach that focuses on students demonstrating mastery of specific skills and knowledge before advancing. Unlike traditional time-based education, CBL emphasizes <em>what students can do</em> rather than what they have been taught.</p>
+    <h3>Core Principles</h3>
+    <p>CBL is grounded in four key principles: (1) clear learning outcomes defined in terms of competencies, (2) flexible pacing allowing students to progress upon mastery, (3) varied instructional methods to suit different learners, and (4) continuous assessment embedded in daily learning rather than isolated examinations.</p>
+    <h3>NEP 2020 and CBL</h3>
+    <p>India's National Education Policy 2020 represents a landmark shift from rote learning to competency-based assessment. The policy calls for the development of 21st century skills including critical thinking, creativity, communication, and collaboration—often called the 4Cs of modern education.</p>
+    <h3>NCF 2023 Framework</h3>
+    <p>The National Curriculum Framework 2023 operationalizes NEP 2020 by defining competencies across learning areas, emphasizing experiential and inquiry-based learning, and integrating values education with academic subjects.</p>
+    <h3>PARAKH</h3>
+    <p>PARAKH (Performance Assessment, Review, and Analysis of Knowledge for Holistic Development) is the national body established under NEP 2020 to set standards for student assessment, develop competency-based assessment tools, and guide states in transforming their evaluation systems.</p>
+    <div class="reflection-box">
+      <h4>💡 Reflection Questions</h4>
+      <p>1. How is competency-based education different from marks-based education?</p>
+      <p>2. Which competencies do you think are most important for your future?</p>
+      <p>3. How can teachers assess 21st century skills in daily classroom activities?</p>
+    </div>
+    <div style="text-align:center;margin-top:20px">
+      <div class="author-photo-wrap" style="margin:0 auto 14px">
+        <img src="author.jpg" alt="Mateen Yousuf"/>
+      </div>
+      <p style="color:var(--gold-light);font-family:'Playfair Display',serif;font-size:1rem">Mateen Yousuf</p>
+      <p style="color:var(--muted);font-size:0.82rem">Teacher, School Education Department Kashmir</p>
+      <p style="color:var(--muted);font-size:0.78rem;margin-top:6px">This application is developed as a free offline educational resource aligned with NEP 2020, NCF 2023, and PARAKH frameworks for students of Grades 6–12.</p>
+    </div>
+  </div>
+</div>
+
+<!-- Install Banner -->
+<div id="install-banner">
+  <p>📱 Install this app on your device for full offline access!</p>
+  <button class="btn-sm" id="install-btn">Install</button>
+  <button class="btn-sm" onclick="document.getElementById('install-banner').classList.remove('show')" style="background:transparent;border:none;color:var(--muted)">✕</button>
+</div>
+
+<script>
+// ══════════════════════════════════════════════════════════
+//  DATA
+// ══════════════════════════════════════════════════════════
+const POLICY_PAGES = [
+  {
+    title: "NEP 2020 and 21st Century Skills",
+    subtitle: "Building Future-Ready Citizens",
+    content: `
+<h3>Introduction to NEP 2020</h3>
+<p>The National Education Policy 2020 is India's most comprehensive educational reform since 1986. Approved by the Union Cabinet in July 2020, it envisions an education system that is rooted in Indian ethos while preparing students for a rapidly changing global environment. At its heart is a fundamental shift: moving from knowledge acquisition to competency development.</p>
+<h3>The 21st Century Skills Framework</h3>
+<p>NEP 2020 explicitly calls for the integration of 21st century skills into every level of education. These skills are commonly grouped into three categories: Learning Skills (critical thinking, creativity, collaboration, communication), Life Skills (flexibility, leadership, initiative, social awareness), and Literacy Skills (information literacy, media literacy, technology literacy).</p>
+<p>The policy recognizes that the world students will graduate into is fundamentally different from the world their teachers were trained for. Automation, artificial intelligence, and globalization are reshaping every profession. The skills that will matter most are precisely those that machines cannot easily replicate—empathy, ethical judgment, creative problem-solving, and nuanced communication.</p>
+<h3>From Rote to Reasoning</h3>
+<p>One of the most significant aspects of NEP 2020 is its critique of the rote learning culture that has dominated Indian education. The policy notes that students who memorize facts without understanding their application are poorly equipped for higher education and employment. NEP 2020 calls for a transformation in pedagogy: from teacher-centered transmission of information to student-centered construction of knowledge.</p>
+<p>This transformation requires changes at every level—curriculum design, assessment methods, teacher training, and school culture. The policy envisions classrooms where students ask questions, debate ideas, conduct experiments, and connect knowledge across disciplines.</p>
+<h3>Critical Thinking as a Core Competency</h3>
+<p>NEP 2020 identifies critical thinking as one of the foundational competencies that education must develop. Critical thinking involves the ability to analyze information objectively, identify assumptions and biases, evaluate evidence, draw logical conclusions, and apply knowledge to new situations. These abilities are not naturally developed; they must be explicitly taught and regularly practiced.</p>
+<p>The policy calls for teachers to design learning experiences that challenge students to think deeply rather than recall quickly. This means using open-ended questions, case studies, real-world problems, and collaborative projects as primary pedagogical tools.</p>
+<h3>Multidisciplinary and Holistic Education</h3>
+<p>NEP 2020 emphasizes that rigid disciplinary boundaries limit student thinking. A student who understands science but not its ethical implications, or economics without awareness of social consequences, is not truly educated. The policy calls for integration across subjects, encouraging students to see connections and apply knowledge from multiple domains to complex real-world challenges.</p>
+<div class="reflection-box"><h4>💡 Reflection Questions</h4>
+<p>1. How does rote learning limit a student's ability to face real-world challenges?</p>
+<p>2. Which of the 21st century skills do you think is most important and why?</p>
+<p>3. How can teachers balance exam preparation with genuine skill development?</p></div>
+<div class="classroom-box"><h4>🏫 Classroom Example</h4>
+<p>In a traditional classroom, a teacher might ask students to memorize the causes of World War I. In a NEP 2020 aligned classroom, the teacher would ask students to analyze primary source documents, identify conflicting perspectives, debate whether the war was inevitable, and connect those patterns to contemporary conflicts—developing historical thinking skills that apply to any era.</p></div>`
+  },
+  {
+    title: "NCF 2023 Competency Framework",
+    subtitle: "Structuring Learning for Mastery",
+    content: `
+<h3>What is NCF 2023?</h3>
+<p>The National Curriculum Framework 2023 (NCF 2023) is the operational blueprint for implementing NEP 2020 in schools. Developed by NCERT after extensive consultation, NCF 2023 provides specific guidance on curriculum design, pedagogical approaches, and learning outcomes across the school stage. It replaces the previous NCF 2005 and introduces a significantly updated vision of what schooling should achieve.</p>
+<h3>Competency-Based Progression</h3>
+<p>NCF 2023 structures learning around competencies rather than content coverage. Each curriculum area defines specific competencies—observable, assessable abilities that students should develop through learning. These competencies are mapped across four stages: Foundational (ages 3–8), Preparatory (ages 8–11), Middle (ages 11–14), and Secondary (ages 14–18).</p>
+<p>This framework means that a teacher's primary responsibility is not to cover textbook chapters but to ensure that students develop defined competencies. Content becomes a means to developing competency, not an end in itself.</p>
+<h3>Key Competency Domains</h3>
+<p>NCF 2023 identifies competencies across multiple domains. Cognitive competencies include critical thinking, problem-solving, creativity, analytical reasoning, and metacognition. Social-emotional competencies include empathy, collaboration, communication, and conflict resolution. Ethical competencies include integrity, responsibility, environmental consciousness, and civic engagement. Physical and aesthetic competencies include health awareness, artistic expression, and cultural appreciation.</p>
+<h3>The Role of Assessment in NCF 2023</h3>
+<p>NCF 2023 calls for a fundamental transformation in assessment practices. The framework distinguishes between Assessment of Learning (summative, used for grading), Assessment for Learning (formative, used to guide instruction), and Assessment as Learning (where students assess themselves to develop metacognitive awareness). The emphasis shifts decisively toward the latter two types.</p>
+<p>Assessment should capture what students can do, not just what they remember. Portfolio assessment, project-based evaluation, peer assessment, and self-reflection are promoted as primary tools. Standardized tests are retained but given less weight in determining student progress.</p>
+<h3>Integration of Values and Academics</h3>
+<p>A distinctive feature of NCF 2023 is its insistence that values are not a separate subject but are woven through all learning. When students study environmental science, they should also develop environmental ethics. When they study history, they should examine questions of justice, power, and human dignity. When they study mathematics, they should appreciate precision, honesty, and the beauty of logical reasoning.</p>
+<div class="reflection-box"><h4>💡 Reflection Questions</h4>
+<p>1. How does assessing competencies differ from testing content knowledge?</p>
+<p>2. What competencies should be developed in mathematics beyond calculation?</p>
+<p>3. How can a teacher embed value education in a science lesson?</p></div>
+<div class="classroom-box"><h4>🏫 Classroom Example</h4>
+<p>Under NCF 2023, a middle school social science unit on water resources would not just cover facts about rivers and dams. It would engage students in analyzing data about water scarcity, debating the trade-offs between industrial use and agricultural needs, mapping local water bodies, interviewing community members about water access, and writing policy recommendations—developing research, critical thinking, communication, and civic engagement competencies simultaneously.</p></div>`
+  },
+  {
+    title: "PARAKH and Higher Order Thinking",
+    subtitle: "Assessing What Truly Matters",
+    content: `
+<h3>Understanding PARAKH</h3>
+<p>PARAKH—an acronym for Performance Assessment, Review, and Analysis of Knowledge for Holistic Development—is a national assessment body established under NEP 2020. Operating under NCERT, PARAKH has a mandate to develop a comprehensive assessment ecosystem that moves beyond marks-based ranking toward genuine measurement of learning and development.</p>
+<h3>The Problem with Traditional Assessments</h3>
+<p>India's traditional examination system has long been criticized for rewarding memory over understanding, creating extreme stress among students, reducing teaching to exam preparation, and producing graduates who are poorly equipped for real-world challenges despite high marks. High-stakes board examinations have historically measured the ability to reproduce information under pressure rather than the ability to think, create, or apply knowledge.</p>
+<p>PARAKH was established to systematically address these problems at the national level by developing alternative assessment frameworks, building teacher capacity for formative assessment, and establishing benchmarks for higher order thinking skills.</p>
+<h3>Higher Order Thinking in Bloom's Framework</h3>
+<p>PARAKH's assessment philosophy is grounded in Bloom's Taxonomy of Educational Objectives, specifically its revised version. The taxonomy identifies six levels of cognitive complexity: Remember (recall facts), Understand (explain concepts), Apply (use knowledge in new situations), Analyze (break down information), Evaluate (make judgments), and Create (produce new work). Traditional examinations predominantly assess the lower three levels. PARAKH aims to shift assessment toward the upper three levels.</p>
+<h3>Holistic Progress Cards</h3>
+<p>One of PARAKH's major initiatives is the development of Holistic Progress Cards (HPCs) that capture student development across cognitive, social-emotional, and physical domains. These cards are designed to give parents and teachers a richer picture of student growth than a report card of subject marks can provide.</p>
+<h3>National Achievement Survey and State Assessment Cells</h3>
+<p>PARAKH coordinates national learning surveys that track not just what percentage of students pass examinations but what percentage have genuinely mastered grade-appropriate competencies. These surveys reveal significant gaps between examination performance and actual learning—a gap that the new assessment framework aims to close over the coming decade.</p>
+<div class="reflection-box"><h4>💡 Reflection Questions</h4>
+<p>1. What are the limitations of measuring student ability through marks alone?</p>
+<p>2. How might a Holistic Progress Card change how you understand your own learning?</p>
+<p>3. Design one question at each level of Bloom's Taxonomy on any topic you are studying.</p></div>
+<div class="classroom-box"><h4>🏫 Classroom Example</h4>
+<p>A PARAKH-aligned assessment on photosynthesis might include: (Remember) What are the raw materials of photosynthesis? (Understand) Explain why plants placed in the dark eventually die. (Apply) A farmer wants to maximize crop yield—how would understanding photosynthesis guide their decisions? (Analyze) Compare photosynthesis and cellular respiration. (Evaluate) Is it accurate to say that all life on Earth depends on photosynthesis? Justify. (Create) Design an experiment to test how light intensity affects the rate of photosynthesis.</p></div>`
+  },
+  {
+    title: "Bloom's Taxonomy Simplified",
+    subtitle: "A Ladder of Thinking",
+    content: `
+<h3>Why Bloom's Taxonomy Matters</h3>
+<p>Benjamin Bloom and his colleagues developed the Taxonomy of Educational Objectives in 1956 to help educators design learning experiences at different levels of cognitive complexity. Revised in 2001 by Lorin Anderson and David Krathwohl, Bloom's Taxonomy remains the most widely used framework for designing curriculum, planning lessons, and creating assessments that challenge students to think at multiple levels.</p>
+<h3>Level 1: Remember</h3>
+<p>At this foundational level, students recall, recognize, and reproduce information. This is the level of rote learning. Example verbs: list, name, define, recall, identify. Sample question: "Name the three branches of government." This level is necessary but insufficient for genuine education.</p>
+<h3>Level 2: Understand</h3>
+<p>Students demonstrate understanding by explaining, summarizing, classifying, and interpreting information. They show they grasp meaning, not just words. Example verbs: explain, describe, summarize, interpret, classify. Sample question: "Explain how separation of powers prevents concentration of authority."</p>
+<h3>Level 3: Apply</h3>
+<p>Students use knowledge in new situations, demonstrating that they can transfer learning beyond the original context. Example verbs: solve, use, demonstrate, execute, implement. Sample question: "Apply the principle of separation of powers to analyze a current event."</p>
+<h3>Level 4: Analyze</h3>
+<p>Students break information into components, identify patterns, distinguish relevant from irrelevant information, and examine how parts relate to the whole. Example verbs: compare, contrast, differentiate, examine, deconstruct. Sample question: "Analyze how different countries structure the separation of powers differently and why."</p>
+<h3>Level 5: Evaluate</h3>
+<p>Students make judgments about the quality, value, or validity of information using specific criteria. Example verbs: judge, justify, critique, assess, defend, argue. Sample question: "Evaluate whether the current system of separation of powers in India is effective. Support your argument with evidence."</p>
+<h3>Level 6: Create</h3>
+<p>At the highest level, students produce original work by combining elements in new ways. Example verbs: design, construct, develop, formulate, compose. Sample question: "Design a system of governance for a fictional country that addresses the weaknesses you identified in existing systems."</p>
+<div class="reflection-box"><h4>💡 Reflection Questions</h4>
+<p>1. At which level do most of your classroom activities and examinations operate?</p>
+<p>2. How could you redesign a homework assignment to operate at Levels 4–6?</p>
+<p>3. Why is Level 1 (Remember) necessary but not sufficient for real learning?</p></div>
+<div class="classroom-box"><h4>🏫 Classroom Example</h4>
+<p>A history teacher teaching the French Revolution could design a unit that progressively moves up Bloom's levels: Begin with timelines and key events (Remember), move to explaining causes (Understand), apply those causes to analyze another revolution (Apply), compare it with the American Revolution (Analyze), evaluate whether the revolution achieved its goals (Evaluate), and finally ask students to write a manifesto for a social movement they care about (Create).</p></div>`
+  },
+  {
+    title: "Critical Thinking Explained",
+    subtitle: "The Core Competency of Modern Education",
+    content: `
+<h3>What is Critical Thinking?</h3>
+<p>Critical thinking is the intellectually disciplined process of actively and skillfully conceptualizing, applying, analyzing, synthesizing, and evaluating information gathered from observation, experience, reflection, reasoning, or communication. It is not simply thinking hard; it is thinking well—with clarity, depth, fairness, and purpose.</p>
+<h3>Elements of Critical Thinking</h3>
+<p>The Foundation for Critical Thinking identifies several key elements: <strong>Purpose</strong> (what am I trying to figure out?), <strong>Question at Issue</strong> (what is the precise problem?), <strong>Information</strong> (what evidence do I have?), <strong>Interpretation</strong> (what does the evidence mean?), <strong>Concepts</strong> (what ideas am I using?), <strong>Assumptions</strong> (what am I taking for granted?), <strong>Implications</strong> (what follows from my thinking?), and <strong>Point of View</strong> (from whose perspective am I looking?).</p>
+<h3>Intellectual Standards for Critical Thinking</h3>
+<p>Critical thinking should meet universal intellectual standards: Clarity (can I express this precisely?), Accuracy (is this correct?), Precision (can I be more specific?), Relevance (does this relate to the question?), Depth (does this address the complexities?), Breadth (have I considered other perspectives?), Logic (do the conclusions follow from the evidence?), Significance (is this the most important consideration?), and Fairness (am I being impartial?).</p>
+<h3>Common Thinking Errors (Fallacies)</h3>
+<p>Critical thinking requires recognizing common errors: Ad hominem (attacking the person rather than the argument), Appeal to authority (accepting a claim just because an authority said it), False dichotomy (presenting only two options when more exist), Hasty generalization (drawing broad conclusions from limited evidence), Confirmation bias (seeking only evidence that confirms existing beliefs), and Post hoc fallacy (assuming that because A preceded B, A caused B).</p>
+<h3>Developing Critical Thinking Habits</h3>
+<p>Critical thinking is not just a skill but a disposition—a habit of mind. It requires intellectual humility (being willing to be wrong), intellectual perseverance (continuing to think through difficult problems), intellectual integrity (applying the same standards to one's own thinking as to others'), and intellectual courage (being willing to follow arguments to uncomfortable conclusions).</p>
+<div class="reflection-box"><h4>💡 Reflection Questions</h4>
+<p>1. Describe a time when you changed your mind because of evidence or reasoning. What made you change?</p>
+<p>2. Identify one thinking fallacy you have encountered in social media or news recently.</p>
+<p>3. How does confirmation bias affect the way people get information from the internet?</p></div>
+<div class="classroom-box"><h4>🏫 Classroom Example</h4>
+<p>A science teacher can build critical thinking by presenting students with two conflicting studies about the same health topic. Students must identify the methodology of each study, evaluate the quality of evidence, consider possible biases, and come to a reasoned conclusion—rather than simply accepting whichever result confirms popular belief. This develops analytical skills applicable to any domain.</p></div>`
+  },
+  {
+    title: "Inquiry-Based Learning",
+    subtitle: "Questions as the Engine of Education",
+    content: `
+<h3>The Philosophy of Inquiry</h3>
+<p>Inquiry-based learning (IBL) is a student-centered pedagogy in which learning begins with questions, problems, or scenarios rather than with the presentation of facts. Rooted in the constructivist theories of Dewey, Piaget, and Vygotsky, IBL holds that students learn most deeply when they construct knowledge through active investigation rather than passively receiving information from teachers or textbooks.</p>
+<h3>Types of Inquiry</h3>
+<p><strong>Structured Inquiry:</strong> The teacher provides the question and a specific procedure; students discover the answer. Best for introducing inquiry skills to beginners. <strong>Guided Inquiry:</strong> The teacher provides the question; students design their own investigation. Appropriate for students developing inquiry skills. <strong>Open Inquiry:</strong> Students generate their own questions and design investigations to answer them. Most challenging, closest to genuine scientific practice.</p>
+<h3>The Inquiry Cycle</h3>
+<p>Inquiry learning typically follows a cycle: Observe (notice something interesting or puzzling), Question (formulate a specific, investigable question), Hypothesize (make a prediction based on existing knowledge), Investigate (gather data through observation, experiment, or research), Analyze (interpret the data and look for patterns), Conclude (answer the question and evaluate the hypothesis), Communicate (share findings with others), and Reflect (consider limitations and new questions that arise).</p>
+<h3>Inquiry in Different Subjects</h3>
+<p>While often associated with science, inquiry can be practiced in every subject. In history, students can examine primary sources and construct their own interpretations of events. In mathematics, students can discover theorems through exploration rather than having proofs presented to them. In literature, students can develop their own interpretations of texts and debate them with peers. In social studies, students can investigate local issues and propose solutions.</p>
+<h3>Teacher's Role in Inquiry Learning</h3>
+<p>In IBL, the teacher's role shifts from information provider to learning facilitator. Teachers design rich questions and learning environments, scaffold student thinking, ask probing questions, manage productive struggle (allowing students to grapple with difficulty), and guide reflection. This requires sophisticated pedagogical skill and deep subject knowledge.</p>
+<div class="reflection-box"><h4>💡 Reflection Questions</h4>
+<p>1. What is a question about the world around you that you genuinely wonder about?</p>
+<p>2. How would you design an investigation to answer that question?</p>
+<p>3. What is the difference between a question that has a right answer and a question worth inquiring into?</p></div>
+<div class="classroom-box"><h4>🏫 Classroom Example</h4>
+<p>Rather than teaching "plants need sunlight to grow" as a fact, an inquiry-based approach would begin with: "How do you think plants get their food?" Students propose ideas, design simple experiments with plants in different light conditions, collect data over two weeks, analyze results, and debate conclusions. They learn photosynthesis by discovering it—a far more memorable and transferable learning experience.</p></div>`
+  },
+  {
+    title: "Case-Based Pedagogy",
+    subtitle: "Learning Through Real-World Complexity",
+    content: `
+<h3>What is Case-Based Learning?</h3>
+<p>Case-based learning (CBL) is a pedagogical approach that uses real-world scenarios or carefully designed fictional cases as the primary vehicle for developing knowledge, skills, and professional judgment. Originating in medical and legal education, case-based pedagogy is now recognized as a powerful tool for developing critical thinking, decision-making, and applied reasoning across all disciplines and grade levels.</p>
+<h3>Why Cases Work</h3>
+<p>Cases work for several reasons grounded in learning science. They provide context that makes abstract knowledge meaningful. They present genuine complexity that resists simple answers, requiring students to weigh evidence and make judgment calls. They develop metacognitive awareness as students examine their own reasoning processes. They simulate authentic professional situations, developing skills that transfer to real-world contexts. And they create intellectual engagement because students care about the outcome.</p>
+<h3>Anatomy of a Good Case</h3>
+<p>An effective educational case has several characteristics: it presents a protagonist facing a meaningful decision under uncertainty; it includes rich contextual detail that enables analysis; it does not have a single obvious correct answer; it raises ethical, practical, and analytical dimensions; it connects to the curriculum competencies being developed; and it invites multiple valid perspectives.</p>
+<h3>The Case Discussion Method</h3>
+<p>The Socratic case discussion method, developed at Harvard Business School and Law School, involves the teacher as facilitator guiding a structured discussion in which students build on each other's analyses. The teacher does not reveal the "answer" but asks progressively deeper questions: What is the core problem? What information do you need? What are the options? What are the trade-offs? What would you do and why? What are the risks? Looking back, what would you do differently?</p>
+<h3>Types of Cases for School Use</h3>
+<p>Cases for school students can include: current events with ethical dimensions, historical decision points, scientific dilemmas, community problems, personal moral choices, business decisions, environmental challenges, and international policy questions. The key is that the case must have genuine complexity and require students to reason carefully rather than simply identify the obviously correct answer.</p>
+<div class="reflection-box"><h4>💡 Reflection Questions</h4>
+<p>1. Think of a recent news story that could serve as a case study for your class. What decisions does it involve?</p>
+<p>2. How is discussing a case different from debating a topic? Which produces better thinking?</p>
+<p>3. What makes a case study useful for developing ethical reasoning specifically?</p></div>
+<div class="classroom-box"><h4>🏫 Classroom Example</h4>
+<p>Case for Class 9 Social Science: "A mountain village in Himachal Pradesh has been offered a large dam project that would provide electricity and employment to thousands but would displace 200 families and submerge a historic forest. The village council must decide. You are a council member." Students analyze from multiple stakeholder perspectives—displaced families, environmentalists, economists, local government—and must justify their recommendation with evidence.</p></div>`
+  },
+  {
+    title: "Problem-Solving Framework",
+    subtitle: "A Structured Approach to Any Challenge",
+    content: `
+<h3>Why Problem-Solving Must Be Taught</h3>
+<p>Problem-solving is often treated as an innate talent rather than a learnable skill. Research in cognitive science demonstrates clearly that effective problem-solvers are made, not born. They have internalized structured approaches, developed large repertoires of strategies, and built metacognitive habits that allow them to monitor their own thinking as they work through challenges.</p>
+<h3>Step 1: Define the Problem Precisely</h3>
+<p>The most common problem-solving failure occurs at this first step. Problems are often initially stated too vaguely, too broadly, or from a perspective that already assumes a particular solution. Effective problem-solvers spend significant time clarifying exactly what the problem is: What is the gap between the current situation and the desired situation? Who is affected? What constraints exist? What would a solution look like? A well-defined problem is often half-solved.</p>
+<h3>Step 2: Gather Information</h3>
+<p>Before generating solutions, effective problem-solvers systematically gather information about the problem: What data exists? What has been tried before? Who are the stakeholders? What are the root causes rather than symptoms? Tools like the "5 Whys" technique (repeatedly asking why to drill down to root causes) and fishbone diagrams help organize this information-gathering phase.</p>
+<h3>Step 3: Generate Alternatives</h3>
+<p>Effective problem-solvers generate multiple potential solutions before evaluating any of them. Premature evaluation kills creative alternatives. Brainstorming, lateral thinking techniques, and considering analogous problems in other domains help generate a rich set of options. The goal is quantity and diversity at this stage.</p>
+<h3>Step 4: Evaluate Options</h3>
+<p>With a set of alternatives, problem-solvers apply criteria to evaluate each one: What are the costs and benefits? What are the risks? Who will be affected? What are the short-term and long-term implications? Decision matrices, pros/cons analysis, and ethical impact assessment are useful tools here.</p>
+<h3>Step 5: Implement and Reflect</h3>
+<p>Implementation requires planning and anticipating obstacles. But just as important is reflection after implementation: Did the solution work? Why or why not? What would we do differently? This reflective loop is what converts experience into genuine learning and builds problem-solving expertise over time.</p>
+<div class="reflection-box"><h4>💡 Reflection Questions</h4>
+<p>1. Think of a problem in your school or community. Apply the 5-step framework to it.</p>
+<p>2. Why is "generating alternatives" before "evaluating options" so important?</p>
+<p>3. What would change in classrooms if students were regularly taught to solve real problems?</p></div>
+<div class="classroom-box"><h4>🏫 Classroom Example</h4>
+<p>A Class 8 mathematics class tackles the real problem: "Our school cafeteria wastes a significant amount of food every day. How can we reduce food waste by at least 30%?" Students define the problem precisely (what counts as waste? how much currently?), gather data (weigh waste over two weeks), generate alternatives (smaller portions, better menu planning, student education campaign, composting), evaluate each with cost-benefit analysis, implement one solution, and measure its effectiveness.</p></div>`
+  },
+  {
+    title: "Ethical Reasoning in Education",
+    subtitle: "Developing Moral Intelligence",
+    content: `
+<h3>Why Ethics Must Be Taught</h3>
+<p>Ethical reasoning—the ability to recognize moral dimensions of situations, consider competing values, apply ethical frameworks, and make principled decisions—is not an innate capacity. It is a skill that must be explicitly developed through education. NEP 2020 and NCF 2023 both call for the integration of values and ethical reasoning across the curriculum, recognizing that cognitive ability without ethical development can produce graduates who are sophisticated but not wise.</p>
+<h3>Major Ethical Frameworks</h3>
+<p><strong>Consequentialism:</strong> Actions are judged by their outcomes. The right action maximizes well-being and minimizes harm. Associated with philosophers like Jeremy Bentham and John Stuart Mill. <strong>Deontology:</strong> Actions are judged by their conformity to moral rules or duties regardless of consequences. Associated with Immanuel Kant. <strong>Virtue Ethics:</strong> Actions are judged by whether they express excellent character traits (virtues) like honesty, courage, compassion, and justice. Associated with Aristotle. <strong>Care Ethics:</strong> Actions are judged by their effect on relationships and the quality of care they express for others. Associated with Carol Gilligan.</p>
+<h3>Applying Ethical Frameworks to Real Situations</h3>
+<p>Teaching students multiple ethical frameworks allows them to analyze dilemmas from different perspectives. A consequentialist analysis might justify a white lie if it prevents greater harm. A deontological analysis would prohibit lying regardless of consequences. A virtue ethicist would ask whether a person of good character would lie in this situation. A care ethicist would ask what the lie would do to the relationship and to trust.</p>
+<h3>Ethical Reasoning in the Indian Context</h3>
+<p>Indian philosophical traditions offer rich ethical frameworks that complement Western approaches. The concept of Dharma provides a context-sensitive framework where right action depends on one's role, stage of life, and circumstances. Ahimsa (non-violence) provides an absolute ethical principle. Karma ethics links actions to long-term consequences extending beyond a single decision. These frameworks can enrich ethical reasoning in classrooms.</p>
+<h3>Ethical Dilemmas as Teaching Tools</h3>
+<p>Ethical dilemmas—situations where two or more genuinely important values conflict—are the ideal teaching tool for ethical reasoning. They have no simple correct answer, they require careful reasoning, and they reveal assumptions and values that students may not have previously examined. Classic dilemmas like the trolley problem, newer ones around technology and privacy, or locally relevant ones around development and environment all provide valuable material.</p>
+<div class="reflection-box"><h4>💡 Reflection Questions</h4>
+<p>1. Describe a moral dilemma you have faced. Which ethical framework best guided your decision?</p>
+<p>2. How might a consequentialist and a deontologist disagree about the ethics of lying to protect a friend?</p>
+<p>3. How can schools develop ethical reasoning without imposing a single moral worldview?</p></div>
+<div class="classroom-box"><h4>🏫 Classroom Example</h4>
+<p>Case for Class 10: "You discover that your close friend has copied a significant portion of their science project from the internet. The project counts for 30% of their grade. Your friend's parents will be devastated if they fail. What do you do?" Students analyze using multiple frameworks, consider consequences for different parties, identify whose interests are at stake, and must ultimately defend a reasoned position—not just state a feeling.</p></div>`
+  },
+  {
+    title: "Moving Beyond Rote Learning",
+    subtitle: "From Memorization to Meaning",
+    content: `
+<h3>The Problem with Rote Learning</h3>
+<p>Rote learning—memorizing information without understanding its meaning or applications—has been the dominant mode of education in India for generations. It produces students who can reproduce information accurately during examinations but struggle to apply that knowledge in new contexts, cannot explain the reasoning behind what they know, forget information rapidly after examinations, and are poorly equipped for the collaborative, innovative work environments they will enter.</p>
+<h3>Why Rote Learning Persists</h3>
+<p>Despite universal agreement among educators that rote learning is inadequate, it persists for several reasons. High-stakes examinations reward it. Textbooks are organized around information rather than competencies. Classrooms are overcrowded, making interactive teaching difficult. Teachers are trained in content delivery rather than facilitation. And parents, students, and often teachers confuse the ability to recall information with genuine understanding.</p>
+<h3>Deep Learning as the Alternative</h3>
+<p>Deep learning—characterized by genuine understanding, the ability to apply knowledge in new contexts, integration of new information with existing knowledge, and critical evaluation of what is learned—is the goal NEP 2020 sets for Indian education. Deep learning requires elaborative interrogation (why is this true?), distributed practice (learning over time rather than cramming), interleaving (mixing different types of problems), and retrieval practice (recalling information from memory rather than re-reading).</p>
+<h3>Pedagogical Strategies That Promote Deep Learning</h3>
+<p>Research-backed strategies for promoting deep learning include: Conceptual teaching that emphasizes understanding underlying principles rather than procedures; Problem-based learning that develops knowledge through solving authentic problems; Collaborative learning that builds understanding through dialogue and peer teaching; Metacognitive training that helps students monitor and regulate their own learning; and Spaced repetition that builds durable memory through revisiting information over time.</p>
+<div class="reflection-box"><h4>💡 Reflection Questions</h4>
+<p>1. Identify a topic you studied for an exam and then forgot. Why do you think the learning didn't persist?</p>
+<p>2. How would you redesign a topic you are currently studying to make it more deeply learned?</p>
+<p>3. What is the difference between knowing that something is true and understanding why it is true?</p></div>
+<div class="classroom-box"><h4>🏫 Classroom Example</h4>
+<p>A chemistry teacher teaching periodic table trends could take the rote approach: "Memorize that ionization energy increases across a period and decreases down a group." Or the deep learning approach: provide students with data tables of ionization energies for all elements and ask them to find patterns, hypothesize explanations, test their hypotheses with additional data, and construct their own understanding of atomic structure that explains the trends. The second approach takes more time but produces knowledge that lasts.</p></div>`
+  },
+  {
+    title: "Teacher's Role in Skill Development",
+    subtitle: "From Instructor to Architect of Learning",
+    content: `
+<h3>The Transformed Teacher</h3>
+<p>NEP 2020 envisions a fundamental transformation in the teacher's role. The traditional conception of the teacher as the primary knowledge source is no longer adequate or accurate in an era of ubiquitous information. The transformed teacher is a learning architect—designing rich, challenging, meaningful learning experiences; a facilitator—guiding student thinking rather than transmitting information; a mentor—supporting individual development holistically; and a reflective practitioner—continuously improving practice through analysis and collaboration.</p>
+<h3>Questioning Skills: The Core Pedagogical Tool</h3>
+<p>The quality of a teacher's questions more than any other factor determines the quality of student thinking in a classroom. Research consistently shows that most classroom questions operate at the lowest levels of Bloom's Taxonomy—asking students to recall facts. Transforming this requires teachers to design and use higher-order questions: Why? How do you know? What evidence supports that? What are the counter-arguments? What would happen if? How is this connected to? What are the implications of?</p>
+<h3>Facilitating Discussion and Debate</h3>
+<p>Whole-class discussion, small-group collaboration, and structured academic controversy are powerful tools for developing critical thinking. Effective discussion facilitation requires creating psychological safety (students must feel safe to be wrong), establishing norms for respectful disagreement, using wait time after questions (allowing thinking before answers), building on student contributions, and managing the tension between productivity and inclusion.</p>
+<h3>Designing Assessments That Develop Thinking</h3>
+<p>Assessment design is perhaps the most powerful lever teachers have. Because students study what is assessed, assessments that require higher-order thinking drive higher-order instruction. Teachers who design performance tasks (requiring students to apply knowledge to novel problems), portfolios (showcasing development over time), and peer assessments (developing evaluative judgment) shape an entire instructional environment oriented toward genuine thinking.</p>
+<div class="reflection-box"><h4>💡 Reflection Questions</h4>
+<p>1. Think of a teacher who genuinely developed your thinking skills. What did they do differently?</p>
+<p>2. How can a teacher in a classroom of 50 students facilitate meaningful discussion?</p>
+<p>3. What professional development would most help teachers in your school transform their practice?</p></div>
+<div class="classroom-box"><h4>🏫 Classroom Example</h4>
+<p>A geography teacher uses "Thinking Routines" from Harvard's Project Zero framework. Before teaching a unit on climate change, she uses "See-Think-Wonder" with a satellite image of a deforested area: What do you see? What do you think is happening? What do you wonder? This immediately activates prior knowledge, develops observation skills, and generates genuine questions that drive the unit. The teacher has not taught anything yet—but students are already thinking.</p></div>`
+  },
+  {
+    title: "Assessment of Critical Thinking",
+    subtitle: "Measuring What Matters",
+    content: `
+<h3>The Assessment Challenge</h3>
+<p>Critical thinking is notoriously difficult to assess—but not impossible. The difficulty is that critical thinking is a process, not just a product. A student can arrive at a correct answer through poor reasoning or an incorrect answer through excellent reasoning. Assessing critical thinking therefore requires examining the reasoning process, not just the conclusion.</p>
+<h3>Performance-Based Assessments</h3>
+<p>The most authentic way to assess critical thinking is through performance tasks that require students to demonstrate thinking in action. These might include: analyzing a primary source document and identifying its assumptions and biases; writing an argument essay that acknowledges and responds to counter-arguments; designing and conducting an investigation; evaluating the quality of reasoning in a given text; or proposing and defending a solution to a complex real-world problem.</p>
+<h3>Rubrics for Critical Thinking</h3>
+<p>A well-designed rubric articulates what excellent, proficient, developing, and beginning critical thinking look like in specific tasks. Dimensions of critical thinking rubrics typically include: Clarity of purpose and question; Quality and relevance of evidence; Depth and complexity of analysis; Fairness in considering alternative perspectives; Logic and coherence of reasoning; and Sophistication of conclusions and their implications.</p>
+<h3>Self-Assessment and Metacognition</h3>
+<p>One of the most effective tools for developing critical thinking is structured self-assessment, because it develops metacognitive awareness—the ability to think about one's own thinking. After completing a reasoning task, students can rate their own performance on key dimensions, identify specific aspects of their reasoning that were strong or weak, and set goals for improvement. This metacognitive habit, developed over time, is one of the most powerful predictors of academic achievement.</p>
+<h3>Portfolio Assessment</h3>
+<p>A portfolio that collects samples of student thinking over time—with student reflections on how their thinking has developed—provides the richest picture of critical thinking development. It shows growth, captures the process of thinking, and encourages students to take ownership of their intellectual development in ways that single-occasion tests cannot.</p>
+<div class="reflection-box"><h4>💡 Reflection Questions</h4>
+<p>1. How would you assess a student's critical thinking ability fairly? Design a simple rubric.</p>
+<p>2. What is the difference between assessing thinking and assessing knowledge of content?</p>
+<p>3. How could you use self-assessment to help students improve their reasoning skills?</p></div>
+<div class="classroom-box"><h4>🏫 Classroom Example</h4>
+<p>A teacher assigns the "Claim-Evidence-Reasoning" framework for all written work in science. Students must identify their claim (the answer to the question), provide specific evidence (data or observations), and construct reasoning (explaining how the evidence supports the claim using scientific principles). Over a semester, the teacher collects these assignments in a portfolio and scores each one using a consistent rubric, providing students with specific feedback on how their scientific reasoning is developing.</p></div>`
+  }
+];
+
+const LOGIC_QUESTIONS = [
+  {
+    type: "pattern",
+    q: "Complete the series: 2, 6, 12, 20, 30, ___",
+    options: ["38", "40", "42", "44"],
+    answer: 2,
+    explanation: "Each difference increases by 2: +4, +6, +8, +10, +12. So 30+12=42."
+  },
+  {
+    type: "analogy",
+    q: "Book is to Library as Painting is to ___",
+    options: ["Canvas", "Museum", "Artist", "Colour"],
+    answer: 1,
+    explanation: "A book is stored/displayed in a library; a painting is stored/displayed in a museum."
+  },
+  {
+    type: "logic",
+    q: "All trees are plants. All plants need sunlight. Therefore:",
+    options: [
+      "All plants are trees",
+      "All trees need sunlight",
+      "All sunlight comes from trees",
+      "Only trees need sunlight"
+    ],
+    answer: 1,
+    explanation: "From 'All trees are plants' and 'All plants need sunlight', we can logically conclude 'All trees need sunlight'. This is a valid syllogism."
+  },
+  {
+    type: "pattern",
+    q: "Identify the odd one out: 121, 144, 169, 196, 200",
+    options: ["121", "169", "196", "200"],
+    answer: 3,
+    explanation: "121=11², 144=12², 169=13², 196=14². Only 200 is NOT a perfect square."
+  },
+  {
+    type: "analogy",
+    q: "Thermometer is to Temperature as Barometer is to ___",
+    options: ["Rain", "Pressure", "Wind", "Humidity"],
+    answer: 1,
+    explanation: "A thermometer measures temperature; a barometer measures atmospheric pressure."
+  },
+  {
+    type: "logic",
+    q: "If some doctors are teachers, and all teachers are kind, which must be true?",
+    options: [
+      "All doctors are kind",
+      "Some doctors are kind",
+      "All kind people are teachers",
+      "No doctors are teachers"
+    ],
+    answer: 1,
+    explanation: "Since SOME doctors are teachers, and ALL teachers are kind, those doctors who are teachers must be kind. So SOME doctors are kind."
+  },
+  {
+    type: "pattern",
+    q: "What comes next: A, C, F, J, O, ___",
+    options: ["T", "U", "V", "W"],
+    answer: 1,
+    explanation: "Gaps increase: A+2=C, C+3=F, F+4=J, J+5=O, O+6=U. The answer is U."
+  },
+  {
+    type: "analogy",
+    q: "Knife is to Sharp as Sponge is to ___",
+    options: ["Wet", "Absorbent", "Soft", "Clean"],
+    answer: 1,
+    explanation: "A knife's key property is being sharp; a sponge's key property is being absorbent."
+  }
+];
+
+const CASE_STUDIES = [
+  {
+    title: "The River Town Dilemma",
+    category: "Social & Environmental",
+    scenario: "The town of Riverdale has depended on its river for fishing and farming for generations. A large textile company has proposed building a factory upstream that would employ 2,000 people but would require discharging treated (but not pristine) wastewater into the river. Environmental tests show the water would technically meet government standards but would reduce fish populations by an estimated 30%. The town has 40% unemployment. The factory would pay significant taxes that could fund schools and hospitals.",
+    questions: [
+      { q: "What is the core problem in this scenario?", hint: "Identify the central conflict of values" },
+      { q: "Who are all the stakeholders affected by this decision?", hint: "Think beyond the obvious groups" },
+      { q: "What additional information would you need before making a decision?", hint: "What facts are missing?" },
+      { q: "What solutions could potentially address both economic and environmental concerns?", hint: "Think creatively—are these truly in opposition?" },
+      { q: "If you were the town mayor, what decision would you make and why?", hint: "Justify with evidence and reasoning" }
+    ]
+  },
+  {
+    title: "The Exam Dilemma",
+    category: "Ethical",
+    scenario: "Priya is a top student preparing for her Class 10 board exams. The night before her mathematics exam, she discovers that her classmate Arjun has managed to obtain the question paper illegally. Arjun tells Priya he'll share it with her if she promises not to tell anyone. Priya knows that Arjun's family is under extreme financial pressure—this exam result determines whether he gets a scholarship that his family desperately needs. Priya's own future college admission also depends on her score.",
+    questions: [
+      { q: "What ethical conflict is at the heart of this dilemma?", hint: "Identify competing values" },
+      { q: "What are Priya's options? List at least four.", hint: "Think beyond the obvious two" },
+      { q: "What are the potential consequences of each option?", hint: "Consider short-term and long-term, for all parties" },
+      { q: "How would different ethical frameworks (consequentialism, deontology, virtue ethics) approach this?", hint: "Apply what you know about ethics" },
+      { q: "What would you do? Provide a principled justification.", hint: "Be honest and specific" }
+    ]
+  },
+  {
+    title: "The Scientific Discovery",
+    category: "Science & Society",
+    scenario: "Dr. Ananya Krishnan, a young researcher, has discovered a chemical compound that appears to significantly increase crop yields—potentially solving food insecurity for millions. However, her three-month animal studies suggest it might have harmful effects on the liver with prolonged exposure. The full long-term safety studies would take 5 more years. Her funding agency and government officials are pressuring her to release the compound immediately given the food crisis, promising to conduct safety studies in parallel. She would receive enormous recognition and career advancement.",
+    questions: [
+      { q: "What are the competing values in this scenario?", hint: "Scientific integrity vs. urgency vs. personal gain" },
+      { q: "What are the risks of releasing the compound early? Of waiting 5 years?", hint: "Consider both short and long-term risks" },
+      { q: "What responsibilities does Dr. Krishnan have to different groups?", hint: "Think about farmers, consumers, future patients, science" },
+      { q: "What process should be used to make this decision?", hint: "Who should be involved? What criteria should be applied?" },
+      { q: "What would you recommend and why?", hint: "Support your recommendation with reasoning" }
+    ]
+  }
+];
+
+const ETHICAL_DILEMMAS = [
+  {
+    title: "The Trolley Problem",
+    scenario: "A runaway trolley is heading toward five people tied to the tracks. You are standing next to a lever that would divert the trolley to another track where only one person is tied. If you pull the lever, one person dies. If you do nothing, five people die. What do you do?",
+    options: [
+      { text: "Pull the lever — save five people at the cost of one", framework: "Consequentialist" },
+      { text: "Do nothing — it's not your place to cause the death of an innocent person", framework: "Deontological" },
+      { text: "Pull the lever but report yourself to authorities afterward", framework: "Virtue Ethics (accountability)" },
+      { text: "Try to warn both groups and run — refuse to be the agent of any death", framework: "Care Ethics" }
+    ],
+    perspectives: {
+      consequentialist: "A consequentialist would argue that pulling the lever is clearly right—five lives saved is a better outcome than one. The numerical calculus is straightforward.",
+      deontological: "A Kantian would argue that pulling the lever makes you an agent of the one person's death, which violates the duty not to kill innocent people, regardless of the benefit.",
+      virtue: "A virtue ethicist would ask what a person of good character, courage, and practical wisdom would do. They might pull the lever but also feel genuine moral weight for the death caused.",
+      care: "A care ethicist would note that abstract numbers miss the relational dimension—the one person has relationships, people who love them, just as each of the five do."
+    }
+  },
+  {
+    title: "Digital Privacy Dilemma",
+    scenario: "You are a social media engineer who discovers that the platform is collecting and selling detailed psychological profiles of users, including teenagers, to political campaigns—technically legal but never disclosed in the terms of service. Exposing this would likely end your career at the company. Staying silent means continuing to enable potential manipulation of democracy and vulnerable young people.",
+    options: [
+      { text: "Report internally to company leadership first", framework: "Institutional loyalty" },
+      { text: "Report to government regulators anonymously", framework: "Rule of law" },
+      { text: "Become a public whistleblower", framework: "Public interest" },
+      { text: "Document everything quietly and wait for a safer moment", framework: "Cautious pragmatism" }
+    ],
+    perspectives: {
+      consequentialist: "The consequentialist analysis must weigh the harm to millions of users against the harm to your career. At scale, public exposure may produce the best outcomes.",
+      deontological: "Deontological ethics emphasizes the duty of honesty and the right of users to know how their data is used. Non-disclosure violates users' rational autonomy.",
+      virtue: "What would a person of integrity and courage do? Virtue ethics asks us to act as our best self would act, not as our most self-interested self would.",
+      care: "Care ethics highlights our relational obligations—to colleagues, to users we've never met but affect, to the society we share. Both matter and may conflict."
+    }
+  },
+  {
+    title: "The Cheating Friend",
+    scenario: "You are taking a competitive entrance examination. You notice your closest friend, who has been struggling with family problems all year, is clearly copying from a hidden cheat sheet. Getting caught means automatic disqualification and a permanent note on their record. The exam determines admission to one of only 20 spots in a sought-after program. If your friend is admitted instead of the 20th legitimate scorer, that person loses their opportunity.",
+    options: [
+      { text: "Report immediately to the invigilator", framework: "Rule-following / fairness to others" },
+      { text: "Pass a note warning your friend to stop", framework: "Loyalty / second chance" },
+      { text: "Do nothing and let the outcome stand", framework: "Non-interference" },
+      { text: "Report after the exam so the exam isn't disrupted but wrong is still addressed", framework: "Procedural compromise" }
+    ],
+    perspectives: {
+      consequentialist: "What produces the best overall outcome? Consider the friend's wellbeing, the 20th legitimate candidate, and the integrity of the system that affects all future candidates.",
+      deontological: "Rules against cheating exist to protect everyone's rights to fair assessment. Fairness requires consistent application of rules regardless of personal relationship.",
+      virtue: "A virtuous friend is honest, not just agreeable. True friendship may mean acting in your friend's genuine long-term interest, even when that is painful.",
+      care: "Care ethics asks: what does genuine care for your friend look like? Is protecting them from consequences in this moment truly caring for them?"
+    }
+  }
+];
+
+const QUIZ_QUESTIONS = [
+  {
+    q: "A student argues: 'We should ban all social media because my cousin became addicted to it.' What logical fallacy does this represent?",
+    options: ["False dichotomy", "Hasty generalization", "Ad hominem", "Appeal to authority"],
+    answer: 1,
+    explanation: "Drawing a broad policy conclusion (ban all social media) from a single case (one cousin) is a hasty generalization."
+  },
+  {
+    q: "Which of the following is the best example of ANALYSIS (Level 4 of Bloom's Taxonomy)?",
+    options: [
+      "Reciting the causes of the French Revolution",
+      "Explaining what democracy means",
+      "Comparing how different economic systems responded to the 2008 financial crisis",
+      "Designing a new system of government"
+    ],
+    answer: 2,
+    explanation: "Comparing and contrasting how different systems responded requires breaking down information and examining relationships—this is analysis."
+  },
+  {
+    q: "In a debate, your opponent says 'You can't trust her argument about climate policy because she works for an oil company.' This is an example of:",
+    options: ["A valid counter-argument", "Ad hominem fallacy", "Appeal to evidence", "Confirmation bias"],
+    answer: 1,
+    explanation: "Ad hominem means 'against the person'—attacking the person making the argument rather than the argument itself. The source may be biased, but that doesn't automatically invalidate the argument."
+  },
+  {
+    q: "Which approach best aligns with NEP 2020's vision for education?",
+    options: [
+      "Teaching students to memorize key facts efficiently",
+      "Covering maximum syllabus content before exams",
+      "Developing competencies through inquiry, application, and reflection",
+      "Focusing exclusively on mathematics and science"
+    ],
+    answer: 2,
+    explanation: "NEP 2020 explicitly calls for a shift from content coverage to competency development through experiential, inquiry-based, and reflective learning."
+  },
+  {
+    q: "A consequentialist ethical framework would evaluate an action based on:",
+    options: [
+      "Whether it follows moral rules and duties",
+      "The character and intentions of the person acting",
+      "The results and outcomes the action produces",
+      "What a community of wise people would endorse"
+    ],
+    answer: 2,
+    explanation: "Consequentialism (associated with Bentham and Mill) holds that actions are right or wrong based entirely on their consequences—specifically whether they maximize well-being."
+  },
+  {
+    q: "Which of the following best describes metacognition?",
+    options: [
+      "Learning multiple languages simultaneously",
+      "Thinking about your own thinking processes",
+      "Memorizing large amounts of information",
+      "Taking notes during class"
+    ],
+    answer: 1,
+    explanation: "Metacognition is the ability to monitor, understand, and regulate your own cognitive processes—knowing what you know and how you learn."
+  },
+  {
+    q: "PARAKH was established primarily to:",
+    options: [
+      "Conduct national entrance examinations",
+      "Develop competency-based assessment standards and tools",
+      "Recruit teachers for government schools",
+      "Publish school textbooks"
+    ],
+    answer: 1,
+    explanation: "PARAKH (Performance Assessment, Review, and Analysis of Knowledge for Holistic Development) is the national body under NCERT responsible for setting assessment standards aligned with NEP 2020."
+  },
+  {
+    q: "A student analyzes two conflicting scientific studies on the same topic and concludes: 'More research is needed before we can be certain.' This response best demonstrates:",
+    options: [
+      "Indecisiveness",
+      "Intellectual humility and evidence-based reasoning",
+      "Lack of critical thinking",
+      "Avoiding the question"
+    ],
+    answer: 1,
+    explanation: "Recognizing the limits of available evidence and withholding strong conclusions is a marker of intellectual humility—a key component of critical thinking."
+  }
+];
+
+const DECISIONS = [
+  {
+    title: "The Social Media Post",
+    scenario: "Your friend shows you a WhatsApp message claiming that a local politician has been involved in corruption. The message has been shared 5,000 times. Your friend wants to share it further. The source is anonymous and unverified.",
+    choices: [
+      { text: "Share it immediately—if 5,000 people shared it, there must be truth to it", tag: "Impulse" },
+      { text: "Fact-check the claim first using reliable sources before sharing", tag: "Responsible" },
+      { text: "Tell your friend not to share it and explain why", tag: "Principled" },
+      { text: "Share it only to your close friends in a private group", tag: "Cautious" }
+    ],
+    consequences: [
+      {
+        choice: 0,
+        immediate: "The message spreads further in your network. You get social validation from friends who agree.",
+        longterm: "The claim turns out to be false. The politician sues the original creator. Misinformation damages community trust.",
+        ethical: "You contributed to spreading potentially false information that harms someone's reputation without evidence."
+      },
+      {
+        choice: 1,
+        immediate: "It takes time. You discover the claim is unverified—no credible news source has reported it.",
+        longterm: "You've protected yourself from sharing misinformation. You're respected as a thoughtful, reliable person.",
+        ethical: "You acted in line with principles of honesty and intellectual responsibility."
+      },
+      {
+        choice: 2,
+        immediate: "Your friend is initially annoyed but listens. They decide not to share it.",
+        longterm: "You've helped stop the spread of potentially false information. Your friendship is stronger for the honest conversation.",
+        ethical: "You demonstrated moral courage by speaking up for what is right rather than what is easy."
+      },
+      {
+        choice: 3,
+        immediate: "It still spreads—private messages are often forwarded.",
+        longterm: "The misinformation spreads further. The privacy of a small group doesn't prevent wider damage.",
+        ethical: "Limiting distribution doesn't eliminate responsibility for spreading unverified harmful claims."
+      }
+    ]
+  },
+  {
+    title: "The Scholarship Recommendation",
+    scenario: "You are on a student committee that selects one student for a prestigious national scholarship. Two candidates are equally qualified academically. Candidate A is your close friend who would benefit enormously from the scholarship. Candidate B is a student you don't know well but whose personal statement reveals they come from extreme poverty and are the first in their family to reach Class 12.",
+    choices: [
+      { text: "Vote for your friend—you know them better and trust their ability", tag: "Loyalty" },
+      { text: "Vote for Candidate B—their need is greater and they deserve equal opportunity", tag: "Equity" },
+      { text: "Disclose your conflict of interest and ask to be recused from this decision", tag: "Integrity" },
+      { text: "Abstain from voting to avoid appearing biased", tag: "Avoidance" }
+    ],
+    consequences: [
+      {
+        choice: 0,
+        immediate: "Your friend gets the scholarship and is thrilled.",
+        longterm: "Colleagues who know your friendship question the committee's impartiality. Your integrity in future decisions is doubted.",
+        ethical: "Personal loyalty in a position of public trust is a form of corruption, however small."
+      },
+      {
+        choice: 1,
+        immediate: "Candidate B receives the scholarship. Your friend is disappointed.",
+        longterm: "The scholarship achieves its equity goal. Your friend respects your reasoning when you explain it.",
+        ethical: "You acted on the principle that equal opportunity matters more than personal loyalty in this context."
+      },
+      {
+        choice: 2,
+        immediate: "You withdraw from the decision. The remaining committee decides without your conflict of interest.",
+        longterm: "The process is seen as fair. You maintain credibility. Your friend cannot blame the outcome on bias.",
+        ethical: "Recognizing and managing conflicts of interest is essential to institutional integrity."
+      },
+      {
+        choice: 3,
+        immediate: "The vote proceeds without your input. The outcome may or may not favour your friend.",
+        longterm: "Abstaining without explanation doesn't address the conflict and may frustrate committee members.",
+        ethical: "Avoidance is not the same as integrity. A responsible member discloses and withdraws, not merely withholds."
+      }
+    ]
+  }
+];
+
+const DEBATES = [
+  {
+    topic: "Should mobile phones be allowed in schools?",
+    for: [
+      "Smartphones are learning tools that provide instant access to educational resources, dictionaries, and research materials.",
+      "Banning phones doesn't prepare students for digital citizenship—schools should teach responsible usage instead.",
+      "In emergencies, phones allow students to contact parents and authorities immediately.",
+      "Calculators, clocks, and other digital tools were once banned in schools and are now accepted—phones are the same.",
+      "Students from poor families use phones to access educational content they can't otherwise afford."
+    ],
+    against: [
+      "Research consistently shows phones in classrooms significantly reduce attention, memory consolidation, and learning outcomes—even when not in use.",
+      "Social media and notifications create addictive distraction patterns that developing adolescent brains are poorly equipped to resist.",
+      "Phones enable cheating in examinations and class assignments, undermining assessment integrity.",
+      "The digital divide means not all students have equivalent devices, creating visible inequality in classrooms.",
+      "Cyberbullying and social comparison via phones causes documented mental health harm in school environments."
+    ],
+    reflection: [
+      "What does the research say about phone use and learning outcomes?",
+      "How should schools balance digital literacy education with minimizing distraction?",
+      "Is a middle position possible—phones during breaks but not during classes? What would implementation look like?"
+    ]
+  },
+  {
+    topic: "Should exams be abolished in schools?",
+    for: [
+      "Exams primarily test memory and performance under stress, not genuine understanding or real-world competence.",
+      "The exam system creates extreme stress and anxiety that harms adolescent mental health and wellbeing.",
+      "Projects, portfolios, and continuous assessment give a more comprehensive picture of a student's abilities.",
+      "Exams discriminate against students from disadvantaged backgrounds who lack resources for test preparation.",
+      "Countries that have moved away from standardized exams (like Finland) consistently outperform those that rely on them."
+    ],
+    against: [
+      "Exams provide an objective, standardized measure that reduces teacher bias in evaluation.",
+      "The skills of preparation, performance under pressure, and time management developed by exams are valuable in life.",
+      "Without standardized assessments, qualification inflation occurs and it becomes difficult to compare candidates fairly.",
+      "In India's context, eliminating exams without robust teacher training for alternatives could increase subjective discrimination.",
+      "Many students perform better under the focused preparation that exams incentivize than through open-ended projects."
+    ],
+    reflection: [
+      "What is the actual purpose of educational assessment? Does that purpose require exams?",
+      "How would you assess the 5,000 students applying for 100 university spots without exams?",
+      "Is the problem with exams themselves or with how Indian schools prepare students for them?"
+    ]
+  },
+  {
+    topic: "Is technology making us less intelligent?",
+    for: [
+      "GPS use has been shown to reduce spatial reasoning and the ability to navigate without technology.",
+      "Calculators and search engines have reduced the development of mental arithmetic and memorization skills.",
+      "Social media algorithms create filter bubbles that reduce exposure to challenging ideas and diverse perspectives.",
+      "Continuous partial attention from notifications reduces the capacity for deep, sustained concentration—a core cognitive skill.",
+      "When we outsource cognitive tasks to machines, we fail to develop those cognitive capacities ourselves."
+    ],
+    against: [
+      "Intelligence is not fixed—it encompasses many types, and technology has enhanced our ability to collaborate, create, and solve complex problems.",
+      "Writing was once criticized for making human memory lazy. Technology extends cognitive capacity rather than replacing it.",
+      "Access to information technology has democratized knowledge, enabling people from disadvantaged backgrounds to learn and create.",
+      "The internet has connected global communities of inquiry, enabling collaborative intelligence at scales previously impossible.",
+      "Defining 'intelligence' as the ability to do things machines can do for us is the wrong benchmark."
+    ],
+    reflection: [
+      "What do you mean by 'intelligence'? Does your definition affect the debate?",
+      "What cognitive skills should humans develop even when technology can do them for us? Why?",
+      "How can education help students develop complementary intelligence to artificial intelligence?"
+    ]
+  }
+];
+
+const MULTI_CHALLENGES = [
+  {
+    title: "Climate Change: A Multidisciplinary Problem",
+    domains: ["Science", "Economics", "Ethics", "Policy", "Social Studies"],
+    prompt: "Climate change is often discussed as an environmental issue, but it is actually a challenge that cuts across every academic discipline. Your task is to analyze climate change from multiple disciplinary lenses and identify how insights from each domain are necessary for effective solutions.",
+    connections: [
+      { domain: "Science + Ethics", connection: "Scientific evidence establishes that climate change is human-caused and dangerous. But science alone cannot tell us who has the obligation to act, or how to distribute the burden fairly between rich and poor countries." },
+      { domain: "Economics + Environment", connection: "Carbon taxes and cap-and-trade systems attempt to make the market reflect the true environmental cost of emissions—a connection between economic theory and environmental protection." },
+      { domain: "History + Future", connection: "Historical patterns of industrialization reveal that today's wealthiest countries built their wealth partly through unconstrained emissions—this historical justice argument shapes international climate negotiations." },
+      { domain: "Technology + Society", connection: "Renewable energy technology is advancing rapidly, but technological solutions require social acceptance, behavior change, and equitable distribution to be effective." },
+      { domain: "Policy + Democracy", connection: "Climate policy requires long-term commitment across election cycles—a challenge for democratic systems built on short-term responsiveness to voters." }
+    ]
+  },
+  {
+    title: "Poverty and Education",
+    domains: ["Economics", "Sociology", "Psychology", "Policy", "Ethics"],
+    prompt: "Poverty and education are deeply interconnected. Explore this relationship through multiple disciplinary lenses to understand why breaking the cycle of poverty through education is more complex than it appears.",
+    connections: [
+      { domain: "Economics + Education", connection: "Human capital theory holds that education increases productivity and earning potential—yet the returns to education vary enormously based on the quality of education and the economic structure one graduates into." },
+      { domain: "Sociology + Learning", connection: "Sociological research shows that school culture often reflects and reinforces the values of dominant social groups, making it harder for students from marginalized communities to see themselves as capable of academic success." },
+      { domain: "Psychology + Poverty", connection: "Research on 'poverty brain'—how scarcity creates a cognitive bandwidth tax that reduces decision-making quality—explains why simply providing opportunities isn't sufficient." },
+      { domain: "Ethics + Policy", connection: "Should education policy prioritize excellence (helping the best students reach their potential) or equity (ensuring basic quality education for all)? This is fundamentally an ethical question." },
+      { domain: "History + Present", connection: "Current educational inequalities cannot be understood without understanding the history of discriminatory access to education based on caste, gender, and geography." }
+    ]
+  }
+];
+
+// ══════════════════════════════════════════════════════════
+//  STATE & STORAGE
+// ══════════════════════════════════════════════════════════
+let state = {
+  skills: { ct: 0, dm: 0, an: 0, ea: 0 },
+  progress: { logic: 0, case: 0, decision: 0, evidence: 0, debate: 0, problem: 0, ethics: 0, quiz: 0, multi: 0, journal: 0 },
+  quizScore: 0,
+  totalAttempts: 0,
+  modulesCompleted: []
+};
+let journalEntries = [];
+let currentPolicyPage = 0;
+let currentModule = '';
+let logicIndex = 0;
+let quizIndex = 0;
+let quizScore = 0;
+let caseIndex = 0;
+let decisionIndex = 0;
+let dilemmaIndex = 0;
+let multiIndex = 0;
+let evidenceIndex = 0;
+let debateIndex = 0;
+let problemStep = 0;
+
+function saveState() {
+  try {
+    localStorage.setItem('ctcl_state', JSON.stringify(state));
+    localStorage.setItem('ctcl_journal', JSON.stringify(journalEntries));
+  } catch(e) {}
+}
+
+function loadState() {
+  try {
+    const s = localStorage.getItem('ctcl_state');
+    if (s) state = { ...state, ...JSON.parse(s) };
+    const j = localStorage.getItem('ctcl_journal');
+    if (j) journalEntries = JSON.parse(j);
+  } catch(e) {}
+}
+
+function updateSkill(skill, delta) {
+  state.skills[skill] = Math.min(100, state.skills[skill] + delta);
+  saveState();
+  updateHomeBars();
+}
+
+function updateHomeBars() {
+  ['ct','dm','an','ea'].forEach(k => {
+    const fill = document.getElementById('bar-'+k);
+    const val = document.getElementById('val-'+k);
+    if (fill) { fill.style.width = state.skills[k] + '%'; }
+    if (val) val.textContent = state.skills[k] + '%';
+  });
+}
+
+// ══════════════════════════════════════════════════════════
+//  NAVIGATION
+// ══════════════════════════════════════════════════════════
+function showScreen(id) {
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  const sc = document.getElementById(id);
+  if (sc) { sc.classList.add('active'); sc.scrollTop = 0; window.scrollTo(0,0); }
+  if (id === 'teacher-screen') renderTeacher();
+}
+
+function showNav() { showScreen('nav-screen'); }
+
+function showModule(mod) {
+  currentModule = mod;
+  const titles = {
+    logic: 'Logical Reasoning Lab',
+    case: 'Case Study Analyzer',
+    decision: 'Decision Simulator',
+    evidence: 'Evidence Evaluator',
+    debate: 'Debate Builder',
+    problem: 'Problem-Solving Trainer',
+    ethics: 'Ethical Dilemma Lab',
+    quiz: 'Analytical Thinking Quiz',
+    multi: 'Multidisciplinary Challenge',
+    journal: 'Reflection Journal'
+  };
+  document.getElementById('module-header-title').textContent = titles[mod] || mod;
+  document.getElementById('module-content').innerHTML = '';
+  showScreen('module-screen');
+  setTimeout(() => renderModule(mod), 50);
+}
+
+// ══════════════════════════════════════════════════════════
+//  POLICY READER
+// ══════════════════════════════════════════════════════════
+function initPolicyToc() {
+  const ul = document.getElementById('toc-list');
+  ul.innerHTML = '';
+  POLICY_PAGES.forEach((pg, i) => {
+    ul.innerHTML += `<li class="toc-item" onclick="openPolicyPage(${i})">
+      <span class="toc-num">0${i+1}</span>
+      <div><h3>${pg.title}</h3><p>${pg.subtitle}</p></div>
+    </li>`;
+  });
+}
+
+function openPolicyPage(idx) {
+  currentPolicyPage = idx;
+  renderPolicyPage(idx);
+  document.getElementById('policy-toc').style.display = 'none';
+  document.getElementById('policy-article').style.display = 'block';
+  document.getElementById('policy-article').scrollTop = 0;
+  window.scrollTo(0,0);
+}
+
+function renderPolicyPage(idx) {
+  const pg = POLICY_PAGES[idx];
+  document.getElementById('article-header-title').textContent = 'Page ' + (idx+1);
+  document.getElementById('article-body').innerHTML = `
+    <h2>${pg.title}</h2>
+    <p class="article-meta">Page ${idx+1} of ${POLICY_PAGES.length} &nbsp;•&nbsp; ${pg.subtitle}</p>
+    ${pg.content}
+  `;
+  document.getElementById('pg-info').textContent = `${idx+1} / ${POLICY_PAGES.length}`;
+  document.getElementById('prev-pg').disabled = idx === 0;
+  document.getElementById('next-pg').disabled = idx === POLICY_PAGES.length - 1;
+}
+
+function navPage(dir) {
+  const next = currentPolicyPage + dir;
+  if (next >= 0 && next < POLICY_PAGES.length) openPolicyPage(next);
+}
+
+function showToc() {
+  document.getElementById('policy-toc').style.display = 'block';
+  document.getElementById('policy-article').style.display = 'none';
+}
+
+// ══════════════════════════════════════════════════════════
+//  MODULE RENDERERS
+// ══════════════════════════════════════════════════════════
+function renderModule(mod) {
+  const c = document.getElementById('module-content');
+  switch(mod) {
+    case 'logic': renderLogic(c); break;
+    case 'case': renderCase(c); break;
+    case 'decision': renderDecision(c); break;
+    case 'evidence': renderEvidence(c); break;
+    case 'debate': renderDebate(c); break;
+    case 'problem': renderProblem(c); break;
+    case 'ethics': renderEthics(c); break;
+    case 'quiz': renderQuiz(c); break;
+    case 'multi': renderMulti(c); break;
+    case 'journal': renderJournal(c); break;
+  }
+}
+
+// ── MODULE 1: LOGIC ──────────────────────────────────────
+function renderLogic(c) {
+  logicIndex = parseInt(localStorage.getItem('logic_idx') || '0');
+  renderLogicQ(c);
+}
+
+function renderLogicQ(c) {
+  const total = LOGIC_QUESTIONS.length;
+  if (logicIndex >= total) {
+    c.innerHTML = `<div class="module-card">
+      <h3>🎉 Logic Lab Complete!</h3>
+      <div class="score-display">
+        <div class="score-num">${logicIndex}/${total}</div>
+        <p>All logic questions attempted!</p>
+      </div>
+      <button class="btn-sm" onclick="logicIndex=0;localStorage.setItem('logic_idx','0');renderModule('logic')">Restart</button>
+    </div>`;
+    updateSkill('an', 15);
+    return;
+  }
+  const q = LOGIC_QUESTIONS[logicIndex];
+  const typeLabel = { pattern: '🔢 Pattern', analogy: '🔁 Analogy', logic: '🧩 Logic' }[q.type] || '❓';
+  c.innerHTML = `<div class="module-card">
+    <h3>Module 1: Logical Reasoning Lab</h3>
+    <div class="prog-bar-wrap">
+      <div class="prog-label"><span>Progress</span><span>${logicIndex}/${total}</span></div>
+      <div class="prog-track"><div class="prog-fill" style="width:${(logicIndex/total)*100}%"></div></div>
+    </div>
+    <span class="tag-pill">${typeLabel}</span>
+    <p class="q-stem" style="margin-top:12px">${q.q}</p>
+    <ul class="options-list" id="logic-opts">
+      ${q.options.map((o,i) => `<li><button class="option-btn" onclick="checkLogic(${i})">${o}</button></li>`).join('')}
+    </ul>
+    <div class="feedback-box" id="logic-fb"></div>
+  </div>`;
+}
+
+function checkLogic(chosen) {
+  const q = LOGIC_QUESTIONS[logicIndex];
+  const btns = document.querySelectorAll('#logic-opts .option-btn');
+  btns.forEach((b,i) => {
+    b.disabled = true;
+    if (i === q.answer) b.classList.add('correct');
+    else if (i === chosen) b.classList.add('wrong');
+  });
+  const fb = document.getElementById('logic-fb');
+  fb.classList.add('show');
+  fb.innerHTML = (chosen === q.answer ? '✅ Correct! ' : '❌ Incorrect. ') + q.explanation;
+  logicIndex++;
+  localStorage.setItem('logic_idx', logicIndex);
+  updateSkill('an', 5);
+  setTimeout(() => renderLogicQ(document.getElementById('module-content')), 2200);
+}
+
+// ── MODULE 2: CASE STUDY ─────────────────────────────────
+function renderCase(c) {
+  caseIndex = parseInt(localStorage.getItem('case_idx') || '0') % CASE_STUDIES.length;
+  renderCaseStudy(c);
+}
+
+function renderCaseStudy(c) {
+  const cs = CASE_STUDIES[caseIndex];
+  c.innerHTML = `<div class="module-card">
+    <h3>Module 2: Case Study Analyzer</h3>
+    <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px">
+      ${CASE_STUDIES.map((cs2,i) => `<button class="tab-btn ${i===caseIndex?'active':''}" onclick="caseIndex=${i};localStorage.setItem('case_idx','${i}');renderCaseStudy(document.getElementById('module-content'))">${i+1}. ${cs2.category}</button>`).join('')}
+    </div>
+    <span class="tag-pill">${cs.category}</span>
+    <h4 style="margin-top:12px">${cs.title}</h4>
+    <p style="background:rgba(255,255,255,0.04);border:1px solid var(--card-border);border-radius:8px;padding:14px;line-height:1.75;margin:12px 0">${cs.scenario}</p>
+    <h4>Analysis Questions</h4>
+    ${cs.questions.map((q,i) => `
+      <div style="margin-bottom:14px">
+        <p style="color:var(--white);font-weight:600;margin-bottom:6px">${i+1}. ${q.q}</p>
+        <p style="font-size:0.78rem;color:var(--muted);margin-bottom:6px"><em>Hint: ${q.hint}</em></p>
+        <textarea class="journal-input" id="case-ans-${i}" placeholder="Write your analysis here..." rows="3"></textarea>
+      </div>
+    `).join('')}
+    <button class="btn-sm gold" onclick="saveCase()">💾 Save My Analysis</button>
+    <div class="alert success" id="case-saved" style="display:none;margin-top:10px">✅ Analysis saved to your journal!</div>
+  </div>`;
+  updateSkill('ct', 8);
+}
+
+function saveCase() {
+  const cs = CASE_STUDIES[caseIndex];
+  const answers = cs.questions.map((q,i) => ({
+    question: q.q,
+    answer: document.getElementById('case-ans-'+i)?.value || ''
+  }));
+  journalEntries.unshift({
+    date: new Date().toLocaleString(),
+    type: 'Case Study',
+    title: cs.title,
+    content: answers.map(a => `Q: ${a.question}\nA: ${a.answer}`).join('\n\n')
+  });
+  saveState();
+  const el = document.getElementById('case-saved');
+  if (el) { el.style.display = 'block'; setTimeout(() => el.style.display='none', 2500); }
+}
+
+// ── MODULE 3: DECISION SIMULATOR ─────────────────────────
+function renderDecision(c) {
+  decisionIndex = 0;
+  renderDecisionScenario(c);
+}
+
+function renderDecisionScenario(c) {
+  const d = DECISIONS[decisionIndex];
+  c.innerHTML = `<div class="module-card">
+    <h3>Module 3: Decision Simulator</h3>
+    <div style="display:flex;gap:8px;margin-bottom:16px">
+      ${DECISIONS.map((d2,i) => `<button class="tab-btn ${i===decisionIndex?'active':''}" onclick="decisionIndex=${i};renderDecisionScenario(document.getElementById('module-content'))">Scenario ${i+1}</button>`).join('')}
+    </div>
+    <h4>${d.title}</h4>
+    <p style="background:rgba(255,255,255,0.04);border:1px solid var(--card-border);border-radius:8px;padding:14px;line-height:1.75;margin:12px 0">${d.scenario}</p>
+    <h4>What would you do?</h4>
+    <ul class="options-list">
+      ${d.choices.map((ch,i) => `<li><button class="option-btn" onclick="showDecisionConsequence(${i})"><span class="tag-pill">${ch.tag}</span> ${ch.text}</button></li>`).join('')}
+    </ul>
+    <div id="decision-consequence" style="display:none"></div>
+  </div>`;
+}
+
+function showDecisionConsequence(idx) {
+  const d = DECISIONS[decisionIndex];
+  const cons = d.consequences[idx];
+  const el = document.getElementById('decision-consequence');
+  el.style.display = 'block';
+  el.innerHTML = `
+    <div class="consequence-card immediate"><h4>⚡ Immediate Consequence</h4><p>${cons.immediate}</p></div>
+    <div class="consequence-card longterm"><h4>📅 Long-term Implication</h4><p>${cons.longterm}</p></div>
+    <div class="consequence-card ethical"><h4>⚖️ Ethical Dimension</h4><p>${cons.ethical}</p></div>
+    <div class="reflection-box" style="margin-top:12px">
+      <h4>💭 Reflect: Would you change your choice knowing these consequences?</h4>
+      <textarea class="journal-input" id="dec-reflect" placeholder="Write your reflection..." rows="3"></textarea>
+      <button class="btn-sm gold" onclick="saveDecisionReflection(${idx})">Save Reflection</button>
+    </div>`;
+  document.querySelectorAll('.option-btn').forEach((b,i) => {
+    b.disabled = true;
+    if (i === idx) b.classList.add('selected');
+  });
+  updateSkill('dm', 8);
+}
+
+function saveDecisionReflection(idx) {
+  const text = document.getElementById('dec-reflect')?.value;
+  if (!text) return;
+  journalEntries.unshift({
+    date: new Date().toLocaleString(),
+    type: 'Decision Reflection',
+    title: DECISIONS[decisionIndex].title + ' - Choice ' + (idx+1),
+    content: text
+  });
+  saveState();
+  alert('Reflection saved!');
+}
+
+// ── MODULE 4: EVIDENCE EVALUATOR ─────────────────────────
+const EVIDENCE_ITEMS = [
+  {
+    argument: '"Studies show that students who eat breakfast score 15% higher on exams. Therefore, schools should provide free breakfast to all students."',
+    claim: 'Schools should provide free breakfast to all students.',
+    evidence: 'Studies show students who eat breakfast score 15% higher on exams.',
+    bias: 'Selection bias: students who eat breakfast may differ from those who do not in other important ways (home environment, parental engagement, etc.)',
+    assumption: 'That providing school breakfast will increase exam scores as effectively as the correlation in the studies suggests; that the cost-benefit is favorable.'
+  },
+  {
+    argument: '"My grandfather smoked cigarettes his entire life and lived to 94. Clearly, smoking is not as harmful as scientists claim."',
+    claim: 'Smoking is not as harmful as scientists claim.',
+    evidence: 'One person (grandfather) smoked and lived to 94.',
+    bias: 'Survivorship bias: focusing on the rare survivor while ignoring the millions who died young from smoking-related disease.',
+    assumption: 'That one anecdote can override statistical evidence from millions of cases; that the grandfather\'s long life was because of or despite smoking rather than other factors.'
+  },
+  {
+    argument: '"Since the new education policy was implemented, student enrolment has increased by 12%. The policy is clearly working."',
+    claim: 'The new education policy is working effectively.',
+    evidence: 'Student enrolment increased by 12% after the policy implementation.',
+    bias: 'Post hoc fallacy and correlation-causation confusion: enrolment may have increased due to population growth, economic changes, or other policies implemented simultaneously.',
+    assumption: 'That enrolment increase is the right measure of policy success; that the policy caused the increase rather than other factors.'
+  }
+];
+
+function renderEvidence(c) {
+  evidenceIndex = 0;
+  renderEvidenceItem(c);
+}
+
+function renderEvidenceItem(c) {
+  const item = EVIDENCE_ITEMS[evidenceIndex % EVIDENCE_ITEMS.length];
+  c.innerHTML = `<div class="module-card">
+    <h3>Module 4: Evidence Evaluator</h3>
+    <div style="display:flex;gap:8px;margin-bottom:14px">
+      ${EVIDENCE_ITEMS.map((e,i) => `<button class="tab-btn ${i===(evidenceIndex%EVIDENCE_ITEMS.length)?'active':''}" onclick="evidenceIndex=${i};renderEvidenceItem(document.getElementById('module-content'))">Argument ${i+1}</button>`).join('')}
+    </div>
+    <div style="background:rgba(255,255,255,0.04);border:1px solid var(--card-border);border-radius:8px;padding:16px;margin-bottom:16px;font-style:italic;line-height:1.75">
+      ${item.argument}
+    </div>
+    <h4>Identify Each Component</h4>
+    <p style="margin-bottom:10px;font-size:0.88rem;color:var(--muted)">Try to identify each element before revealing the answer.</p>
+    ${[
+      { label: '📌 Claim', key: 'claim', hint: 'The conclusion the argument is trying to establish' },
+      { label: '📊 Evidence', key: 'evidence', hint: 'The data or facts provided to support the claim' },
+      { label: '⚠️ Bias', key: 'bias', hint: 'A systematic error in reasoning or data selection' },
+      { label: '🔲 Assumption', key: 'assumption', hint: 'What the argument takes for granted without stating' }
+    ].map(el => `
+      <div style="margin-bottom:14px">
+        <p style="color:var(--accent);font-weight:600;margin-bottom:4px">${el.label}</p>
+        <p style="font-size:0.78rem;color:var(--muted);margin-bottom:6px">Hint: ${el.hint}</p>
+        <textarea class="journal-input" id="ev-${el.key}" placeholder="Your analysis..." rows="2"></textarea>
+        <button class="btn-sm" onclick="revealEvidence('${el.key}', \`${item[el.key].replace(/`/g,"'")}\`)">Reveal Answer</button>
+        <div class="feedback-box" id="ev-reveal-${el.key}"></div>
+      </div>
+    `).join('')}
+    <button class="btn-sm gold" onclick="updateSkill('an',10);alert('Great work analyzing this argument!')">Complete Analysis ✓</button>
+  </div>`;
+}
+
+function revealEvidence(key, answer) {
+  const fb = document.getElementById('ev-reveal-'+key);
+  fb.classList.add('show');
+  fb.innerHTML = `<strong>Expert Analysis:</strong> ${answer}`;
+  updateSkill('ct', 5);
+}
+
+// ── MODULE 5: DEBATE BUILDER ──────────────────────────────
+function renderDebate(c) {
+  debateIndex = 0;
+  renderDebateTopic(c);
+}
+
+function renderDebateTopic(c) {
+  const db = DEBATES[debateIndex];
+  c.innerHTML = `<div class="module-card">
+    <h3>Module 5: Debate Builder</h3>
+    <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px">
+      ${DEBATES.map((d,i) => `<button class="tab-btn ${i===debateIndex?'active':''}" onclick="debateIndex=${i};renderDebateTopic(document.getElementById('module-content'))">Topic ${i+1}</button>`).join('')}
+    </div>
+    <h4 style="color:var(--gold-light);font-size:1.1rem;margin-bottom:16px">"${db.topic}"</h4>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:16px">
+      <div style="background:rgba(46,204,113,0.08);border:1px solid rgba(46,204,113,0.25);border-radius:8px;padding:14px">
+        <h4 style="color:#7deba0;margin-bottom:10px">✅ FOR</h4>
+        ${db.for.map(a => `<p style="font-size:0.83rem;color:var(--soft);margin-bottom:8px;line-height:1.6;padding-left:8px;border-left:2px solid rgba(46,204,113,0.4)">• ${a}</p>`).join('')}
+      </div>
+      <div style="background:rgba(231,76,60,0.08);border:1px solid rgba(231,76,60,0.25);border-radius:8px;padding:14px">
+        <h4 style="color:#f08070;margin-bottom:10px">❌ AGAINST</h4>
+        ${db.against.map(a => `<p style="font-size:0.83rem;color:var(--soft);margin-bottom:8px;line-height:1.6;padding-left:8px;border-left:2px solid rgba(231,76,60,0.4)">• ${a}</p>`).join('')}
+      </div>
+    </div>
+    <div class="reflection-box">
+      <h4>💭 Reflection Questions</h4>
+      ${db.reflection.map(r => `<p>${r}</p>`).join('')}
+    </div>
+    <h4 style="margin-top:16px">Your Position</h4>
+    <p style="font-size:0.85rem;color:var(--muted);margin-bottom:8px">After reading both sides, write your reasoned position:</p>
+    <textarea class="journal-input" id="debate-position" placeholder="I believe... because... However, I acknowledge that... My conclusion is..." rows="4"></textarea>
+    <button class="btn-sm gold" onclick="saveDebatePosition()">Save My Position</button>
+  </div>`;
+  updateSkill('ct', 6);
+}
+
+function saveDebatePosition() {
+  const text = document.getElementById('debate-position')?.value;
+  if (!text) return;
+  journalEntries.unshift({
+    date: new Date().toLocaleString(),
+    type: 'Debate Position',
+    title: '"' + DEBATES[debateIndex].topic + '"',
+    content: text
+  });
+  saveState();
+  updateSkill('ct', 8);
+  alert('Position saved to your journal!');
+}
+
+// ── MODULE 6: PROBLEM SOLVING ─────────────────────────────
+function renderProblem(c) {
+  const steps = [
+    { icon: '1️⃣', title: 'Define the Problem', q: 'State the problem precisely. What is the gap between where things are now and where they should be?' },
+    { icon: '2️⃣', title: 'Gather Information', q: 'What do you need to know? Who is affected? What are the root causes? What has been tried before?' },
+    { icon: '3️⃣', title: 'Generate Alternatives', q: 'List at least 4 possible solutions. Do not evaluate yet—just generate options.' },
+    { icon: '4️⃣', title: 'Evaluate Options', q: 'For each option: What are the costs? The benefits? The risks? Who is helped or harmed?' },
+    { icon: '5️⃣', title: 'Plan Implementation', q: 'Choose your best solution. What steps are needed? What resources? What timeline?' },
+    { icon: '6️⃣', title: 'Reflect', q: 'After implementing, what worked? What would you do differently? What did you learn?' }
+  ];
+  const topic = 'Real Problem: "Our school generates significant plastic waste from single-use water bottles. How can we reduce it by at least 50%?"';
+  c.innerHTML = `<div class="module-card">
+    <h3>Module 6: Problem-Solving Trainer</h3>
+    <div style="background:rgba(201,168,76,0.1);border:1px solid rgba(201,168,76,0.3);border-radius:8px;padding:14px;margin-bottom:16px">
+      <p style="color:var(--gold-light);font-size:0.9rem">${topic}</p>
+    </div>
+    ${steps.map((s,i) => `
+      <div style="background:rgba(255,255,255,0.03);border:1px solid var(--card-border);border-radius:8px;padding:14px;margin-bottom:10px">
+        <h4 style="margin-bottom:6px">${s.icon} ${s.title}</h4>
+        <p style="font-size:0.85rem;color:var(--muted);margin-bottom:8px">${s.q}</p>
+        <textarea class="journal-input" id="prob-${i}" placeholder="Your response here..." rows="3"></textarea>
+      </div>
+    `).join('')}
+    <button class="btn-sm gold" onclick="saveProblemSolving()">💾 Save My Framework</button>
+    <div class="alert success" id="prob-saved" style="display:none;margin-top:10px">✅ Saved!</div>
+  </div>`;
+  updateSkill('ct', 6);
+}
+
+function saveProblemSolving() {
+  const steps = ['Define Problem','Gather Info','Generate Alternatives','Evaluate','Plan','Reflect'];
+  const content = steps.map((s,i) => `STEP ${i+1} - ${s}:\n${document.getElementById('prob-'+i)?.value||''}`).join('\n\n');
+  journalEntries.unshift({
+    date: new Date().toLocaleString(),
+    type: 'Problem-Solving Framework',
+    title: 'Plastic Waste Reduction',
+    content
+  });
+  saveState();
+  updateSkill('ct', 10);
+  const el = document.getElementById('prob-saved');
+  if (el) { el.style.display='block'; setTimeout(()=>el.style.display='none',2500); }
+}
+
+// ── MODULE 7: ETHICAL DILEMMAS ───────────────────────────
+function renderEthics(c) {
+  dilemmaIndex = 0;
+  renderDilemma(c);
+}
+
+function renderDilemma(c) {
+  const d = ETHICAL_DILEMMAS[dilemmaIndex];
+  c.innerHTML = `<div class="module-card">
+    <h3>Module 7: Ethical Dilemma Lab</h3>
+    <div style="display:flex;gap:8px;margin-bottom:14px;flex-wrap:wrap">
+      ${ETHICAL_DILEMMAS.map((d2,i) => `<button class="tab-btn ${i===dilemmaIndex?'active':''}" onclick="dilemmaIndex=${i};renderDilemma(document.getElementById('module-content'))">${d2.title}</button>`).join('')}
+    </div>
+    <h4>${d.title}</h4>
+    <p style="background:rgba(255,255,255,0.04);border:1px solid var(--card-border);border-radius:8px;padding:14px;line-height:1.75;margin:12px 0">${d.scenario}</p>
+    <h4>What would you do?</h4>
+    <ul class="options-list">
+      ${d.options.map((o,i) => `<li><button class="option-btn" onclick="showEthicsAnalysis(${i})"><span class="tag-pill">${o.framework}</span> ${o.text}</button></li>`).join('')}
+    </ul>
+    <div id="ethics-analysis" style="display:none"></div>
+  </div>`;
+}
+
+function showEthicsAnalysis(idx) {
+  const d = ETHICAL_DILEMMAS[dilemmaIndex];
+  const el = document.getElementById('ethics-analysis');
+  el.style.display = 'block';
+  el.innerHTML = `
+    <div class="divider"></div>
+    <h4 style="margin-bottom:12px">Multiple Ethical Perspectives</h4>
+    <div class="consequence-card immediate"><h4>⚖️ Consequentialist View</h4><p>${d.perspectives.consequentialist}</p></div>
+    <div class="consequence-card longterm"><h4>📜 Deontological View</h4><p>${d.perspectives.deontological}</p></div>
+    <div class="consequence-card ethical"><h4>🌟 Virtue Ethics View</h4><p>${d.perspectives.virtue}</p></div>
+    <div style="background:rgba(46,204,113,0.08);border:1px solid rgba(46,204,113,0.25);border-radius:8px;padding:14px;margin-bottom:10px">
+      <h4 style="color:#7deba0;margin-bottom:6px">💝 Care Ethics View</h4><p style="font-size:0.85rem;color:var(--soft)">${d.perspectives.care}</p>
+    </div>
+    <div class="reflection-box">
+      <h4>💭 Your Ethical Reasoning</h4>
+      <p style="font-size:0.85rem;margin-bottom:8px">Which framework best captures your thinking? Why?</p>
+      <textarea class="journal-input" id="ethics-reflection" placeholder="My reasoning is... The framework that resonates most is... because..." rows="3"></textarea>
+      <button class="btn-sm gold" onclick="saveEthicsReflection()">Save Reflection</button>
+    </div>`;
+  document.querySelectorAll('.option-btn').forEach((b,i) => { b.disabled=true; if(i===idx)b.classList.add('selected'); });
+  updateSkill('ea', 10);
+}
+
+function saveEthicsReflection() {
+  const text = document.getElementById('ethics-reflection')?.value;
+  if (!text) return;
+  journalEntries.unshift({ date: new Date().toLocaleString(), type: 'Ethics Reflection', title: ETHICAL_DILEMMAS[dilemmaIndex].title, content: text });
+  saveState(); updateSkill('ea', 8); alert('Saved!');
+}
+
+// ── MODULE 8: QUIZ ───────────────────────────────────────
+function renderQuiz(c) {
+  quizIndex = 0; quizScore = 0;
+  renderQuizQ(c);
+}
+
+function renderQuizQ(c) {
+  if (quizIndex >= QUIZ_QUESTIONS.length) {
+    const pct = Math.round((quizScore/QUIZ_QUESTIONS.length)*100);
+    c.innerHTML = `<div class="module-card">
+      <h3>📝 Quiz Complete!</h3>
+      <div class="score-display">
+        <div class="score-num">${quizScore}/${QUIZ_QUESTIONS.length}</div>
+        <p>${pct}% — ${pct>=80?'Excellent!':pct>=60?'Good work!':'Keep practising!'}</p>
+      </div>
+      <div class="prog-bar-wrap" style="margin-top:16px">
+        <div class="prog-track"><div class="prog-fill" style="width:${pct}%"></div></div>
+      </div>
+      <button class="btn-sm" style="margin-top:16px" onclick="renderQuiz(document.getElementById('module-content'))">Retake Quiz</button>
+    </div>`;
+    updateSkill('an', Math.round(pct/5));
+    updateSkill('ct', Math.round(pct/6));
+    return;
+  }
+  const q = QUIZ_QUESTIONS[quizIndex];
+  c.innerHTML = `<div class="module-card">
+    <h3>Module 8: Analytical Thinking Quiz</h3>
+    <div class="prog-bar-wrap">
+      <div class="prog-label"><span>Question ${quizIndex+1} of ${QUIZ_QUESTIONS.length}</span><span>Score: ${quizScore}</span></div>
+      <div class="prog-track"><div class="prog-fill" style="width:${(quizIndex/QUIZ_QUESTIONS.length)*100}%"></div></div>
+    </div>
+    <p class="q-stem" style="margin-top:14px">${q.q}</p>
+    <ul class="options-list" id="quiz-opts">
+      ${q.options.map((o,i) => `<li><button class="option-btn" onclick="checkQuiz(${i})">${o}</button></li>`).join('')}
+    </ul>
+    <div class="feedback-box" id="quiz-fb"></div>
+  </div>`;
+}
+
+function checkQuiz(chosen) {
+  const q = QUIZ_QUESTIONS[quizIndex];
+  const btns = document.querySelectorAll('#quiz-opts .option-btn');
+  btns.forEach((b,i) => {
+    b.disabled=true;
+    if(i===q.answer) b.classList.add('correct');
+    else if(i===chosen) b.classList.add('wrong');
+  });
+  const fb = document.getElementById('quiz-fb');
+  fb.classList.add('show');
+  const correct = chosen === q.answer;
+  fb.innerHTML = (correct?'✅ Correct! ':'❌ Incorrect. ') + q.explanation;
+  if (correct) quizScore++;
+  quizIndex++;
+  setTimeout(() => renderQuizQ(document.getElementById('module-content')), 2400);
+}
+
+// ── MODULE 9: MULTIDISCIPLINARY ──────────────────────────
+function renderMulti(c) {
+  multiIndex = 0;
+  renderMultiChallenge(c);
+}
+
+function renderMultiChallenge(c) {
+  const ch = MULTI_CHALLENGES[multiIndex];
+  c.innerHTML = `<div class="module-card">
+    <h3>Module 9: Multidisciplinary Challenge</h3>
+    <div style="display:flex;gap:8px;margin-bottom:14px">
+      ${MULTI_CHALLENGES.map((m,i) => `<button class="tab-btn ${i===multiIndex?'active':''}" onclick="multiIndex=${i};renderMultiChallenge(document.getElementById('module-content'))">Challenge ${i+1}</button>`).join('')}
+    </div>
+    <h4>${ch.title}</h4>
+    <div style="display:flex;gap:6px;flex-wrap:wrap;margin:10px 0">
+      ${ch.domains.map(d => `<span class="tag-pill">${d}</span>`).join('')}
+    </div>
+    <p style="font-size:0.9rem;color:var(--soft);line-height:1.7;margin-bottom:16px">${ch.prompt}</p>
+    <h4>Cross-Disciplinary Connections</h4>
+    ${ch.connections.map(conn => `
+      <div style="background:rgba(74,144,217,0.07);border:1px solid rgba(74,144,217,0.2);border-radius:8px;padding:14px;margin-bottom:10px">
+        <span class="tag-pill">${conn.domain}</span>
+        <p style="font-size:0.87rem;color:var(--soft);line-height:1.7;margin-top:8px">${conn.connection}</p>
+      </div>`).join('')}
+    <div class="reflection-box" style="margin-top:16px">
+      <h4>💭 Your Synthesis</h4>
+      <p style="margin-bottom:8px;font-size:0.85rem">Which disciplinary connection surprised you most? How does looking at this issue from multiple perspectives change your understanding?</p>
+      <textarea class="journal-input" id="multi-reflect" placeholder="I was surprised by... Looking across disciplines, I now understand that..." rows="4"></textarea>
+      <button class="btn-sm gold" onclick="saveMultiReflect()">Save Synthesis</button>
+    </div>
+  </div>`;
+  updateSkill('ct', 8);
+}
+
+function saveMultiReflect() {
+  const text = document.getElementById('multi-reflect')?.value;
+  if (!text) return;
+  journalEntries.unshift({ date:new Date().toLocaleString(), type:'Multidisciplinary Synthesis', title:MULTI_CHALLENGES[multiIndex].title, content:text });
+  saveState(); updateSkill('ct', 6); alert('Synthesis saved!');
+}
+
+// ── MODULE 10: REFLECTION JOURNAL ───────────────────────
+function renderJournal(c) {
+  c.innerHTML = `<div class="module-card">
+    <h3>Module 10: Reflection Journal</h3>
+    <p style="color:var(--muted);font-size:0.85rem;margin-bottom:14px">Write a free reflection about your learning today. All entries are saved offline on this device.</p>
+    <input type="text" class="text-input" id="journal-title" placeholder="Entry title (e.g. 'What I learned today about critical thinking')"/>
+    <textarea class="journal-input" id="journal-text" placeholder="My thoughts, questions, and reflections..." rows="5"></textarea>
+    <div style="display:flex;gap:8px;flex-wrap:wrap">
+      <button class="btn-sm gold" onclick="addJournalEntry()">💾 Save Entry</button>
+      <button class="btn-sm" onclick="exportJournal()">📄 Export as Text</button>
+      <button class="btn-sm danger" onclick="clearJournal()">🗑️ Clear All</button>
+    </div>
+    <div class="alert success" id="journal-saved" style="display:none;margin-top:10px">✅ Entry saved!</div>
+  </div>
+  <div class="module-card">
+    <h3>Previous Entries (${journalEntries.length})</h3>
+    <div id="journal-entries-list">
+      ${journalEntries.length === 0
+        ? '<p style="color:var(--muted);font-size:0.88rem">No entries yet. Start reflecting!</p>'
+        : journalEntries.map((e,i) => `
+          <div class="journal-entry">
+            <div class="je-date">${e.date} &nbsp;•&nbsp; <span class="tag-pill">${e.type||'Journal'}</span></div>
+            <div style="font-weight:600;color:var(--white);margin-bottom:4px;font-size:0.88rem">${e.title||''}</div>
+            <div class="je-text">${(e.content||'').substring(0,200)}${(e.content||'').length>200?'…':''}</div>
+            <button class="btn-sm danger" style="margin-top:8px;padding:5px 10px;font-size:0.75rem" onclick="deleteEntry(${i})">Delete</button>
+          </div>`).join('')}
+    </div>
+  </div>`;
+}
+
+function addJournalEntry() {
+  const title = document.getElementById('journal-title')?.value;
+  const text = document.getElementById('journal-text')?.value;
+  if (!text.trim()) return;
+  journalEntries.unshift({ date: new Date().toLocaleString(), type: 'Journal', title: title || 'Reflection', content: text });
+  saveState(); updateSkill('ct', 5);
+  document.getElementById('journal-title').value = '';
+  document.getElementById('journal-text').value = '';
+  const el = document.getElementById('journal-saved');
+  if (el) { el.style.display='block'; setTimeout(()=>el.style.display='none',2000); }
+  // Re-render entries list
+  setTimeout(()=>renderModule('journal'),300);
+}
+
+function deleteEntry(idx) {
+  if(confirm('Delete this entry?')) { journalEntries.splice(idx,1); saveState(); renderModule('journal'); }
+}
+
+function clearJournal() {
+  if(confirm('Clear ALL journal entries? This cannot be undone.')) { journalEntries=[]; saveState(); renderModule('journal'); }
+}
+
+function exportJournal() {
+  const text = journalEntries.map(e => `[${e.date}] ${e.type}: ${e.title}\n${'─'.repeat(40)}\n${e.content}\n`).join('\n');
+  const blob = new Blob([text], {type:'text/plain'});
+  const a = document.createElement('a'); a.href=URL.createObjectURL(blob); a.download='reflections.txt'; a.click();
+}
+
+// ══════════════════════════════════════════════════════════
+//  TEACHER MODE
+// ══════════════════════════════════════════════════════════
+function renderTeacher() {
+  const totalEntries = journalEntries.length;
+  const skills = state.skills;
+
+  document.getElementById('teacher-stats').innerHTML = `
+    <div class="stat-box"><div class="stat-val">${totalEntries}</div><div class="stat-label">Journal Entries</div></div>
+    <div class="stat-box"><div class="stat-val">${state.modulesCompleted?state.modulesCompleted.length:0}</div><div class="stat-label">Modules Used</div></div>
+    <div class="stat-box"><div class="stat-val">${skills.ct}%</div><div class="stat-label">Critical Thinking</div></div>
+    <div class="stat-box"><div class="stat-val">${skills.ea}%</div><div class="stat-label">Ethical Awareness</div></div>`;
+
+  document.getElementById('teacher-skills').innerHTML = `
+    ${[['ct','Critical Thinking','#4a90d9'],['dm','Decision Making','#c9a84c'],['an','Analytical Skill','#2ecc71'],['ea','Ethical Awareness','#e67e22']].map(([k,l,col]) => `
+      <div class="prog-bar-wrap">
+        <div class="prog-label"><span>${l}</span><span style="color:${col}">${skills[k]}%</span></div>
+        <div class="prog-track"><div class="prog-fill" style="width:${skills[k]}%;background:${col}"></div></div>
+      </div>`).join('')}
+    <div style="text-align:center;margin-top:16px">
+      ${renderRadar(skills)}
+    </div>`;
+
+  const jl = document.getElementById('teacher-journal');
+  jl.innerHTML = journalEntries.length === 0
+    ? '<p style="color:var(--muted);font-size:0.88rem">No journal entries yet.</p>'
+    : journalEntries.slice(0,5).map(e => `<div class="journal-entry">
+      <div class="je-date">${e.date} • <span class="tag-pill">${e.type}</span></div>
+      <div style="font-weight:600;font-size:0.85rem;color:var(--white);margin-bottom:4px">${e.title||''}</div>
+      <div class="je-text">${(e.content||'').substring(0,150)}…</div></div>`).join('');
+}
+
+function renderRadar(skills) {
+  const vals = [skills.ct, skills.dm, skills.an, skills.ea];
+  const labels = ['Critical\nThinking','Decision\nMaking','Analytical','Ethical'];
+  const cx=130, cy=120, r=80;
+  const angles = [270, 0, 90, 180].map(a => a * Math.PI/180);
+  const points = vals.map((v,i) => {
+    const pct = v/100; const a = angles[i];
+    return [(cx+r*pct*Math.cos(a)).toFixed(1), (cy+r*pct*Math.sin(a)).toFixed(1)];
+  });
+  const lpoints = angles.map(a => [(cx+r*Math.cos(a)).toFixed(1),(cy+r*Math.sin(a)).toFixed(1)]);
+  return `<svg viewBox="0 0 260 240" width="260" height="240" xmlns="http://www.w3.org/2000/svg">
+    ${[0.25,0.5,0.75,1].map(s => `<polygon points="${angles.map(a=>`${(cx+r*s*Math.cos(a)).toFixed(1)},${(cy+r*s*Math.sin(a)).toFixed(1)}`).join(' ')}" fill="none" stroke="rgba(74,144,217,0.15)" stroke-width="1"/>`).join('')}
+    ${lpoints.map(p=>`<line x1="${cx}" y1="${cy}" x2="${p[0]}" y2="${p[1]}" stroke="rgba(74,144,217,0.2)" stroke-width="1"/>`).join('')}
+    <polygon points="${points.map(p=>p.join(',')).join(' ')}" fill="rgba(74,144,217,0.2)" stroke="#4a90d9" stroke-width="2"/>
+    ${points.map(p=>`<circle cx="${p[0]}" cy="${p[1]}" r="5" fill="#4a90d9"/>`).join('')}
+    ${labels.map((l,i)=>{
+      const a=angles[i], nx=(cx+(r+22)*Math.cos(a)).toFixed(1), ny=(cy+(r+22)*Math.sin(a)).toFixed(1);
+      return `<text x="${nx}" y="${ny}" text-anchor="middle" dominant-baseline="middle" fill="var(--muted)" font-size="9">${l.split('\n').map((ln,li)=>`<tspan x="${nx}" dy="${li===0?'0':'12'}">${ln}</tspan>`).join('')}</text>`;
+    }).join('')}
+  </svg>`;
+}
+
+function printSheet(mod) {
+  const sheets = {
+    logic: `LOGIC REASONING DISCUSSION SHEET\n\nClass Activity: Work in pairs to solve the following logical problems.\n\n1. Pattern: 3, 7, 13, 21, 31, ___ (Answer: 43, difference increases by 2)\n2. Analogy: Pen is to Writer as Brush is to ___ (Answer: Painter)\n3. Syllogism: All students study hard. Riya is a student. Therefore: ___\n\nReflection: What strategies did you use to solve each problem?`,
+    case: `CASE STUDY DISCUSSION SHEET\n\nCase: A school wants to cut the library budget to buy more computers. The librarian argues this will harm reading habits. The principal argues technology is the future.\n\nQuestions:\n1. What is the core conflict of values?\n2. Who are all the stakeholders?\n3. What compromise solutions might satisfy both sides?\n4. What evidence would help you decide?`,
+    ethics: `ETHICAL DILEMMA DISCUSSION SHEET\n\nDilemma: You find a wallet with ₹5,000 cash and an ID card. The owner appears to be a wealthy person based on the ID photo. You are from a poor family and your school fees are due tomorrow.\n\nAnalysis:\n- Consequentialist view: What produces the best overall outcome?\n- Deontological view: What does your duty require?\n- Virtue Ethics: What would a person of good character do?\n- Your decision and reasoning:`,
+    debate: `DEBATE PREPARATION SHEET\n\nMotion: "Social media has done more harm than good to society"\n\nPrepare 3 arguments FOR the motion:\n1.\n2.\n3.\n\nPrepare 3 arguments AGAINST:\n1.\n2.\n3.\n\nYour personal position (after considering both sides):`
+  };
+  const blob = new Blob([sheets[mod]||'Sheet not available'], {type:'text/plain'});
+  const a = document.createElement('a'); a.href=URL.createObjectURL(blob); a.download=mod+'-activity-sheet.txt'; a.click();
+}
+
+function resetData() {
+  if(confirm('Reset all student data? This permanently deletes all progress and journal entries.')) {
+    localStorage.removeItem('ctcl_state'); localStorage.removeItem('ctcl_journal');
+    state = { skills:{ct:0,dm:0,an:0,ea:0}, progress:{}, quizScore:0, totalAttempts:0, modulesCompleted:[] };
+    journalEntries = [];
+    updateHomeBars();
+    renderTeacher();
+    alert('All data reset successfully.');
+  }
+}
+
+// ══════════════════════════════════════════════════════════
+//  PWA / INSTALL
+// ══════════════════════════════════════════════════════════
+let deferredPrompt;
+window.addEventListener('beforeinstallprompt', e => {
+  e.preventDefault(); deferredPrompt = e;
+  document.getElementById('install-banner').classList.add('show');
+});
+document.getElementById('install-btn').addEventListener('click', () => {
+  if (deferredPrompt) { deferredPrompt.prompt(); deferredPrompt.userChoice.then(()=>{ deferredPrompt=null; document.getElementById('install-banner').classList.remove('show'); }); }
+});
+
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => navigator.serviceWorker.register('./service-worker.js').catch(()=>{}));
+}
+
+// ══════════════════════════════════════════════════════════
+//  INIT
+// ══════════════════════════════════════════════════════════
+loadState();
+initPolicyToc();
+updateHomeBars();
+</script>
+</body>
+</html>

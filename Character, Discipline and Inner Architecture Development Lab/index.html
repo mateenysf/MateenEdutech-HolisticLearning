@@ -1,0 +1,2746 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<meta name="theme-color" content="#0a1628"/>
+<meta name="description" content="Character, Discipline & Inner Architecture Development Lab by Mateen Yousuf"/>
+<link rel="manifest" href="manifest.json"/>
+<title>Inner Architecture Lab — Mateen Yousuf</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=Crimson+Pro:ital,wght@0,300;0,400;0,600;1,300&family=Space+Mono:wght@400;700&display=swap');
+
+:root {
+  --navy: #0a1628;
+  --navy-mid: #112240;
+  --navy-light: #1a3a6e;
+  --bronze: #c9a96e;
+  --bronze-light: #e8c88a;
+  --bronze-dark: #8b6914;
+  --white: #f0eeea;
+  --white-dim: #c8c4bc;
+  --silver: #8899aa;
+  --red-accent: #c0392b;
+  --green-accent: #27ae60;
+  --glow: rgba(201,169,110,0.15);
+  --shadow: rgba(0,0,0,0.6);
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--navy);
+  color: var(--white);
+  font-family: 'Crimson Pro', Georgia, serif;
+  font-size: 18px;
+  line-height: 1.7;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* ─── TYPOGRAPHY ─── */
+h1, h2, h3 { font-family: 'Playfair Display', Georgia, serif; }
+code, .mono { font-family: 'Space Mono', monospace; }
+
+/* ─── SCROLLBAR ─── */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: var(--navy); }
+::-webkit-scrollbar-thumb { background: var(--bronze-dark); border-radius: 3px; }
+
+/* ─── SCREENS ─── */
+.screen { display: none; min-height: 100vh; }
+.screen.active { display: block; }
+
+/* ══════════════════════════════════════
+   TITLE / HOME SCREEN
+══════════════════════════════════════ */
+#home {
+  display: none;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  background: linear-gradient(160deg, #050d1f 0%, #0a1628 40%, #0e1f42 100%);
+  padding: 0 0 60px;
+  position: relative;
+  overflow: hidden;
+}
+#home.active { display: flex; }
+
+#home::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 60% 40% at 50% 0%, rgba(201,169,110,0.08) 0%, transparent 70%),
+    radial-gradient(ellipse 30% 30% at 80% 80%, rgba(17,34,64,0.9) 0%, transparent 60%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* Gold geometric lines */
+#home::after {
+  content: '';
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, transparent, var(--bronze), var(--bronze-light), var(--bronze), transparent);
+}
+
+.home-inner {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  max-width: 900px;
+  padding: 0 24px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* Decorative arch */
+.arch-top {
+  width: 100%;
+  max-width: 600px;
+  height: 6px;
+  background: linear-gradient(90deg, transparent 0%, var(--bronze-dark) 20%, var(--bronze-light) 50%, var(--bronze-dark) 80%, transparent 100%);
+  margin-top: 40px;
+  border-radius: 3px;
+  position: relative;
+}
+.arch-top::before, .arch-top::after {
+  content: '◆';
+  position: absolute;
+  top: -10px;
+  color: var(--bronze);
+  font-size: 14px;
+}
+.arch-top::before { left: 18%; }
+.arch-top::after { right: 18%; }
+
+.badge-nep {
+  margin-top: 20px;
+  background: rgba(201,169,110,0.1);
+  border: 1px solid rgba(201,169,110,0.4);
+  color: var(--bronze-light);
+  font-family: 'Space Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  padding: 6px 18px;
+  border-radius: 2px;
+}
+
+.home-title-block {
+  text-align: center;
+  margin-top: 28px;
+  padding: 0 12px;
+}
+
+.home-title-block .eyebrow {
+  font-family: 'Space Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 4px;
+  color: var(--bronze);
+  text-transform: uppercase;
+  margin-bottom: 16px;
+  opacity: 0.8;
+}
+
+.home-title-block h1 {
+  font-size: clamp(28px, 5vw, 56px);
+  font-weight: 900;
+  line-height: 1.1;
+  background: linear-gradient(135deg, var(--white) 0%, var(--bronze-light) 50%, var(--white) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  letter-spacing: -1px;
+  margin-bottom: 8px;
+}
+
+.home-title-block .subtitle {
+  font-size: clamp(13px, 2.5vw, 18px);
+  color: var(--silver);
+  font-style: italic;
+  letter-spacing: 1px;
+  margin-bottom: 6px;
+}
+
+.home-divider {
+  width: 60px;
+  height: 1px;
+  background: var(--bronze);
+  margin: 20px auto;
+  position: relative;
+}
+.home-divider::before {
+  content: '✦';
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%,-50%);
+  color: var(--bronze);
+  font-size: 10px;
+  background: var(--navy);
+  padding: 0 6px;
+}
+
+/* Author block */
+.author-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 10px 0 30px;
+  gap: 14px;
+}
+
+.author-img-wrap {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  border: 3px solid var(--bronze);
+  overflow: hidden;
+  box-shadow: 0 0 30px rgba(201,169,110,0.3), 0 0 0 6px rgba(201,169,110,0.07);
+  flex-shrink: 0;
+}
+.author-img-wrap img { width: 100%; height: 100%; object-fit: cover; object-position: top center; }
+
+.author-info { text-align: center; }
+.author-name {
+  font-family: 'Playfair Display', serif;
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--bronze-light);
+  letter-spacing: 1px;
+}
+.author-title {
+  font-size: 13px;
+  color: var(--silver);
+  font-style: italic;
+  margin-top: 2px;
+}
+
+/* Main nav buttons */
+.home-nav {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  width: 100%;
+  max-width: 640px;
+  margin: 10px 0;
+}
+
+.nav-btn {
+  background: linear-gradient(135deg, rgba(17,34,64,0.9) 0%, rgba(10,22,40,0.95) 100%);
+  border: 1px solid rgba(201,169,110,0.3);
+  border-radius: 8px;
+  padding: 22px 18px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+  color: var(--white);
+  font-family: inherit;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}
+
+.nav-btn::before {
+  content: '';
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--bronze), transparent);
+  transform: scaleX(0);
+  transition: transform 0.3s ease;
+}
+
+.nav-btn:hover {
+  border-color: var(--bronze);
+  background: linear-gradient(135deg, rgba(201,169,110,0.12) 0%, rgba(17,34,64,0.95) 100%);
+  transform: translateY(-3px);
+  box-shadow: 0 12px 30px rgba(0,0,0,0.5), 0 0 20px rgba(201,169,110,0.15);
+}
+.nav-btn:hover::before { transform: scaleX(1); }
+
+.nav-btn .btn-icon { font-size: 28px; }
+.nav-btn .btn-label {
+  font-family: 'Playfair Display', serif;
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--bronze-light);
+  line-height: 1.3;
+}
+.nav-btn .btn-desc {
+  font-size: 11px;
+  color: var(--silver);
+  line-height: 1.4;
+}
+
+/* Quick stats bar */
+.quick-stats {
+  display: flex;
+  gap: 0;
+  width: 100%;
+  max-width: 640px;
+  border: 1px solid rgba(201,169,110,0.2);
+  border-radius: 8px;
+  overflow: hidden;
+  margin: 20px 0 0;
+  background: rgba(17,34,64,0.5);
+}
+.stat-item {
+  flex: 1;
+  padding: 12px 8px;
+  text-align: center;
+  border-right: 1px solid rgba(201,169,110,0.2);
+  cursor: pointer;
+  transition: background 0.2s;
+}
+.stat-item:last-child { border-right: none; }
+.stat-item:hover { background: rgba(201,169,110,0.08); }
+.stat-item .stat-val {
+  font-family: 'Space Mono', monospace;
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--bronze-light);
+}
+.stat-item .stat-lbl {
+  font-size: 10px;
+  color: var(--silver);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-top: 2px;
+}
+
+/* ══════════════════════════════════════
+   SHARED PAGE LAYOUT
+══════════════════════════════════════ */
+.page-header {
+  background: linear-gradient(180deg, #071020 0%, var(--navy) 100%);
+  border-bottom: 1px solid rgba(201,169,110,0.25);
+  padding: 16px 20px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.back-btn {
+  background: rgba(201,169,110,0.1);
+  border: 1px solid rgba(201,169,110,0.3);
+  color: var(--bronze);
+  padding: 8px 14px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-family: 'Space Mono', monospace;
+  font-size: 11px;
+  transition: all 0.2s;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+.back-btn:hover { background: rgba(201,169,110,0.2); }
+
+.page-header h2 {
+  font-size: clamp(16px, 3vw, 24px);
+  color: var(--bronze-light);
+  font-weight: 700;
+}
+
+.page-body {
+  max-width: 860px;
+  margin: 0 auto;
+  padding: 32px 20px 60px;
+}
+
+/* Sections/cards */
+.section-card {
+  background: rgba(17,34,64,0.6);
+  border: 1px solid rgba(201,169,110,0.15);
+  border-radius: 10px;
+  padding: 28px 24px;
+  margin-bottom: 28px;
+  position: relative;
+}
+.section-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 24px; right: 24px;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--bronze-dark), transparent);
+}
+.section-card h3 {
+  font-size: 22px;
+  color: var(--bronze-light);
+  margin-bottom: 16px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid rgba(201,169,110,0.2);
+}
+.section-card p {
+  color: var(--white-dim);
+  margin-bottom: 14px;
+  font-size: 16px;
+}
+
+/* ══════════════════════════════════════
+   FOUNDATIONS — 20 PAGES
+══════════════════════════════════════ */
+.foundations-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 14px;
+  margin-bottom: 30px;
+}
+
+.foundation-tile {
+  background: rgba(17,34,64,0.7);
+  border: 1px solid rgba(201,169,110,0.18);
+  border-radius: 8px;
+  padding: 18px 16px;
+  cursor: pointer;
+  transition: all 0.25s;
+  position: relative;
+}
+.foundation-tile:hover {
+  border-color: var(--bronze);
+  background: rgba(201,169,110,0.08);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(0,0,0,0.4);
+}
+.foundation-tile .tile-num {
+  font-family: 'Space Mono', monospace;
+  font-size: 11px;
+  color: var(--bronze-dark);
+  margin-bottom: 6px;
+}
+.foundation-tile .tile-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 15px;
+  color: var(--bronze-light);
+  font-weight: 700;
+  line-height: 1.3;
+}
+.foundation-tile .tile-preview {
+  font-size: 12px;
+  color: var(--silver);
+  margin-top: 6px;
+  line-height: 1.4;
+}
+.foundation-tile .read-chip {
+  position: absolute;
+  top: 10px; right: 10px;
+  background: rgba(39,174,96,0.25);
+  color: #5dde8f;
+  font-size: 9px;
+  font-family: 'Space Mono', monospace;
+  padding: 2px 6px;
+  border-radius: 3px;
+  display: none;
+}
+.foundation-tile.read .read-chip { display: block; }
+
+/* Article Reader */
+#article-reader {
+  display: none;
+  min-height: 100vh;
+  background: var(--navy);
+}
+#article-reader.active { display: block; }
+
+.article-content {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 40px 24px 80px;
+}
+.article-content h2 {
+  font-size: clamp(24px, 5vw, 40px);
+  color: var(--bronze-light);
+  line-height: 1.2;
+  margin-bottom: 8px;
+}
+.article-content .article-meta {
+  font-family: 'Space Mono', monospace;
+  font-size: 11px;
+  color: var(--bronze-dark);
+  letter-spacing: 2px;
+  margin-bottom: 32px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid rgba(201,169,110,0.2);
+}
+.article-content .prose {
+  color: var(--white-dim);
+  font-size: 17px;
+  line-height: 1.85;
+}
+.article-content .prose p { margin-bottom: 20px; }
+.article-content .prose h3 {
+  font-size: 20px;
+  color: var(--bronze);
+  margin: 32px 0 12px;
+}
+.article-content .prose blockquote {
+  border-left: 3px solid var(--bronze);
+  padding: 12px 20px;
+  margin: 24px 0;
+  background: rgba(201,169,110,0.06);
+  border-radius: 0 6px 6px 0;
+  font-style: italic;
+  color: var(--white);
+}
+.article-content .prose .exercise-box {
+  background: rgba(17,34,64,0.8);
+  border: 1px solid rgba(201,169,110,0.25);
+  border-radius: 8px;
+  padding: 20px 22px;
+  margin: 24px 0;
+}
+.article-content .prose .exercise-box h4 {
+  color: var(--bronze);
+  font-family: 'Space Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  margin-bottom: 10px;
+}
+.article-content .prose .exercise-box ul {
+  color: var(--white-dim);
+  padding-left: 18px;
+  font-size: 15px;
+}
+.article-content .prose .exercise-box li { margin-bottom: 6px; }
+
+.article-nav {
+  display: flex;
+  gap: 12px;
+  margin-top: 40px;
+  padding-top: 24px;
+  border-top: 1px solid rgba(201,169,110,0.2);
+}
+.article-nav button {
+  flex: 1;
+  padding: 12px;
+  background: rgba(17,34,64,0.8);
+  border: 1px solid rgba(201,169,110,0.3);
+  color: var(--bronze-light);
+  font-family: 'Playfair Display', serif;
+  font-size: 14px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.article-nav button:hover { background: rgba(201,169,110,0.12); border-color: var(--bronze); }
+.article-nav button:disabled { opacity: 0.3; cursor: not-allowed; }
+
+/* ══════════════════════════════════════
+   DISCIPLINE SIMULATOR
+══════════════════════════════════════ */
+.sim-form {
+  display: grid;
+  gap: 20px;
+}
+.form-group label {
+  display: block;
+  font-family: 'Space Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--bronze);
+  margin-bottom: 8px;
+}
+.form-group input[type=range] {
+  width: 100%;
+  -webkit-appearance: none;
+  height: 6px;
+  border-radius: 3px;
+  background: rgba(201,169,110,0.15);
+  outline: none;
+  cursor: pointer;
+}
+.form-group input[type=range]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 18px; height: 18px;
+  border-radius: 50%;
+  background: var(--bronze);
+  cursor: pointer;
+  box-shadow: 0 0 8px rgba(201,169,110,0.5);
+}
+.range-labels {
+  display: flex;
+  justify-content: space-between;
+  font-size: 11px;
+  color: var(--silver);
+  margin-top: 4px;
+}
+.range-val {
+  float: right;
+  font-family: 'Space Mono', monospace;
+  font-size: 13px;
+  color: var(--bronze-light);
+  font-weight: 700;
+}
+
+.sim-results {
+  display: none;
+  margin-top: 30px;
+}
+.sim-results.show { display: block; }
+
+.metrics-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+.metric-card {
+  background: rgba(10,22,40,0.8);
+  border: 1px solid rgba(201,169,110,0.2);
+  border-radius: 8px;
+  padding: 18px 16px;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+.metric-card::after {
+  content: '';
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  height: 3px;
+}
+.metric-card.green::after { background: linear-gradient(90deg, transparent, #27ae60, transparent); }
+.metric-card.amber::after { background: linear-gradient(90deg, transparent, #f39c12, transparent); }
+.metric-card.red::after { background: linear-gradient(90deg, transparent, #e74c3c, transparent); }
+.metric-card.blue::after { background: linear-gradient(90deg, transparent, #3498db, transparent); }
+
+.metric-card .m-label {
+  font-family: 'Space Mono', monospace;
+  font-size: 9px;
+  letter-spacing: 2px;
+  color: var(--silver);
+  text-transform: uppercase;
+  margin-bottom: 10px;
+}
+.metric-card .m-score {
+  font-family: 'Playfair Display', serif;
+  font-size: 36px;
+  font-weight: 900;
+  line-height: 1;
+}
+.metric-card.green .m-score { color: #5dde8f; }
+.metric-card.amber .m-score { color: #f4c06e; }
+.metric-card.red .m-score { color: #e87070; }
+.metric-card.blue .m-score { color: #7ab3ea; }
+
+.metric-card .m-sub {
+  font-size: 11px;
+  color: var(--silver);
+  margin-top: 6px;
+}
+
+.calc-btn {
+  width: 100%;
+  padding: 16px;
+  background: linear-gradient(135deg, var(--bronze-dark), var(--bronze));
+  border: none;
+  border-radius: 8px;
+  color: var(--navy);
+  font-family: 'Playfair Display', serif;
+  font-size: 16px;
+  font-weight: 700;
+  cursor: pointer;
+  letter-spacing: 1px;
+  transition: all 0.3s;
+  margin-top: 10px;
+  box-shadow: 0 4px 20px rgba(201,169,110,0.3);
+}
+.calc-btn:hover {
+  background: linear-gradient(135deg, var(--bronze), var(--bronze-light));
+  box-shadow: 0 6px 28px rgba(201,169,110,0.5);
+  transform: translateY(-2px);
+}
+
+/* Radar Chart Canvas */
+.radar-wrap {
+  display: flex;
+  justify-content: center;
+  padding: 20px 0;
+}
+canvas { max-width: 100%; }
+
+/* ══════════════════════════════════════
+   HABIT BUILDER
+══════════════════════════════════════ */
+.habit-select-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+  gap: 10px;
+  margin-bottom: 20px;
+}
+.habit-chip {
+  padding: 12px 10px;
+  border: 1px solid rgba(201,169,110,0.25);
+  border-radius: 6px;
+  text-align: center;
+  cursor: pointer;
+  font-size: 13px;
+  color: var(--white-dim);
+  transition: all 0.2s;
+  background: rgba(17,34,64,0.5);
+}
+.habit-chip:hover, .habit-chip.selected {
+  border-color: var(--bronze);
+  background: rgba(201,169,110,0.12);
+  color: var(--bronze-light);
+}
+.habit-chip .hc-icon { font-size: 20px; display: block; margin-bottom: 4px; }
+
+.projection-bars {
+  margin-top: 20px;
+}
+.proj-bar-item {
+  margin-bottom: 14px;
+}
+.proj-bar-label {
+  display: flex;
+  justify-content: space-between;
+  font-size: 13px;
+  color: var(--white-dim);
+  margin-bottom: 5px;
+}
+.proj-bar-label span:last-child {
+  font-family: 'Space Mono', monospace;
+  color: var(--bronze-light);
+}
+.proj-bar-track {
+  height: 10px;
+  background: rgba(255,255,255,0.07);
+  border-radius: 5px;
+  overflow: hidden;
+}
+.proj-bar-fill {
+  height: 100%;
+  border-radius: 5px;
+  background: linear-gradient(90deg, var(--bronze-dark), var(--bronze-light));
+  transition: width 1s ease;
+}
+
+/* ══════════════════════════════════════
+   PURPOSE & IDENTITY LAB
+══════════════════════════════════════ */
+.purpose-textarea {
+  width: 100%;
+  background: rgba(10,22,40,0.8);
+  border: 1px solid rgba(201,169,110,0.25);
+  border-radius: 6px;
+  padding: 14px;
+  color: var(--white);
+  font-family: 'Crimson Pro', serif;
+  font-size: 15px;
+  resize: vertical;
+  min-height: 90px;
+  outline: none;
+  transition: border-color 0.2s;
+}
+.purpose-textarea:focus { border-color: var(--bronze); }
+
+.purpose-summary {
+  background: linear-gradient(135deg, rgba(17,34,64,0.9), rgba(10,22,40,0.95));
+  border: 1px solid rgba(201,169,110,0.3);
+  border-radius: 10px;
+  padding: 24px;
+  margin-top: 24px;
+  display: none;
+}
+.purpose-summary.show { display: block; }
+
+/* ══════════════════════════════════════
+   ETHICAL DECISION SIMULATOR
+══════════════════════════════════════ */
+.scenario-card {
+  background: rgba(10,22,40,0.85);
+  border: 1px solid rgba(201,169,110,0.2);
+  border-radius: 10px;
+  padding: 24px;
+  margin-bottom: 20px;
+}
+.scenario-card .scene-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 18px;
+  color: var(--bronze-light);
+  margin-bottom: 10px;
+}
+.scenario-card .scene-desc {
+  color: var(--white-dim);
+  font-size: 15px;
+  margin-bottom: 18px;
+  line-height: 1.6;
+}
+.choices-grid {
+  display: grid;
+  gap: 10px;
+}
+.choice-btn {
+  padding: 12px 16px;
+  border: 1px solid rgba(201,169,110,0.2);
+  border-radius: 6px;
+  background: rgba(17,34,64,0.6);
+  color: var(--white-dim);
+  font-family: 'Crimson Pro', serif;
+  font-size: 15px;
+  cursor: pointer;
+  text-align: left;
+  transition: all 0.2s;
+}
+.choice-btn:hover { border-color: var(--bronze); background: rgba(201,169,110,0.1); color: var(--white); }
+.choice-btn.chosen-good { border-color: #27ae60; background: rgba(39,174,96,0.12); color: #7deca7; }
+.choice-btn.chosen-bad { border-color: #e74c3c; background: rgba(231,76,60,0.12); color: #e87070; }
+.choice-btn.chosen-neutral { border-color: #f39c12; background: rgba(243,156,18,0.12); color: #f4c06e; }
+
+.ethics-score-panel {
+  display: none;
+  margin-top: 20px;
+}
+.ethics-score-panel.show { display: block; }
+
+/* ══════════════════════════════════════
+   DASHBOARD
+══════════════════════════════════════ */
+.dashboard-overview {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  gap: 14px;
+  margin-bottom: 30px;
+}
+
+.dash-tile {
+  background: rgba(17,34,64,0.7);
+  border: 1px solid rgba(201,169,110,0.18);
+  border-radius: 8px;
+  padding: 16px 14px;
+  text-align: center;
+}
+.dash-tile .d-icon { font-size: 24px; margin-bottom: 6px; }
+.dash-tile .d-label {
+  font-family: 'Space Mono', monospace;
+  font-size: 9px;
+  letter-spacing: 1.5px;
+  color: var(--silver);
+  text-transform: uppercase;
+  margin-bottom: 6px;
+}
+.dash-tile .d-val {
+  font-family: 'Playfair Display', serif;
+  font-size: 28px;
+  font-weight: 900;
+  color: var(--bronze-light);
+}
+.dash-tile .d-sub { font-size: 10px; color: var(--silver); margin-top: 2px; }
+
+/* progress ring */
+.progress-ring-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+}
+.progress-ring { transform: rotate(-90deg); }
+.progress-ring-bg { fill: none; stroke: rgba(201,169,110,0.12); stroke-width: 8; }
+.progress-ring-fill { fill: none; stroke: var(--bronze); stroke-width: 8; stroke-linecap: round; transition: stroke-dashoffset 1.5s ease; }
+
+/* ══════════════════════════════════════
+   GENERATIONAL PROJECTION
+══════════════════════════════════════ */
+.cascade-viz {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  position: relative;
+}
+.cascade-viz::before {
+  content: '';
+  position: absolute;
+  left: 28px; top: 0; bottom: 0;
+  width: 2px;
+  background: linear-gradient(180deg, var(--bronze), rgba(201,169,110,0.1));
+}
+.cascade-level {
+  display: flex;
+  align-items: flex-start;
+  gap: 18px;
+  padding: 20px 0 20px 0;
+  position: relative;
+}
+.cascade-dot {
+  width: 18px; height: 18px;
+  border-radius: 50%;
+  background: var(--bronze);
+  border: 3px solid var(--navy);
+  flex-shrink: 0;
+  margin-top: 3px;
+  z-index: 1;
+  box-shadow: 0 0 12px rgba(201,169,110,0.5);
+  margin-left: 20px;
+}
+.cascade-level .cl-body {}
+.cascade-level .cl-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 16px;
+  color: var(--bronze-light);
+  margin-bottom: 4px;
+}
+.cascade-level .cl-text { color: var(--white-dim); font-size: 14px; line-height: 1.5; }
+.cascade-level .cl-score {
+  font-family: 'Space Mono', monospace;
+  font-size: 13px;
+  color: var(--bronze);
+  margin-top: 6px;
+}
+
+/* ══════════════════════════════════════
+   STRESS TEST
+══════════════════════════════════════ */
+.stress-scenario {
+  border: 1px solid rgba(231,76,60,0.2);
+  border-radius: 8px;
+  padding: 20px;
+  margin-bottom: 16px;
+  background: rgba(231,76,60,0.04);
+}
+.stress-scenario.active-stress { border-color: rgba(231,76,60,0.5); background: rgba(231,76,60,0.08); }
+
+/* ══════════════════════════════════════
+   FRAMEWORK PAGE
+══════════════════════════════════════ */
+.philosophy-grid {
+  display: grid;
+  gap: 20px;
+}
+.phil-card {
+  background: rgba(17,34,64,0.6);
+  border-left: 3px solid var(--bronze);
+  padding: 20px 22px;
+  border-radius: 0 8px 8px 0;
+}
+.phil-card h3 { color: var(--bronze-light); font-size: 17px; margin-bottom: 8px; }
+.phil-card p { color: var(--white-dim); font-size: 15px; line-height: 1.65; }
+
+/* ══════════════════════════════════════
+   FOOTER / INSTALL BAR
+══════════════════════════════════════ */
+.install-bar {
+  position: fixed;
+  bottom: 0; left: 0; right: 0;
+  background: rgba(10,22,40,0.97);
+  border-top: 1px solid rgba(201,169,110,0.25);
+  padding: 10px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  z-index: 200;
+  display: none;
+}
+.install-bar.show { display: flex; }
+.install-bar p { font-size: 13px; color: var(--silver); }
+.install-bar button {
+  background: var(--bronze);
+  border: none;
+  color: var(--navy);
+  padding: 8px 16px;
+  border-radius: 4px;
+  font-weight: 700;
+  cursor: pointer;
+  font-size: 13px;
+}
+
+/* ══════════════════════════════════════
+   TOAST NOTIFICATIONS
+══════════════════════════════════════ */
+.toast-wrap {
+  position: fixed;
+  bottom: 20px; right: 20px;
+  z-index: 999;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.toast {
+  background: rgba(17,34,64,0.97);
+  border: 1px solid var(--bronze);
+  color: var(--white);
+  padding: 12px 18px;
+  border-radius: 6px;
+  font-size: 14px;
+  max-width: 280px;
+  animation: slideIn 0.3s ease, fadeOut 0.4s 2.5s ease forwards;
+}
+@keyframes slideIn { from { transform: translateX(100%); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
+@keyframes fadeOut { to { opacity: 0; transform: translateX(100%); } }
+
+/* Loading screen */
+#loading {
+  position: fixed;
+  inset: 0;
+  background: var(--navy);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+  transition: opacity 0.5s;
+}
+#loading .load-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 22px;
+  color: var(--bronze-light);
+  margin-bottom: 24px;
+  letter-spacing: 2px;
+}
+.load-ring {
+  width: 50px; height: 50px;
+  border: 3px solid rgba(201,169,110,0.15);
+  border-top-color: var(--bronze);
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* ══════════════════════════════════════
+   RESPONSIVE
+══════════════════════════════════════ */
+@media (max-width: 500px) {
+  .home-nav { grid-template-columns: 1fr; }
+  .metrics-grid { grid-template-columns: 1fr 1fr; }
+  .dashboard-overview { grid-template-columns: 1fr 1fr; }
+  .foundations-grid { grid-template-columns: 1fr; }
+}
+
+/* Print */
+@media print {
+  .page-header, .back-btn, .calc-btn, .install-bar { display: none !important; }
+  body { background: white; color: #111; }
+  .section-card { border: 1px solid #ccc; }
+}
+</style>
+</head>
+<body>
+
+<!-- Loading screen -->
+<div id="loading">
+  <p class="load-title">✦ Inner Architecture Lab ✦</p>
+  <div class="load-ring"></div>
+</div>
+
+<!-- Toast container -->
+<div class="toast-wrap" id="toastWrap"></div>
+
+<!-- Install bar -->
+<div class="install-bar" id="installBar">
+  <p>📲 Install this app on your device</p>
+  <button onclick="installApp()">Install</button>
+  <button onclick="document.getElementById('installBar').classList.remove('show')" style="background:none;color:var(--silver);border:none;cursor:pointer;font-size:18px;margin-left:8px;">✕</button>
+</div>
+
+<!-- ══ HOME SCREEN ══ -->
+<div id="home" class="screen active">
+  <div class="home-inner">
+    <div class="arch-top"></div>
+
+    <div class="badge-nep">✦ Aligned with NEP 2020 · Holistic Human Development ✦</div>
+
+    <div class="home-title-block">
+      <p class="eyebrow">A Personal Excellence System</p>
+      <h1>Character, Discipline<br>&amp; Inner Architecture<br>Development Lab</h1>
+      <p class="subtitle">Offline Edition — No Internet Required</p>
+    </div>
+
+    <div class="home-divider"></div>
+
+    <div class="author-card">
+      <div class="author-img-wrap">
+        <img src="author.jpg" alt="Mateen Yousuf" onerror="this.style.display='none'"/>
+      </div>
+      <div class="author-info">
+        <div class="author-name">Mateen Yousuf</div>
+        <div class="author-title">Teacher · School Education Department, Kashmir</div>
+      </div>
+    </div>
+
+    <div class="home-nav">
+      <button class="nav-btn" onclick="showScreen('foundations')">
+        <span class="btn-icon">🏛️</span>
+        <span class="btn-label">Build Inner Architecture</span>
+        <span class="btn-desc">20 deep conceptual chapters on character formation</span>
+      </button>
+      <button class="nav-btn" onclick="showScreen('discipline')">
+        <span class="btn-icon">⚖️</span>
+        <span class="btn-label">Discipline Simulator</span>
+        <span class="btn-desc">Measure your discipline stability &amp; impulse control</span>
+      </button>
+      <button class="nav-btn" onclick="showScreen('purpose')">
+        <span class="btn-icon">🧭</span>
+        <span class="btn-label">Purpose &amp; Identity Lab</span>
+        <span class="btn-desc">Clarify your values, vision &amp; life direction</span>
+      </button>
+      <button class="nav-btn" onclick="showScreen('framework')">
+        <span class="btn-icon">📐</span>
+        <span class="btn-label">Framework &amp; Philosophy</span>
+        <span class="btn-desc">Formulas, models &amp; ethical decision systems</span>
+      </button>
+    </div>
+
+    <div class="quick-stats" id="quickStats">
+      <div class="stat-item" onclick="showScreen('habit')">
+        <div class="stat-val" id="qs-habit">—</div>
+        <div class="stat-lbl">Habit Score</div>
+      </div>
+      <div class="stat-item" onclick="showScreen('discipline')">
+        <div class="stat-val" id="qs-disc">—</div>
+        <div class="stat-lbl">Discipline</div>
+      </div>
+      <div class="stat-item" onclick="showScreen('purpose')">
+        <div class="stat-val" id="qs-purp">—</div>
+        <div class="stat-lbl">Purpose</div>
+      </div>
+      <div class="stat-item" onclick="showScreen('ethics')">
+        <div class="stat-val" id="qs-eth">—</div>
+        <div class="stat-lbl">Ethics</div>
+      </div>
+      <div class="stat-item" onclick="showScreen('dashboard')">
+        <div class="stat-val" id="qs-exc">—</div>
+        <div class="stat-lbl">Excellence</div>
+      </div>
+    </div>
+
+    <p style="font-size:11px;color:var(--silver);margin-top:24px;text-align:center;font-family:'Space Mono',monospace;">
+      © 2024 Mateen Yousuf · All data stored locally · No internet required
+    </p>
+  </div>
+</div>
+
+<!-- ══ FOUNDATIONS ══ -->
+<div id="foundations" class="screen">
+  <div class="page-header">
+    <button class="back-btn" onclick="showScreen('home')">← Home</button>
+    <h2>🏛️ Foundations of Inner Architecture</h2>
+  </div>
+  <div class="page-body">
+    <div class="section-card">
+      <h3>20 Chapters of Deep Character Study</h3>
+      <p>Each chapter contains 1200–1600 words of conceptual depth, practical examples, reflective exercises, and structured self-evaluation tasks. Select any chapter to begin reading.</p>
+    </div>
+    <div class="foundations-grid" id="foundationsGrid">
+      <!-- populated by JS -->
+    </div>
+  </div>
+</div>
+
+<!-- ══ ARTICLE READER ══ -->
+<div id="article-reader" class="screen">
+  <div class="page-header">
+    <button class="back-btn" onclick="showScreen('foundations')">← Chapters</button>
+    <h2 id="articleHeaderTitle"></h2>
+  </div>
+  <div class="article-content" id="articleContent"></div>
+</div>
+
+<!-- ══ DISCIPLINE SIMULATOR ══ -->
+<div id="discipline" class="screen">
+  <div class="page-header">
+    <button class="back-btn" onclick="showScreen('home')">← Home</button>
+    <h2>⚖️ Discipline Simulator</h2>
+  </div>
+  <div class="page-body">
+    <div class="section-card">
+      <h3>Input Your Daily Patterns</h3>
+      <div class="sim-form" id="discForm">
+        <div class="form-group">
+          <label>Daily Study Hours <span class="range-val" id="rv-study">4 hrs</span></label>
+          <input type="range" id="r-study" min="0" max="12" value="4" oninput="document.getElementById('rv-study').textContent=this.value+' hrs'"/>
+          <div class="range-labels"><span>0 hrs</span><span>12 hrs</span></div>
+        </div>
+        <div class="form-group">
+          <label>Distraction Frequency <span class="range-val" id="rv-dist">5 /day</span></label>
+          <input type="range" id="r-dist" min="0" max="20" value="5" oninput="document.getElementById('rv-dist').textContent=this.value+' /day'"/>
+          <div class="range-labels"><span>Never</span><span>Very Often</span></div>
+        </div>
+        <div class="form-group">
+          <label>Sleep Consistency (hrs/night) <span class="range-val" id="rv-sleep">7 hrs</span></label>
+          <input type="range" id="r-sleep" min="3" max="10" value="7" oninput="document.getElementById('rv-sleep').textContent=this.value+' hrs'"/>
+          <div class="range-labels"><span>3 hrs</span><span>10 hrs</span></div>
+        </div>
+        <div class="form-group">
+          <label>Exercise Habit (days/week) <span class="range-val" id="rv-exer">3 days</span></label>
+          <input type="range" id="r-exer" min="0" max="7" value="3" oninput="document.getElementById('rv-exer').textContent=this.value+' days'"/>
+          <div class="range-labels"><span>0</span><span>7 days</span></div>
+        </div>
+        <div class="form-group">
+          <label>Daily Reflection Practice (mins) <span class="range-val" id="rv-refl">15 min</span></label>
+          <input type="range" id="r-refl" min="0" max="60" value="15" oninput="document.getElementById('rv-refl').textContent=this.value+' min'"/>
+          <div class="range-labels"><span>None</span><span>60 min</span></div>
+        </div>
+        <button class="calc-btn" onclick="calcDiscipline()">⚡ Calculate Discipline Scores</button>
+      </div>
+
+      <div class="sim-results" id="discResults">
+        <div class="metrics-grid">
+          <div class="metric-card green">
+            <div class="m-label">Discipline Stability</div>
+            <div class="m-score" id="m-dsi">—</div>
+            <div class="m-sub">/ 100</div>
+          </div>
+          <div class="metric-card blue">
+            <div class="m-label">Impulse Control</div>
+            <div class="m-score" id="m-ics">—</div>
+            <div class="m-sub">/ 100</div>
+          </div>
+          <div class="metric-card amber">
+            <div class="m-label">Consistency Rating</div>
+            <div class="m-score" id="m-cr">—</div>
+            <div class="m-sub">/ 100</div>
+          </div>
+          <div class="metric-card red">
+            <div class="m-label">Burnout Risk</div>
+            <div class="m-score" id="m-br">—</div>
+            <div class="m-sub">%</div>
+          </div>
+        </div>
+        <div id="discInterpret" style="background:rgba(17,34,64,0.7);border:1px solid rgba(201,169,110,0.2);border-radius:8px;padding:18px;font-size:15px;color:var(--white-dim);line-height:1.7;"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ HABIT BUILDER ══ -->
+<div id="habit" class="screen">
+  <div class="page-header">
+    <button class="back-btn" onclick="showScreen('home')">← Home</button>
+    <h2>🌱 Habit Architecture Builder</h2>
+  </div>
+  <div class="page-body">
+    <div class="section-card">
+      <h3>Select Your Target Habit</h3>
+      <div class="habit-select-grid" id="habitGrid">
+        <!-- populated by JS -->
+      </div>
+    </div>
+    <div class="section-card">
+      <h3>Configuration</h3>
+      <div class="form-group" style="margin-bottom:18px">
+        <label>Frequency per Week <span class="range-val" id="rv-hfreq">5 days</span></label>
+        <input type="range" id="r-hfreq" min="1" max="7" value="5" oninput="document.getElementById('rv-hfreq').textContent=this.value+' days'"/>
+        <div class="range-labels"><span>1 day</span><span>7 days</span></div>
+      </div>
+      <div class="form-group" style="margin-bottom:18px">
+        <label>Environment Trigger Strength <span class="range-val" id="rv-htrig">6/10</span></label>
+        <input type="range" id="r-htrig" min="1" max="10" value="6" oninput="document.getElementById('rv-htrig').textContent=this.value+'/10'"/>
+        <div class="range-labels"><span>Weak</span><span>Strong</span></div>
+      </div>
+      <div class="form-group" style="margin-bottom:18px">
+        <label>Reward Mechanism Clarity <span class="range-val" id="rv-hrew">7/10</span></label>
+        <input type="range" id="r-hrew" min="1" max="10" value="7" oninput="document.getElementById('rv-hrew').textContent=this.value+'/10'"/>
+        <div class="range-labels"><span>Unclear</span><span>Crystal Clear</span></div>
+      </div>
+      <div class="form-group" style="margin-bottom:18px">
+        <label>Current Motivation Level <span class="range-val" id="rv-hmot">7/10</span></label>
+        <input type="range" id="r-hmot" min="1" max="10" value="7" oninput="document.getElementById('rv-hmot').textContent=this.value+'/10'"/>
+        <div class="range-labels"><span>Low</span><span>Very High</span></div>
+      </div>
+      <button class="calc-btn" onclick="calcHabit()">📊 Generate Habit Projection</button>
+    </div>
+    <div class="section-card" id="habitResults" style="display:none">
+      <h3>30-Day & 90-Day Projection</h3>
+      <div class="projection-bars" id="projBars"></div>
+      <div id="habitInterpret" style="margin-top:18px;background:rgba(10,22,40,0.7);border:1px solid rgba(201,169,110,0.2);border-radius:8px;padding:16px;font-size:15px;color:var(--white-dim);"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ PURPOSE & IDENTITY LAB ══ -->
+<div id="purpose" class="screen">
+  <div class="page-header">
+    <button class="back-btn" onclick="showScreen('home')">← Home</button>
+    <h2>🧭 Purpose &amp; Identity Lab</h2>
+  </div>
+  <div class="page-body">
+    <div class="section-card">
+      <h3>Deep Reflection Prompts</h3>
+      <div style="display:grid;gap:18px;" id="purposeForm">
+        <div>
+          <label style="font-family:'Space Mono',monospace;font-size:11px;letter-spacing:2px;color:var(--bronze);display:block;margin-bottom:8px;">YOUR CORE VALUES (what do you stand for?)</label>
+          <textarea class="purpose-textarea" id="p-values" placeholder="e.g., Honesty, excellence, service to others, curiosity, justice..."></textarea>
+        </div>
+        <div>
+          <label style="font-family:'Space Mono',monospace;font-size:11px;letter-spacing:2px;color:var(--bronze);display:block;margin-bottom:8px;">LONG-TERM VISION (where do you see yourself in 10 years?)</label>
+          <textarea class="purpose-textarea" id="p-vision" placeholder="Describe the person you intend to become and the life you intend to build..."></textarea>
+        </div>
+        <div>
+          <label style="font-family:'Space Mono',monospace;font-size:11px;letter-spacing:2px;color:var(--bronze);display:block;margin-bottom:8px;">INTELLECTUAL ASPIRATION (what do you want to master?)</label>
+          <textarea class="purpose-textarea" id="p-intellect" placeholder="Fields of knowledge, skills, or wisdom you wish to deeply develop..."></textarea>
+        </div>
+        <div>
+          <label style="font-family:'Space Mono',monospace;font-size:11px;letter-spacing:2px;color:var(--bronze);display:block;margin-bottom:8px;">CIVIC RESPONSIBILITY (how will you serve your community/society?)</label>
+          <textarea class="purpose-textarea" id="p-civic" placeholder="Your commitment to family, community, profession, and the broader society..."></textarea>
+        </div>
+        <div class="form-group">
+          <label>Value–Behavior Alignment (how closely do you live your values?) <span class="range-val" id="rv-palign">6/10</span></label>
+          <input type="range" id="r-palign" min="1" max="10" value="6" oninput="document.getElementById('rv-palign').textContent=this.value+'/10'"/>
+          <div class="range-labels"><span>Big Gap</span><span>Fully Aligned</span></div>
+        </div>
+        <button class="calc-btn" onclick="calcPurpose()">🧭 Generate Purpose Analysis</button>
+      </div>
+      <div class="purpose-summary" id="purposeSummary"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ ETHICAL DECISION SIMULATOR ══ -->
+<div id="ethics" class="screen">
+  <div class="page-header">
+    <button class="back-btn" onclick="showScreen('home')">← Home</button>
+    <h2>⚖️ Ethical Decision Simulator</h2>
+  </div>
+  <div class="page-body">
+    <div class="section-card">
+      <h3>Scenario-Based Character Test</h3>
+      <p style="font-size:15px;color:var(--silver);margin-bottom:20px;">Navigate real-world ethical dilemmas. Your choices will be analyzed to produce your Ethical Consistency Score, Courage Index, and Integrity Projection.</p>
+      <div id="scenariosContainer"></div>
+      <button class="calc-btn" id="ethicsCalcBtn" onclick="calcEthics()" style="display:none;margin-top:20px;">📊 Calculate Ethical Profile</button>
+      <div class="ethics-score-panel" id="ethicsPanel">
+        <div class="metrics-grid">
+          <div class="metric-card green">
+            <div class="m-label">Ethical Consistency</div>
+            <div class="m-score" id="e-ecs">—</div>
+            <div class="m-sub">/ 100</div>
+          </div>
+          <div class="metric-card blue">
+            <div class="m-label">Courage Index</div>
+            <div class="m-score" id="e-ci">—</div>
+            <div class="m-sub">/ 100</div>
+          </div>
+          <div class="metric-card amber">
+            <div class="m-label">Integrity Projection</div>
+            <div class="m-score" id="e-ip">—</div>
+            <div class="m-sub">/ 100</div>
+          </div>
+        </div>
+        <div id="ethicsInterpret" style="background:rgba(17,34,64,0.7);border:1px solid rgba(201,169,110,0.2);border-radius:8px;padding:18px;font-size:15px;color:var(--white-dim);margin-top:16px;"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ STRESS TEST ══ -->
+<div id="stress" class="screen">
+  <div class="page-header">
+    <button class="back-btn" onclick="showScreen('home')">← Home</button>
+    <h2>🔥 Character Stress Test</h2>
+  </div>
+  <div class="page-body">
+    <div class="section-card">
+      <h3>Simulate High-Pressure Situations</h3>
+      <p style="font-size:15px;color:var(--silver);margin-bottom:20px;">Rate how you typically respond to each pressure scenario. This measures your resilience, stability, and integrity under real-world stress.</p>
+      <div id="stressContainer"></div>
+      <button class="calc-btn" onclick="calcStress()" style="margin-top:10px;">🛡️ Calculate Resilience Profile</button>
+      <div id="stressResults" style="display:none;margin-top:24px;">
+        <div class="metrics-grid">
+          <div class="metric-card green">
+            <div class="m-label">Resilience Score</div>
+            <div class="m-score" id="s-rs">—</div>
+            <div class="m-sub">/ 100</div>
+          </div>
+          <div class="metric-card blue">
+            <div class="m-label">Stability Index</div>
+            <div class="m-score" id="s-si">—</div>
+            <div class="m-sub">/ 100</div>
+          </div>
+          <div class="metric-card amber">
+            <div class="m-label">Integrity Under Pressure</div>
+            <div class="m-score" id="s-iup">—</div>
+            <div class="m-sub">/ 100</div>
+          </div>
+        </div>
+        <div id="stressInterpret" style="background:rgba(17,34,64,0.7);border:1px solid rgba(201,169,110,0.2);border-radius:8px;padding:18px;font-size:15px;color:var(--white-dim);margin-top:16px;"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ DASHBOARD ══ -->
+<div id="dashboard" class="screen">
+  <div class="page-header">
+    <button class="back-btn" onclick="showScreen('home')">← Home</button>
+    <h2>📊 Inner Growth Dashboard</h2>
+  </div>
+  <div class="page-body">
+    <div class="section-card">
+      <h3>Your Excellence Overview</h3>
+      <div class="dashboard-overview" id="dashOverview"></div>
+    </div>
+    <div class="section-card">
+      <h3>Multi-Axis Character Radar</h3>
+      <div class="radar-wrap">
+        <canvas id="radarCanvas" width="320" height="320"></canvas>
+      </div>
+    </div>
+    <div class="section-card">
+      <h3>Long-Term Excellence Projection</h3>
+      <div id="excellenceProj" style="padding:10px 0;"></div>
+    </div>
+    <div class="section-card" style="text-align:center">
+      <h3>Export Report</h3>
+      <p style="font-size:15px;color:var(--silver);margin-bottom:18px;">Generate and print your complete Inner Architecture personal excellence report.</p>
+      <button class="calc-btn" style="max-width:300px;margin:0 auto;" onclick="printReport()">🖨️ Print / Save as PDF</button>
+    </div>
+  </div>
+</div>
+
+<!-- ══ GENERATIONAL PROJECTION ══ -->
+<div id="generational" class="screen">
+  <div class="page-header">
+    <button class="back-btn" onclick="showScreen('home')">← Home</button>
+    <h2>🌐 Generational Character Projection</h2>
+  </div>
+  <div class="page-body">
+    <div class="section-card">
+      <h3>Cascade Impact Model</h3>
+      <p style="font-size:15px;color:var(--silver);margin-bottom:20px;">Your individual discipline cascades outward to shape your family culture, community stability, and societal ethical index. Adjust your baseline discipline to see the impact.</p>
+      <div class="form-group" style="margin-bottom:20px;">
+        <label>Your Individual Discipline Score <span class="range-val" id="rv-gen">70</span></label>
+        <input type="range" id="r-gen" min="0" max="100" value="70" oninput="updateGenerational(this.value)"/>
+        <div class="range-labels"><span>0</span><span>100</span></div>
+      </div>
+      <div class="cascade-viz" id="cascadeViz"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ FRAMEWORK & PHILOSOPHY ══ -->
+<div id="framework" class="screen">
+  <div class="page-header">
+    <button class="back-btn" onclick="showScreen('home')">← Home</button>
+    <h2>📐 Framework &amp; Inner Philosophy</h2>
+  </div>
+  <div class="page-body">
+    <div class="section-card">
+      <h3>Deterministic Formulas</h3>
+      <div class="philosophy-grid" id="formulaGrid"></div>
+    </div>
+    <div class="section-card">
+      <h3>The 7 Pillars of Inner Architecture</h3>
+      <div class="philosophy-grid" id="pillarsGrid"></div>
+    </div>
+    <div class="section-card">
+      <h3>NEP 2020 Alignment</h3>
+      <div class="philosophy-grid" id="nepGrid"></div>
+    </div>
+    <div style="text-align:center;margin-top:20px;">
+      <button class="calc-btn" style="max-width:320px;margin:0 auto;" onclick="showScreen('stress')">🔥 Try Character Stress Test</button>
+      <br><br>
+      <button class="calc-btn" style="max-width:320px;margin:0 auto;background:linear-gradient(135deg,#1a3a6e,#112240);color:var(--bronze-light);" onclick="showScreen('generational')">🌐 Generational Projection</button>
+    </div>
+  </div>
+</div>
+
+<script>
+// ══════════════════════════════════════════════════════════════
+// DATA — Foundation Chapters
+// ══════════════════════════════════════════════════════════════
+const CHAPTERS = [
+  {
+    num: 1, title: "What is Inner Architecture?",
+    preview: "The invisible structure that determines your visible life.",
+    content: `<h2>What is Inner Architecture?</h2>
+<p class="article-meta">CHAPTER 01 · FOUNDATIONS OF INNER ARCHITECTURE</p>
+<div class="prose">
+<p>Every building that stands against time has one thing in common: a sound, invisible architecture beneath its visible form. You can paint the walls, change the furniture, renovate the facade — but if the foundations are weak, the structure will eventually collapse. The same principle governs human beings. <strong>Inner Architecture</strong> is the invisible framework of values, habits, beliefs, and character that determines the quality, direction, and resilience of your visible life.</p>
+
+<p>Inner Architecture is not personality. Personality is the coat you wear in social situations — it shifts with context, adapts to audiences, and can be performed. Inner Architecture is what you are when no one is watching, when you are tired, when the reward is distant, when the pressure is immense. It is your operating system — and like a computer's OS, most of it runs silently in the background, shaping every conscious action you take.</p>
+
+<h3>The Three Layers of Inner Structure</h3>
+<p>Psychologists and philosophers have long recognised that human inner life operates in layers. At the deepest level lie your <em>core values</em> — the non-negotiable principles that you would not compromise even under significant pressure. Above these sit your <em>belief systems</em> — the interpretive frameworks through which you understand the world, yourself, and other people. On the surface rests your <em>behavioral architecture</em> — the habits, routines, and patterns through which your values and beliefs express themselves in daily action.</p>
+
+<p>Most human beings invest enormous energy in modifying surface behaviour while leaving the deeper layers untouched. They try to build new habits without examining the beliefs that drive old ones. They attempt discipline without clarity about what they value. This is why so many self-improvement efforts fail within weeks — they are repainting walls over a crumbling foundation.</p>
+
+<h3>Why Architecture, Not Just Character?</h3>
+<p>The word "character" carries moral weight but lacks structural precision. A person can have "good character" in general terms and still lack the systematic inner organization needed to pursue excellence consistently. The architectural metaphor is deliberate and important. An architect does not simply wish a building to be strong — they study loads, calculate stress tolerances, design redundant systems, and plan for contingencies. Developing Inner Architecture means bringing this same systematic intentionality to the construction of your self.</p>
+
+<p>Consider two students who both believe in honesty. One has internalized honesty as a deep architectural principle — it is load-bearing, meaning other values rest upon it. When pressure comes — an exam they haven't prepared for, a social situation where lying would be easier — their honesty holds because it is structurally integrated into who they are. The second student has honesty as a surface preference — they prefer to be honest when it is convenient. Under pressure, this preference dissolves. The difference is not one of intelligence or even moral desire. It is one of architectural depth.</p>
+
+<h3>The Science Behind the Structure</h3>
+<p>Neuroscience offers fascinating support for the Inner Architecture framework. Research on the prefrontal cortex — the seat of executive function, long-term planning, and value-based decision making — shows that consistent practice of deliberate, value-aligned behavior literally strengthens neural pathways. Every time you choose a difficult action that is aligned with your values, you strengthen the architecture. Every time you compromise, you weaken it. This is not metaphor — it is measurable neurological change.</p>
+
+<p>Psychologist Roy Baumeister's research on self-control reveals that willpower alone is a depletable resource. Those who rely on willpower to maintain discipline will inevitably fail when their reservoir runs low. But those who have built structural habits — who have designed their environment and routines so that the right action is the default action — maintain discipline effortlessly. This is the difference between a person who relies on motivation and a person who has built architecture.</p>
+
+<h3>Building vs Inheriting</h3>
+<p>A crucial insight of the Inner Architecture framework is that character is not primarily inherited — it is constructed. Your genetics, upbringing, and early experiences give you raw materials: a temperament, certain tendencies, initial beliefs. But what you build with those materials over the years of your adult life is your own responsibility and within your own power. This is both a liberating and a demanding truth. It means that no one is locked into the character they currently have. And it means that no one is exempt from the work of building a better one.</p>
+
+<blockquote>"We are what we repeatedly do. Excellence, then, is not an act, but a habit." — Aristotle</blockquote>
+
+<p>This ancient insight anticipates modern behavioral science perfectly. Character is not a static property you either have or lack — it is a dynamic structure you are continuously building or eroding through your daily choices, thoughts, and actions.</p>
+
+<h3>The Inner Architect's Mindset</h3>
+<p>To develop Inner Architecture, you must first adopt the mindset of an architect. An architect begins with vision: what should this structure be capable of? What loads must it bear? What aesthetic quality should it embody? Then comes structural planning: what materials are needed? How should they be arranged? What are the potential failure points? Finally comes disciplined execution: careful, consistent work over time, with regular inspection and adjustment.</p>
+
+<p>Applied to the self, this means: What kind of person do you intend to become? What values should be load-bearing in your character? What habits and routines will constitute your daily structure? Where are your current vulnerabilities — the places where your inner architecture is thin or unstable? And what consistent daily practice will strengthen those points?</p>
+
+<div class="exercise-box">
+<h4>✦ Reflective Exercise — Chapter 1</h4>
+<ul>
+<li>Draw three concentric circles. Label the innermost "Core Values," the middle "Belief Systems," and the outer "Daily Behavior." Fill each layer honestly for yourself.</li>
+<li>Identify one area where your outer behavior contradicts your stated inner values. What does this reveal about your current architecture?</li>
+<li>Write a single sentence that describes the kind of person you are deliberately constructing yourself to become.</li>
+<li>Name one architectural element in your life that is currently solid, and one that needs urgent structural work.</li>
+</ul>
+</div>
+
+<p>Inner Architecture is not built in a moment of inspiration — it is built in the thousand ordinary moments when you choose consistency over comfort, principle over convenience, long-term excellence over short-term ease. This course exists to help you become the deliberate architect of your own inner life. The work begins now.</p>
+</div>`
+  },
+  {
+    num: 2, title: "Character vs Personality",
+    preview: "Understanding the deeper layer beneath your social self.",
+    content: `<h2>Character vs Personality</h2>
+<p class="article-meta">CHAPTER 02 · FOUNDATIONS OF INNER ARCHITECTURE</p>
+<div class="prose">
+<p>One of the most consequential confusions in modern self-understanding is the conflation of character with personality. We live in an era that has become obsessed with personality — with Myers-Briggs types, with the Big Five, with Enneagram numbers, with understanding our "authentic self" as a fixed, discoverable entity. While personality psychology offers genuinely useful tools for self-understanding, the reduction of human identity to personality type is a profound philosophical error — one with serious consequences for how we live and grow.</p>
+
+<p><strong>Personality</strong> describes the relatively stable patterns of thought, feeling, and behavior that distinguish individuals from one another. Introversion and extraversion, openness to experience, emotional reactivity — these are real, measurable, and significantly influenced by genetics and early experience. Your personality gives you your characteristic style, your typical emotional responses, your natural preferences in social and cognitive domains.</p>
+
+<p><strong>Character</strong>, by contrast, is not about how you naturally are — it is about how you have chosen to be. Character is the sum of your moral choices, habitual responses, values-under-pressure, and consistent commitments over time. A shy introvert and a gregarious extravert can both have extraordinary character, or neither can. Character is not style — it is substance.</p>
+
+<h3>The Danger of Personality Essentialism</h3>
+<p>When people over-identify with their personality type, they often use it as an explanatory excuse rather than a starting point for growth. "I can't help being disorganised — I'm a P type." "I'm just not a morning person." "I'm too emotional for that kind of work." These statements treat personality as destiny, when in reality it is merely the terrain within which character development must occur.</p>
+
+<p>The ancient Stoics understood this clearly. Epictetus was born a slave, had a physical disability, and grew up in an environment of powerlessness. He had no control over these circumstances, which shaped his personality's starting conditions. But through deliberate philosophical practice, he built a character of such depth and stability that his writings have guided human beings toward inner freedom for two millennia. His personality was the raw material; his character was the work.</p>
+
+<h3>Character is Cultivated, Not Discovered</h3>
+<p>Modern culture tends to speak of "finding yourself" — as though the self is a hidden treasure waiting to be uncovered. The Inner Architecture framework proposes a different model: the self is not found, it is built. You do not discover who you are by introspecting more deeply. You construct who you become by choosing more deliberately.</p>
+
+<blockquote>"Character is destiny." — Heraclitus</blockquote>
+
+<p>This does not mean that self-knowledge is unimportant — understanding your personality, your tendencies, your emotional patterns is essential raw material for character development. But self-knowledge is the beginning of the work, not the end of it.</p>
+
+<div class="exercise-box">
+<h4>✦ Reflective Exercise — Chapter 2</h4>
+<ul>
+<li>List three things you have attributed to "just being who I am" that may actually be character choices you have been avoiding.</li>
+<li>Name one person you admire for their character. What specific choices, habits, and commitments produce that character?</li>
+<li>Identify one character trait you intend to deliberately build over the next 90 days. What daily practice will this require?</li>
+<li>Reflect: where in your life do you use personality as an excuse to avoid character work?</li>
+</ul>
+</div>
+</div>`
+  },
+  {
+    num: 3, title: "Discipline as Freedom",
+    preview: "How structure creates the conditions for true liberty.",
+    content: `<h2>Discipline as Freedom</h2>
+<p class="article-meta">CHAPTER 03 · FOUNDATIONS OF INNER ARCHITECTURE</p>
+<div class="prose">
+<p>The popular conception of discipline is one of constraint — a stern, joyless adherence to rules that narrows life and eliminates pleasure. In this view, the disciplined person is somehow less free than the spontaneous, unstructured one. This is one of the most destructive misconceptions in human self-development, and dismantling it is essential to building the Inner Architecture required for a life of genuine excellence.</p>
+
+<p>The truth is the precise opposite: <strong>discipline is the infrastructure of freedom</strong>. Consider the master musician. Years of disciplined practice — scales, technique, repetition — have created such deep structural competence that when she sits at the instrument, she is genuinely free to express, to improvise, to create beauty in real time. The undisciplined musician, who avoided the "constraints" of practice, is not free — she is imprisoned by incompetence. Every time she wants to express something musically, her technical limitations stop her.</p>
+
+<h3>Two Kinds of Freedom</h3>
+<p>Philosopher Isaiah Berlin distinguished between <em>negative freedom</em> — freedom from external constraints — and <em>positive freedom</em> — the actual capacity to do and become what you choose. Most people who resist discipline are pursuing negative freedom: the removal of rules, routines, and obligations. But what they often find is that this apparent freedom delivers neither satisfaction nor genuine capability. It is freedom from structure, but not freedom to create, achieve, or become.</p>
+
+<p>Discipline cultivates positive freedom. The student who disciplines her study hours is not sacrificing freedom — she is purchasing the genuine freedom that expertise provides: the ability to solve problems independently, to understand the world deeply, to contribute meaningfully to others.</p>
+
+<h3>The Paradox of the Routine</h3>
+<p>Many creative and high-performing individuals are deeply routine-based. Immanuel Kant was so regular in his afternoon walk that neighbors set their clocks by him. Charles Darwin had a strict daily schedule. Beethoven counted exactly 60 coffee beans each morning. These are not cases of rigid, fearful personalities — they are cases of people who understood that a reliable structural routine frees cognitive resources for the demanding work of creation and thinking.</p>
+
+<p>When basic decisions — when to wake, when to work, what to eat, when to exercise — are automated through disciplined routine, the mind is freed from decision fatigue. The energy saved is available for the work that actually matters: creative thought, deep learning, ethical deliberation, genuine human connection.</p>
+
+<div class="exercise-box">
+<h4>✦ Reflective Exercise — Chapter 3</h4>
+<ul>
+<li>Identify one domain of your life where greater discipline would create greater freedom (not less). What would that freedom look like?</li>
+<li>Design a simple morning routine — 3-5 elements — that would structure the first hour of your day and free your energy for deep work.</li>
+<li>Reflect on a time when your lack of discipline in one area constrained your freedom in another area. What did you learn?</li>
+<li>Write a personal statement beginning: "Discipline is how I will become free to..."</li>
+</ul>
+</div>
+</div>`
+  },
+  {
+    num: 4, title: "Habit Formation Science",
+    preview: "The neuroscience and psychology of lasting behavioral change.",
+    content: `<h2>Habit Formation Science</h2>
+<p class="article-meta">CHAPTER 04 · FOUNDATIONS OF INNER ARCHITECTURE</p>
+<div class="prose">
+<p>Habits are not simply things you do regularly — they are behavioral programs installed in your nervous system that run automatically, consuming minimal conscious resources. Understanding the science of how habits form, persist, and change is one of the most practically powerful bodies of knowledge available to anyone who wishes to build a better life.</p>
+
+<p>Neuroscientist Ann Graybiel's research at MIT identified what is now called the <strong>Habit Loop</strong>: every habit consists of three elements — a <em>cue</em> (a trigger that activates the habit), a <em>routine</em> (the behavioral or cognitive response), and a <em>reward</em> (the satisfaction that reinforces the loop). This three-part loop is encoded in the basal ganglia — a region of the brain associated with procedural memory — and once established, it becomes extraordinarily durable.</p>
+
+<h3>The Chunking Process</h3>
+<p>When a habit is being formed, the brain engages heavily — monitoring, evaluating, deciding. But as the behavior is repeated, the brain "chunks" the sequence into a single automated unit, dramatically reducing cognitive load. This is why experienced drivers can navigate familiar routes while thinking about something else entirely. The driving sequence has been chunked into a single automated habit program.</p>
+
+<p>This chunking process is both the power and the danger of habits. When the chunked behavior is beneficial — exercise, study, reflection — the automation works in your favor. When it is destructive — scrolling social media, procrastinating, eating mindlessly — the same automation works against you, making the behavior difficult to interrupt even when you consciously want to stop.</p>
+
+<h3>The 66-Day Reality</h3>
+<p>Popular culture often cites "21 days to form a habit" — a figure with no scientific basis. Research by psychologist Phillippa Lally at University College London found that habit formation actually takes between 18 and 254 days, with an average of 66 days. More complex behaviors take longer. The variability depends on the complexity of the behavior, the consistency of the context, and the strength of the reward signal.</p>
+
+<p>This has profound practical implications. If you begin a new practice expecting automaticity in three weeks and find yourself still struggling at day 30, you may conclude you are somehow deficient. The science says otherwise: you are simply in the middle of a neurological process that requires time and consistency, not willpower and perfection.</p>
+
+<div class="exercise-box">
+<h4>✦ Reflective Exercise — Chapter 4</h4>
+<ul>
+<li>Identify your three strongest existing habits. For each, identify the cue, the routine, and the reward that maintains it.</li>
+<li>Identify one habit you want to build. Design its complete loop: what will the cue be? What exactly is the routine? What will the immediate reward be?</li>
+<li>What existing habit might you <em>stack</em> your new habit onto? (Habit stacking — pairing a new routine with an established one — dramatically accelerates formation.)</li>
+<li>Commit to tracking your new habit for 90 days. Progress, not perfection, is the measure of success.</li>
+</ul>
+</div>
+</div>`
+  },
+  {
+    num: 5, title: "Self-Regulation Theory",
+    preview: "Managing your thoughts, emotions, and impulses with mastery.",
+    content: `<h2>Self-Regulation Theory</h2>
+<p class="article-meta">CHAPTER 05 · FOUNDATIONS OF INNER ARCHITECTURE</p>
+<div class="prose">
+<p>Self-regulation — the capacity to direct your own thoughts, emotions, and behaviors in alignment with your chosen values and goals — is widely regarded by psychologists as the single most important predictor of life outcomes. More than raw intelligence, more than natural talent, more than socioeconomic background, the ability to regulate the self is what separates those who actualize their potential from those who do not.</p>
+
+<p>Psychologist Roy Baumeister, who conducted decades of research on self-control, concludes that virtually every major social problem — academic failure, relationship breakdown, financial irresponsibility, addiction, violence — is at least partially attributable to failures of self-regulation. Conversely, high self-regulation is associated with better health, stronger relationships, higher academic and professional achievement, and greater reported life satisfaction.</p>
+
+<h3>The Three Systems of Self-Regulation</h3>
+<p>Self-regulation operates across three domains. <em>Cognitive regulation</em> involves managing your attention and thinking — resisting distracting thoughts, maintaining focus, directing mental resources deliberately. <em>Emotional regulation</em> involves managing your feelings — not suppressing them, but responding to them with awareness rather than reactivity. <em>Behavioral regulation</em> involves managing your actions — choosing responses that align with your values rather than your impulses.</p>
+
+<p>These three systems are deeply interconnected. Emotional dysregulation makes cognitive focus nearly impossible. Poor cognitive control accelerates behavioral impulsivity. Working on any one of the three tends to improve all three — which is why practices like meditation, journaling, and structured reflection simultaneously develop all dimensions of self-regulatory capacity.</p>
+
+<h3>Environment as Self-Regulation Infrastructure</h3>
+<p>One of the most practically powerful insights from self-regulation research is that the most effective regulators are not those with the most willpower — they are those who most skillfully manage their environments to reduce the need for willpower. They remove temptations before they arise. They create environments that make the right action the path of least resistance. They pre-commit to choices before they enter high-pressure situations.</p>
+
+<div class="exercise-box">
+<h4>✦ Reflective Exercise — Chapter 5</h4>
+<ul>
+<li>Rate your self-regulation in three areas: attention/focus, emotional management, and behavioral consistency. Where is your weakest link?</li>
+<li>Identify one environmental change you could make today that would reduce the demand on your willpower for a recurring self-regulation challenge.</li>
+<li>Design a simple "if-then" plan for your most common self-regulation failure: "If [temptation/situation], then I will [value-aligned response]."</li>
+<li>Begin a 5-minute daily reflection practice: what did I regulate well today? Where did I lose regulatory control? What will I do differently tomorrow?</li>
+</ul>
+</div>
+</div>`
+  },
+  {
+    num: 6, title: "Delayed Gratification & Mastery",
+    preview: "The marshmallow test, deep practice, and the architecture of excellence.",
+    content: `<h2>Delayed Gratification &amp; Mastery</h2>
+<p class="article-meta">CHAPTER 06 · FOUNDATIONS OF INNER ARCHITECTURE</p>
+<div class="prose">
+<p>In the late 1960s, psychologist Walter Mischel conducted what became one of the most famous experiments in developmental psychology at Stanford University. Four-year-old children were offered a choice: eat one marshmallow now, or wait 15 minutes and receive two. The researcher then left the room. Some children ate immediately. Others waited. When Mischel followed up with these children decades later, the results were striking: those who had been able to delay gratification consistently outperformed the impulsive eaters on virtually every measure of life success — SAT scores, academic achievement, social competence, health outcomes, and professional success.</p>
+
+<p>The marshmallow test revealed something profound: the capacity to postpone immediate reward in pursuit of greater future benefit is not merely a good habit — it is a foundational cognitive and character capacity that shapes the entire trajectory of a life.</p>
+
+<h3>Mastery and the 10,000 Hours Framework</h3>
+<p>Psychologist Anders Ericsson's research on expert performance — popularized (and somewhat oversimplified) by Malcolm Gladwell as the "10,000-hour rule" — revealed that mastery in any domain requires not just time, but <em>deliberate practice</em>: effortful, focused engagement with material that is slightly beyond your current capacity, with immediate feedback and continuous adjustment. Crucially, deliberate practice is inherently uncomfortable — it requires sustained engagement with difficulty.</p>
+
+<p>The architecture of mastery, then, is built on repeated acts of delayed gratification: choosing the discomfort of practice over the comfort of rest, choosing the frustration of difficulty over the ease of familiar competence, choosing the uncertainty of growth over the security of the already-known. Every session of deliberate practice is a small act of deferred reward — you are investing current discomfort for future capability.</p>
+
+<div class="exercise-box">
+<h4>✦ Reflective Exercise — Chapter 6</h4>
+<ul>
+<li>Identify your most important long-term goal. What immediate gratifications are you regularly choosing over progress toward it?</li>
+<li>Design one daily "deliberate practice" session in your most important domain of development. What makes it genuinely difficult?</li>
+<li>Create a visual representation of your long-term goal and place it where you will see it at your moments of greatest temptation.</li>
+<li>Practice the "10-10-10 rule" when tempted: How will I feel about this choice in 10 minutes? 10 months? 10 years?</li>
+</ul>
+</div>
+</div>`
+  },
+  {
+    num: 7, title: "Intellectual Humility",
+    preview: "Knowing what you don't know — and why it matters enormously.",
+    content: `<h2>Intellectual Humility</h2>
+<p class="article-meta">CHAPTER 07 · FOUNDATIONS OF INNER ARCHITECTURE</p>
+<div class="prose">
+<p>Intellectual humility is the willingness to recognise and acknowledge the limitations of your knowledge, to take seriously the possibility that you are wrong, and to update your beliefs in response to good evidence and argument. It is, paradoxically, one of the rarest and most valuable intellectual virtues — because the very confidence that comes with knowledge and experience tends to close the mind against its own revision.</p>
+
+<p>Research by psychologists Mark Leary and Kathryn Diebels reveals that intellectually humble people learn more effectively, hold their opinions with appropriate uncertainty, are better able to engage with opposing viewpoints, and report higher levels of curiosity and wonder. They are also, interestingly, more liked and trusted by others — because intellectual humility signals honesty about one's limitations rather than false certainty.</p>
+
+<h3>The Dunning-Kruger Dynamic</h3>
+<p>Psychologists David Dunning and Justin Kruger documented a cognitive bias that is now named for them: people with limited competence in a domain tend to dramatically overestimate their ability, while genuine experts — who understand the complexity and their own remaining limitations — tend to underestimate their ability relative to others. This means that the least equipped people in any field are often the most confident, while the most equipped are often the most uncertain.</p>
+
+<p>The implication for character development is sobering: those who most need intellectual humility are least likely to feel they need it. This makes active cultivation of intellectual humility — through deliberate exposure to better thinkers, through the practice of steelmanning opposing views, through regular honest self-assessment — an essential architectural investment.</p>
+
+<div class="exercise-box">
+<h4>✦ Reflective Exercise — Chapter 7</h4>
+<ul>
+<li>Identify three beliefs you hold with high confidence. For each, write the strongest possible argument against your position.</li>
+<li>Recall a time you changed your mind about something important. What made you open to the change? How did it feel?</li>
+<li>Practice saying "I don't know, but I'd like to find out" in a conversation this week. Notice the response.</li>
+<li>Seek out one source of information this week that challenges your existing views on an important topic.</li>
+</ul>
+</div>
+</div>`
+  },
+  {
+    num: 8, title: "Ethical Consistency",
+    preview: "Living your values when no one is watching and everything is at stake.",
+    content: `<h2>Ethical Consistency</h2>
+<p class="article-meta">CHAPTER 08 · FOUNDATIONS OF INNER ARCHITECTURE</p>
+<div class="prose">
+<p>Ethical consistency is perhaps the most demanding dimension of Inner Architecture: the alignment of your moral choices with your moral values, not selectively or occasionally, but systematically and under pressure. It is easy to be ethical when the cost is low — when honesty is convenient, when fairness requires no sacrifice, when integrity costs nothing. The true measure of ethical character is what you choose when the cost of the right action is genuinely high.</p>
+
+<p>Moral psychologist Jonathan Haidt's research reveals a disturbing truth: most of our ethical "reasoning" is actually post-hoc rationalization. We make moral decisions quickly, driven by intuition and emotion, and then construct logical justifications for what we have already decided. This means that without deliberate character development, we are likely to make self-serving ethical choices and then convince ourselves that we did the right thing.</p>
+
+<h3>The Architecture of Ethical Consistency</h3>
+<p>Building genuine ethical consistency requires pre-commitment: deciding in advance, in calm reflection, what you will do in difficult situations before you are in them. The soldier who has never decided in advance what they will do when ordered to violate their conscience is at the mercy of the situation. The one who has worked through these questions beforehand has architectural support to draw on when the moment comes.</p>
+
+<p>Ethical consistency also requires community — people who know your values and will hold you to them. None of us maintains ethical architecture in isolation. The social structures of family, friendship, and professional community either support or erode our ethical commitments. Choosing your community with care is itself an act of ethical architecture.</p>
+
+<div class="exercise-box">
+<h4>✦ Reflective Exercise — Chapter 8</h4>
+<ul>
+<li>Identify your three non-negotiable ethical principles — things you would not compromise regardless of cost.</li>
+<li>Think of a time you compromised your ethics. What conditions made it easier to compromise? How do you protect against those conditions?</li>
+<li>Pre-commit: write out how you will handle one ethical challenge you are likely to face in the next month.</li>
+<li>Who in your life holds you accountable to your values? How can you deepen that relationship?</li>
+</ul>
+</div>
+</div>`
+  },
+  {
+    num: 9, title: "Responsibility & Accountability",
+    preview: "Owning your choices, your failures, and your growth.",
+    content: `<h2>Responsibility &amp; Accountability</h2>
+<p class="article-meta">CHAPTER 09 · FOUNDATIONS OF INNER ARCHITECTURE</p>
+<div class="prose">
+<p>Responsibility is the willingness to acknowledge that your choices — and only your choices — are the primary determinants of your life outcomes. This is simultaneously the most empowering and the most demanding truth in human psychology. Empowering, because it means you are not merely the product of circumstances. Demanding, because it removes the comfort of blame.</p>
+
+<p>Psychologist Victor Frankl, who survived the Nazi concentration camps and wrote <em>Man's Search for Meaning</em>, argued that even in the most extreme circumstances of external powerlessness, the human being retains one irreducible freedom: the freedom to choose one's response to those circumstances. This is the philosophical foundation of radical responsibility — not a denial of the reality of circumstances, but an insistence that your response to those circumstances is always, ultimately, your own.</p>
+
+<h3>The Accountability Gap</h3>
+<p>Research on attribution style — the ways people explain the causes of events in their lives — reveals a consistent pattern: people tend to attribute their successes to internal factors (ability, effort) and their failures to external ones (bad luck, unfair systems, other people's behavior). This self-serving attributional bias protects ego in the short term but prevents learning and growth in the long term. Closing the accountability gap — taking genuine ownership of failures, not as a self-flagellation exercise but as a learning investment — is a mark of mature character.</p>
+
+<blockquote>"The price of greatness is responsibility." — Winston Churchill</blockquote>
+
+<div class="exercise-box">
+<h4>✦ Reflective Exercise — Chapter 9</h4>
+<ul>
+<li>Identify one failure or difficulty in your life that you have been attributing primarily to external causes. What is your genuine contribution to this situation?</li>
+<li>Practice the accountability statement: "I am responsible for [outcome]. Here is what I will do differently."</li>
+<li>Who do you hold accountable for your progress — yourself, or external circumstances? Where does accountability reside in your mental model?</li>
+<li>Design a weekly review: what commitments did I make? Which did I keep? What is my honest accounting?</li>
+</ul>
+</div>
+</div>`
+  },
+  {
+    num: 10, title: "Purpose Formation",
+    preview: "Finding the why that makes every how bearable.",
+    content: `<h2>Purpose Formation</h2>
+<p class="article-meta">CHAPTER 10 · FOUNDATIONS OF INNER ARCHITECTURE</p>
+<div class="prose">
+<p>Purpose is the deepest motivational structure in the human psyche. It is the answer to the question: Why does my existence matter? What am I fundamentally here to do? Purpose is not the same as a goal — goals are specific, time-bound targets. Purpose is the larger orienting framework within which goals derive their meaning. You can achieve every goal you set and still feel purposeless, if those goals are not aligned with a deeper sense of meaning and direction.</p>
+
+<p>Psychologist Martin Seligman, founder of positive psychology, identifies purpose as one of the five core elements of genuine wellbeing. Viktor Frankl went further, arguing that the search for meaning is the primary motivational force in human life — that those who have a "why" can bear almost any "how." His observations from the concentration camps showed consistently that those who maintained a sense of purpose and meaning had dramatically higher rates of psychological and physical survival.</p>
+
+<h3>The Four Dimensions of Purpose</h3>
+<p>Purpose in the fullest sense operates across four dimensions. <em>Personal purpose</em> answers: what kind of person am I committed to becoming? <em>Relational purpose</em> answers: how will I contribute to those closest to me — family, friends, mentors? <em>Professional purpose</em> answers: how will my work serve others and develop my gifts? <em>Civic purpose</em> answers: how will I contribute to the community, society, and world beyond myself?</p>
+
+<p>The most resilient and fulfilled human lives are those in which all four dimensions are developed and integrated. A life of great professional achievement without personal integrity is hollow. A life of personal virtue without civic contribution is incomplete. The Inner Architecture of a truly excellent life requires that all four purposes are consciously developed and kept in alignment.</p>
+
+<div class="exercise-box">
+<h4>✦ Reflective Exercise — Chapter 10</h4>
+<ul>
+<li>Write a draft personal purpose statement in one sentence: "My life is dedicated to [verb] [who] through [how]."</li>
+<li>Identify one activity that makes you feel most fully alive and purposeful. How can you increase its presence in your life?</li>
+<li>Reflect: at the end of your life, what would make you feel that it was well lived? What must you start doing now?</li>
+<li>Complete the four dimensions: personal, relational, professional, and civic purpose. Where is the greatest gap between what you're doing and what you're called to do?</li>
+</ul>
+</div>
+</div>`
+  },
+  {
+    num: 11, title: "Identity & Values Alignment",
+    preview: "Becoming who you say you are.",
+    content: `<h2>Identity &amp; Values Alignment</h2>
+<p class="article-meta">CHAPTER 11 · FOUNDATIONS OF INNER ARCHITECTURE</p>
+<div class="prose">
+<p>Identity is not a fixed entity — it is a narrative. The story you tell yourself about who you are shapes your choices, your emotional responses, and ultimately your character, at least as powerfully as your actual history does. Psychologist Dan McAdams calls this your "personal myth" — the narrative frame through which you interpret your experiences and understand your place in the world.</p>
+
+<p>Here is the crucial insight: you are the author of this narrative. Not its only author — your upbringing, culture, experiences, and relationships all contribute chapters. But you are the most important author, because you are the one who decides which experiences become defining and which are set aside, which interpretation to place on ambiguous events, which identity commitments to honor and which to revise.</p>
+
+<h3>The Identity-Behavior Connection</h3>
+<p>Research on behavior change — particularly James Clear's synthesis in <em>Atomic Habits</em> — reveals that the most durable changes occur at the level of identity, not behavior. The person who says "I'm trying to exercise more" is making a behavioral commitment. The person who says "I'm an athlete" is making an identity commitment. Identity commitments activate different neural and motivational systems — they create an intrinsic drive to act in accordance with who you believe you are.</p>
+
+<p>This means that character development is ultimately identity development. The question is not "what should I do?" but "who am I becoming?" The daily choices that build Inner Architecture are not just behavioral changes — they are identity votes. Each time you act in accordance with a value, you cast a vote for the identity that holds that value. Over thousands of such votes, the identity solidifies.</p>
+
+<div class="exercise-box">
+<h4>✦ Reflective Exercise — Chapter 11</h4>
+<ul>
+<li>Complete this sentence in five different ways: "I am the kind of person who..."</li>
+<li>Identify three values you claim to hold. For each, what is the daily behavioral evidence that you actually hold it?</li>
+<li>Where is the greatest gap between your stated identity and your actual behavior? What one small daily action would begin to close that gap?</li>
+<li>Rewrite your personal narrative: instead of "I'm someone who struggles with X," write "I'm becoming someone who excels at X through Y practice."</li>
+</ul>
+</div>
+</div>`
+  },
+  {
+    num: 12, title: "Emotional Regulation",
+    preview: "Mastering your inner weather without suppressing it.",
+    content: `<h2>Emotional Regulation</h2>
+<p class="article-meta">CHAPTER 12 · FOUNDATIONS OF INNER ARCHITECTURE</p>
+<div class="prose">
+<p>Emotional regulation is not emotional suppression. This distinction is critical, and the confusion between the two has caused enormous suffering. People who suppress their emotions — who push feelings away, refuse to acknowledge them, or deny their validity — do not become emotionally stronger. Research by psychologist James Gross shows that emotional suppression increases physiological arousal, impairs cognitive performance, damages social relationships, and is associated with higher rates of depression and anxiety.</p>
+
+<p>Genuine emotional regulation means something quite different: the capacity to <em>acknowledge</em> your emotional state fully, to <em>understand</em> what has triggered it and what it is signaling, and then to <em>choose</em> your response rather than simply react from the emotion. The emotion is not the enemy — it is information. The problem arises when we become slaves to our emotions rather than students of them.</p>
+
+<h3>The Gap Between Stimulus and Response</h3>
+<p>Viktor Frankl, again, articulated this beautifully: between stimulus and response there is a space. In that space lies our freedom and our power to choose our response. In that response lies our growth and our happiness. Emotional regulation is the practice of finding and inhabiting that space — making it wide enough to allow for deliberate choice rather than automatic reaction.</p>
+
+<p>Mindfulness practices, which have extensive research support, are fundamentally training in finding that gap. By practicing non-judgmental awareness of current experience — including emotional experience — meditators progressively increase their ability to observe emotions without being swept away by them. The emotion arises; they notice it; they choose their response.</p>
+
+<div class="exercise-box">
+<h4>✦ Reflective Exercise — Chapter 12</h4>
+<ul>
+<li>Keep an emotion journal for one week: record each strong emotional state, its trigger, its intensity, and how you responded.</li>
+<li>Practice the STOP technique: Stop. Take a breath. Observe what you're feeling without judgment. Proceed with intention.</li>
+<li>Identify your three most common emotional triggers. For each, design a deliberate, value-aligned response to replace your habitual reaction.</li>
+<li>Reflect: what emotion do you most commonly suppress? What might it be trying to tell you?</li>
+</ul>
+</div>
+</div>`
+  },
+  {
+    num: 13, title: "Integrity Under Pressure",
+    preview: "When keeping your word costs something.",
+    content: `<h2>Integrity Under Pressure</h2>
+<p class="article-meta">CHAPTER 13 · FOUNDATIONS OF INNER ARCHITECTURE</p>
+<div class="prose">
+<p>Integrity is perfect alignment between what you say, what you believe, and what you do — across all contexts, including those where the alignment is costly. The word derives from the Latin <em>integer</em>, meaning whole or complete. A person of integrity is not fragmented — not honest in one relationship and dishonest in another, not principled in public and unprincipled in private. Their character is consistent, integrated, and whole.</p>
+
+<p>This is extraordinarily difficult, because virtually all social and psychological pressure is in the opposite direction. We are social creatures, evolved over millions of years for group belonging. The threat of social exclusion activates the same neural circuits as physical pain. Maintaining integrity when it risks social rejection, professional setback, or personal conflict requires the Inner Architecture to be genuinely load-bearing — not merely decorative.</p>
+
+<h3>Small Compromises and the Slippery Architecture</h3>
+<p>Research by behavioral ethicist Dan Ariely reveals that most unethical behavior does not begin with large, dramatic violations. It begins with small compromises — the rounding up of an expense claim, the minor exaggeration in a story, the small rule broken when it seems victimless. Each small compromise slightly erodes the inner structure. The architectural threshold for the next compromise drops. Over time, people who thought of themselves as deeply ethical have rationalized their way into behavior they would once have found unthinkable.</p>
+
+<p>The implication is clear: integrity is maintained not primarily in the great moments of crisis, but in the thousand small daily moments where the truthful answer is slightly awkward, the fair choice is slightly costly, and the principled response is slightly inconvenient. Architecture is built one brick at a time.</p>
+
+<div class="exercise-box">
+<h4>✦ Reflective Exercise — Chapter 13</h4>
+<ul>
+<li>Where in your daily life are you making small compromises that you haven't examined? List them honestly.</li>
+<li>Identify a situation coming up where your integrity will be tested. Plan your response in advance, when you are calm and clear.</li>
+<li>Practice total congruence for 24 hours: say nothing you don't believe, make no promise you won't keep, take no action that contradicts your stated values.</li>
+<li>Reflect: what is the relationship between your private behavior and your public behavior? Where are the gaps?</li>
+</ul>
+</div>
+</div>`
+  },
+  {
+    num: 14, title: "Courage & Moral Decision",
+    preview: "Doing the right thing when it frightens you.",
+    content: `<h2>Courage &amp; Moral Decision</h2>
+<p class="article-meta">CHAPTER 14 · FOUNDATIONS OF INNER ARCHITECTURE</p>
+<div class="prose">
+<p>Aristotle famously described courage as the mean between the vices of cowardice and recklessness. The courageous person is not without fear — fear is a legitimate and often accurate signal of real danger. The courageous person feels fear and acts rightly anyway, because they have cultivated the Inner Architecture that allows their values to overrule their fear response in critical moments.</p>
+
+<p>C.S. Lewis went further: "Courage is not simply one of the virtues, but the form of every virtue at the testing point." Every virtue requires courage to maintain under pressure. Honesty requires courage when the truth is unwelcome. Fairness requires courage when giving the unfair person an advantage would benefit you. Compassion requires courage when the suffering person is someone others despise. Without courage, all other virtues are merely preferences — things you maintain when they are comfortable, and abandon when they cost something.</p>
+
+<h3>Building Moral Courage</h3>
+<p>Moral courage — the courage to do what is right in human relationships, institutions, and ethical situations — is built through practice. Small acts of moral courage, taken consistently, build the neurological and character infrastructure for larger acts. Speaking up in a small meeting when you disagree with the majority. Acknowledging a mistake before you are caught. Giving honest feedback rather than comfortable agreement.</p>
+
+<p>Research on moral exemplars — people who have performed extraordinary acts of moral courage — consistently shows that their behavior in crisis moments was not aberrant or unusual. It was the expression of a long-developed character pattern, built through countless smaller acts of moral courage over years. Extraordinary moral behavior in extraordinary situations is built from ordinary moral behavior in ordinary situations.</p>
+
+<div class="exercise-box">
+<h4>✦ Reflective Exercise — Chapter 14</h4>
+<ul>
+<li>Identify one act of moral courage you have been postponing. What specific step will you take this week?</li>
+<li>Recall a time when fear prevented you from doing the right thing. What did you learn about yourself? What would you do differently?</li>
+<li>Practice "micro-courage" this week: one small act of honest, principled action each day, even when it feels slightly uncomfortable.</li>
+<li>Who models moral courage in your life? What can you learn from how they approach difficult situations?</li>
+</ul>
+</div>
+</div>`
+  },
+  {
+    num: 15, title: "Discipline & Academic Excellence",
+    preview: "How structured self-mastery translates into intellectual achievement.",
+    content: `<h2>Discipline &amp; Academic Excellence</h2>
+<p class="article-meta">CHAPTER 15 · FOUNDATIONS OF INNER ARCHITECTURE</p>
+<div class="prose">
+<p>Academic excellence is not primarily a function of intelligence — it is primarily a function of discipline. Research consistently shows that self-discipline is a better predictor of academic achievement than IQ. Angela Duckworth's landmark work on "grit" — a combination of passion and long-term perseverance — demonstrates that this quality predicts who graduates from West Point, who advances in the National Spelling Bee, and who excels in schools, careers, and challenges, better than any measure of raw ability.</p>
+
+<p>This is profoundly democratizing news: while you cannot significantly increase your baseline intelligence, you can dramatically develop your discipline. And since discipline predicts academic outcomes more powerfully than intelligence, you have more control over your academic trajectory than the intelligence-focused narrative suggests.</p>
+
+<h3>The Three Pillars of Academic Discipline</h3>
+<p>Academic discipline rests on three interconnected pillars. <em>Temporal discipline</em> — the management of study time: scheduling, protecting, and honoring dedicated learning blocks. <em>Attentional discipline</em> — the capacity to focus deeply and resist distraction during study: single-tasking, eliminating digital interruption, practicing deep work. <em>Methodological discipline</em> — the commitment to evidence-based study strategies: spaced repetition, active recall, interleaved practice, rather than passive re-reading and highlighting.</p>
+
+<p>Most students struggle not because they study too little, but because they study ineffectively and inconsistently. They rely on motivation rather than structure, on cramming rather than spacing, on recognition rather than retrieval. Building disciplined academic architecture means replacing these unreliable strategies with systematic ones.</p>
+
+<div class="exercise-box">
+<h4>✦ Reflective Exercise — Chapter 15</h4>
+<ul>
+<li>Design your ideal weekly study schedule. Be specific about times, subjects, durations, and the specific study methods you'll use.</li>
+<li>Conduct a "study audit": for one week, track not just how many hours you study, but how effectively. How much of your study time is genuinely deep work?</li>
+<li>Identify your three biggest academic distractors. Design a specific plan to eliminate each during study time.</li>
+<li>Implement one evidence-based study technique this week that you haven't used before (e.g., the Feynman Technique, spaced repetition, retrieval practice).</li>
+</ul>
+</div>
+</div>`
+  },
+  {
+    num: 16, title: "Leadership & Character",
+    preview: "Why who you are matters more than what you know.",
+    content: `<h2>Leadership &amp; Character</h2>
+<p class="article-meta">CHAPTER 16 · FOUNDATIONS OF INNER ARCHITECTURE</p>
+<div class="prose">
+<p>Leadership literature has gone through several major paradigms. The early "great man" theories suggested that leaders were born, not made — that certain individuals possessed innate, heroic qualities that destined them for influence. Trait theories followed, attempting to identify the specific characteristics of effective leaders. Then came behavioral and situational theories, focusing on what leaders do rather than who they are. More recently, the field has returned to a deeper recognition: character — the quality and consistency of who a leader is — remains the foundational determinant of genuine, sustained leadership effectiveness.</p>
+
+<p>Research by leadership scholars James MacGregor Burns and Bill George converges on a consistent finding: the leaders who build the most lasting institutions, inspire the deepest loyalty, navigate the most complex crises, and leave the most positive legacy are those with deep character — with clarity of purpose, genuine integrity, authentic humility, and the moral courage to make difficult decisions rightly.</p>
+
+<h3>Character as the Root of Trust</h3>
+<p>Trust is the essential currency of leadership. Without trust, influence is coercion — you can command behavior but not commitment, compliance but not creative engagement. Trust is built through consistent character: doing what you say, keeping commitments even when inconvenient, treating people fairly across contexts, maintaining principles under pressure.</p>
+
+<p>The leader's character is amplified by their position. Every choice a leader makes about integrity, fairness, accountability, and courage is observed, interpreted, and emulated by those they lead. Leadership character is therefore never purely personal — it is organizational. The character of the leader tends to become the culture of the organization.</p>
+
+<div class="exercise-box">
+<h4>✦ Reflective Exercise — Chapter 16</h4>
+<ul>
+<li>Identify one leadership responsibility you currently hold (in family, classroom, team, or community). How does your character shape those you lead?</li>
+<li>What is the gap between the leader you currently are and the leader you aspire to be? What character development is required to close it?</li>
+<li>Practice servant leadership this week: identify one specific way to serve those you lead, rather than expecting to be served.</li>
+<li>Reflect on a leader who has positively shaped you. What character qualities made their influence lasting?</li>
+</ul>
+</div>
+</div>`
+  },
+  {
+    num: 17, title: "Consistency vs Motivation",
+    preview: "Why systems outlast feelings — and how to build them.",
+    content: `<h2>Consistency vs Motivation</h2>
+<p class="article-meta">CHAPTER 17 · FOUNDATIONS OF INNER ARCHITECTURE</p>
+<div class="prose">
+<p>Motivation is a feeling — and like all feelings, it is temporary, unreliable, and highly susceptible to circumstance. You feel motivated after an inspiring lecture, at the beginning of a new year, in the flush of a new goal. The feeling is real, and it can catalyze action. But feelings change. The morning after the inspiring lecture, you still have to do the work. The January gym member whose motivation is high in week one is often gone by week four, when the emotional charge has faded and the work remains.</p>
+
+<p>Consistency, by contrast, is a structural property — it is what you do regardless of how you feel. The person who has built consistent practice into their daily architecture goes to study, exercise, or reflect because that is what their structure calls for, not because they happen to feel inspired. This is why consistent practitioners vastly outperform highly motivated but inconsistent ones over any meaningful time horizon.</p>
+
+<h3>The Identity Foundation of Consistency</h3>
+<p>"I don't feel like it" is the most honest and the most destructive sentence in the grammar of self-development. Every high performer has days they don't feel like it. The differentiating factor is that their consistency is attached to identity ("I'm a person who does this") and structure (a scheduled, automatic routine), not to the variable fuel of motivation.</p>
+
+<p>James Clear's observation is precise: "Every action you take is a vote for the type of person you wish to become." Consistency is the voting system. You don't build character by occasionally feeling motivated — you build it by showing up when you don't feel motivated, especially then, because that is when the architecture is truly being stress-tested and strengthened.</p>
+
+<div class="exercise-box">
+<h4>✦ Reflective Exercise — Chapter 17</h4>
+<ul>
+<li>Identify one important practice that you are doing consistently only when motivated. Design a structural system to make it consistent regardless of motivation.</li>
+<li>Create a "minimum viable practice" for your most important daily habit: the absolute minimum you will do on your worst days, to keep the chain unbroken.</li>
+<li>Track your consistency in one domain for 30 days. The goal is not perfection but pattern — and learning from the breaks in the pattern.</li>
+<li>Write: "On the days I don't feel like [key practice], I will [specific structural cue] to do it anyway."</li>
+</ul>
+</div>
+</div>`
+  },
+  {
+    num: 18, title: "Self-Reflection Systems",
+    preview: "How to examine your life so it becomes worth living.",
+    content: `<h2>Self-Reflection Systems</h2>
+<p class="article-meta">CHAPTER 18 · FOUNDATIONS OF INNER ARCHITECTURE</p>
+<div class="prose">
+<p>Socrates' famous declaration — "The unexamined life is not worth living" — was not merely philosophical bravado. It expressed a deep insight into the nature of human agency and growth: that without deliberate self-examination, we are not truly living our lives — we are simply being lived by our circumstances, conditioning, and unconscious patterns.</p>
+
+<p>Self-reflection is the practice of turning attention inward — systematically examining your thoughts, choices, values, behaviors, and emotional states with honesty and curiosity. It is both an ancient wisdom practice (present in every major philosophical and spiritual tradition) and an evidence-based psychological tool. Research on journaling, contemplative practice, and structured self-review consistently shows benefits in emotional regulation, learning effectiveness, goal achievement, and psychological wellbeing.</p>
+
+<h3>Building a Reflection Architecture</h3>
+<p>The key to powerful self-reflection is systematizing it — building specific structural practices that ensure it happens regularly, not just when you feel inclined. Three time horizons of reflection are particularly valuable. <em>Daily reflection</em> (5-10 minutes) reviews the day's key events, choices, emotional states, and lessons. <em>Weekly reflection</em> (20-30 minutes) reviews the week's progress, patterns, and priorities. <em>Quarterly reflection</em> (1-2 hours) examines deeper trends, assesses progress toward major goals, and updates values alignment.</p>
+
+<p>Effective reflection is not rumination — it is not dwelling on failures, rehearsing negative emotions, or cycling through problems without resolution. It is structured inquiry: What happened? What did I choose? What were the results? What do I learn? What will I do differently?</p>
+
+<div class="exercise-box">
+<h4>✦ Reflective Exercise — Chapter 18</h4>
+<ul>
+<li>Design a 5-minute daily reflection practice. What three questions will you answer every evening?</li>
+<li>Begin a reflection journal. Write for 10 minutes today about your most important current challenge, using the inquiry format: What is the situation? What have I tried? What is my honest assessment? What will I do next?</li>
+<li>Conduct a weekly review: review each major commitment from the past week. Where did you honor it? Where did you fall short? What pattern do you notice?</li>
+<li>Answer: "The most important thing I am learning about myself right now is..."</li>
+</ul>
+</div>
+</div>`
+  },
+  {
+    num: 19, title: "Character Across Generations",
+    preview: "How your inner architecture shapes families, communities, and history.",
+    content: `<h2>Character Across Generations</h2>
+<p class="article-meta">CHAPTER 19 · FOUNDATIONS OF INNER ARCHITECTURE</p>
+<div class="prose">
+<p>Individual character does not remain contained within the individual. It radiates outward, shaping families, communities, institutions, and ultimately civilizations. The character of parents shapes the moral architecture of children — not primarily through explicit instruction, but through the thousand daily examples of how they respond to difficulty, how they treat people who cannot benefit them, whether they honor their commitments when no one would notice the failure to do so.</p>
+
+<p>Research on intergenerational transmission of values and character traits reveals that the modeling effect is far more powerful than the instructional one. Children who grow up watching an adult practice what they preach — whose experienced reality matches the stated values of their family — develop stable moral character. Those who grow up with a gap between preached values and practiced behavior develop sophisticated moral cynicism.</p>
+
+<h3>The Civilizational Dimension</h3>
+<p>Historian Will Durant, surveying the rise and fall of great civilizations, concluded that civilizations rise through the development of moral and civic character in their citizens, and decline when character erodes — when self-interest overcomes public virtue, when the short-term overcomes the long-term, when the rights are claimed without the corresponding responsibilities being honored.</p>
+
+<p>This gives individual character development a dimension that extends far beyond personal benefit. Every young person who builds genuine character, who commits to ethical consistency, intellectual honesty, and long-term responsibility, is making a contribution to the health of the civilization they will inhabit and eventually lead. The Inner Architecture you build is not only your own — it is your gift to those who will come after you.</p>
+
+<div class="exercise-box">
+<h4>✦ Reflective Exercise — Chapter 19</h4>
+<ul>
+<li>Reflect: what character traits have been transmitted to you across generations in your family? Which do you want to carry forward? Which do you want to transform?</li>
+<li>Consider your sphere of influence: family, classroom, community. How is your current character shaping those within it?</li>
+<li>Write a letter to your children or students (real or imagined) describing the character you commit to modeling for them.</li>
+<li>What is one character practice you will maintain not for your own benefit, but for the benefit of those who learn from watching you?</li>
+</ul>
+</div>
+</div>`
+  },
+  {
+    num: 20, title: "Designing a Life of Excellence",
+    preview: "The blueprint for becoming who you were made to be.",
+    content: `<h2>Designing a Life of Excellence</h2>
+<p class="article-meta">CHAPTER 20 · FOUNDATIONS OF INNER ARCHITECTURE</p>
+<div class="prose">
+<p>Excellence is not a destination — it is an orientation. It is the commitment to bringing your best self to whatever you are doing, not as a performance for others, but as an expression of what you believe your life is for. The Greek concept of <em>eudaimonia</em> — often translated as happiness but better rendered as flourishing or living well — captures this orientation precisely. The eudaimonic life is not one of maximum pleasure or minimum pain, but one of full actualization: living in alignment with your deepest values, developing your genuine capacities, and contributing meaningfully to the world around you.</p>
+
+<p>Designing such a life requires everything this course has explored: clarity about your values and purpose, the discipline to act on them consistently, the habits that make excellence automatic, the emotional intelligence to navigate difficulty without losing your way, the integrity that keeps your character whole under pressure, and the humility to keep learning and growing throughout the journey.</p>
+
+<h3>The Personal Excellence Blueprint</h3>
+<p>Your excellence blueprint has four components. <em>Vision</em>: a vivid, specific picture of who you intend to become and the life you intend to build. <em>Values</em>: the non-negotiable principles that will guide every major decision. <em>Systems</em>: the daily and weekly structures that make progress automatic. <em>Standards</em>: the minimum acceptable quality you will bring to your most important commitments.</p>
+
+<p>Write these four components out explicitly. Review them monthly. Let them be the measuring stick against which you evaluate your choices, not the approval of others, not the fluctuating standards of cultural fashion, not the comfortable ease of whatever is convenient. A life of excellence is not easy — but it is deeply, durably satisfying in a way that a life of comfortable mediocrity never can be.</p>
+
+<blockquote>"We must not cease from exploration, and the end of all our exploring will be to arrive where we began and to know the place for the first time." — T.S. Eliot</blockquote>
+
+<p>The Inner Architecture you have begun to build through this course is not a finished structure — it is a living, growing one. The deepest character development is not a project with a completion date. It is the ongoing, joyful, demanding practice of a lifetime. The work of becoming who you are meant to be never fully ends — and that is its greatest gift.</p>
+
+<div class="exercise-box">
+<h4>✦ Final Reflective Exercise — Chapter 20</h4>
+<ul>
+<li>Write your complete Personal Excellence Blueprint: Vision, Values, Systems, and Standards. Be specific and ambitious.</li>
+<li>Identify the three most important insights from this entire course. How will each change your daily life?</li>
+<li>Design your Personal Development Review: a quarterly practice of assessing your Inner Architecture across all dimensions covered in this course.</li>
+<li>Write a commitment statement: "Beginning today, I commit to building my Inner Architecture by [three specific daily practices], because I believe [your purpose statement]."</li>
+</ul>
+</div>
+
+<p style="text-align:center;color:var(--bronze);font-family:'Playfair Display',serif;font-size:18px;margin-top:36px;font-style:italic;">✦ End of Foundations — Begin the Work ✦</p>
+</div>`
+  }
+];
+
+// ══════════════════════════════════════════════════════════════
+// DATA — Habits
+// ══════════════════════════════════════════════════════════════
+const HABITS = [
+  { icon: '📚', label: 'Daily Study' },
+  { icon: '🏃', label: 'Exercise' },
+  { icon: '🧘', label: 'Meditation' },
+  { icon: '📖', label: 'Reading' },
+  { icon: '✍️', label: 'Journaling' },
+  { icon: '🌅', label: 'Early Rising' },
+  { icon: '🥗', label: 'Healthy Eating' },
+  { icon: '🤲', label: 'Prayer/Reflection' },
+  { icon: '💻', label: 'Skill Building' },
+  { icon: '🤝', label: 'Community Service' },
+];
+
+let selectedHabit = null;
+
+// ══════════════════════════════════════════════════════════════
+// DATA — Ethics Scenarios
+// ══════════════════════════════════════════════════════════════
+const SCENARIOS = [
+  {
+    title: "Academic Integrity Dilemma",
+    desc: "During a high-stakes exam, you notice your answer sheet has an error but the invigilator hasn't noticed. Correcting it might lower your score significantly. What do you do?",
+    choices: [
+      { text: "Correct the error immediately and accept the lower score.", type: 'good', courage: 10, ethics: 10 },
+      { text: "Leave it — the invigilator's oversight isn't my problem.", type: 'bad', courage: 0, ethics: 0 },
+      { text: "Correct it quietly without telling anyone.", type: 'neutral', courage: 6, ethics: 7 },
+    ]
+  },
+  {
+    title: "Peer Pressure Scenario",
+    desc: "Your peer group is planning to copy homework from a student who worked hard. They pressure you to participate and 'just this once.' What do you choose?",
+    choices: [
+      { text: "Refuse clearly and explain why copying undermines everyone's learning.", type: 'good', courage: 10, ethics: 10 },
+      { text: "Go along to avoid conflict.", type: 'bad', courage: 0, ethics: 0 },
+      { text: "Decline personally but say nothing to the group.", type: 'neutral', courage: 5, ethics: 6 },
+    ]
+  },
+  {
+    title: "Leadership Resource Decision",
+    desc: "As a class representative, you control a small fund. You could use a portion for a personal need 'temporarily,' planning to return it later. No one would know.",
+    choices: [
+      { text: "Refuse to touch the fund and find another way to meet the personal need.", type: 'good', courage: 10, ethics: 10 },
+      { text: "Borrow it temporarily — I'll pay it back.", type: 'bad', courage: 1, ethics: 1 },
+      { text: "Ask a senior for advice before deciding.", type: 'neutral', courage: 7, ethics: 8 },
+    ]
+  },
+  {
+    title: "Witnessing Unfairness",
+    desc: "You see a teacher marking a deserving student's work unfairly. Speaking up could create conflict. Staying silent is comfortable but wrong.",
+    choices: [
+      { text: "Respectfully approach the teacher privately and raise the concern with evidence.", type: 'good', courage: 10, ethics: 10 },
+      { text: "Say nothing — it's not my business.", type: 'bad', courage: 0, ethics: 0 },
+      { text: "Tell a trusted senior to handle it.", type: 'neutral', courage: 5, ethics: 6 },
+    ]
+  }
+];
+
+let ethicsChoices = {};
+
+// ══════════════════════════════════════════════════════════════
+// DATA — Stress Scenarios
+// ══════════════════════════════════════════════════════════════
+const STRESS_SCENARIOS = [
+  { label: "Public Failure", desc: "You fail publicly — exam, project, or presentation. How do you respond?", key: 'pf' },
+  { label: "Harsh Criticism", desc: "Someone criticizes you harshly in front of others, unfairly or not.", key: 'hc' },
+  { label: "Success Temptation", desc: "You can take an unethical shortcut that guarantees success and no one would know.", key: 'st' },
+  { label: "Extreme Time Pressure", desc: "Deadline in 2 hours. Panic, shortcuts, or structured action?", key: 'tp' },
+  { label: "Betrayal by a Trusted Person", desc: "Someone you trusted lets you down significantly.", key: 'bt' },
+];
+
+let stressRatings = {};
+
+// ══════════════════════════════════════════════════════════════
+// STATE MANAGEMENT
+// ══════════════════════════════════════════════════════════════
+let scores = {};
+let currentArticleIdx = 0;
+
+function loadState() {
+  try {
+    const saved = localStorage.getItem('innerArchScores');
+    if (saved) scores = JSON.parse(saved);
+    const readChapters = JSON.parse(localStorage.getItem('readChapters') || '[]');
+    return { readChapters };
+  } catch(e) { return { readChapters: [] }; }
+}
+
+function saveScores() {
+  try { localStorage.setItem('innerArchScores', JSON.stringify(scores)); } catch(e){}
+}
+
+function markChapterRead(idx) {
+  try {
+    const read = JSON.parse(localStorage.getItem('readChapters') || '[]');
+    if (!read.includes(idx)) { read.push(idx); localStorage.setItem('readChapters', JSON.stringify(read)); }
+  } catch(e){}
+}
+
+// ══════════════════════════════════════════════════════════════
+// NAVIGATION
+// ══════════════════════════════════════════════════════════════
+function showScreen(id) {
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  const el = document.getElementById(id);
+  if (el) { el.classList.add('active'); window.scrollTo(0,0); }
+  if (id === 'dashboard') renderDashboard();
+  if (id === 'framework') renderFramework();
+  if (id === 'generational') updateGenerational(document.getElementById('r-gen').value);
+}
+
+// ══════════════════════════════════════════════════════════════
+// TOAST
+// ══════════════════════════════════════════════════════════════
+function toast(msg) {
+  const t = document.createElement('div');
+  t.className = 'toast';
+  t.textContent = msg;
+  document.getElementById('toastWrap').appendChild(t);
+  setTimeout(() => t.remove(), 3000);
+}
+
+// ══════════════════════════════════════════════════════════════
+// INIT — Foundations Grid
+// ══════════════════════════════════════════════════════════════
+function initFoundations() {
+  const { readChapters } = loadState();
+  const grid = document.getElementById('foundationsGrid');
+  grid.innerHTML = '';
+  CHAPTERS.forEach((ch, i) => {
+    const tile = document.createElement('div');
+    tile.className = 'foundation-tile' + (readChapters.includes(i) ? ' read' : '');
+    tile.innerHTML = `
+      <div class="tile-num">CHAPTER ${String(ch.num).padStart(2,'0')}</div>
+      <div class="tile-title">${ch.title}</div>
+      <div class="tile-preview">${ch.preview}</div>
+      <div class="read-chip">✓ READ</div>`;
+    tile.onclick = () => openArticle(i);
+    grid.appendChild(tile);
+  });
+}
+
+function openArticle(idx) {
+  currentArticleIdx = idx;
+  const ch = CHAPTERS[idx];
+  document.getElementById('articleHeaderTitle').textContent = ch.title;
+  document.getElementById('articleContent').innerHTML = `
+    ${ch.content}
+    <div class="article-nav">
+      <button onclick="openArticle(${idx-1})" ${idx===0?'disabled':''}>← Previous</button>
+      <button onclick="markDoneAndBack(${idx})" style="background:rgba(39,174,96,0.15);border-color:#27ae60;color:#7deca7;">✓ Mark Read</button>
+      <button onclick="openArticle(${idx+1})" ${idx===CHAPTERS.length-1?'disabled':''}>Next →</button>
+    </div>`;
+  showScreen('article-reader');
+  markChapterRead(idx);
+  initFoundations();
+}
+
+function markDoneAndBack(idx) {
+  markChapterRead(idx);
+  toast('Chapter marked as read ✓');
+  showScreen('foundations');
+}
+
+// ══════════════════════════════════════════════════════════════
+// DISCIPLINE SIMULATOR
+// ══════════════════════════════════════════════════════════════
+function calcDiscipline() {
+  const study = +document.getElementById('r-study').value;
+  const dist = +document.getElementById('r-dist').value;
+  const sleep = +document.getElementById('r-sleep').value;
+  const exer = +document.getElementById('r-exer').value;
+  const refl = +document.getElementById('r-refl').value;
+
+  // Formulas (deterministic)
+  // DSI = (study/12*35) + (1 - dist/20)*25 + (sleep-3)/7*20 + exer/7*10 + refl/60*10
+  const DSI = Math.round(
+    (study/12*35) + ((1-dist/20)*25) + ((sleep-3)/7*20) + (exer/7*10) + (refl/60*10)
+  );
+  // ICS = 100 - (dist/20*60) + (refl/60*20) + (exer/7*20)
+  const ICS = Math.min(100, Math.max(0, Math.round(
+    100 - (dist/20*60) + (refl/60*20) + (exer/7*20)
+  )));
+  // CR = (study/12*40) + (sleep-3)/7*30 + (refl/60*15) + (exer/7*15)
+  const CR = Math.round(
+    (study/12*40) + ((sleep-3)/7*30) + (refl/60*15) + (exer/7*15)
+  );
+  // Burnout Risk = dist*3 + (12-sleep)*4 + (12-exer*1.7) - refl*0.3
+  const BR = Math.min(100, Math.max(0, Math.round(
+    dist*3 + (10-sleep)*4 + (7-exer)*2 - refl*0.3
+  )));
+
+  document.getElementById('m-dsi').textContent = DSI;
+  document.getElementById('m-ics').textContent = ICS;
+  document.getElementById('m-cr').textContent = CR;
+  document.getElementById('m-br').textContent = BR;
+
+  scores.discipline = DSI;
+  scores.impulse = ICS;
+  scores.consistency = CR;
+  scores.burnout = BR;
+  saveScores();
+  updateQuickStats();
+
+  let interpretation = `<strong>Your Discipline Stability Index is ${DSI}/100.</strong> `;
+  if (DSI >= 80) interpretation += "Exceptional structure. You have the architectural foundation for sustained excellence. Focus on refinement and depth now.";
+  else if (DSI >= 60) interpretation += "Solid foundation with clear areas for growth. Prioritize reducing distractions and strengthening your sleep routine.";
+  else if (DSI >= 40) interpretation += "Foundational work is needed. Choose one dimension — study consistency or sleep — and build that first before attempting everything at once.";
+  else interpretation += "Significant restructuring required. Begin with sleep and a single daily practice. Build the smallest consistent habit first.";
+
+  if (BR > 70) interpretation += " ⚠️ Your burnout risk is high — reduce distraction load and increase recovery practices immediately.";
+
+  document.getElementById('discInterpret').innerHTML = interpretation;
+  document.getElementById('discResults').classList.add('show');
+  toast('Discipline scores calculated ✓');
+}
+
+// ══════════════════════════════════════════════════════════════
+// HABIT BUILDER
+// ══════════════════════════════════════════════════════════════
+function initHabits() {
+  const grid = document.getElementById('habitGrid');
+  grid.innerHTML = '';
+  HABITS.forEach((h, i) => {
+    const chip = document.createElement('div');
+    chip.className = 'habit-chip';
+    chip.innerHTML = `<span class="hc-icon">${h.icon}</span>${h.label}`;
+    chip.onclick = () => {
+      document.querySelectorAll('.habit-chip').forEach(c => c.classList.remove('selected'));
+      chip.classList.add('selected');
+      selectedHabit = h;
+    };
+    grid.appendChild(chip);
+  });
+}
+
+function calcHabit() {
+  const freq = +document.getElementById('r-hfreq').value;
+  const trig = +document.getElementById('r-htrig').value;
+  const rew = +document.getElementById('r-hrew').value;
+  const mot = +document.getElementById('r-hmot').value;
+
+  // Habit Strength Formula: HS = (freq/7*35) + (trig/10*25) + (rew/10*20) + (mot/10*20)
+  const HS = Math.round((freq/7*35) + (trig/10*25) + (rew/10*20) + (mot/10*20));
+  // 30-day projection
+  const d30 = Math.min(100, Math.round(HS * 0.55));
+  // 90-day projection
+  const d90 = Math.min(100, Math.round(HS * 0.88));
+  // Breakdown risk
+  const bdr = Math.max(0, Math.min(100, Math.round(100 - HS - (trig-5)*3)));
+
+  scores.habit = HS;
+  saveScores();
+  updateQuickStats();
+
+  const bars = document.getElementById('projBars');
+  bars.innerHTML = `
+    <div class="proj-bar-item">
+      <div class="proj-bar-label"><span>Current Habit Strength</span><span>${HS}/100</span></div>
+      <div class="proj-bar-track"><div class="proj-bar-fill" style="width:${HS}%"></div></div>
+    </div>
+    <div class="proj-bar-item">
+      <div class="proj-bar-label"><span>30-Day Projection</span><span>${d30}%</span></div>
+      <div class="proj-bar-track"><div class="proj-bar-fill" style="width:${d30}%;background:linear-gradient(90deg,#1a6e3e,#27ae60)"></div></div>
+    </div>
+    <div class="proj-bar-item">
+      <div class="proj-bar-label"><span>90-Day Projection</span><span>${d90}%</span></div>
+      <div class="proj-bar-track"><div class="proj-bar-fill" style="width:${d90}%;background:linear-gradient(90deg,#1a5e6e,#2196f3)"></div></div>
+    </div>
+    <div class="proj-bar-item">
+      <div class="proj-bar-label"><span>Breakdown Risk</span><span style="color:${bdr>50?'#e87070':'#7deca7'}">${bdr}%</span></div>
+      <div class="proj-bar-track"><div class="proj-bar-fill" style="width:${bdr}%;background:linear-gradient(90deg,#6e1a1a,#e74c3c)"></div></div>
+    </div>`;
+
+  let interp = `<strong>Habit: ${selectedHabit ? selectedHabit.label : 'Selected habit'} — Strength Score: ${HS}/100.</strong> `;
+  if (HS >= 75) interp += "Strong architectural foundation for this habit. At 90 days you will have genuine automaticity.";
+  else if (HS >= 50) interp += "Moderate habit architecture. Strengthen your environmental triggers and clarify the reward signal to improve retention.";
+  else interp += "Fragile habit structure. Begin with minimum viable frequency — even once per week — and build from consistency rather than intensity.";
+
+  document.getElementById('habitInterpret').innerHTML = interp;
+  document.getElementById('habitResults').style.display = 'block';
+  toast('Habit projection generated ✓');
+}
+
+// ══════════════════════════════════════════════════════════════
+// PURPOSE LAB
+// ══════════════════════════════════════════════════════════════
+function calcPurpose() {
+  const values = document.getElementById('p-values').value.trim();
+  const vision = document.getElementById('p-vision').value.trim();
+  const intellect = document.getElementById('p-intellect').value.trim();
+  const civic = document.getElementById('p-civic').value.trim();
+  const align = +document.getElementById('r-palign').value;
+
+  // Purpose Clarity Index = word density score + alignment
+  function wordScore(t) { return Math.min(30, t.split(/\s+/).filter(w=>w).length * 2); }
+  const PCI = Math.min(100, Math.round(wordScore(values) + wordScore(vision) + wordScore(intellect)*0.5 + wordScore(civic)*0.5 + align*3));
+  const VBA = Math.round(align * 10);
+  const LTS = Math.round((PCI * 0.6) + (VBA * 0.4));
+
+  scores.purpose = PCI;
+  saveScores();
+  updateQuickStats();
+
+  const summary = document.getElementById('purposeSummary');
+  summary.innerHTML = `
+    <div class="metrics-grid" style="margin-bottom:18px">
+      <div class="metric-card green">
+        <div class="m-label">Purpose Clarity</div>
+        <div class="m-score" style="color:#5dde8f">${PCI}</div>
+        <div class="m-sub">/ 100</div>
+      </div>
+      <div class="metric-card blue">
+        <div class="m-label">Value–Behavior Alignment</div>
+        <div class="m-score" style="color:#7ab3ea">${VBA}</div>
+        <div class="m-sub">/ 100</div>
+      </div>
+      <div class="metric-card amber">
+        <div class="m-label">Long-Term Stability</div>
+        <div class="m-score" style="color:#f4c06e">${LTS}</div>
+        <div class="m-sub">/ 100</div>
+      </div>
+    </div>
+    <p style="color:var(--white-dim);font-size:15px;line-height:1.7;">
+      ${PCI >= 70 ? '✦ You have strong purpose clarity. Your reflections reveal a person who knows their values and has begun to articulate a coherent life direction.' :
+        PCI >= 40 ? '✦ You are in the formative stage of purpose development. Continue deepening your reflections — clarity grows through writing and honest self-examination.' :
+        '✦ Your purpose architecture needs deeper work. The most important thing you can do is spend 30 minutes per week in structured reflection on the four dimensions above.'}
+    </p>
+    ${values ? `<p style="color:var(--bronze-light);font-size:14px;margin-top:10px;font-style:italic;">Your core values: "${values.substring(0,120)}${values.length>120?'...':''}"</p>` : ''}`;
+  summary.classList.add('show');
+  toast('Purpose analysis complete ✓');
+}
+
+// ══════════════════════════════════════════════════════════════
+// ETHICS SIMULATOR
+// ══════════════════════════════════════════════════════════════
+function initEthics() {
+  const container = document.getElementById('scenariosContainer');
+  container.innerHTML = '';
+  SCENARIOS.forEach((s, si) => {
+    const card = document.createElement('div');
+    card.className = 'scenario-card';
+    const choicesHTML = s.choices.map((c, ci) =>
+      `<button class="choice-btn" onclick="selectChoice(${si},${ci})" id="ch-${si}-${ci}">${c.text}</button>`
+    ).join('');
+    card.innerHTML = `
+      <div class="scene-title">Scenario ${si+1}: ${s.title}</div>
+      <div class="scene-desc">${s.desc}</div>
+      <div class="choices-grid">${choicesHTML}</div>`;
+    container.appendChild(card);
+  });
+}
+
+function selectChoice(si, ci) {
+  SCENARIOS[si].choices.forEach((_, i) => {
+    const btn = document.getElementById(`ch-${si}-${i}`);
+    btn.className = 'choice-btn';
+  });
+  const chosen = SCENARIOS[si].choices[ci];
+  const btn = document.getElementById(`ch-${si}-${ci}`);
+  btn.className = `choice-btn chosen-${chosen.type}`;
+  ethicsChoices[si] = ci;
+
+  if (Object.keys(ethicsChoices).length === SCENARIOS.length) {
+    document.getElementById('ethicsCalcBtn').style.display = 'block';
+  }
+}
+
+function calcEthics() {
+  let totalEthics = 0, totalCourage = 0;
+  SCENARIOS.forEach((s, si) => {
+    const ci = ethicsChoices[si] ?? 1;
+    totalEthics += s.choices[ci].ethics;
+    totalCourage += s.choices[ci].courage;
+  });
+  const maxTotal = SCENARIOS.length * 10;
+  const ECS = Math.round(totalEthics / maxTotal * 100);
+  const CI = Math.round(totalCourage / maxTotal * 100);
+  const IP = Math.round((ECS * 0.6) + (CI * 0.4));
+
+  scores.ethics = ECS;
+  saveScores();
+  updateQuickStats();
+
+  document.getElementById('e-ecs').textContent = ECS;
+  document.getElementById('e-ci').textContent = CI;
+  document.getElementById('e-ip').textContent = IP;
+
+  let interp = `<strong>Ethical Consistency: ${ECS}/100 · Courage Index: ${CI}/100 · Integrity Projection: ${IP}/100.</strong><br><br>`;
+  if (IP >= 80) interp += "Your responses indicate a high-integrity character architecture. You consistently chose principled action even when it required courage. This is the mark of genuine ethical consistency.";
+  else if (IP >= 55) interp += "Your ethical profile is solid with room for growth. In some scenarios you defaulted to the comfortable choice rather than the courageous one. These are the architectural weak points to strengthen.";
+  else interp += "Your ethical architecture needs intentional development. The scenarios where you chose comfort over principle are important signals. Use the ethical pre-commitment practice from Chapter 8 to prepare for future dilemmas.";
+
+  document.getElementById('ethicsInterpret').innerHTML = interp;
+  document.getElementById('ethicsPanel').classList.add('show');
+  toast('Ethical profile calculated ✓');
+}
+
+// ══════════════════════════════════════════════════════════════
+// STRESS TEST
+// ══════════════════════════════════════════════════════════════
+function initStress() {
+  const container = document.getElementById('stressContainer');
+  container.innerHTML = '';
+  STRESS_SCENARIOS.forEach(s => {
+    const div = document.createElement('div');
+    div.className = 'stress-scenario';
+    div.innerHTML = `
+      <div style="font-family:'Playfair Display',serif;font-size:16px;color:var(--bronze-light);margin-bottom:6px">${s.label}</div>
+      <div style="color:var(--white-dim);font-size:14px;margin-bottom:14px">${s.desc}</div>
+      <div class="form-group">
+        <label>My typical resilience in this scenario <span class="range-val" id="srv-${s.key}">5/10</span></label>
+        <input type="range" min="1" max="10" value="5" oninput="stressRatings['${s.key}']=+this.value;document.getElementById('srv-${s.key}').textContent=this.value+'/10'"/>
+        <div class="range-labels"><span>Collapse</span><span>Unshakeable</span></div>
+      </div>`;
+    container.appendChild(div);
+    stressRatings[s.key] = 5;
+  });
+}
+
+function calcStress() {
+  const vals = Object.values(stressRatings);
+  const avg = vals.reduce((a,b)=>a+b,0) / vals.length;
+  const RS = Math.round(avg * 10);
+  // Stability: lowest rating matters most
+  const minVal = Math.min(...vals);
+  const SI = Math.round((avg*0.5 + minVal*0.5) * 10);
+  // Integrity Under Pressure: especially the 'success temptation' scenario
+  const IUP = Math.round(((stressRatings['st']||5)*0.4 + (stressRatings['pf']||5)*0.3 + avg*0.3) * 10);
+
+  scores.resilience = RS;
+  saveScores();
+
+  document.getElementById('s-rs').textContent = RS;
+  document.getElementById('s-si').textContent = SI;
+  document.getElementById('s-iup').textContent = IUP;
+
+  let interp = `<strong>Resilience Score: ${RS}/100 · Stability Index: ${SI}/100 · Integrity Under Pressure: ${IUP}/100.</strong><br><br>`;
+  if (RS >= 75) interp += "You demonstrate strong resilience architecture. You maintain function and principle even under significant pressure.";
+  else if (RS >= 50) interp += "Moderate resilience with identifiable pressure points. The scenarios where you rated yourself lowest are your architectural vulnerabilities to work on.";
+  else interp += "Your resilience architecture needs intentional strengthening. Focus on the scenarios you rated lowest and design specific preparation and recovery practices for each.";
+
+  document.getElementById('stressInterpret').innerHTML = interp;
+  document.getElementById('stressResults').style.display = 'block';
+  toast('Resilience profile calculated ✓');
+}
+
+// ══════════════════════════════════════════════════════════════
+// DASHBOARD
+// ══════════════════════════════════════════════════════════════
+function renderDashboard() {
+  const s = scores;
+  const items = [
+    { icon: '⚖️', label: 'Discipline Stability', val: s.discipline, sub: '/100' },
+    { icon: '🧭', label: 'Purpose Clarity', val: s.purpose, sub: '/100' },
+    { icon: '🎯', label: 'Ethical Consistency', val: s.ethics, sub: '/100' },
+    { icon: '🛡️', label: 'Resilience Score', val: s.resilience, sub: '/100' },
+    { icon: '🌱', label: 'Habit Strength', val: s.habit, sub: '/100' },
+    { icon: '🔥', label: 'Impulse Control', val: s.impulse, sub: '/100' },
+  ];
+
+  const grid = document.getElementById('dashOverview');
+  grid.innerHTML = items.map(it => `
+    <div class="dash-tile">
+      <div class="d-icon">${it.icon}</div>
+      <div class="d-label">${it.label}</div>
+      <div class="d-val">${it.val ?? '—'}</div>
+      <div class="d-sub">${it.val ? it.sub : 'Not calculated'}</div>
+    </div>`).join('');
+
+  // Radar
+  drawRadar(items);
+
+  // Excellence Projection
+  const vals = items.map(i=>i.val).filter(v=>v!=null);
+  const overall = vals.length ? Math.round(vals.reduce((a,b)=>a+b)/vals.length) : 0;
+  const proj10yr = Math.min(100, Math.round(overall * 1.22));
+
+  document.getElementById('excellenceProj').innerHTML = overall ? `
+    <div style="display:flex;align-items:center;gap:20px;flex-wrap:wrap">
+      <div style="text-align:center">
+        <div style="font-family:'Space Mono',monospace;font-size:11px;color:var(--silver);text-transform:uppercase;letter-spacing:2px;margin-bottom:8px">Current Excellence Index</div>
+        <div style="font-family:'Playfair Display',serif;font-size:52px;font-weight:900;color:var(--bronze-light)">${overall}</div>
+        <div style="font-size:13px;color:var(--silver)">/ 100</div>
+      </div>
+      <div style="flex:1;min-width:200px">
+        <p style="font-size:15px;color:var(--white-dim);line-height:1.7">
+          ${overall>=80 ? 'You are building the Inner Architecture of exceptional character. If current trajectory continues for 10 years with consistency, your projected excellence index reaches ' + proj10yr + '/100.' :
+            overall>=55 ? 'Solid foundation. Focused development in your weaker areas over 10 years projects an excellence index of ' + proj10yr + '/100.' :
+            'Your development journey has begun. Consistent work across all dimensions over 10 years projects an excellence index of ' + proj10yr + '/100.'}
+        </p>
+        <p style="font-size:13px;color:var(--silver);margin-top:8px">Complete all simulators to get a comprehensive score.</p>
+      </div>
+    </div>` : '<p style="color:var(--silver);">Complete the simulators to generate your excellence projection.</p>';
+}
+
+function drawRadar(items) {
+  const canvas = document.getElementById('radarCanvas');
+  const ctx = canvas.getContext('2d');
+  const cx = 160, cy = 160, r = 120;
+  const n = items.length;
+  ctx.clearRect(0,0,320,320);
+
+  // Grid rings
+  for (let ring = 1; ring <= 5; ring++) {
+    ctx.beginPath();
+    for (let i=0;i<n;i++) {
+      const angle = (Math.PI*2/n)*i - Math.PI/2;
+      const rr = r * ring/5;
+      const x = cx + Math.cos(angle)*rr;
+      const y = cy + Math.sin(angle)*rr;
+      i===0 ? ctx.moveTo(x,y) : ctx.lineTo(x,y);
+    }
+    ctx.closePath();
+    ctx.strokeStyle = 'rgba(201,169,110,0.12)';
+    ctx.lineWidth = 1;
+    ctx.stroke();
+  }
+
+  // Axes
+  for (let i=0;i<n;i++) {
+    const angle = (Math.PI*2/n)*i - Math.PI/2;
+    ctx.beginPath();
+    ctx.moveTo(cx,cy);
+    ctx.lineTo(cx + Math.cos(angle)*r, cy + Math.sin(angle)*r);
+    ctx.strokeStyle = 'rgba(201,169,110,0.2)';
+    ctx.stroke();
+  }
+
+  // Data polygon
+  const vals = items.map(it => (it.val ?? 0) / 100);
+  ctx.beginPath();
+  for (let i=0;i<n;i++) {
+    const angle = (Math.PI*2/n)*i - Math.PI/2;
+    const rv = r * vals[i];
+    const x = cx + Math.cos(angle)*rv;
+    const y = cy + Math.sin(angle)*rv;
+    i===0 ? ctx.moveTo(x,y) : ctx.lineTo(x,y);
+  }
+  ctx.closePath();
+  ctx.fillStyle = 'rgba(201,169,110,0.15)';
+  ctx.fill();
+  ctx.strokeStyle = 'rgba(201,169,110,0.8)';
+  ctx.lineWidth = 2;
+  ctx.stroke();
+
+  // Dots
+  for (let i=0;i<n;i++) {
+    const angle = (Math.PI*2/n)*i - Math.PI/2;
+    const rv = r * vals[i];
+    ctx.beginPath();
+    ctx.arc(cx+Math.cos(angle)*rv, cy+Math.sin(angle)*rv, 5, 0, Math.PI*2);
+    ctx.fillStyle = 'var(--bronze)' || '#c9a96e';
+    ctx.fill();
+  }
+
+  // Labels
+  ctx.fillStyle = '#c8c4bc';
+  ctx.font = '11px "Space Mono", monospace';
+  ctx.textAlign = 'center';
+  for (let i=0;i<n;i++) {
+    const angle = (Math.PI*2/n)*i - Math.PI/2;
+    const lx = cx + Math.cos(angle)*(r+18);
+    const ly = cy + Math.sin(angle)*(r+18);
+    ctx.fillText(items[i].icon, lx, ly);
+  }
+}
+
+// ══════════════════════════════════════════════════════════════
+// QUICK STATS
+// ══════════════════════════════════════════════════════════════
+function updateQuickStats() {
+  document.getElementById('qs-habit').textContent = scores.habit ?? '—';
+  document.getElementById('qs-disc').textContent = scores.discipline ?? '—';
+  document.getElementById('qs-purp').textContent = scores.purpose ?? '—';
+  document.getElementById('qs-eth').textContent = scores.ethics ?? '—';
+  const vals = [scores.discipline,scores.impulse,scores.purpose,scores.ethics,scores.resilience,scores.habit].filter(v=>v!=null);
+  document.getElementById('qs-exc').textContent = vals.length ? Math.round(vals.reduce((a,b)=>a+b)/vals.length) : '—';
+}
+
+// ══════════════════════════════════════════════════════════════
+// GENERATIONAL PROJECTION
+// ══════════════════════════════════════════════════════════════
+function updateGenerational(v) {
+  const d = +v;
+  document.getElementById('rv-gen').textContent = d;
+  // Cascade formulas
+  const family = Math.min(100, Math.round(d * 0.82));
+  const community = Math.min(100, Math.round(family * 0.74));
+  const society = Math.min(100, Math.round(community * 0.68));
+
+  document.getElementById('cascadeViz').innerHTML = `
+    <div class="cascade-level">
+      <div class="cascade-dot"></div>
+      <div class="cl-body">
+        <div class="cl-title">Individual Discipline</div>
+        <div class="cl-text">Your personal consistency, self-regulation, and ethical decision-making form the foundation of all cascading effects.</div>
+        <div class="cl-score">Score: ${d}/100</div>
+      </div>
+    </div>
+    <div class="cascade-level">
+      <div class="cascade-dot"></div>
+      <div class="cl-body">
+        <div class="cl-title">Family Culture Projection</div>
+        <div class="cl-text">Your discipline becomes the modeled behavior that children and family members unconsciously internalize. Study habits, ethical choices, and emotional regulation patterns cascade directly.</div>
+        <div class="cl-score">Family Culture Index: ${family}/100 · Formula: Individual × 0.82</div>
+      </div>
+    </div>
+    <div class="cascade-level">
+      <div class="cascade-dot"></div>
+      <div class="cl-body">
+        <div class="cl-title">Community Stability Projection</div>
+        <div class="cl-text">Strong family cultures aggregate into community norms. Trust, civic participation, collective responsibility, and institutional health are all downstream of family character quality.</div>
+        <div class="cl-score">Community Index: ${community}/100 · Formula: Family × 0.74</div>
+      </div>
+    </div>
+    <div class="cascade-level">
+      <div class="cascade-dot"></div>
+      <div class="cl-body">
+        <div class="cl-title">Societal Ethical Index</div>
+        <div class="cl-text">Communities aggregate into societies. The ethical health of a civilization — its institutions, its public discourse, its treatment of vulnerable members — emerges from the cumulative character of its citizens.</div>
+        <div class="cl-score">Societal Ethical Index: ${society}/100 · Formula: Community × 0.68</div>
+      </div>
+    </div>`;
+}
+
+// ══════════════════════════════════════════════════════════════
+// FRAMEWORK PAGE
+// ══════════════════════════════════════════════════════════════
+function renderFramework() {
+  document.getElementById('formulaGrid').innerHTML = [
+    { name: 'Discipline Stability Index (DSI)', formula: 'DSI = (Study/12×35) + (1−Dist/20)×25 + (Sleep−3)/7×20 + Exer/7×10 + Refl/60×10', desc: 'Measures your overall structural stability of daily discipline across five behavioral dimensions.' },
+    { name: 'Habit Strength Score (HS)', formula: 'HS = (Freq/7×35) + (Trigger/10×25) + (Reward/10×20) + (Motivation/10×20)', desc: 'Projects the durability and automaticity of a habit based on the habit loop architecture.' },
+    { name: 'Purpose Clarity Index (PCI)', formula: 'PCI = WordScore(Values) + WordScore(Vision) + WordScore(Intellect)×0.5 + WordScore(Civic)×0.5 + Alignment×3', desc: 'Quantifies the depth and coherence of your articulated purpose across four life dimensions.' },
+    { name: 'Ethical Consistency Score (ECS)', formula: 'ECS = (ΣEthicsChoices / MaxEthics) × 100', desc: 'Measures the alignment of your scenario-based choices with principled ethical behavior.' },
+    { name: 'Resilience Rating (RS)', formula: 'RS = AverageStressResponse × 10', desc: 'Aggregates your self-assessed resilience across five distinct high-pressure life situations.' },
+    { name: 'Generational Cascade', formula: 'Family = Indiv×0.82 · Community = Family×0.74 · Society = Community×0.68', desc: 'Models how individual discipline propagates outward to shape family, community, and societal character.' },
+  ].map(f => `<div class="phil-card">
+    <h3>${f.name}</h3>
+    <code style="display:block;background:rgba(0,0,0,0.3);padding:10px 14px;border-radius:4px;font-size:13px;color:var(--bronze-light);margin:10px 0;word-break:break-all">${f.formula}</code>
+    <p>${f.desc}</p>
+  </div>`).join('');
+
+  document.getElementById('pillarsGrid').innerHTML = [
+    ['🏛️ Structural Integrity', 'Your character must be consistent across all contexts — private and public, easy and difficult.'],
+    ['⚖️ Disciplined Action', 'Excellence is not motivation-dependent. It is structural — built into daily habit architecture.'],
+    ['🎯 Purpose Clarity', 'Without a clear why, discipline has no direction. Purpose transforms effort into meaning.'],
+    ['🧠 Intellectual Humility', 'The highest minds know the most about how much they do not know. Stay a permanent learner.'],
+    ['❤️ Ethical Consistency', 'Principles are only real when they are costly. Character is revealed under pressure.'],
+    ['🌱 Generational Vision', 'You are not building just for yourself. Your character is your gift to those who come after.'],
+    ['🔄 Reflective Practice', 'Examined living prevents drifting. Regular self-reflection keeps the architecture honest.'],
+  ].map(([t,d]) => `<div class="phil-card"><h3>${t}</h3><p>${d}</p></div>`).join('');
+
+  document.getElementById('nepGrid').innerHTML = [
+    ['Constitutional Values', 'NEP 2020 centres education around the constitutional principles of justice, liberty, equality, and fraternity. Inner Architecture builds the character necessary to embody these values.'],
+    ['Holistic Development', 'NEP calls for education of the whole person — cognitive, emotional, social, ethical, and physical. This framework addresses all dimensions of holistic development.'],
+    ['Ethical Reasoning', 'Critical thinking and ethical reasoning are core NEP competencies. The Ethical Decision Simulator directly develops these capacities through structured practice.'],
+    ['Character Formation', 'NEP 2020 explicitly identifies character formation as a core educational goal. Every dimension of this system is designed to support that goal.'],
+  ].map(([t,d]) => `<div class="phil-card"><h3>${t}</h3><p>${d}</p></div>`).join('');
+}
+
+// ══════════════════════════════════════════════════════════════
+// PRINT REPORT
+// ══════════════════════════════════════════════════════════════
+function printReport() {
+  window.print();
+}
+
+// ══════════════════════════════════════════════════════════════
+// PWA INSTALL
+// ══════════════════════════════════════════════════════════════
+let deferredPrompt;
+window.addEventListener('beforeinstallprompt', e => {
+  e.preventDefault();
+  deferredPrompt = e;
+  document.getElementById('installBar').classList.add('show');
+});
+
+function installApp() {
+  if (deferredPrompt) {
+    deferredPrompt.prompt();
+    deferredPrompt.userChoice.then(() => {
+      document.getElementById('installBar').classList.remove('show');
+      deferredPrompt = null;
+    });
+  }
+}
+
+// ══════════════════════════════════════════════════════════════
+// SERVICE WORKER REGISTRATION
+// ══════════════════════════════════════════════════════════════
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.register('service-worker.js').catch(()=>{});
+}
+
+// ══════════════════════════════════════════════════════════════
+// BOOT
+// ══════════════════════════════════════════════════════════════
+window.addEventListener('DOMContentLoaded', () => {
+  loadState();
+  initFoundations();
+  initHabits();
+  initEthics();
+  initStress();
+  updateQuickStats();
+
+  setTimeout(() => {
+    const loader = document.getElementById('loading');
+    loader.style.opacity = '0';
+    setTimeout(() => loader.style.display = 'none', 500);
+  }, 1200);
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,20 @@
+{
+  "name": "Critical Thinking Lab – NEP 2020",
+  "short_name": "Think Lab",
+  "description": "Problem Solving & Critical Thinking Lab for school students. Aligned with NEP 2020 and NCF 2023. Developed by Mateen Yousuf, Teacher – SED J&K.",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#0a0a1a",
+  "theme_color": "#4361ee",
+  "orientation": "portrait-primary",
+  "lang": "en",
+  "categories": ["education"],
+  "icons": [
+    {
+      "src": "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'><rect width='512' height='512' rx='80' fill='%234361ee'/><text x='256' y='330' font-size='240' text-anchor='middle'>🧠</text></svg>",
+      "sizes": "512x512",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}

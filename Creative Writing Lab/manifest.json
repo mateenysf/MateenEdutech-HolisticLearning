@@ -1,0 +1,22 @@
+{
+  "name": "Creative Writing Lab",
+  "short_name": "WritingLab",
+  "description": "AI-powered Creative Writing Lab aligned with NEP 2020 and NCF 2023",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#0f1923",
+  "theme_color": "#c9a84c",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 192 192'%3E%3Crect width='192' height='192' fill='%230f1923'/%3E%3Ctext x='96' y='130' text-anchor='middle' font-size='100' fill='%23c9a84c'%3E✍️%3C/text%3E%3C/svg%3E",
+      "sizes": "192x192",
+      "type": "image/svg+xml"
+    },
+    {
+      "src": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'%3E%3Crect width='512' height='512' fill='%230f1923'/%3E%3Ctext x='256' y='340' text-anchor='middle' font-size='280' fill='%23c9a84c'%3E✍️%3C/text%3E%3C/svg%3E",
+      "sizes": "512x512",
+      "type": "image/svg+xml"
+    }
+  ]
+}

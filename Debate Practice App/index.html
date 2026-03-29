@@ -1,0 +1,1726 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<meta name="theme-color" content="#0a1628">
+<meta name="description" content="AI-Powered Debate Topic Generator – NEP 2020 & NCF 2023 Aligned Critical Thinking App">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<!-- manifest.json is loaded only when the app is served from a real server/localhost -->
+<link rel="manifest" href="manifest.json" onerror="this.remove()">
+<title>DebateMind – Think Critically. Speak Confidently.</title>
+<style>
+/* =============================================
+   DEBATEMIND PWA – COMPLETE STYLESHEET
+   Author: Mateen Yousuf, Teacher – SED, J&K
+   Aligned with NEP 2020 & NCF 2023
+   ============================================= */
+
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Sans:wght@300;400;500;600&display=swap');
+
+:root {
+  --bg-deep: #050d1a;
+  --bg-card: #0d1f3c;
+  --bg-glass: rgba(255,255,255,0.05);
+  --accent-gold: #c9a84c;
+  --accent-blue: #3a7bd5;
+  --accent-teal: #00c9a7;
+  --accent-red: #e74c3c;
+  --text-primary: #f0e6d3;
+  --text-muted: #8898aa;
+  --border: rgba(201,168,76,0.2);
+  --shadow: 0 20px 60px rgba(0,0,0,0.5);
+  --radius: 16px;
+  --font-display: 'Playfair Display', Georgia, serif;
+  --font-body: 'DM Sans', 'Segoe UI', sans-serif;
+}
+
+* { margin:0; padding:0; box-sizing:border-box; }
+
+body {
+  background: var(--bg-deep);
+  color: var(--text-primary);
+  font-family: var(--font-body);
+  min-height: 100vh;
+  overflow-x: hidden;
+  background-image:
+    radial-gradient(ellipse 80% 50% at 50% -10%, rgba(58,123,213,0.15) 0%, transparent 70%),
+    radial-gradient(ellipse 50% 80% at 90% 50%, rgba(201,168,76,0.05) 0%, transparent 60%);
+}
+
+/* ── BACKGROUND TEXTURE ── */
+body::before {
+  content:'';
+  position:fixed; inset:0; z-index:0; pointer-events:none;
+  background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 0h60v60H0z' fill='none'/%3E%3Ccircle cx='1' cy='1' r='0.5' fill='rgba(255,255,255,0.025)'/%3E%3C/svg%3E");
+}
+
+/* ══════════════════════════════════
+   NAVIGATION
+══════════════════════════════════ */
+nav {
+  position: fixed; top:0; left:0; right:0; z-index:100;
+  display: flex; align-items:center; justify-content:space-between;
+  padding: 14px 24px;
+  background: rgba(5,13,26,0.85);
+  backdrop-filter: blur(20px);
+  border-bottom: 1px solid var(--border);
+}
+
+.nav-logo {
+  font-family: var(--font-display);
+  font-size: 1.4rem;
+  color: var(--accent-gold);
+  letter-spacing: 0.5px;
+}
+
+.nav-logo span { color: var(--text-primary); }
+
+.nav-tabs {
+  display: flex; gap:6px;
+  overflow-x: auto; -webkit-overflow-scrolling: touch;
+}
+
+.nav-tab {
+  padding: 7px 14px;
+  border: 1px solid transparent;
+  border-radius: 50px;
+  background: transparent;
+  color: var(--text-muted);
+  font-family: var(--font-body);
+  font-size: 0.78rem;
+  font-weight: 500;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: all 0.25s;
+}
+
+.nav-tab.active, .nav-tab:hover {
+  background: var(--bg-card);
+  border-color: var(--border);
+  color: var(--accent-gold);
+}
+
+/* ══════════════════════════════════
+   PAGES / SECTIONS
+══════════════════════════════════ */
+.page { display:none; padding: 80px 0 60px; min-height:100vh; position:relative; z-index:1; }
+.page.active { display:block; }
+.container { max-width: 900px; margin:0 auto; padding: 0 20px; }
+
+/* ══════════════════════════════════
+   LANDING PAGE
+══════════════════════════════════ */
+.hero {
+  text-align: center;
+  padding: 50px 20px 30px;
+}
+
+.hero-badge {
+  display: inline-block;
+  background: rgba(201,168,76,0.1);
+  border: 1px solid var(--border);
+  color: var(--accent-gold);
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  padding: 6px 16px;
+  border-radius: 50px;
+  margin-bottom: 24px;
+}
+
+.hero h1 {
+  font-family: var(--font-display);
+  font-size: clamp(2.2rem, 6vw, 4rem);
+  line-height: 1.15;
+  margin-bottom: 16px;
+  background: linear-gradient(135deg, #f0e6d3 0%, var(--accent-gold) 60%, #c9a84c 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.hero p {
+  font-size: 1.05rem;
+  color: var(--text-muted);
+  max-width: 580px;
+  margin: 0 auto 16px;
+  line-height: 1.7;
+}
+
+.nep-tags {
+  display: flex; flex-wrap:wrap; justify-content:center; gap:8px;
+  margin: 16px 0 32px;
+}
+
+.nep-tag {
+  background: rgba(58,123,213,0.12);
+  border: 1px solid rgba(58,123,213,0.3);
+  color: #7ab3f0;
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 1px;
+  padding: 5px 12px;
+  border-radius: 50px;
+}
+
+/* AUTHOR CARD */
+.author-card {
+  display: flex; align-items:center; gap:18px;
+  background: var(--bg-glass);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 20px 24px;
+  max-width: 480px;
+  margin: 0 auto 40px;
+  backdrop-filter: blur(10px);
+  text-align: left;
+}
+
+.author-photo {
+  width: 70px; height: 70px;
+  border-radius: 50%;
+  border: 2px solid var(--accent-gold);
+  object-fit: cover;
+  flex-shrink:0;
+}
+
+.author-photo-placeholder {
+  width: 70px; height: 70px;
+  border-radius: 50%;
+  border: 2px solid var(--accent-gold);
+  background: linear-gradient(135deg, var(--bg-card), var(--accent-blue));
+  display: flex; align-items:center; justify-content:center;
+  font-size: 1.8rem; flex-shrink:0;
+}
+
+.author-name {
+  font-family: var(--font-display);
+  font-size: 1.05rem;
+  color: var(--text-primary);
+  margin-bottom: 4px;
+}
+
+.author-title {
+  font-size: 0.78rem;
+  color: var(--accent-gold);
+  font-weight: 500;
+}
+
+/* QUICK START GRID */
+.quick-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 16px;
+  margin-bottom: 40px;
+}
+
+.quick-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 24px 20px;
+  cursor: pointer;
+  transition: all 0.3s;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.quick-card::before {
+  content:'';
+  position:absolute; top:0; left:0; right:0; height:3px;
+  background: var(--card-accent, var(--accent-gold));
+}
+
+.quick-card:hover {
+  transform: translateY(-4px);
+  border-color: var(--accent-gold);
+  box-shadow: var(--shadow);
+}
+
+.quick-icon { font-size: 2.2rem; margin-bottom: 12px; }
+.quick-title {
+  font-family: var(--font-display);
+  font-size: 1rem;
+  color: var(--text-primary);
+  margin-bottom: 6px;
+}
+.quick-desc { font-size: 0.78rem; color: var(--text-muted); line-height:1.5; }
+
+/* ══════════════════════════════════
+   MODULE: TOPIC GENERATOR
+══════════════════════════════════ */
+.module-header {
+  margin-bottom: 30px;
+}
+
+.module-title {
+  font-family: var(--font-display);
+  font-size: clamp(1.6rem, 4vw, 2.5rem);
+  color: var(--accent-gold);
+  margin-bottom: 8px;
+}
+
+.module-desc {
+  color: var(--text-muted);
+  font-size: 0.9rem;
+  line-height: 1.6;
+}
+
+/* Category Filter */
+.cat-filter {
+  display: flex; flex-wrap:wrap; gap:8px;
+  margin-bottom: 24px;
+}
+
+.cat-btn {
+  padding: 8px 18px;
+  border: 1px solid var(--border);
+  border-radius: 50px;
+  background: transparent;
+  color: var(--text-muted);
+  font-family: var(--font-body);
+  font-size: 0.8rem;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.cat-btn.active, .cat-btn:hover {
+  background: var(--accent-gold);
+  border-color: var(--accent-gold);
+  color: var(--bg-deep);
+  font-weight: 600;
+}
+
+.diff-selector {
+  display: flex; gap:8px; align-items:center;
+  margin-bottom: 24px;
+  flex-wrap: wrap;
+}
+
+.diff-selector label {
+  font-size: 0.82rem;
+  color: var(--text-muted);
+  font-weight: 500;
+}
+
+.diff-btn {
+  padding: 6px 14px;
+  border: 1px solid var(--border);
+  border-radius: 50px;
+  background: transparent;
+  color: var(--text-muted);
+  font-size: 0.75rem;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.diff-btn.active { background: var(--accent-teal); border-color: var(--accent-teal); color:#000; font-weight:600; }
+
+/* Topic Display Card */
+.topic-display {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  padding: 36px 32px;
+  text-align: center;
+  margin-bottom: 24px;
+  min-height: 180px;
+  display: flex; flex-direction:column; align-items:center; justify-content:center;
+  position: relative;
+  overflow: hidden;
+}
+
+.topic-display::after {
+  content:'';
+  position:absolute; bottom:0; left:0; right:0; height:3px;
+  background: linear-gradient(90deg, var(--accent-blue), var(--accent-gold), var(--accent-teal));
+}
+
+.topic-category-badge {
+  display: inline-block;
+  background: rgba(58,123,213,0.15);
+  border: 1px solid rgba(58,123,213,0.3);
+  color: #7ab3f0;
+  font-size: 0.7rem;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  font-weight: 600;
+  padding: 4px 12px;
+  border-radius: 50px;
+  margin-bottom: 16px;
+}
+
+.topic-text {
+  font-family: var(--font-display);
+  font-size: clamp(1.2rem, 3vw, 1.8rem);
+  line-height: 1.4;
+  color: var(--text-primary);
+  margin-bottom: 12px;
+}
+
+.topic-diff-label {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+}
+
+.topic-diff-label span {
+  color: var(--accent-teal);
+  font-weight: 600;
+}
+
+.generate-btn {
+  display: block; width:100%;
+  padding: 16px;
+  background: linear-gradient(135deg, var(--accent-blue), #2c5fa8);
+  border: none;
+  border-radius: var(--radius);
+  color: #fff;
+  font-family: var(--font-display);
+  font-size: 1.1rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.3s;
+  margin-bottom: 12px;
+  letter-spacing: 0.5px;
+}
+
+.generate-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 30px rgba(58,123,213,0.4);
+}
+
+.secondary-btn {
+  padding: 10px 20px;
+  background: transparent;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  color: var(--text-muted);
+  font-family: var(--font-body);
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition: all 0.2s;
+  margin: 4px;
+}
+
+.secondary-btn:hover { border-color: var(--accent-gold); color: var(--accent-gold); }
+
+.btn-row { display:flex; flex-wrap:wrap; gap:8px; justify-content:center; margin-top:12px; }
+
+/* Saved Topics */
+.saved-section { margin-top: 32px; }
+.saved-title { font-size: 0.85rem; color: var(--text-muted); font-weight:600; margin-bottom:12px; letter-spacing:1px; text-transform:uppercase; }
+.saved-list { display:flex; flex-direction:column; gap:10px; }
+.saved-item {
+  background: var(--bg-glass);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 14px 18px;
+  display:flex; align-items:center; justify-content:space-between;
+  font-size: 0.9rem;
+}
+.saved-item-text { flex:1; line-height:1.4; }
+.del-btn { background:transparent; border:none; color: var(--accent-red); font-size:1rem; cursor:pointer; padding:4px 8px; }
+
+/* ══════════════════════════════════
+   MODULE: ARGUMENT BUILDER
+══════════════════════════════════ */
+.arg-topic-input {
+  width: 100%;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 16px 20px;
+  color: var(--text-primary);
+  font-family: var(--font-body);
+  font-size: 0.95rem;
+  margin-bottom: 16px;
+  transition: border-color 0.2s;
+}
+.arg-topic-input:focus { outline:none; border-color: var(--accent-gold); }
+.arg-topic-input::placeholder { color: var(--text-muted); }
+
+.side-selector {
+  display: flex; gap:12px; margin-bottom: 24px;
+}
+
+.side-card {
+  flex:1;
+  padding: 16px;
+  border: 2px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--bg-glass);
+  cursor: pointer;
+  text-align: center;
+  transition: all 0.25s;
+}
+.side-card.selected.pro { border-color: var(--accent-teal); background: rgba(0,201,167,0.1); }
+.side-card.selected.con { border-color: var(--accent-red); background: rgba(231,76,60,0.1); }
+.side-card:hover { border-color: var(--accent-gold); }
+.side-icon { font-size: 1.6rem; margin-bottom: 6px; }
+.side-label { font-size: 0.85rem; font-weight: 600; }
+
+.prompts-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin-bottom: 24px;
+}
+
+.prompt-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 18px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.prompt-card:hover { border-color: var(--accent-blue); transform: translateY(-2px); }
+.prompt-num { font-size: 0.7rem; color: var(--accent-gold); font-weight:700; letter-spacing:1px; margin-bottom:6px; }
+.prompt-q { font-size: 0.82rem; color: var(--text-primary); line-height:1.5; }
+
+.notes-area {
+  width: 100%;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 16px 20px;
+  color: var(--text-primary);
+  font-family: var(--font-body);
+  font-size: 0.9rem;
+  resize: vertical;
+  min-height: 140px;
+  margin-bottom: 12px;
+  transition: border-color 0.2s;
+  line-height: 1.6;
+}
+.notes-area:focus { outline:none; border-color: var(--accent-gold); }
+
+/* ══════════════════════════════════
+   MODULE: DEBATE TIMER
+══════════════════════════════════ */
+.timer-display {
+  text-align: center;
+  padding: 40px 20px;
+}
+
+.timer-ring-wrap {
+  position: relative;
+  width: 200px; height: 200px;
+  margin: 0 auto 24px;
+}
+
+.timer-ring-wrap svg {
+  transform: rotate(-90deg);
+}
+
+.timer-circle-bg { fill:none; stroke: rgba(255,255,255,0.05); stroke-width:10; }
+.timer-circle { fill:none; stroke: var(--accent-gold); stroke-width:10; stroke-linecap:round; transition: stroke-dashoffset 1s linear; }
+
+.timer-text {
+  position:absolute; top:50%; left:50%; transform:translate(-50%,-50%);
+  text-align:center;
+}
+
+.timer-digits {
+  font-family: var(--font-display);
+  font-size: 3rem;
+  color: var(--text-primary);
+  line-height:1;
+}
+
+.timer-phase {
+  font-size: 0.75rem;
+  color: var(--accent-gold);
+  font-weight: 600;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  margin-top: 4px;
+}
+
+.timer-modes {
+  display: flex; flex-wrap:wrap; gap:10px; justify-content:center;
+  margin-bottom: 28px;
+}
+
+.timer-mode-btn {
+  padding: 10px 18px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--bg-card);
+  color: var(--text-muted);
+  font-size: 0.82rem;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.timer-mode-btn.active { border-color: var(--accent-gold); color: var(--accent-gold); background: rgba(201,168,76,0.1); }
+
+.timer-btns { display:flex; gap:12px; justify-content:center; margin-bottom:30px; flex-wrap:wrap; }
+
+.timer-action {
+  padding: 14px 28px;
+  border: none;
+  border-radius: var(--radius);
+  font-family: var(--font-display);
+  font-size: 1rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.25s;
+}
+
+.btn-start { background: var(--accent-teal); color: #000; }
+.btn-pause { background: var(--accent-gold); color: #000; }
+.btn-reset { background: var(--bg-card); border: 1px solid var(--border); color: var(--text-muted); }
+.btn-start:hover, .btn-pause:hover { transform: scale(1.05); }
+
+.phases-legend {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 20px;
+}
+.phases-title { font-size: 0.78rem; color: var(--text-muted); font-weight:600; letter-spacing:1px; text-transform:uppercase; margin-bottom:14px; }
+.phase-row {
+  display:flex; align-items:center; gap:12px;
+  padding: 8px 0;
+  border-bottom: 1px solid rgba(255,255,255,0.05);
+}
+.phase-row:last-child { border-bottom:none; }
+.phase-dot { width:8px; height:8px; border-radius:50%; flex-shrink:0; }
+.phase-name { font-size:0.85rem; flex:1; }
+.phase-time { font-size:0.82rem; color: var(--text-muted); }
+
+/* ══════════════════════════════════
+   MODULE: PRO vs CON
+══════════════════════════════════ */
+.pvc-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  padding: 32px;
+  margin-bottom: 24px;
+  text-align: center;
+}
+.pvc-topic {
+  font-family: var(--font-display);
+  font-size: 1.4rem;
+  line-height: 1.4;
+  margin-bottom: 24px;
+  color: var(--text-primary);
+}
+.pvc-side-badge {
+  display: inline-block;
+  font-size: 1rem;
+  font-weight: 700;
+  padding: 10px 30px;
+  border-radius: 50px;
+  margin-bottom: 24px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+.pvc-side-badge.pro { background: rgba(0,201,167,0.15); border: 2px solid var(--accent-teal); color: var(--accent-teal); }
+.pvc-side-badge.con { background: rgba(231,76,60,0.15); border: 2px solid var(--accent-red); color: var(--accent-red); }
+.pvc-instructions {
+  font-size: 0.88rem;
+  color: var(--text-muted);
+  line-height: 1.6;
+  background: var(--bg-glass);
+  border-radius: var(--radius);
+  padding: 16px;
+  margin-bottom: 20px;
+}
+
+/* ══════════════════════════════════
+   MODULE: PROGRESS
+══════════════════════════════════ */
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 14px;
+  margin-bottom: 32px;
+}
+.stat-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 22px 18px;
+  text-align: center;
+}
+.stat-num {
+  font-family: var(--font-display);
+  font-size: 2.2rem;
+  color: var(--accent-gold);
+  line-height:1;
+  margin-bottom: 6px;
+}
+.stat-label {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.badges-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+  gap: 12px;
+  margin-bottom: 24px;
+}
+.badge-item {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 18px;
+  text-align: center;
+  transition: all 0.3s;
+}
+.badge-item.earned { border-color: var(--accent-gold); background: rgba(201,168,76,0.08); }
+.badge-item.locked { opacity: 0.4; }
+.badge-emoji { font-size: 2rem; margin-bottom: 8px; }
+.badge-name { font-size: 0.78rem; font-weight:600; margin-bottom:4px; }
+.badge-req { font-size: 0.7rem; color: var(--text-muted); }
+
+/* ══════════════════════════════════
+   TOAST NOTIFICATION
+══════════════════════════════════ */
+.toast {
+  position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%) translateY(100px);
+  background: var(--accent-gold); color: var(--bg-deep);
+  padding: 12px 24px; border-radius: 50px;
+  font-weight: 600; font-size: 0.85rem;
+  z-index: 1000;
+  transition: transform 0.4s cubic-bezier(0.34,1.56,0.64,1);
+  white-space: nowrap;
+}
+.toast.show { transform: translateX(-50%) translateY(0); }
+
+/* ══════════════════════════════════
+   INSTALL PROMPT
+══════════════════════════════════ */
+.install-banner {
+  position: fixed; bottom:0; left:0; right:0;
+  background: var(--bg-card);
+  border-top: 1px solid var(--border);
+  padding: 16px 24px;
+  display: flex; align-items:center; justify-content:space-between; gap:12px;
+  z-index:200;
+  transform: translateY(100%);
+  transition: transform 0.4s;
+}
+.install-banner.show { transform: translateY(0); }
+.install-text { font-size: 0.85rem; color: var(--text-muted); }
+.install-text strong { color: var(--text-primary); display:block; margin-bottom:2px; }
+.install-btn-group { display:flex; gap:8px; flex-shrink:0; }
+.install-btn {
+  padding: 9px 18px;
+  border-radius: 50px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  cursor: pointer;
+  border: none;
+  transition: all 0.2s;
+}
+.btn-install-yes { background: var(--accent-gold); color: var(--bg-deep); }
+.btn-install-no { background: transparent; border: 1px solid var(--border); color: var(--text-muted); }
+
+/* ══════════════════════════════════
+   SCROLLBAR
+══════════════════════════════════ */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: var(--bg-deep); }
+::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+
+/* ══════════════════════════════════
+   RESPONSIVE
+══════════════════════════════════ */
+@media (max-width: 600px) {
+  nav { padding: 12px 14px; }
+  .nav-logo { font-size: 1.1rem; }
+  .nav-tab { padding: 6px 10px; font-size: 0.72rem; }
+  .hero { padding: 30px 16px 20px; }
+  .container { padding: 0 14px; }
+  .prompts-grid { grid-template-columns: 1fr; }
+  .timer-ring-wrap { width: 160px; height: 160px; }
+  .timer-digits { font-size: 2.4rem; }
+}
+
+/* ══════════════════════════════════
+   ANIMATIONS
+══════════════════════════════════ */
+@keyframes fadeIn { from { opacity:0; transform:translateY(20px); } to { opacity:1; transform:translateY(0); } }
+.page.active > * { animation: fadeIn 0.5s ease both; }
+.topic-display { animation: none !important; }
+.topic-text { transition: opacity 0.3s; }
+
+@keyframes pulse { 0%,100%{opacity:1;} 50%{opacity:0.4;} }
+.timer-active .timer-digits { animation: pulse 2s infinite; }
+</style>
+</head>
+<body>
+
+<!-- ══════════════════════════════
+     NAVIGATION
+══════════════════════════════ -->
+<nav>
+  <div class="nav-logo">Debate<span>Mind</span></div>
+  <div class="nav-tabs">
+    <button class="nav-tab active" onclick="showPage('home')">🏠 Home</button>
+    <button class="nav-tab" onclick="showPage('generator')">🎯 Topics</button>
+    <button class="nav-tab" onclick="showPage('arguments')">💡 Arguments</button>
+    <button class="nav-tab" onclick="showPage('timer')">⏱ Timer</button>
+    <button class="nav-tab" onclick="showPage('procon')">⚖️ Pro vs Con</button>
+    <button class="nav-tab" onclick="showPage('progress')">📊 Progress</button>
+  </div>
+</nav>
+
+<!-- ══════════════════════════════
+     PAGE: HOME / LANDING
+══════════════════════════════ -->
+<div class="page active" id="page-home">
+  <div class="container">
+    <div class="hero">
+      <div class="hero-badge">NEP 2020 · NCF 2023 · PARAKH Aligned</div>
+      <h1>Think Critically.<br>Speak Confidently.</h1>
+      <p>An AI-powered debate practice platform that builds 21st-century communication skills, critical reasoning, and analytical thinking for students.</p>
+      <div class="nep-tags">
+        <span class="nep-tag">NEP 2020</span>
+        <span class="nep-tag">NCF 2023</span>
+        <span class="nep-tag">PARAKH</span>
+        <span class="nep-tag">NCERT Competencies</span>
+        <span class="nep-tag">21st Century Skills</span>
+        <span class="nep-tag">Offline PWA</span>
+      </div>
+    </div>
+
+    <!-- Author Card -->
+    <div class="author-card">
+      <img id="authorImg" class="author-photo" src="author.jpg" alt="Mateen Yousuf" onerror="this.style.display='none'; document.getElementById('authorPlaceholder').style.display='flex';">
+      <div class="author-photo-placeholder" id="authorPlaceholder" style="display:none;">👨‍🏫</div>
+      <div>
+        <div class="author-name">Mateen Yousuf</div>
+        <div class="author-title">Teacher – School Education Department, J&K</div>
+        <div style="font-size:0.75rem; color:var(--text-muted); margin-top:4px;">Concept Developer & Educator</div>
+      </div>
+    </div>
+
+    <!-- Quick Access Grid -->
+    <div class="quick-grid">
+      <div class="quick-card" style="--card-accent:#3a7bd5" onclick="showPage('generator')">
+        <div class="quick-icon">🎯</div>
+        <div class="quick-title">Topic Generator</div>
+        <div class="quick-desc">Generate random debate topics by category and difficulty</div>
+      </div>
+      <div class="quick-card" style="--card-accent:#00c9a7" onclick="showPage('arguments')">
+        <div class="quick-icon">💡</div>
+        <div class="quick-title">Argument Builder</div>
+        <div class="quick-desc">Structure your arguments with guided prompts</div>
+      </div>
+      <div class="quick-card" style="--card-accent:#c9a84c" onclick="showPage('timer')">
+        <div class="quick-icon">⏱</div>
+        <div class="quick-title">Debate Timer</div>
+        <div class="quick-desc">Practice with structured speaking time limits</div>
+      </div>
+      <div class="quick-card" style="--card-accent:#e74c3c" onclick="showPage('procon')">
+        <div class="quick-icon">⚖️</div>
+        <div class="quick-title">Pro vs Con</div>
+        <div class="quick-desc">Randomly receive a side and argue your position</div>
+      </div>
+    </div>
+
+    <!-- Policy Info -->
+    <div style="background:var(--bg-card); border:1px solid var(--border); border-radius:var(--radius); padding:24px; margin-bottom:30px;">
+      <div style="font-size:0.72rem; color:var(--accent-gold); font-weight:700; letter-spacing:1.5px; text-transform:uppercase; margin-bottom:12px;">Policy Alignment</div>
+      <p style="font-size:0.85rem; color:var(--text-muted); line-height:1.7;">
+        This app is built in full alignment with <strong style="color:var(--text-primary)">NEP 2020</strong> and <strong style="color:var(--text-primary)">NCF 2023</strong>, which emphasise critical thinking, communication, and experiential learning. Through debate practice, students develop the 21st-century competencies outlined by <strong style="color:var(--text-primary)">NCERT</strong> and assessed through <strong style="color:var(--text-primary)">PARAKH</strong>'s competency-based framework — including reasoning, justification, and evidence-based argumentation.
+      </p>
+    </div>
+
+  </div>
+</div>
+
+<!-- ══════════════════════════════
+     PAGE: TOPIC GENERATOR
+══════════════════════════════ -->
+<div class="page" id="page-generator">
+  <div class="container">
+    <div class="module-header">
+      <div class="module-title">🎯 Topic Generator</div>
+      <div class="module-desc">Generate random debate topics across categories. Aligned with NCF 2023 thematic learning areas.</div>
+    </div>
+
+    <!-- Category Filter -->
+    <div class="cat-filter">
+      <button class="cat-btn active" data-cat="all" onclick="setCat(this,'all')">All Topics</button>
+      <button class="cat-btn" data-cat="technology" onclick="setCat(this,'technology')">Technology</button>
+      <button class="cat-btn" data-cat="education" onclick="setCat(this,'education')">Education</button>
+      <button class="cat-btn" data-cat="environment" onclick="setCat(this,'environment')">Environment</button>
+      <button class="cat-btn" data-cat="society" onclick="setCat(this,'society')">Society</button>
+      <button class="cat-btn" data-cat="ethics" onclick="setCat(this,'ethics')">Ethics</button>
+    </div>
+
+    <!-- Difficulty -->
+    <div class="diff-selector">
+      <label>Difficulty:</label>
+      <button class="diff-btn active" data-diff="beginner" onclick="setDiff(this,'beginner')">🟢 Beginner</button>
+      <button class="diff-btn" data-diff="intermediate" onclick="setDiff(this,'intermediate')">🟡 Intermediate</button>
+      <button class="diff-btn" data-diff="advanced" onclick="setDiff(this,'advanced')">🔴 Advanced</button>
+    </div>
+
+    <!-- Topic Display -->
+    <div class="topic-display" id="topicDisplay">
+      <div class="topic-category-badge" id="topicCatBadge">Technology</div>
+      <div class="topic-text" id="topicText">Press "Generate Topic" to get started with your debate practice!</div>
+      <div class="topic-diff-label">Difficulty: <span id="topicDiffLabel">Beginner</span></div>
+    </div>
+
+    <button class="generate-btn" onclick="generateTopic()">🎲 Generate New Topic</button>
+
+    <div class="btn-row">
+      <button class="secondary-btn" onclick="saveTopic()">🔖 Save Topic</button>
+      <button class="secondary-btn" onclick="copyTopic()">📋 Copy Topic</button>
+      <button class="secondary-btn" onclick="useInArguments()">💡 Use in Arguments</button>
+    </div>
+
+    <!-- Saved Topics -->
+    <div class="saved-section">
+      <div class="saved-title">📌 Saved Topics</div>
+      <div class="saved-list" id="savedList">
+        <div style="font-size:0.82rem; color:var(--text-muted); padding:10px 0;">No topics saved yet. Generate and save topics to practice later.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════
+     PAGE: ARGUMENT BUILDER
+══════════════════════════════ -->
+<div class="page" id="page-arguments">
+  <div class="container">
+    <div class="module-header">
+      <div class="module-title">💡 Argument Builder</div>
+      <div class="module-desc">Structure your debate arguments using guided prompts. Supports the NCF 2023 emphasis on analytical and reflective thinking.</div>
+    </div>
+
+    <input type="text" class="arg-topic-input" id="argTopicInput" placeholder="Enter your debate topic here (or use one from Topic Generator)...">
+
+    <!-- Side Selection -->
+    <div style="font-size:0.82rem; color:var(--text-muted); margin-bottom:10px; font-weight:500;">Choose your side:</div>
+    <div class="side-selector">
+      <div class="side-card pro" id="sideProCard" onclick="selectSide('pro')">
+        <div class="side-icon">✅</div>
+        <div class="side-label" style="color:var(--accent-teal)">PRO / FOR</div>
+        <div style="font-size:0.72rem; color:var(--text-muted); margin-top:4px;">Supporting side</div>
+      </div>
+      <div class="side-card con" id="sideConCard" onclick="selectSide('con')">
+        <div class="side-icon">❌</div>
+        <div class="side-label" style="color:var(--accent-red)">CON / AGAINST</div>
+        <div style="font-size:0.72rem; color:var(--text-muted); margin-top:4px;">Opposing side</div>
+      </div>
+    </div>
+
+    <!-- Argument Prompts -->
+    <div style="font-size:0.82rem; color:var(--text-muted); margin-bottom:12px; font-weight:500;">Click any prompt to add it to your notes:</div>
+    <div class="prompts-grid" id="promptsGrid"></div>
+
+    <!-- Notes Area -->
+    <div style="font-size:0.82rem; color:var(--text-muted); margin-bottom:8px; font-weight:500;">📝 Your Argument Notes:</div>
+    <textarea class="notes-area" id="notesArea" placeholder="Write your arguments here. Use the prompts above as a guide..."></textarea>
+
+    <div class="btn-row">
+      <button class="secondary-btn" onclick="saveNotes()">💾 Save Notes</button>
+      <button class="secondary-btn" onclick="clearNotes()">🗑 Clear</button>
+      <button class="secondary-btn" onclick="copyNotes()">📋 Copy</button>
+    </div>
+
+    <div id="savedNotesSection" style="margin-top:24px; display:none;">
+      <div class="saved-title">Saved Argument Notes</div>
+      <div id="savedNotesList" class="saved-list"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════
+     PAGE: DEBATE TIMER
+══════════════════════════════ -->
+<div class="page" id="page-timer">
+  <div class="container">
+    <div class="module-header">
+      <div class="module-title">⏱ Debate Timer</div>
+      <div class="module-desc">Simulate real debate conditions with structured speaking time. Practicing under time constraints builds the communication skills central to NEP 2020.</div>
+    </div>
+
+    <!-- Timer Mode Selection -->
+    <div class="timer-modes">
+      <button class="timer-mode-btn active" onclick="setTimerMode(this, 'standard')" data-mode="standard">📢 Standard (1+2+1 min)</button>
+      <button class="timer-mode-btn" onclick="setTimerMode(this, 'quick')" data-mode="quick">⚡ Quick (30s+1min+30s)</button>
+      <button class="timer-mode-btn" onclick="setTimerMode(this, 'extended')" data-mode="extended">🎓 Extended (2+3+2 min)</button>
+      <button class="timer-mode-btn" onclick="setTimerMode(this, 'custom')" data-mode="custom">⚙ Custom</button>
+    </div>
+
+    <!-- Custom time inputs -->
+    <div id="customTimeInputs" style="display:none; background:var(--bg-card); border:1px solid var(--border); border-radius:var(--radius); padding:16px; margin-bottom:16px; display:none;">
+      <div style="display:grid; grid-template-columns:1fr 1fr 1fr; gap:12px;">
+        <div>
+          <div style="font-size:0.72rem; color:var(--text-muted); margin-bottom:6px;">Prep (sec)</div>
+          <input type="number" id="customPrep" value="60" min="10" max="600" style="width:100%; background:var(--bg-deep); border:1px solid var(--border); border-radius:8px; padding:8px; color:var(--text-primary); font-size:0.9rem;">
+        </div>
+        <div>
+          <div style="font-size:0.72rem; color:var(--text-muted); margin-bottom:6px;">Speech (sec)</div>
+          <input type="number" id="customSpeech" value="120" min="10" max="600" style="width:100%; background:var(--bg-deep); border:1px solid var(--border); border-radius:8px; padding:8px; color:var(--text-primary); font-size:0.9rem;">
+        </div>
+        <div>
+          <div style="font-size:0.72rem; color:var(--text-muted); margin-bottom:6px;">Rebuttal (sec)</div>
+          <input type="number" id="customRebuttal" value="60" min="10" max="600" style="width:100%; background:var(--bg-deep); border:1px solid var(--border); border-radius:8px; padding:8px; color:var(--text-primary); font-size:0.9rem;">
+        </div>
+      </div>
+    </div>
+
+    <!-- Timer Display -->
+    <div class="timer-display">
+      <div class="timer-ring-wrap">
+        <svg width="200" height="200" viewBox="0 0 200 200">
+          <circle class="timer-circle-bg" cx="100" cy="100" r="90"/>
+          <circle class="timer-circle" id="timerCircle" cx="100" cy="100" r="90"
+            stroke-dasharray="565.49"
+            stroke-dashoffset="0"/>
+        </svg>
+        <div class="timer-text">
+          <div class="timer-digits" id="timerDigits">1:00</div>
+          <div class="timer-phase" id="timerPhase">PREPARATION</div>
+        </div>
+      </div>
+
+      <div class="timer-btns">
+        <button class="timer-action btn-start" id="startBtn" onclick="startTimer()">▶ Start</button>
+        <button class="timer-action btn-pause" id="pauseBtn" onclick="pauseTimer()" style="display:none">⏸ Pause</button>
+        <button class="timer-action btn-reset" onclick="resetTimer()">↺ Reset</button>
+      </div>
+    </div>
+
+    <!-- Phases Legend -->
+    <div class="phases-legend" id="phasesLegend">
+      <div class="phases-title">Session Structure</div>
+      <div id="phaseRows"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════
+     PAGE: PRO vs CON
+══════════════════════════════ -->
+<div class="page" id="page-procon">
+  <div class="container">
+    <div class="module-header">
+      <div class="module-title">⚖️ Pro vs Con Mode</div>
+      <div class="module-desc">Get assigned a random topic and side. Defending either position strengthens multi-perspective thinking aligned with NCF 2023's reflective learning goals.</div>
+    </div>
+
+    <div class="pvc-card">
+      <div class="topic-category-badge" id="pvcCatBadge">Topic</div>
+      <div class="pvc-topic" id="pvcTopic">Press "Assign Me a Topic" to begin your challenge!</div>
+      <div class="pvc-side-badge pro" id="pvcSideBadge" style="display:none;"></div>
+      <div class="pvc-instructions" id="pvcInstructions" style="display:none;"></div>
+      <button class="generate-btn" onclick="assignPVC()" style="max-width:300px; margin:0 auto;">🎲 Assign Me a Topic & Side</button>
+    </div>
+
+    <!-- Brainstorm prompts that appear after assignment -->
+    <div id="pvcBrainstorm" style="display:none;">
+      <div style="font-size:0.85rem; color:var(--text-muted); font-weight:600; margin-bottom:12px; text-transform:uppercase; letter-spacing:1px;">Brainstorm Prompts</div>
+      <div class="prompts-grid" id="pvcPromptGrid"></div>
+      <div style="font-size:0.82rem; color:var(--text-muted); margin:16px 0 8px; font-weight:500;">📝 Your Response Notes:</div>
+      <textarea class="notes-area" id="pvcNotes" placeholder="Brainstorm your arguments here..."></textarea>
+      <div class="btn-row">
+        <button class="secondary-btn" onclick="savePVCNotes()">💾 Save</button>
+        <button class="secondary-btn" onclick="assignPVC()">🔄 New Challenge</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════
+     PAGE: PROGRESS
+══════════════════════════════ -->
+<div class="page" id="page-progress">
+  <div class="container">
+    <div class="module-header">
+      <div class="module-title">📊 Your Progress</div>
+      <div class="module-desc">Track your debate practice journey. Regular practice builds the communication and reasoning competencies assessed by PARAKH.</div>
+    </div>
+
+    <!-- Author small card -->
+    <div class="author-card" style="margin-bottom:28px;">
+      <img class="author-photo" src="author.jpg" alt="Mateen Yousuf" onerror="this.style.display='none'">
+      <div>
+        <div class="author-name">Mateen Yousuf</div>
+        <div class="author-title">Teacher – School Education Department, J&K</div>
+        <div style="font-size:0.72rem; color:var(--text-muted); margin-top:3px;">DebateMind · NEP 2020 & NCF 2023 Aligned</div>
+      </div>
+    </div>
+
+    <!-- Stats -->
+    <div class="stats-grid" id="statsGrid"></div>
+
+    <!-- Badges -->
+    <div style="font-size:0.8rem; color:var(--text-muted); font-weight:600; letter-spacing:1px; text-transform:uppercase; margin-bottom:14px;">🏅 Achievement Badges</div>
+    <div class="badges-grid" id="badgesGrid"></div>
+
+    <!-- Reset button -->
+    <div style="margin-top:28px; text-align:center;">
+      <button class="secondary-btn" onclick="resetProgress()" style="color:var(--accent-red); border-color:rgba(231,76,60,0.3);">⚠ Reset All Progress</button>
+    </div>
+  </div>
+</div>
+
+<!-- Toast -->
+<div class="toast" id="toast"></div>
+
+<!-- Install Banner -->
+<div class="install-banner" id="installBanner">
+  <div class="install-text">
+    <strong>Install DebateMind</strong>
+    Add to Home Screen for offline access
+  </div>
+  <div class="install-btn-group">
+    <button class="install-btn btn-install-yes" onclick="installApp()">Install</button>
+    <button class="install-btn btn-install-no" onclick="closeInstall()">Later</button>
+  </div>
+</div>
+
+<script>
+/* =============================================
+   DEBATEMIND – COMPLETE JAVASCRIPT
+   NEP 2020 & NCF 2023 Aligned PWA
+   Author: Mateen Yousuf, Teacher – SED, J&K
+   ============================================= */
+
+// ── PWA SERVICE WORKER REGISTRATION ──
+// Uses an inline blob URL so registration never fails with a 404,
+// whether the app is opened from a file, Claude preview, or a real server.
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    // First try the external file (works when hosted properly)
+    navigator.serviceWorker.register('service-worker.js')
+      .then(() => {/* registered via file */})
+      .catch(() => {
+        // Fallback: register an inline service worker via Blob URL
+        const swCode = `
+const CACHE = 'debatemind-v1';
+const FILES = ['./'];
+self.addEventListener('install', e => {
+  e.waitUntil(caches.open(CACHE).then(c => c.addAll(FILES)).then(() => self.skipWaiting()));
+});
+self.addEventListener('activate', e => {
+  e.waitUntil(caches.keys().then(keys =>
+    Promise.all(keys.filter(k => k !== CACHE).map(k => caches.delete(k)))
+  ).then(() => self.clients.claim()));
+});
+self.addEventListener('fetch', e => {
+  e.respondWith(caches.match(e.request).then(r => r || fetch(e.request).catch(() => caches.match('./'))));
+});`;
+        try {
+          const blob = new Blob([swCode], { type: 'application/javascript' });
+          const url  = URL.createObjectURL(blob);
+          navigator.serviceWorker.register(url, { scope: './' })
+            .then(() => URL.revokeObjectURL(url))
+            .catch(() => {/* silently skip in restricted environments */});
+        } catch(e) { /* silently skip */ }
+      });
+  });
+}
+
+// ── INSTALL PROMPT ──
+let deferredPrompt = null;
+window.addEventListener('beforeinstallprompt', e => {
+  e.preventDefault();
+  deferredPrompt = e;
+  setTimeout(() => document.getElementById('installBanner').classList.add('show'), 3000);
+});
+
+function installApp() {
+  if (deferredPrompt) { deferredPrompt.prompt(); deferredPrompt = null; }
+  closeInstall();
+}
+function closeInstall() { document.getElementById('installBanner').classList.remove('show'); }
+
+// ── TOAST ──
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 2500);
+}
+
+// ── PAGE NAVIGATION ──
+function showPage(id) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
+  document.getElementById('page-' + id).classList.add('active');
+  const idx = ['home','generator','arguments','timer','procon','progress'].indexOf(id);
+  document.querySelectorAll('.nav-tab')[idx].classList.add('active');
+  window.scrollTo(0, 0);
+  if (id === 'progress') renderProgress();
+  if (id === 'arguments') renderPrompts();
+}
+
+// ══════════════════════════════════
+// TOPIC DATA
+// ══════════════════════════════════
+const TOPICS = {
+  technology: {
+    beginner: [
+      "Social media does more good than harm for students.",
+      "Mobile phones should be allowed in classrooms.",
+      "Video games can be educational.",
+      "Technology makes communication better.",
+      "Online learning is effective for school students."
+    ],
+    intermediate: [
+      "Artificial intelligence will create more jobs than it destroys.",
+      "Social media platforms should be regulated by the government.",
+      "Technology has made human relationships weaker.",
+      "Screen time limits should be enforced for teenagers.",
+      "Online education can fully replace traditional classroom learning."
+    ],
+    advanced: [
+      "Artificial intelligence should be subject to global regulation and ethical oversight.",
+      "The right to digital privacy outweighs national security concerns.",
+      "Social media algorithms are responsible for increasing polarisation in society.",
+      "Autonomous vehicles should have priority on public roads over human-driven cars.",
+      "Countries should develop sovereign AI rather than depend on foreign technology."
+    ]
+  },
+  education: {
+    beginner: [
+      "Homework should be abolished for primary school students.",
+      "Exams are the best way to test student knowledge.",
+      "All subjects should be taught in mother tongue.",
+      "Co-education schools are better for student development.",
+      "Sports should be compulsory in every school."
+    ],
+    intermediate: [
+      "Standardised examinations fail to measure true student potential.",
+      "NEP 2020 will transform India's education system for the better.",
+      "Vocational education should be given equal status to academic education.",
+      "Private schools provide better quality education than government schools.",
+      "Student assessment should focus on competencies rather than memorisation."
+    ],
+    advanced: [
+      "NCF 2023's holistic and integrated learning approach is more effective than subject-based instruction.",
+      "The commercialisation of higher education undermines the principles of NEP 2020.",
+      "Competency-based assessment as proposed by PARAKH is superior to traditional grading systems.",
+      "Universal access to quality education is a stronger driver of national development than economic growth.",
+      "Multilingual education is essential to preserving India's cultural diversity while ensuring academic excellence."
+    ]
+  },
+  environment: {
+    beginner: [
+      "Plastic bags should be completely banned.",
+      "Planting trees is the best way to fight climate change.",
+      "Every citizen should reduce their carbon footprint.",
+      "Electric vehicles are better than petrol vehicles.",
+      "Zoos are harmful to wild animals."
+    ],
+    intermediate: [
+      "Developed nations have a greater responsibility to address climate change than developing ones.",
+      "Nuclear energy is a safer and cleaner alternative to fossil fuels.",
+      "Governments should impose heavy taxes on carbon emissions.",
+      "Individual actions cannot meaningfully address climate change without systemic policy change.",
+      "Sustainable development goals can be achieved without compromising economic growth."
+    ],
+    advanced: [
+      "Climate justice requires wealthy nations to pay climate reparations to vulnerable developing countries.",
+      "Geoengineering interventions pose greater risks than the climate crisis they aim to solve.",
+      "Biodiversity conservation should take precedence over industrial development in ecologically sensitive zones.",
+      "Carbon offsetting is an ineffective distraction from real emissions reduction commitments.",
+      "The environmental cost of digital technology is being dangerously underestimated."
+    ]
+  },
+  society: {
+    beginner: [
+      "Joint families are better than nuclear families.",
+      "Television has more negative effects than positive ones on children.",
+      "Reading books is more valuable than watching videos.",
+      "Cities are better places to live than villages.",
+      "Uniforms should be compulsory in schools."
+    ],
+    intermediate: [
+      "Social media influencers have a negative impact on youth culture.",
+      "Gender equality is best achieved through policy rather than cultural change.",
+      "Urban migration is destroying rural communities.",
+      "Reservation policies should continue beyond the current framework.",
+      "Media freedom is essential to a functioning democracy."
+    ],
+    advanced: [
+      "Economic inequality is a greater threat to democracy than political authoritarianism.",
+      "Affirmative action policies perpetuate rather than resolve systemic discrimination.",
+      "The caste system's legacy continues to undermine India's democratic ideals.",
+      "Global migration benefits host countries more than source countries.",
+      "Social media has fundamentally weakened democratic discourse rather than strengthened it."
+    ]
+  },
+  ethics: {
+    beginner: [
+      "Lying is always wrong, even to protect someone's feelings.",
+      "Animals deserve the same rights as humans.",
+      "It is never right to break the law.",
+      "Success is more important than how you achieve it.",
+      "Helping others is more important than helping yourself."
+    ],
+    intermediate: [
+      "The ends can sometimes justify the means.",
+      "Capital punishment is never morally justifiable.",
+      "Whistleblowing is a moral duty even when it harms institutions.",
+      "Individual freedom should always be limited by the common good.",
+      "Moral values should be universal and not relative to culture."
+    ],
+    advanced: [
+      "Moral obligations to future generations should constrain present economic decisions.",
+      "Algorithmic decision-making in criminal justice violates fundamental principles of fairness.",
+      "The right to die with dignity is a fundamental human right that should be legally recognised.",
+      "Patriotism is a virtue that conflicts with our obligations as global citizens.",
+      "Intellectual property rights hinder rather than promote human progress."
+    ]
+  }
+};
+
+// ── TOPIC GENERATOR STATE ──
+let currentCat = 'all';
+let currentDiff = 'beginner';
+let currentTopic = '';
+let savedTopics = JSON.parse(localStorage.getItem('dm_saved_topics') || '[]');
+
+function setCat(btn, cat) {
+  document.querySelectorAll('.cat-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  currentCat = cat;
+}
+
+function setDiff(btn, diff) {
+  document.querySelectorAll('.diff-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  currentDiff = diff;
+}
+
+function generateTopic() {
+  const cats = currentCat === 'all' ? Object.keys(TOPICS) : [currentCat];
+  const cat = cats[Math.floor(Math.random() * cats.length)];
+  const pool = TOPICS[cat][currentDiff];
+  const topic = pool[Math.floor(Math.random() * pool.length)];
+
+  const textEl = document.getElementById('topicText');
+  textEl.style.opacity = '0';
+  setTimeout(() => {
+    textEl.textContent = topic;
+    textEl.style.opacity = '1';
+    document.getElementById('topicCatBadge').textContent = cat.charAt(0).toUpperCase() + cat.slice(1);
+    document.getElementById('topicDiffLabel').textContent = currentDiff.charAt(0).toUpperCase() + currentDiff.slice(1);
+    currentTopic = topic;
+    // Track generation
+    incrementStat('topicsGenerated');
+  }, 200);
+}
+
+function saveTopic() {
+  if (!currentTopic || currentTopic.includes('Press')) { showToast('⚠ Generate a topic first!'); return; }
+  if (savedTopics.includes(currentTopic)) { showToast('Already saved!'); return; }
+  savedTopics.push(currentTopic);
+  localStorage.setItem('dm_saved_topics', JSON.stringify(savedTopics));
+  renderSavedTopics();
+  showToast('✅ Topic saved!');
+  incrementStat('topicsSaved');
+}
+
+function copyTopic() {
+  if (!currentTopic || currentTopic.includes('Press')) { showToast('⚠ Generate a topic first!'); return; }
+  navigator.clipboard ? navigator.clipboard.writeText(currentTopic).then(()=>showToast('📋 Copied!')) : showToast('📋 Copy: ' + currentTopic);
+}
+
+function useInArguments() {
+  if (!currentTopic || currentTopic.includes('Press')) { showToast('⚠ Generate a topic first!'); return; }
+  document.getElementById('argTopicInput').value = currentTopic;
+  showPage('arguments');
+  showToast('💡 Topic loaded in Arguments!');
+}
+
+function deleteSavedTopic(idx) {
+  savedTopics.splice(idx, 1);
+  localStorage.setItem('dm_saved_topics', JSON.stringify(savedTopics));
+  renderSavedTopics();
+  showToast('🗑 Removed');
+}
+
+function renderSavedTopics() {
+  const list = document.getElementById('savedList');
+  if (!savedTopics.length) {
+    list.innerHTML = '<div style="font-size:0.82rem;color:var(--text-muted);padding:10px 0;">No topics saved yet.</div>';
+    return;
+  }
+  list.innerHTML = savedTopics.map((t,i) => `
+    <div class="saved-item">
+      <div class="saved-item-text">${t}</div>
+      <button class="del-btn" onclick="deleteSavedTopic(${i})">✕</button>
+    </div>
+  `).join('');
+}
+
+// ══════════════════════════════════
+// ARGUMENT BUILDER
+// ══════════════════════════════════
+let currentSide = 'pro';
+let savedNotes = JSON.parse(localStorage.getItem('dm_saved_notes') || '[]');
+
+const PROMPTS = {
+  pro: [
+    { num:'01', q:'What are the three strongest arguments in FAVOUR of this topic?' },
+    { num:'02', q:'What evidence or real-world examples support this position?' },
+    { num:'03', q:'How does accepting this position benefit society or individuals?' },
+    { num:'04', q:'What would change for the better if this argument were accepted?' },
+    { num:'05', q:'How would you respond to the most common objection to this view?' },
+    { num:'06', q:'Which values or principles support this position (fairness, freedom, progress…)?' },
+  ],
+  con: [
+    { num:'01', q:'What are the three strongest arguments AGAINST this topic?' },
+    { num:'02', q:'What evidence or examples contradict the opposing claim?' },
+    { num:'03', q:'What are the risks or dangers of accepting the opposing view?' },
+    { num:'04', q:'Who is harmed if the opposing argument is accepted?' },
+    { num:'05', q:'What alternatives exist that better address the issue?' },
+    { num:'06', q:'Which values or principles support the opposing position (caution, equity, rights…)?' },
+  ]
+};
+
+function selectSide(side) {
+  currentSide = side;
+  document.getElementById('sideProCard').classList.toggle('selected', side === 'pro');
+  document.getElementById('sideConCard').classList.toggle('selected', side === 'con');
+  renderPrompts();
+}
+
+function renderPrompts() {
+  const grid = document.getElementById('promptsGrid');
+  grid.innerHTML = PROMPTS[currentSide].map(p => `
+    <div class="prompt-card" onclick="addPromptToNotes('${p.q.replace(/'/g,"\\'")}')">
+      <div class="prompt-num">PROMPT ${p.num}</div>
+      <div class="prompt-q">${p.q}</div>
+    </div>
+  `).join('');
+}
+
+function addPromptToNotes(text) {
+  const area = document.getElementById('notesArea');
+  area.value += (area.value ? '\n\n' : '') + '→ ' + text + '\n';
+  area.focus();
+  showToast('📝 Prompt added!');
+}
+
+function saveNotes() {
+  const topic = document.getElementById('argTopicInput').value.trim();
+  const notes = document.getElementById('notesArea').value.trim();
+  if (!notes) { showToast('⚠ Write some notes first!'); return; }
+  const entry = { topic: topic || 'Untitled', side: currentSide, notes, date: new Date().toLocaleDateString() };
+  savedNotes.unshift(entry);
+  if (savedNotes.length > 20) savedNotes.pop();
+  localStorage.setItem('dm_saved_notes', JSON.stringify(savedNotes));
+  renderSavedNotes();
+  showToast('✅ Notes saved!');
+  incrementStat('argumentsSaved');
+}
+
+function clearNotes() {
+  document.getElementById('notesArea').value = '';
+  showToast('🗑 Cleared');
+}
+
+function copyNotes() {
+  const n = document.getElementById('notesArea').value;
+  if (!n) { showToast('⚠ Nothing to copy!'); return; }
+  navigator.clipboard ? navigator.clipboard.writeText(n).then(()=>showToast('📋 Copied!')) : showToast('Done!');
+}
+
+function renderSavedNotes() {
+  const sec = document.getElementById('savedNotesSection');
+  const list = document.getElementById('savedNotesList');
+  if (!savedNotes.length) { sec.style.display='none'; return; }
+  sec.style.display = 'block';
+  list.innerHTML = savedNotes.map((n,i) => `
+    <div class="saved-item" style="flex-direction:column; align-items:flex-start; gap:6px;">
+      <div style="font-size:0.72rem;color:var(--accent-gold);font-weight:700;">${n.topic} · ${n.side.toUpperCase()} · ${n.date}</div>
+      <div class="saved-item-text" style="font-size:0.8rem;color:var(--text-muted);white-space:pre-wrap;">${n.notes.substring(0,200)}${n.notes.length>200?'…':''}</div>
+    </div>
+  `).join('');
+}
+
+// ══════════════════════════════════
+// TIMER
+// ══════════════════════════════════
+const TIMER_MODES = {
+  standard: { phases: [{ name:'Preparation', secs:60, color:'#3a7bd5' }, { name:'Speech', secs:120, color:'#c9a84c' }, { name:'Rebuttal', secs:60, color:'#00c9a7' }] },
+  quick:    { phases: [{ name:'Preparation', secs:30, color:'#3a7bd5' }, { name:'Speech', secs:60, color:'#c9a84c' }, { name:'Rebuttal', secs:30, color:'#00c9a7' }] },
+  extended: { phases: [{ name:'Preparation', secs:120, color:'#3a7bd5' }, { name:'Speech', secs:180, color:'#c9a84c' }, { name:'Rebuttal', secs:120, color:'#00c9a7' }] },
+  custom:   { phases: [] }
+};
+
+let timerMode = 'standard';
+let timerPhaseIndex = 0;
+let timerSeconds = 0;
+let timerTotal = 0;
+let timerInterval = null;
+let timerRunning = false;
+let timerPhases = [];
+
+function setTimerMode(btn, mode) {
+  document.querySelectorAll('.timer-mode-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  timerMode = mode;
+  const customDiv = document.getElementById('customTimeInputs');
+  customDiv.style.display = mode === 'custom' ? 'block' : 'none';
+  resetTimer();
+}
+
+function getPhases() {
+  if (timerMode === 'custom') {
+    return [
+      { name:'Preparation', secs: parseInt(document.getElementById('customPrep').value)||60, color:'#3a7bd5' },
+      { name:'Speech', secs: parseInt(document.getElementById('customSpeech').value)||120, color:'#c9a84c' },
+      { name:'Rebuttal', secs: parseInt(document.getElementById('customRebuttal').value)||60, color:'#00c9a7' }
+    ];
+  }
+  return TIMER_MODES[timerMode].phases;
+}
+
+function resetTimer() {
+  clearInterval(timerInterval);
+  timerRunning = false;
+  timerPhaseIndex = 0;
+  timerPhases = getPhases();
+  timerSeconds = timerPhases[0].secs;
+  timerTotal = timerPhases[0].secs;
+  document.getElementById('startBtn').style.display = 'inline-block';
+  document.getElementById('pauseBtn').style.display = 'none';
+  document.getElementById('timerDigits').parentElement.parentElement.parentElement.classList.remove('timer-active');
+  updateTimerDisplay();
+  renderPhaseLegend();
+}
+
+function startTimer() {
+  if (timerRunning) return;
+  timerPhases = getPhases();
+  timerRunning = true;
+  document.getElementById('startBtn').style.display = 'none';
+  document.getElementById('pauseBtn').style.display = 'inline-block';
+  document.querySelector('.timer-display').classList.add('timer-active');
+  timerInterval = setInterval(timerTick, 1000);
+  incrementStat('sessionsCompleted');
+}
+
+function pauseTimer() {
+  clearInterval(timerInterval);
+  timerRunning = false;
+  document.getElementById('startBtn').style.display = 'inline-block';
+  document.getElementById('pauseBtn').style.display = 'none';
+  document.querySelector('.timer-display').classList.remove('timer-active');
+}
+
+function timerTick() {
+  timerSeconds--;
+  if (timerSeconds < 0) {
+    timerPhaseIndex++;
+    if (timerPhaseIndex >= timerPhases.length) {
+      clearInterval(timerInterval);
+      timerRunning = false;
+      document.querySelector('.timer-display').classList.remove('timer-active');
+      document.getElementById('timerDigits').textContent = 'Done!';
+      document.getElementById('timerPhase').textContent = 'SESSION COMPLETE';
+      document.getElementById('startBtn').style.display = 'inline-block';
+      document.getElementById('pauseBtn').style.display = 'none';
+      showToast('🎉 Debate session complete!');
+      return;
+    }
+    timerSeconds = timerPhases[timerPhaseIndex].secs;
+    timerTotal = timerSeconds;
+    showToast('▶ Now: ' + timerPhases[timerPhaseIndex].name);
+  }
+  updateTimerDisplay();
+}
+
+function updateTimerDisplay() {
+  const ph = timerPhases[timerPhaseIndex] || timerPhases[0];
+  const m = Math.floor(timerSeconds / 60);
+  const s = timerSeconds % 60;
+  document.getElementById('timerDigits').textContent = m + ':' + String(s).padStart(2,'0');
+  document.getElementById('timerPhase').textContent = (ph ? ph.name : 'DONE').toUpperCase();
+
+  const circumference = 565.49;
+  const progress = timerSeconds / timerTotal;
+  const offset = circumference * (1 - progress);
+  const circle = document.getElementById('timerCircle');
+  circle.style.strokeDashoffset = offset;
+  circle.style.stroke = ph ? ph.color : 'var(--accent-gold)';
+}
+
+function renderPhaseLegend() {
+  const phases = getPhases();
+  document.getElementById('phaseRows').innerHTML = phases.map(p => {
+    const m = Math.floor(p.secs/60), s = p.secs%60;
+    const timeStr = m > 0 ? m + ' min' + (s?' '+s+'s':'') : s + ' sec';
+    return `<div class="phase-row">
+      <div class="phase-dot" style="background:${p.color}"></div>
+      <div class="phase-name">${p.name}</div>
+      <div class="phase-time">${timeStr}</div>
+    </div>`;
+  }).join('');
+}
+
+// ══════════════════════════════════
+// PRO vs CON
+// ══════════════════════════════════
+function assignPVC() {
+  const cats = Object.keys(TOPICS);
+  const cat = cats[Math.floor(Math.random() * cats.length)];
+  const diffs = ['beginner','intermediate','advanced'];
+  const diff = diffs[Math.floor(Math.random() * diffs.length)];
+  const pool = TOPICS[cat][diff];
+  const topic = pool[Math.floor(Math.random() * pool.length)];
+  const side = Math.random() > 0.5 ? 'pro' : 'con';
+
+  document.getElementById('pvcTopic').textContent = topic;
+  document.getElementById('pvcCatBadge').textContent = cat.charAt(0).toUpperCase()+cat.slice(1) + ' · ' + diff.charAt(0).toUpperCase()+diff.slice(1);
+
+  const badge = document.getElementById('pvcSideBadge');
+  badge.textContent = side === 'pro' ? '✅ PRO – SUPPORTING SIDE' : '❌ CON – OPPOSING SIDE';
+  badge.className = 'pvc-side-badge ' + side;
+  badge.style.display = 'inline-block';
+
+  const instructions = document.getElementById('pvcInstructions');
+  instructions.style.display = 'block';
+  instructions.textContent = side === 'pro'
+    ? 'You are on the PRO side. Your goal is to defend and support this topic. Build arguments that demonstrate its benefits, provide evidence, and counter objections.'
+    : 'You are on the CON side. Your goal is to argue against this topic. Identify its flaws, risks, and unintended consequences, and present a compelling counter-position.';
+
+  document.getElementById('pvcBrainstorm').style.display = 'block';
+
+  const PVCPROMPTS = side === 'pro' ? PROMPTS.pro : PROMPTS.con;
+  document.getElementById('pvcPromptGrid').innerHTML = PVCPROMPTS.slice(0,4).map(p => `
+    <div class="prompt-card" onclick="addToPVCNotes('${p.q.replace(/'/g,"\\'")}')">
+      <div class="prompt-num">PROMPT ${p.num}</div>
+      <div class="prompt-q">${p.q}</div>
+    </div>
+  `).join('');
+
+  document.getElementById('pvcNotes').value = '';
+  incrementStat('pvcSessions');
+}
+
+function addToPVCNotes(text) {
+  const area = document.getElementById('pvcNotes');
+  area.value += (area.value ? '\n\n' : '') + '→ ' + text + '\n';
+}
+
+function savePVCNotes() {
+  const notes = document.getElementById('pvcNotes').value.trim();
+  if (!notes) { showToast('⚠ Write something first!'); return; }
+  // Reuse argument notes storage
+  const topic = document.getElementById('pvcTopic').textContent;
+  savedNotes.unshift({ topic, side: 'PvC', notes, date: new Date().toLocaleDateString() });
+  if (savedNotes.length > 20) savedNotes.pop();
+  localStorage.setItem('dm_saved_notes', JSON.stringify(savedNotes));
+  showToast('✅ Saved!');
+}
+
+// ══════════════════════════════════
+// PROGRESS & STATS
+// ══════════════════════════════════
+const BADGES = [
+  { id:'first_topic', emoji:'🎯', name:'First Debate', req:'Generate 1 topic', threshold:1, stat:'topicsGenerated' },
+  { id:'active_debater', emoji:'🗣', name:'Active Debater', req:'Generate 10 topics', threshold:10, stat:'topicsGenerated' },
+  { id:'bookworm', emoji:'🔖', name:'Topic Collector', req:'Save 5 topics', threshold:5, stat:'topicsSaved' },
+  { id:'arguer', emoji:'💡', name:'Argument Builder', req:'Save 3 arguments', threshold:3, stat:'argumentsSaved' },
+  { id:'timer_master', emoji:'⏱', name:'Time Keeper', req:'Complete 5 sessions', threshold:5, stat:'sessionsCompleted' },
+  { id:'pvcer', emoji:'⚖️', name:'Dual Thinker', req:'Play 3 Pro vs Con', threshold:3, stat:'pvcSessions' },
+  { id:'champion', emoji:'🏆', name:'Debate Champion', req:'20 topics generated', threshold:20, stat:'topicsGenerated' },
+  { id:'scholar', emoji:'📚', name:'Critical Scholar', req:'All modules used', threshold:1, stat:'allModules' },
+];
+
+function getStats() {
+  return JSON.parse(localStorage.getItem('dm_stats') || JSON.stringify({
+    topicsGenerated: 0, topicsSaved: 0, argumentsSaved: 0, sessionsCompleted: 0, pvcSessions: 0, allModules: 0
+  }));
+}
+
+function incrementStat(key) {
+  const stats = getStats();
+  stats[key] = (stats[key] || 0) + 1;
+  // Check all modules
+  if (stats.topicsGenerated > 0 && stats.argumentsSaved > 0 && stats.sessionsCompleted > 0 && stats.pvcSessions > 0) {
+    stats.allModules = 1;
+  }
+  localStorage.setItem('dm_stats', JSON.stringify(stats));
+  checkBadges(stats);
+}
+
+function checkBadges(stats) {
+  const earned = JSON.parse(localStorage.getItem('dm_badges') || '[]');
+  BADGES.forEach(b => {
+    if (!earned.includes(b.id) && (stats[b.stat] || 0) >= b.threshold) {
+      earned.push(b.id);
+      localStorage.setItem('dm_badges', JSON.stringify(earned));
+      setTimeout(() => showToast('🏅 Badge earned: ' + b.name), 500);
+    }
+  });
+}
+
+function renderProgress() {
+  const stats = getStats();
+  const earned = JSON.parse(localStorage.getItem('dm_badges') || '[]');
+
+  document.getElementById('statsGrid').innerHTML = [
+    { label:'Topics Generated', val: stats.topicsGenerated || 0 },
+    { label:'Topics Saved', val: stats.topicsSaved || 0 },
+    { label:'Arguments Saved', val: stats.argumentsSaved || 0 },
+    { label:'Timer Sessions', val: stats.sessionsCompleted || 0 },
+    { label:'Pro vs Con Rounds', val: stats.pvcSessions || 0 },
+    { label:'Badges Earned', val: earned.length },
+  ].map(s => `
+    <div class="stat-card">
+      <div class="stat-num">${s.val}</div>
+      <div class="stat-label">${s.label}</div>
+    </div>
+  `).join('');
+
+  document.getElementById('badgesGrid').innerHTML = BADGES.map(b => `
+    <div class="badge-item ${earned.includes(b.id) ? 'earned' : 'locked'}">
+      <div class="badge-emoji">${b.emoji}</div>
+      <div class="badge-name">${b.name}</div>
+      <div class="badge-req">${b.req}</div>
+    </div>
+  `).join('');
+}
+
+function resetProgress() {
+  if (!confirm('Reset all progress, badges, and saved data?')) return;
+  localStorage.removeItem('dm_stats');
+  localStorage.removeItem('dm_badges');
+  localStorage.removeItem('dm_saved_topics');
+  localStorage.removeItem('dm_saved_notes');
+  savedTopics = [];
+  savedNotes = [];
+  renderSavedTopics();
+  renderProgress();
+  showToast('✅ Progress reset');
+}
+
+// ══════════════════════════════════
+// INITIALIZATION
+// ══════════════════════════════════
+document.addEventListener('DOMContentLoaded', () => {
+  renderSavedTopics();
+  renderPrompts();
+  selectSide('pro');
+  resetTimer();
+  renderSavedNotes();
+});
+</script>
+</body>
+</html>

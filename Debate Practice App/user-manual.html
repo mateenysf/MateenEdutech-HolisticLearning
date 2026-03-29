@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>User Manual – DebateMind</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Sans:wght@300;400;500;600&display=swap');
+:root {
+  --bg:#050d1a; --bg-card:#0d1f3c; --gold:#c9a84c; --blue:#3a7bd5; --teal:#00c9a7; --red:#e74c3c;
+  --text:#f0e6d3; --muted:#8898aa; --border:rgba(201,168,76,0.2); --r:14px;
+  --ff:'Playfair Display',Georgia,serif; --fb:'DM Sans','Segoe UI',sans-serif;
+}
+* { margin:0; padding:0; box-sizing:border-box; }
+body { background:var(--bg); color:var(--text); font-family:var(--fb); line-height:1.7; }
+body::before { content:''; position:fixed; inset:0; pointer-events:none; background:radial-gradient(ellipse 70% 40% at 80% 20%, rgba(201,168,76,0.06) 0%, transparent 60%); }
+.wrapper { max-width:860px; margin:0 auto; padding:48px 24px 80px; position:relative; z-index:1; }
+
+.doc-header { text-align:center; margin-bottom:48px; padding-bottom:36px; border-bottom:1px solid var(--border); }
+.badge-row { display:flex; flex-wrap:wrap; justify-content:center; gap:8px; margin-bottom:20px; }
+.badge { background:rgba(201,168,76,0.1); border:1px solid var(--border); color:var(--gold); font-size:0.68rem; font-weight:700; letter-spacing:1.5px; text-transform:uppercase; padding:5px 13px; border-radius:50px; }
+h1.doc-title { font-family:var(--ff); font-size:clamp(2rem,5vw,3rem); color:var(--gold); margin-bottom:12px; }
+.doc-subtitle { font-size:0.95rem; color:var(--muted); max-width:580px; margin:0 auto 24px; }
+.author-block { display:inline-flex; align-items:center; gap:16px; background:rgba(255,255,255,0.04); border:1px solid var(--border); border-radius:var(--r); padding:14px 22px; }
+.author-block img { width:56px; height:56px; border-radius:50%; border:2px solid var(--gold); object-fit:cover; }
+.a-name { font-family:var(--ff); font-size:0.95rem; }
+.a-title { font-size:0.72rem; color:var(--gold); font-weight:600; margin-top:2px; }
+
+.toc { background:var(--bg-card); border:1px solid var(--border); border-radius:var(--r); padding:22px 26px; margin-bottom:44px; }
+.toc-title { font-size:0.7rem; font-weight:700; letter-spacing:2px; text-transform:uppercase; color:var(--gold); margin-bottom:12px; }
+.toc ol { padding-left:18px; }
+.toc li { font-size:0.85rem; color:var(--muted); padding:3px 0; }
+.toc a { color:var(--muted); text-decoration:none; transition:color 0.2s; }
+.toc a:hover { color:var(--gold); }
+
+.section { margin-bottom:52px; scroll-margin-top:20px; }
+.sec-label { font-size:0.68rem; font-weight:700; letter-spacing:2px; text-transform:uppercase; color:var(--teal); margin-bottom:8px; }
+h2 { font-family:var(--ff); font-size:clamp(1.4rem,3vw,1.9rem); color:var(--text); margin-bottom:14px; }
+h3 { font-family:var(--ff); font-size:1.1rem; color:var(--gold); margin:22px 0 8px; }
+p { font-size:0.88rem; color:var(--muted); margin-bottom:12px; }
+strong { color:var(--text); font-weight:600; }
+
+.step-list { list-style:none; display:flex; flex-direction:column; gap:10px; margin:14px 0; }
+.step-list li { display:flex; gap:14px; align-items:flex-start; background:var(--bg-card); border:1px solid var(--border); border-radius:var(--r); padding:14px 18px; }
+.step-num { width:28px; height:28px; border-radius:50%; background:var(--blue); color:#fff; font-weight:700; font-size:0.8rem; display:flex; align-items:center; justify-content:center; flex-shrink:0; margin-top:1px; }
+.step-body .s-title { font-size:0.88rem; font-weight:600; color:var(--text); margin-bottom:3px; }
+.step-body .s-desc { font-size:0.8rem; color:var(--muted); }
+
+.tip-box { background:rgba(0,201,167,0.07); border:1px solid rgba(0,201,167,0.25); border-radius:var(--r); padding:14px 18px; margin:14px 0; display:flex; gap:12px; align-items:flex-start; }
+.tip-icon { font-size:1.2rem; flex-shrink:0; }
+.tip-box p { font-size:0.82rem; margin:0; }
+
+.warn-box { background:rgba(201,168,76,0.07); border:1px solid rgba(201,168,76,0.25); border-radius:var(--r); padding:14px 18px; margin:14px 0; display:flex; gap:12px; align-items:flex-start; }
+
+.table-wrap { overflow-x:auto; margin:14px 0; }
+table { width:100%; border-collapse:collapse; font-size:0.82rem; }
+th { background:var(--bg-card); color:var(--gold); font-weight:700; padding:10px 14px; text-align:left; border-bottom:2px solid var(--border); }
+td { padding:10px 14px; border-bottom:1px solid rgba(255,255,255,0.05); color:var(--muted); vertical-align:top; }
+td strong { color:var(--text); }
+tr:last-child td { border-bottom:none; }
+
+.feature-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(200px,1fr)); gap:12px; margin:14px 0; }
+.feat-card { background:var(--bg-card); border:1px solid var(--border); border-radius:var(--r); padding:16px; }
+.feat-card .f-icon { font-size:1.5rem; margin-bottom:8px; }
+.feat-card .f-title { font-size:0.85rem; font-weight:600; margin-bottom:4px; }
+.feat-card .f-desc { font-size:0.76rem; color:var(--muted); line-height:1.5; }
+
+.install-step { background:var(--bg-card); border:1px solid var(--border); border-radius:var(--r); padding:20px; margin:10px 0; }
+.is-platform { font-size:0.7rem; font-weight:700; letter-spacing:1.5px; text-transform:uppercase; color:var(--blue); margin-bottom:8px; }
+.is-title { font-size:0.95rem; font-weight:600; margin-bottom:8px; }
+.is-steps ol { padding-left:18px; }
+.is-steps li { font-size:0.82rem; color:var(--muted); padding:3px 0; }
+
+.back-link { display:inline-flex; align-items:center; gap:8px; color:var(--muted); text-decoration:none; font-size:0.82rem; margin-bottom:32px; transition:color 0.2s; border:1px solid var(--border); padding:8px 16px; border-radius:50px; }
+.back-link:hover { color:var(--gold); border-color:var(--gold); }
+
+@media(max-width:600px) { .wrapper { padding:32px 14px 60px; } }
+</style>
+</head>
+<body>
+<div class="wrapper">
+  <a href="index.html" class="back-link">← Back to DebateMind App</a>
+
+  <div class="doc-header">
+    <div class="badge-row">
+      <span class="badge">User Manual</span>
+      <span class="badge">Complete Guide</span>
+      <span class="badge">NEP 2020 · NCF 2023</span>
+    </div>
+    <h1 class="doc-title">User Manual</h1>
+    <p class="doc-subtitle">Complete guide to every feature, tab, and module of the DebateMind Progressive Web App</p>
+    <div class="author-block">
+      <img src="author.jpg" alt="Mateen Yousuf" onerror="this.style.display='none'">
+      <div>
+        <div class="a-name">Mateen Yousuf</div>
+        <div class="a-title">Teacher – School Education Department, J&K</div>
+        <div style="font-size:0.68rem;color:var(--muted);margin-top:2px;">DebateMind · NEP 2020 & NCF 2023 Aligned</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="toc">
+    <div class="toc-title">Table of Contents</div>
+    <ol>
+      <li><a href="#overview">1. App Overview</a></li>
+      <li><a href="#install">2. Installing the App</a></li>
+      <li><a href="#home">3. Home Tab</a></li>
+      <li><a href="#topics">4. Topic Generator Tab</a></li>
+      <li><a href="#arguments">5. Argument Builder Tab</a></li>
+      <li><a href="#timer">6. Debate Timer Tab</a></li>
+      <li><a href="#procon">7. Pro vs Con Tab</a></li>
+      <li><a href="#progress">8. Progress Tab</a></li>
+      <li><a href="#classroom">9. Using in the Classroom</a></li>
+      <li><a href="#troubleshoot">10. Troubleshooting</a></li>
+    </ol>
+  </div>
+
+  <!-- Section 1: Overview -->
+  <div class="section" id="overview">
+    <div class="sec-label">Section 01</div>
+    <h2>App Overview</h2>
+    <p>DebateMind is a fully offline Progressive Web App (PWA) for debate practice. It runs in any browser, can be installed like a native app on Android or desktop, and works without internet after the first load.</p>
+    <div class="feature-grid">
+      <div class="feat-card"><div class="f-icon">🎯</div><div class="f-title">Topic Generator</div><div class="f-desc">100+ debate topics across 5 categories and 3 difficulty levels.</div></div>
+      <div class="feat-card"><div class="f-icon">💡</div><div class="f-title">Argument Builder</div><div class="f-desc">Guided prompts to structure Pro and Con arguments with note-saving.</div></div>
+      <div class="feat-card"><div class="f-icon">⏱</div><div class="f-title">Debate Timer</div><div class="f-desc">Structured session timers: Standard, Quick, Extended, and Custom modes.</div></div>
+      <div class="feat-card"><div class="f-icon">⚖️</div><div class="f-title">Pro vs Con</div><div class="f-desc">Random topic + side assignment for perspective-taking practice.</div></div>
+      <div class="feat-card"><div class="f-icon">📊</div><div class="f-title">Progress Tracker</div><div class="f-desc">Statistics, achievement badges, and session history stored locally.</div></div>
+      <div class="feat-card"><div class="f-icon">📱</div><div class="f-title">PWA / Offline</div><div class="f-desc">Installs on Android and desktop. Works without internet.</div></div>
+    </div>
+  </div>
+
+  <!-- Section 2: Installing -->
+  <div class="section" id="install">
+    <div class="sec-label">Section 02</div>
+    <h2>Installing the App</h2>
+    <p>DebateMind is a Progressive Web App — it can be installed directly from the browser without visiting any app store.</p>
+
+    <div class="install-step">
+      <div class="is-platform">Android (Chrome)</div>
+      <div class="is-title">📱 Install on Android Phone</div>
+      <div class="is-steps"><ol>
+        <li>Open the app in <strong>Google Chrome</strong> on your Android phone.</li>
+        <li>Wait a few seconds — an <strong>"Install DebateMind"</strong> banner will appear at the bottom.</li>
+        <li>Tap <strong>"Install"</strong>.</li>
+        <li>The app will appear on your Home Screen like a native app.</li>
+        <li>Alternatively: tap the <strong>three-dot menu (⋮)</strong> → "Add to Home Screen".</li>
+      </ol></div>
+    </div>
+
+    <div class="install-step">
+      <div class="is-platform">Desktop (Windows / Mac / Linux)</div>
+      <div class="is-title">🖥 Install on Desktop</div>
+      <div class="is-steps"><ol>
+        <li>Open the app in <strong>Google Chrome</strong> or <strong>Microsoft Edge</strong>.</li>
+        <li>Look for the <strong>install icon (⊕)</strong> in the address bar on the right side.</li>
+        <li>Click it and select <strong>"Install"</strong>.</li>
+        <li>The app will open in its own window, separate from the browser.</li>
+      </ol></div>
+    </div>
+
+    <div class="tip-box">
+      <div class="tip-icon">💡</div>
+      <p><strong>Offline Use:</strong> After the first visit, DebateMind works completely offline. All your topics, notes, and progress are stored on your device and never sent to any server.</p>
+    </div>
+
+    <h3>Running Locally (For Teachers / Developers)</h3>
+    <ol style="padding-left:20px; font-size:0.85rem; color:var(--muted); line-height:2;">
+      <li>Place all files (index.html, manifest.json, service-worker.js, author.jpg) in one folder.</li>
+      <li>Open <strong>VS Code</strong> → install <strong>Live Server</strong> extension → right-click index.html → "Open with Live Server".</li>
+      <li>Or use Python: <code style="background:var(--bg-card);padding:2px 6px;border-radius:4px;font-size:0.8rem;">python -m http.server 8000</code> then visit <code style="background:var(--bg-card);padding:2px 6px;border-radius:4px;font-size:0.8rem;">localhost:8000</code>.</li>
+      <li>Service worker (offline) only works on localhost or HTTPS — not file:// protocol.</li>
+    </ol>
+  </div>
+
+  <!-- Section 3: Home -->
+  <div class="section" id="home">
+    <div class="sec-label">Section 03</div>
+    <h2>Home Tab 🏠</h2>
+    <p>The Home tab is the landing page and entry point of the app. It provides orientation and quick access to all modules.</p>
+    <ul class="step-list">
+      <li><div class="step-num">1</div><div class="step-body"><div class="s-title">Hero Section</div><div class="s-desc">Displays the app tagline, a brief description, and policy alignment badges (NEP 2020, NCF 2023, PARAKH, NCERT).</div></div></li>
+      <li><div class="step-num">2</div><div class="step-body"><div class="s-title">Author Card</div><div class="s-desc">Shows Mateen Yousuf's photo and credentials. This appears on every key page of the app.</div></div></li>
+      <li><div class="step-num">3</div><div class="step-body"><div class="s-title">Quick Access Cards</div><div class="s-desc">Four cards linking directly to each module. Tap any card to navigate instantly.</div></div></li>
+      <li><div class="step-num">4</div><div class="step-body"><div class="s-title">Policy Alignment Box</div><div class="s-desc">Explains the NEP 2020 and NCF 2023 alignment of the app in plain language.</div></div></li>
+    </ul>
+  </div>
+
+  <!-- Section 4: Topics -->
+  <div class="section" id="topics">
+    <div class="sec-label">Section 04</div>
+    <h2>Topic Generator Tab 🎯</h2>
+    <p>This is the core module. It generates debate topics from a curated database of 100+ topics aligned with NCF 2023 thematic learning areas.</p>
+
+    <h3>Category Filter</h3>
+    <p>Select the subject area for your topic. Options: <strong>All Topics, Technology, Education, Environment, Society, Ethics</strong>. Each category maps to real-world issues relevant to students.</p>
+
+    <h3>Difficulty Selector</h3>
+    <div class="table-wrap"><table>
+      <tr><th>Level</th><th>Suitable For</th><th>Example</th></tr>
+      <tr><td>🟢 <strong>Beginner</strong></td><td>Classes 6–8, first-time debaters</td><td>"Mobile phones should be allowed in classrooms."</td></tr>
+      <tr><td>🟡 <strong>Intermediate</strong></td><td>Classes 9–10, some debate experience</td><td>"Standardised examinations fail to measure true student potential."</td></tr>
+      <tr><td>🔴 <strong>Advanced</strong></td><td>Classes 11–12, competitive debate</td><td>"NCF 2023's holistic approach is more effective than subject-based instruction."</td></tr>
+    </table></div>
+
+    <h3>Generating a Topic</h3>
+    <ul class="step-list">
+      <li><div class="step-num">1</div><div class="step-body"><div class="s-title">Select Category & Difficulty</div><div class="s-desc">Choose your desired category (or All) and difficulty level before generating.</div></div></li>
+      <li><div class="step-num">2</div><div class="step-body"><div class="s-title">Press "Generate New Topic"</div><div class="s-desc">A random topic from the selected parameters appears. The topic card shows category, topic text, and difficulty.</div></div></li>
+      <li><div class="step-num">3</div><div class="step-body"><div class="s-title">Action Buttons</div><div class="s-desc"><strong>Save Topic</strong> → stores it in your saved list. <strong>Copy Topic</strong> → copies to clipboard. <strong>Use in Arguments</strong> → sends it to the Argument Builder.</div></div></li>
+      <li><div class="step-num">4</div><div class="step-body"><div class="s-title">Saved Topics List</div><div class="s-desc">Appears below the generator. Saved topics persist across sessions (stored in device memory). Delete any saved topic with the ✕ button.</div></div></li>
+    </ul>
+
+    <div class="tip-box">
+      <div class="tip-icon">🎓</div>
+      <p><strong>Classroom Use:</strong> Teachers can project the app on a screen, generate a topic, and use it as the starting point for a class debate. Use the "Use in Arguments" button to immediately move to structured argument building.</p>
+    </div>
+  </div>
+
+  <!-- Section 5: Arguments -->
+  <div class="section" id="arguments">
+    <div class="sec-label">Section 05</div>
+    <h2>Argument Builder Tab 💡</h2>
+    <p>This module helps students structure their debate arguments using guided prompts. It supports the NCF 2023 emphasis on reflective thinking and analytical reasoning.</p>
+
+    <h3>Topic Input</h3>
+    <p>Type your debate topic in the text field, or use <strong>"Use in Arguments"</strong> from the Topic Generator to pre-fill it automatically.</p>
+
+    <h3>Side Selection</h3>
+    <p>Click <strong>PRO / FOR</strong> (supporting side, teal highlight) or <strong>CON / AGAINST</strong> (opposing side, red highlight). The argument prompts change based on your selection.</p>
+
+    <h3>Argument Prompts</h3>
+    <p>Six guided prompts appear in a grid. Each prompt is a question that scaffolds a different aspect of debate preparation:</p>
+    <div class="table-wrap"><table>
+      <tr><th>Prompt</th><th>Purpose (PRO side)</th><th>Purpose (CON side)</th></tr>
+      <tr><td>01</td><td>List 3 strongest arguments FOR</td><td>List 3 strongest arguments AGAINST</td></tr>
+      <tr><td>02</td><td>Evidence & real-world examples</td><td>Contradicting evidence</td></tr>
+      <tr><td>03</td><td>Benefits to society</td><td>Risks and dangers</td></tr>
+      <tr><td>04</td><td>What would change for the better</td><td>Who is harmed</td></tr>
+      <tr><td>05</td><td>Responding to the main objection</td><td>Alternatives to the opposing view</td></tr>
+      <tr><td>06</td><td>Supporting values (freedom, progress…)</td><td>Opposing values (caution, equity…)</td></tr>
+    </table></div>
+    <p><strong>Click any prompt card</strong> to add it as a heading in your Notes area. Then write your argument beneath it.</p>
+
+    <h3>Notes Area</h3>
+    <p>A large text area for writing out your complete argument. Use the prompts as scaffolding. The <strong>Save Notes</strong> button stores your notes (up to 20 entries) on your device. <strong>Copy</strong> copies to clipboard. <strong>Clear</strong> empties the area.</p>
+
+    <div class="warn-box">
+      <div class="tip-icon">⚠️</div>
+      <p><strong>Important:</strong> Notes are saved per session. Clearing your browser data or using a different device will not show previous notes. Advise students to copy important notes to a text file or notebook.</p>
+    </div>
+  </div>
+
+  <!-- Section 6: Timer -->
+  <div class="section" id="timer">
+    <div class="sec-label">Section 06</div>
+    <h2>Debate Timer Tab ⏱</h2>
+    <p>The Timer module simulates real debate conditions with structured, multi-phase sessions. Practicing under time constraints is essential to developing disciplined speaking skills.</p>
+
+    <h3>Timer Modes</h3>
+    <div class="table-wrap"><table>
+      <tr><th>Mode</th><th>Preparation</th><th>Speech</th><th>Rebuttal</th><th>Best For</th></tr>
+      <tr><td>⚡ <strong>Quick</strong></td><td>30 sec</td><td>1 min</td><td>30 sec</td><td>Warm-up, beginners</td></tr>
+      <tr><td>📢 <strong>Standard</strong></td><td>1 min</td><td>2 min</td><td>1 min</td><td>Regular classroom use</td></tr>
+      <tr><td>🎓 <strong>Extended</strong></td><td>2 min</td><td>3 min</td><td>2 min</td><td>Advanced, competitive practice</td></tr>
+      <tr><td>⚙ <strong>Custom</strong></td><td>User-defined</td><td>User-defined</td><td>User-defined</td><td>Teacher-specific needs</td></tr>
+    </table></div>
+
+    <h3>Using the Timer</h3>
+    <ul class="step-list">
+      <li><div class="step-num">1</div><div class="step-body"><div class="s-title">Select Timer Mode</div><div class="s-desc">Click the mode button matching your session type. For Custom, enter times in seconds in the fields that appear.</div></div></li>
+      <li><div class="step-num">2</div><div class="step-body"><div class="s-title">Press ▶ Start</div><div class="s-desc">The circular progress ring begins counting down. The phase name (PREPARATION / SPEECH / REBUTTAL) shows in the centre.</div></div></li>
+      <li><div class="step-num">3</div><div class="step-body"><div class="s-title">Phase Transitions</div><div class="s-desc">When one phase ends, a toast notification announces the next phase. The ring colour changes per phase (blue → gold → teal).</div></div></li>
+      <li><div class="step-num">4</div><div class="step-body"><div class="s-title">Pause / Reset</div><div class="s-desc">⏸ Pause freezes the timer. ↺ Reset returns to the first phase. Useful between speakers in a class debate.</div></div></li>
+    </ul>
+
+    <h3>The Three Phases Explained</h3>
+    <p><strong>Preparation Phase:</strong> Student silently organises their thoughts and notes. No speaking. Use the Argument Builder before this phase.</p>
+    <p><strong>Speech Phase:</strong> Student delivers their structured argument. Encourage them to state their position, give evidence, and conclude.</p>
+    <p><strong>Rebuttal Phase:</strong> Student responds to the opposing argument. Focus on addressing specific points raised, not repeating the speech.</p>
+
+    <div class="tip-box">
+      <div class="tip-icon">🎓</div>
+      <p><strong>Classroom Use:</strong> Project the timer on the board. Each student runs through all three phases. During preparation phase, others can also note down counterarguments using the Argument Builder.</p>
+    </div>
+  </div>
+
+  <!-- Section 7: Pro vs Con -->
+  <div class="section" id="procon">
+    <div class="sec-label">Section 07</div>
+    <h2>Pro vs Con Tab ⚖️</h2>
+    <p>This module randomly assigns students both a debate topic AND a side (Pro or Con). Defending a randomly assigned position builds perspective-taking ability — a core competency in both NCF 2023 and PARAKH assessments.</p>
+
+    <h3>How to Use</h3>
+    <ul class="step-list">
+      <li><div class="step-num">1</div><div class="step-body"><div class="s-title">Press "Assign Me a Topic & Side"</div><div class="s-desc">The app randomly selects a topic from any category and difficulty, then randomly assigns PRO or CON.</div></div></li>
+      <li><div class="step-num">2</div><div class="step-body"><div class="s-title">Read Your Assignment</div><div class="s-desc">The topic appears in large text. A coloured badge shows your side: teal = PRO, red = CON. Instructions explain your goal.</div></div></li>
+      <li><div class="step-num">3</div><div class="step-body"><div class="s-title">Use Brainstorm Prompts</div><div class="s-desc">Four prompts suited to your assigned side appear below. Click any prompt to add it to your notes area.</div></div></li>
+      <li><div class="step-num">4</div><div class="step-body"><div class="s-title">Write Your Response</div><div class="s-desc">Use the notes area to draft your argument. You have full freedom — use the timer for time pressure.</div></div></li>
+      <li><div class="step-num">5</div><div class="step-body"><div class="s-title">Save or Get New Challenge</div><div class="s-desc">"Save" stores your notes. "New Challenge" generates a completely fresh assignment.</div></div></li>
+    </ul>
+
+    <div class="tip-box">
+      <div class="tip-icon">💡</div>
+      <p><strong>Advanced Use:</strong> Have two students press "Assign Me a Topic" simultaneously. If they get the same topic but opposite sides, they are ready for a live two-person debate! Combine with the Debate Timer for a complete structured session.</p>
+    </div>
+
+    <h3>Why Random Side Assignment Matters</h3>
+    <p>Research consistently shows that students who practice defending positions they personally disagree with develop stronger critical thinking and more nuanced understanding of complex issues. This is directly aligned with <strong>NCF 2023's emphasis on reflective and perspective-aware learning</strong> and <strong>NEP 2020's call for open-minded inquiry</strong>.</p>
+  </div>
+
+  <!-- Section 8: Progress -->
+  <div class="section" id="progress">
+    <div class="sec-label">Section 08</div>
+    <h2>Progress Tab 📊</h2>
+    <p>The Progress tab tracks all activity across the app and rewards consistent practice with achievement badges.</p>
+
+    <h3>Statistics Tracked</h3>
+    <div class="table-wrap"><table>
+      <tr><th>Statistic</th><th>Incremented When</th></tr>
+      <tr><td><strong>Topics Generated</strong></td><td>Each time "Generate New Topic" is pressed</td></tr>
+      <tr><td><strong>Topics Saved</strong></td><td>Each time a topic is saved to the bookmark list</td></tr>
+      <tr><td><strong>Arguments Saved</strong></td><td>Each time notes are saved in Argument Builder</td></tr>
+      <tr><td><strong>Timer Sessions</strong></td><td>Each time the timer is started</td></tr>
+      <tr><td><strong>Pro vs Con Rounds</strong></td><td>Each time a Pro vs Con assignment is generated</td></tr>
+      <tr><td><strong>Badges Earned</strong></td><td>Automatically as milestones are reached</td></tr>
+    </table></div>
+
+    <h3>Achievement Badges</h3>
+    <div class="table-wrap"><table>
+      <tr><th>Badge</th><th>Name</th><th>How to Earn</th></tr>
+      <tr><td>🎯</td><td>First Debate</td><td>Generate your first topic</td></tr>
+      <tr><td>🗣</td><td>Active Debater</td><td>Generate 10 topics</td></tr>
+      <tr><td>🔖</td><td>Topic Collector</td><td>Save 5 topics</td></tr>
+      <tr><td>💡</td><td>Argument Builder</td><td>Save 3 argument notes</td></tr>
+      <tr><td>⏱</td><td>Time Keeper</td><td>Complete 5 timer sessions</td></tr>
+      <tr><td>⚖️</td><td>Dual Thinker</td><td>Play 3 Pro vs Con rounds</td></tr>
+      <tr><td>🏆</td><td>Debate Champion</td><td>Generate 20 topics</td></tr>
+      <tr><td>📚</td><td>Critical Scholar</td><td>Use all four modules</td></tr>
+    </table></div>
+
+    <div class="warn-box">
+      <div class="tip-icon">⚠️</div>
+      <p><strong>Data Reset:</strong> The "Reset All Progress" button permanently deletes all statistics, badges, saved topics, and notes. This cannot be undone. Use with caution.</p>
+    </div>
+  </div>
+
+  <!-- Section 9: Classroom -->
+  <div class="section" id="classroom">
+    <div class="sec-label">Section 09</div>
+    <h2>Using DebateMind in the Classroom</h2>
+    <p>DebateMind is designed to support both individual student practice and structured classroom debate activities.</p>
+
+    <h3>Suggested Classroom Session Plan (45 minutes)</h3>
+    <ul class="step-list">
+      <li><div class="step-num">1</div><div class="step-body"><div class="s-title">Warm-Up: Topic Discovery (5 min)</div><div class="s-desc">Teacher projects app on board. Generate 3–4 topics using the Topic Generator. Students vote on which to debate.</div></div></li>
+      <li><div class="step-num">2</div><div class="step-body"><div class="s-title">Research & Prep: Argument Builder (10 min)</div><div class="s-desc">Divide class into Pro and Con groups. Each student opens Argument Builder on their device, enters the topic, selects their side, and uses prompts to build notes.</div></div></li>
+      <li><div class="step-num">3</div><div class="step-body"><div class="s-title">Individual Debate Practice: Timer (15 min)</div><div class="s-desc">Each group sends 2–3 representatives. Run Standard Timer (1+2+1 min) for each speaker. Remaining students note counterarguments.</div></div></li>
+      <li><div class="step-num">4</div><div class="step-body"><div class="s-title">Pro vs Con Challenge (10 min)</div><div class="s-desc">Select 4 students. Use Pro vs Con mode to assign random topics and sides. Give them 2 minutes to prepare using brainstorm prompts, then 2 minutes to present.</div></div></li>
+      <li><div class="step-num">5</div><div class="step-body"><div class="s-title">Reflection (5 min)</div><div class="s-desc">Discuss: What was the strongest argument heard? What evidence was most convincing? How does this connect to NEP 2020's critical thinking goals?</div></div></li>
+    </ul>
+
+    <h3>Individual Student Practice (Self-Study)</h3>
+    <p>Students can use DebateMind independently to prepare for school debates, competitions, or simply to practise the 21st-century communication skills emphasised by NEP 2020. A recommended self-study routine:</p>
+    <ul style="padding-left:20px; font-size:0.85rem; color:var(--muted); line-height:2.2;">
+      <li>Day 1: Generate 3 topics on Beginner difficulty. Save your favourite.</li>
+      <li>Day 2: Use Argument Builder on your saved topic — both Pro and Con sides.</li>
+      <li>Day 3: Use the Debate Timer on Standard mode. Speak aloud during the Speech phase.</li>
+      <li>Day 4: Play 3 rounds of Pro vs Con on Intermediate difficulty.</li>
+      <li>Day 5: Advance to Advanced topics. Track your progress badges.</li>
+    </ul>
+  </div>
+
+  <!-- Section 10: Troubleshoot -->
+  <div class="section" id="troubleshoot">
+    <div class="sec-label">Section 10</div>
+    <h2>Troubleshooting</h2>
+    <div class="table-wrap"><table>
+      <tr><th>Issue</th><th>Solution</th></tr>
+      <tr><td><strong>App not loading offline</strong></td><td>Open it once with internet to cache files. After that, it works offline.</td></tr>
+      <tr><td><strong>Install button not appearing</strong></td><td>Use Google Chrome or Microsoft Edge. Safari on iOS has limited PWA support.</td></tr>
+      <tr><td><strong>Progress not saving</strong></td><td>Ensure browser storage is not set to "Clear on exit". Use the same browser and device.</td></tr>
+      <tr><td><strong>Timer not audible</strong></td><td>The timer is visual only (toast messages). Ensure notifications are visible on screen.</td></tr>
+      <tr><td><strong>Author photo not showing</strong></td><td>Ensure author.jpg is in the same folder as index.html. A placeholder icon shows if not found.</td></tr>
+      <tr><td><strong>Fonts not loading</strong></td><td>Google Fonts require internet. Offline, the app uses system serif/sans-serif fallback fonts.</td></tr>
+    </table></div>
+  </div>
+
+  <div style="text-align:center; padding-top:40px; border-top:1px solid var(--border);">
+    <a href="index.html" class="back-link" style="display:inline-flex;">← Return to DebateMind App</a>
+    <a href="conceptual-background.html" class="back-link" style="display:inline-flex; margin-left:10px;">📖 Conceptual Background</a>
+    <p style="font-size:0.72rem; color:var(--muted); margin-top:16px;">Developed by Mateen Yousuf · Teacher, School Education Department, J&K<br>DebateMind · Aligned with NEP 2020, NCF 2023 & PARAKH</p>
+  </div>
+</div>
+</body>
+</html>
